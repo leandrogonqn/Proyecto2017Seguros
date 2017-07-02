@@ -151,7 +151,7 @@
                 </dependency>
             </dependencies>
         </profile>
-        <!--
+
         <profile>
             <id>jdbc-postgres</id>
             <activation>
@@ -167,7 +167,7 @@
                 </dependency>
             </dependencies>
         </profile>
-        -->
+
         <!--
         <profile>
             <id>jdbc-mssql</id>
