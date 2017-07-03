@@ -1,5 +1,6 @@
 package domainapp.dom.modelo;
 
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -11,6 +12,7 @@ import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.Auditing;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
@@ -23,7 +25,9 @@ import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import domainapp.dom.marca.Marcas;
+import domainapp.dom.marca.MarcasRepository;
 import domainapp.dom.tipoVehiculo.TipoVehiculo;
+import domainapp.dom.tipoVehiculo.TipoVehiculoRepository;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -135,6 +139,32 @@ public class Modelos implements Comparable<Modelos> {
         setActivo(false);
     }
     
+    public TipoVehiculo actualizarTipoVehiculo(@ParameterLayout(named="Tipo Vehiculo") final TipoVehiculo name) {
+        setTipoVehiculo(name);
+        return name;
+    }
+    
+    public List<TipoVehiculo> choices0ActualizarTipoVehiculo(){
+    	return tipoVehiculoRepository.listarActivos();
+    }
+      
+    public TipoVehiculo default0ActualizarTipoVehiculo() {
+    	return getTipoVehiculo();
+    }
+    
+    public Marcas actualizarMarca(@ParameterLayout(named="Marca") final Marcas name) {
+        setMarcas(name);
+        return name;
+    }
+    
+    public List<Marcas> choices0ActualizarMarca(){
+    	return marcaRepository.listarActivos();
+    }
+      
+    public Marcas default0ActualizarMarca() {
+    	return getMarcas();
+    }
+    
     //endregion
 
     //region > toString, compareTo
@@ -159,6 +189,12 @@ public class Modelos implements Comparable<Modelos> {
 
     @javax.inject.Inject
     MessageService messageService;
+    
+    @javax.inject.Inject
+    TipoVehiculoRepository tipoVehiculoRepository;
+    
+    @javax.inject.Inject
+    MarcasRepository marcaRepository;
 
 
     //endregion

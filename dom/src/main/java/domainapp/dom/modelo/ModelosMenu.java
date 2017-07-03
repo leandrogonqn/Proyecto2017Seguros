@@ -12,6 +12,7 @@ import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.annotation.DomainServiceLayout.MenuBar;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
@@ -68,6 +69,14 @@ public class ModelosMenu {
 	    ) {
 	        return modelosRepository.buscarPorNombre(nombre);
 	    }
+	    
+	    public List<TipoVehiculo> choices1Crear(){
+	    	return tipoVehiculoRepository.listarActivos();
+	    }
+	    
+	     public List<Marcas> choices2Crear(){
+	    	return  marcaRepository.listarActivos();
+	    }
 
 
 	    public static class CreateDomainEvent extends ActionDomainEvent<ModelosMenu> {}
@@ -86,6 +95,9 @@ public class ModelosMenu {
 
 	    @javax.inject.Inject
 	    MarcasRepository marcaRepository;
+	    
+	    @javax.inject.Inject
+	    TipoVehiculoRepository tipoVehiculoRepository;
 
 	    
 	    @javax.inject.Inject

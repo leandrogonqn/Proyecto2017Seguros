@@ -33,8 +33,12 @@
                             <c:fieldSet name="Nombre">
                                 <c:action id="borrarModelo"/>
                                 <c:property id="nombre" namedEscaped="true"/>
-                                <c:property id="tipoVehiculo" namedEscaped="true"/>
-                                <c:property id="marcas" namedEscaped="true"/>
+                                <c:property id="tipoVehiculo" namedEscaped="true">
+                                	<c:action id="actualizarTipoVehiculo"/>
+                                </c:property>
+                                <c:property id="marcas" namedEscaped="true">
+                                	<c:action id="actualizarMarca"/>
+                                </c:property>
                             </c:fieldSet>
                         </bs3:col>
                     </bs3:row>
