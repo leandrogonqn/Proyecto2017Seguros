@@ -25,7 +25,6 @@ import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
@@ -86,6 +85,7 @@ public class ClientesMenu {
     ) {
         return clientesRepository.buscarPorDNI(dni);
     }
+
 
     public static class CreateDomainEvent extends ActionDomainEvent<ClientesMenu> {}
     @Action(domainEvent = CreateDomainEvent.class)

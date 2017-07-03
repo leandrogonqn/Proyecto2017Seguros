@@ -1,13 +1,10 @@
 package domainapp.dom.modelo;
 
-
-import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.Join;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.annotation.Action;
@@ -17,6 +14,7 @@ import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
+import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
@@ -25,6 +23,7 @@ import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import domainapp.dom.marca.Marcas;
+import domainapp.dom.tipoVehiculo.TipoVehiculo;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -54,6 +53,7 @@ import domainapp.dom.marca.Marcas;
                         + "FROM domainapp.dom.simple.Modelos "
                         + "WHERE activo == false ") 
 })
+@javax.jdo.annotations.Unique(name="Modelos_nombre_UNQ", members = {"nombre","marcas"})
 @DomainObject(
         publishing = Publishing.ENABLED,
         auditing = Auditing.ENABLED
@@ -67,14 +67,35 @@ public class Modelos implements Comparable<Modelos> {
 
     public static final int NAME_LENGTH = 200;
     // Constructor
-    public Modelos(String nombre, Marcas marca) {
+    public Modelos(String nombre, TipoVehiculo tipoVehiculo, Marcas marcas) {
 		super();
-		this.nombre = nombre;
-		this.marca = marca;
+		
+		setNombre(nombre);
+		setTipoVehiculo(tipoVehiculo);
+		setMarcas(marcas);
 		this.activo = true;
 	}
+    
+    @javax.jdo.annotations.Column(allowsNull = "true", name="marcaId")
+    private Marcas marcas;
+   
 
+	public Marcas getMarcas() {
+		return marcas;
+	}
+	public void setMarcas(Marcas marcas) {
+		this.marcas = marcas;
+	}
 
+	@javax.jdo.annotations.Column(allowsNull = "false", name="tipoVehiculoId")
+	private TipoVehiculo tipoVehiculo;
+	
+	public TipoVehiculo getTipoVehiculo() {
+		return tipoVehiculo;
+	}
+	public void setTipoVehiculo(TipoVehiculo tipoVehiculo) {
+		this.tipoVehiculo = tipoVehiculo;
+	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
     private String nombre;
@@ -85,18 +106,9 @@ public class Modelos implements Comparable<Modelos> {
     public void setNombre(final String nombre) {
         this.nombre = nombre;
     }
-
-	@javax.jdo.annotations.Column(allowsNull = "false", name="marcaId")
-    private Marcas marca;
+    
 	
-    public Marcas getMarca() {
-		return marca;
-	}
-	public void setMarca(Marcas marca) {
-		this.marca = marca;
-	}
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
+    @javax.jdo.annotations.Column(allowsNull = "false")
     private boolean activo;
     @Property(
             editing = Editing.DISABLED

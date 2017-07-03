@@ -1,5 +1,6 @@
 package domainapp.dom.modelo;
 
+import java.security.Timestamp;
 import java.util.List;
 import java.util.SortedSet;
 
@@ -10,6 +11,9 @@ import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
 import domainapp.dom.marca.Marcas;
+import domainapp.dom.marca.MarcasRepository;
+import domainapp.dom.tipoVehiculo.TipoVehiculo;
+import domainapp.dom.tipoVehiculo.TipoVehiculoRepository;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
@@ -43,10 +47,8 @@ public class ModelosRepository {
                            "listarInactivos"));
       }
     
-  
-
-    public Modelos crear(final String nombre, final Marcas marca) {
-        final Modelos object = new Modelos(nombre,marca);
+    public Modelos crear(final String nombre, TipoVehiculo tipoVehiculo, Marcas marcas) {
+        final Modelos object = new Modelos(nombre, tipoVehiculo, marcas);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;
@@ -56,4 +58,8 @@ public class ModelosRepository {
     RepositoryService repositoryService;
     @javax.inject.Inject
     ServiceRegistry2 serviceRegistry;
+
+    @javax.inject.Inject
+    MarcasRepository marcaRepository;
+
 }

@@ -1,6 +1,9 @@
 package domainapp.dom.marca;
 
 import java.util.List;
+
+import javax.xml.ws.Action;
+
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.query.QueryDefault;
@@ -31,6 +34,13 @@ public class MarcasRepository {
                         Marcas.class,
                         "listarActivos"));
    }
+    
+    public List<Marcas> traerTodos(){
+      	 return repositoryService.allMatches(
+                   new QueryDefault<>(
+                           Marcas.class,
+                           "traerTodos"));
+      }
     
     public List<Marcas> listarInactivos(){
       	 return repositoryService.allMatches(

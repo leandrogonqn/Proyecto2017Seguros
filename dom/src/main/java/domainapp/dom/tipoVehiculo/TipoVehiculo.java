@@ -68,7 +68,8 @@ import org.apache.isis.applib.util.ObjectContracts;
 @javax.jdo.annotations.Unique(name="tipoVehiculoject_tipoVehiculoNombre_UNQ", members = {"tipoVehiculoNombre"})
 @DomainObject(
         publishing = Publishing.ENABLED,
-        auditing = Auditing.ENABLED
+        auditing = Auditing.ENABLED,
+        bounded = true
 )
 public class TipoVehiculo implements Comparable<TipoVehiculo> {
 
@@ -132,7 +133,7 @@ public class TipoVehiculo implements Comparable<TipoVehiculo> {
     //region > toString, compareTo
     @Override
     public String toString() {
-        return ObjectContracts.toString(this, "name");
+        return ObjectContracts.toString(this, "tipoVehiculoNombre");
     }
     @Override
     public int compareTo(final TipoVehiculo other) {

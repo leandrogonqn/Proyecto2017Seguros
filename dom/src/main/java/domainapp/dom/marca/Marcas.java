@@ -44,40 +44,38 @@ import org.apache.isis.applib.util.ObjectContracts;
                         + "FROM domainapp.dom.simple.Marcas "
                         + "WHERE activo == false ") 
 })
-@javax.jdo.annotations.Unique(name="Marcas_nombre_UNQ", members = {"nombre"})
+@javax.jdo.annotations.Unique(name="Marcas_marcasNombre_UNQ", members = {"marcasNombre"})
 @DomainObject(
         publishing = Publishing.ENABLED,
-        auditing = Auditing.ENABLED
+        auditing = Auditing.ENABLED,
+        bounded = true
 )
 public class Marcas implements Comparable<Marcas> {
 	 //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("Marca: {nombre}", "nombre", getNombre());
+        return TranslatableString.tr("Marca: {name}", "name", getMarcasNombre());
     }
     //endregion
 
     public static final int NAME_LENGTH = 200;
     // Constructor
-    public Marcas(String nombre) {
-		super();
-		this.nombre = nombre;
+    public Marcas(String marcaNombre) {
+		setMarcasNombre(marcaNombre);
 		this.activo = true;
 	}
 
-
-
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    private String nombre;
+    private String marcasNombre;
 	
-    public String getNombre() {
-        return nombre;
-    }
-    public void setNombre(final String nombre) {
-        this.nombre = nombre;
-    }
-    
 	
-    @javax.jdo.annotations.Column(allowsNull = "false")
+    public String getMarcasNombre() {
+		return marcasNombre;
+	}
+	public void setMarcasNombre(String marcasNombre) {
+		this.marcasNombre = marcasNombre;
+	}
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
     private boolean activo;
     @Property(
             editing = Editing.DISABLED
@@ -109,11 +107,11 @@ public class Marcas implements Comparable<Marcas> {
     //region > toString, compareTo
     @Override
     public String toString() {
-        return ObjectContracts.toString(this, "name");
+        return ObjectContracts.toString(this, "marcasNombre");
     }
     @Override
     public int compareTo(final Marcas other) {
-        return ObjectContracts.compare(this, other, "nombre");
+        return ObjectContracts.compare(this, other, "name");
     }
 
     //endregion

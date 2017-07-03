@@ -32,7 +32,7 @@
                         <bs3:col span="12">
                             <c:fieldSet name="Nombre">
                                 <c:action id="borrarMarca"/>
-                                <c:property id="nombre" namedEscaped="true">
+                                <c:property id="marcasNombre" namedEscaped="true">
                                     <c:action id="actualizarName"/>
                                 </c:property>
                             </c:fieldSet>
