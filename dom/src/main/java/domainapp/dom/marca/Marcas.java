@@ -35,7 +35,7 @@ import domainapp.dom.tipoVehiculo.TipoVehiculo;
                 name = "buscarPorNombre", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Marcas "
-                        + "WHERE nombre.indexOf(:nombre) >= 0 "),
+                        + "WHERE marcasNombre.indexOf(:marcasNombre) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
@@ -118,7 +118,7 @@ public class Marcas implements Comparable<Marcas> {
     }
     @Override
     public int compareTo(final Marcas other) {
-        return ObjectContracts.compare(this, other, "name");
+        return ObjectContracts.compare(this, other, "marcasNombre");
     }
 
     //endregion
