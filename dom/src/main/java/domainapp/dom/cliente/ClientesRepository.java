@@ -38,12 +38,12 @@ public class ClientesRepository {
         return repositoryService.allInstances(Clientes.class);
     }
 
-    public List<Clientes> buscarPorNombre(final String nombre) {
+    public List<Clientes> buscarPorNombre(final String clienteNombre) {
         return repositoryService.allMatches(
                 new QueryDefault<>(
                         Clientes.class,
                         "buscarPorNombre",
-                        "nombre", nombre));
+                        "clienteNombre", clienteNombre));
     }
     
     public List<Clientes> listarActivos(){
@@ -60,16 +60,16 @@ public class ClientesRepository {
                            "listarInactivos"));
       }
     
-    public List<Clientes> buscarPorDNI(final int dni) {
+    public List<Clientes> buscarPorDNI(final int clienteDni) {
         return repositoryService.allMatches(
                 new QueryDefault<>(
                         Clientes.class,
                         "buscarPorDNI",
-                        "dni", dni));
+                        "clienteDni", clienteDni));
     }
 
-    public Clientes crear(final String nombre, final String apellido, Sexo sexo, final int dni, final String direccion, final String telefono, final String mail, final Date fechaNacimiento, final boolean notificacionCumpleanios) {
-        final Clientes object = new Clientes(nombre, apellido, sexo, dni, direccion, telefono, mail, fechaNacimiento, notificacionCumpleanios);
+    public Clientes crear(final String clienteNombre, final String clienteApellido, Sexo clienteSexo, final int clienteDni, final String clienteDireccion, final String clienteTelefono, final String clienteMail, final Date clienteFechaNacimiento, final boolean clienteNotificacionCumpleanios) {
+        final Clientes object = new Clientes(clienteNombre, clienteApellido, clienteSexo, clienteDni, clienteDireccion, clienteTelefono, clienteMail, clienteFechaNacimiento, clienteNotificacionCumpleanios);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;

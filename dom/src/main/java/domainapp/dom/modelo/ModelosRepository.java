@@ -25,12 +25,12 @@ public class ModelosRepository {
         return repositoryService.allInstances(Modelos.class);
     }
 
-    public List<Modelos> buscarPorNombre(final String nombre) {
+    public List<Modelos> buscarPorNombre(final String modeloNombre) {
         return repositoryService.allMatches(
                 new QueryDefault<>(
                         Modelos.class,
                         "buscarPorNombre",
-                        "nombre", nombre));
+                        "modeloNombre", modeloNombre));
     }
     
     public List<Modelos> listarActivos(){
@@ -47,8 +47,8 @@ public class ModelosRepository {
                            "listarInactivos"));
       }
     
-    public Modelos crear(final String nombre, TipoVehiculo tipoVehiculo, Marcas marcas) {
-        final Modelos object = new Modelos(nombre, tipoVehiculo, marcas);
+    public Modelos crear(final String modeloNombre, TipoVehiculo modeloTipoVehiculo, Marcas modeloMarcas) {
+        final Modelos object = new Modelos(modeloNombre, modeloTipoVehiculo, modeloMarcas);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;

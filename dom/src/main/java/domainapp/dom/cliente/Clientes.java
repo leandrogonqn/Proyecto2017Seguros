@@ -46,7 +46,7 @@ import org.apache.isis.applib.util.ObjectContracts;
 )
 @javax.jdo.annotations.DatastoreIdentity(
         strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
-         column="id")
+         column="clienteId")
 @javax.jdo.annotations.Version(
         strategy= VersionStrategy.DATE_TIME,
         column="version")
@@ -55,24 +55,24 @@ import org.apache.isis.applib.util.ObjectContracts;
                 name = "buscarPorNombre", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Clientes "
-                        + "WHERE nombre.indexOf(:nombre) >= 0 "),
+                        + "WHERE clienteNombre.indexOf(:clienteNombre) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Clientes "
-                        + "WHERE activo == true "),
+                        + "WHERE clienteActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Clientes "
-                        + "WHERE activo == false "),
+                        + "WHERE clienteActivo == false "),
         @javax.jdo.annotations.Query(
                 name = "buscarPorDNI", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Clientes "
-                        + "WHERE dni == :dni"),
+                        + "WHERE clienteDni == :clienteDni"),
 })
-@javax.jdo.annotations.Unique(name="Clientes_cuitcuil_UNQ", members = {"cuitcuil"})
+@javax.jdo.annotations.Unique(name="Clientes_clienteCuitCuil_UNQ", members = {"clienteCuitCuil"})
 @DomainObject(
         publishing = Publishing.ENABLED,
         auditing = Auditing.ENABLED
@@ -81,29 +81,29 @@ public class Clientes implements Comparable<Clientes> {
 
     //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("Cliente: {nombre}", "nombre", getNombre());
+        return TranslatableString.tr("Cliente: {clienteNombre}", "clienteNombre", getClienteNombre());
     }
     //endregion
 
     //region > constructor
-    public Clientes(final String nombre) {
-        setNombre(nombre);
+    public Clientes(final String clienteNombre) {
+        setClienteNombre(clienteNombre);
     }
     
-    public Clientes(String nombre, String apellido, Sexo sexo, int dni, String direccion, String telefono, String mail,
-			Date fechaNacimiento, boolean notificacionCumpleanios) {
+    public Clientes(String clienteNombre, String clienteApellido, Sexo clienteSexo, int clienteDni, String clienteDireccion, String clienteTelefono, String clienteMail,
+			Date clienteFechaNacimiento, boolean clienteNotificacionCumpleanios) {
 		super();
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.sexo = sexo;
-		this.dni = dni;
-		this.direccion = direccion;
-		this.telefono = telefono;
-		this.mail = mail;
-		this.cuitcuil = GenerarCuit.generar(sexo, dni);
-		this.fechaNacimiento = fechaNacimiento;
-		this.notificacionCumpleanios = notificacionCumpleanios;
-		this.activo = true;
+		this.clienteNombre = clienteNombre;
+		this.clienteApellido = clienteApellido;
+		this.clienteSexo = clienteSexo;
+		this.clienteDni = clienteDni;
+		this.clienteDireccion = clienteDireccion;
+		this.clienteTelefono = clienteTelefono;
+		this.clienteMail = clienteMail;
+		this.clienteCuitCuil = GenerarCuit.generar(clienteSexo, clienteDni);
+		this.clienteFechaNacimiento = clienteFechaNacimiento;
+		this.clienteNotificacionCumpleanios = clienteNotificacionCumpleanios;
+		this.clienteActivo = true;
 	}
 
 
@@ -113,126 +113,122 @@ public class Clientes implements Comparable<Clientes> {
     public static final int NAME_LENGTH = 40;
 
     @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    private String nombre;
+    private String clienteNombre;
     
-    public String getNombre() {
-        return nombre;
+    public String getClienteNombre() {
+        return clienteNombre;
     }
-    public void setNombre(final String nombre) {
-        this.nombre = nombre;
+    public void setClienteNombre(final String clienteNombre) {
+        this.clienteNombre = clienteNombre;
     }
     
     @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    private String apellido;
-    public String getApellido() {
-		return apellido;
+    private String clienteApellido;
+    public String getClienteApellido() {
+		return clienteApellido;
 	}
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
+	public void setClienteApellido(String clienteApellido) {
+		this.clienteApellido = clienteApellido;
 	}
 	 @javax.jdo.annotations.Column(allowsNull = "false")
-	private Sexo sexo;
+	private Sexo clienteSexo;
 
-    public Sexo getSexo() {
-		return sexo;
+    public Sexo getClienteSexo() {
+		return clienteSexo;
 	}
 
-	public void setSexo(Sexo sexo) {
-		this.sexo = sexo;
+	public void setClienteSexo(Sexo clienteSexo) {
+		this.clienteSexo = clienteSexo;
 	}
 
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-    private int dni;
+    private int clienteDni;
 
-    public int getDni() {
-		return dni;
+    public int getClienteDni() {
+		return clienteDni;
 	}
-	public void setDni(int dni) {
-		this.dni = dni;
+	public void setClienteDni(int clienteDni) {
+		this.clienteDni = clienteDni;
 	}
 	
     @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    private String direccion;
+    private String clienteDireccion;
 
-    public String getDireccion() {
-		return direccion;
+    public String getClienteDireccion() {
+		return clienteDireccion;
 	}
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
+	public void setClienteDireccion(String clienteDireccion) {
+		this.clienteDireccion = clienteDireccion;
 	}	
 
     @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    private String telefono;
+    private String clienteTelefono;
 
-    public String getTelefono() {
-		return telefono;
+    public String getClienteTelefono() {
+		return clienteTelefono;
 	}
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
+	public void setClienteTelefono(String clienteTelefono) {
+		this.clienteTelefono = clienteTelefono;
 	}	
 
     @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    private String mail;
-//    @Parameter(
-//            maxLength=30,
-//            mustSatisfy=EmailSpecification.class,
-//
-//        )
-    public String getMail() {
-		return mail;
+
+    private String clienteMail;
+
+    public String getClienteMail() {
+		return clienteMail;
 	}
-	public void setMail(String mail) {
-		this.mail = mail;
+	public void setClienteMail(String clienteMail) {
+		this.clienteMail = clienteMail;
 	}	
 
     @javax.jdo.annotations.Column(allowsNull = "false")
-    private String cuitcuil;
+    private String clienteCuitCuil;
     @Property(
             editing = Editing.DISABLED
     )
-    public String getCuitcuil() {
-		return cuitcuil;
+    public String getClienteCuitCuil() {
+		return clienteCuitCuil;
 	}
-	public void setCuitcuil(String cuitcuil) {
-		this.cuitcuil = cuitcuil;
+	public void setClienteCuitCuil(String clienteCuitCuil) {
+		this.clienteCuitCuil = clienteCuitCuil;
 	}	
 	
     @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    private Date fechaNacimiento;
+    private Date clienteFechaNacimiento;
 
-    public Date getFechaNacimiento() {
-		return fechaNacimiento;
+    public Date getClienteFechaNacimiento() {
+		return clienteFechaNacimiento;
 	}
-	public void setFechaNacimiento(Date fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
+	public void setClienteFechaNacimiento(Date clienteFechaNacimiento) {
+		this.clienteFechaNacimiento = clienteFechaNacimiento;
 	}		
 	
     @javax.jdo.annotations.Column(allowsNull = "false")
-    private boolean notificacionCumpleanios;
+    private boolean clienteNotificacionCumpleanios;
 
-    public boolean getNotificacionCumpleanios() {
-		return notificacionCumpleanios;
+    public boolean getClienteNotificacionCumpleanios() {
+		return clienteNotificacionCumpleanios;
 	}
-	public void setNotificacionCumpleanios(boolean notificacionCumpleanios) {
-		this.notificacionCumpleanios = notificacionCumpleanios;
+	public void setClienteNotificacionCumpleanios(boolean clienteNotificacionCumpleanios) {
+		this.clienteNotificacionCumpleanios = clienteNotificacionCumpleanios;
 	}	
 	
     @javax.jdo.annotations.Column(allowsNull = "false")
-    private boolean activo;
-    @Property(
-            editing = Editing.DISABLED
-    )
-    public boolean getActivo() {
-		return activo;
+    private boolean clienteActivo;
+//    @Property(
+//            editing = Editing.DISABLED
+//    )
+    public boolean getClienteActivo() {
+		return clienteActivo;
 	}
-	public void setActivo(boolean activo) {
-		this.activo = activo;
+	public void setClienteActivo(boolean clienteActivo) {
+		this.clienteActivo = clienteActivo;
 	}	
 	
     //endregion
 
-	
 
     //region > delete (action)
     public static class DeleteDomainEvent extends ActionDomainEvent<Clientes> {}
@@ -243,12 +239,12 @@ public class Clientes implements Comparable<Clientes> {
     public void borrarCliente() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
-        setActivo(false);
+        setClienteActivo(false);
 //        repositoryService.remove(this);
     }
     
 //    public void borrarCliente(){
-//    	setActivo(false);
+//    	setClienteActivo(false);
 //    }
 
     //endregion
@@ -256,11 +252,11 @@ public class Clientes implements Comparable<Clientes> {
     //region > toString, compareTo
     @Override
     public String toString() {
-        return ObjectContracts.toString(this, "name");
+        return ObjectContracts.toString(this, "clienteNombre");
     }
     @Override
     public int compareTo(final Clientes other) {
-        return ObjectContracts.compare(this, other, "nombre");
+        return ObjectContracts.compare(this, other, "clienteNombre");
     }
 
     //endregion

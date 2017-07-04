@@ -32,36 +32,17 @@
                         <bs3:col span="12">
                             <c:fieldSet name="Nombre">
                                 <c:action id="borrarCliente"/>
-                                <c:property id="nombre" namedEscaped="true">
-                                    <c:action id="actualizarName"/>
-                                </c:property>
-                                <c:property id="apellido" namedEscaped="true">
-                                    <c:action id="updateApellido"/>
-                                </c:property>
-                                <c:property id="sexo" namedEscaped="true">
-                                 
-                                </c:property>
-                                <c:property id="dni" namedEscaped="true">
-                                    <c:action id="updateDNI"/>
-                                </c:property>
-                                <c:property id="direccion" namedEscaped="true">
-                                    <c:action id="updateDireccion"/>
-                                </c:property>
-                                <c:property id="telefono" namedEscaped="true">
-                                    <c:action id="updateTelefono"/>
-                                </c:property>
-								<c:property id="mail" namedEscaped="false" unchanging="true">
-                                    <c:action id="updateMail"/>
-                                </c:property>
-                                <c:property id="cuitcuil" >
-                                    <c:action id="updateCuitcuil"/>
-                                </c:property>
-								<c:property id="fechaNacimiento" namedEscaped="true" >
-                                    <c:action id="updatefecheNacimiento"/>
-                                </c:property>
-                                <c:property id="notificacionCumpleanios" namedEscaped="true">
-                                    <c:action id="updatenotificacionCumpleanios"/>
-                                </c:property>
+                                <c:property id="clienteNombre" namedEscaped="true"/>
+                                <c:property id="clienteApellido" namedEscaped="true"/>
+                                <c:property id="clienteSexo" namedEscaped="true"/>
+                                <c:property id="clienteDni" namedEscaped="true"/>
+                                <c:property id="clienteDireccion" namedEscaped="true"/>
+                                <c:property id="clienteTelefono" namedEscaped="true"/>
+								<c:property id="clienteMail" namedEscaped="true"/>
+                                <c:property id="clienteCuitCuil" namedEscaped="true"/>
+								<c:property id="clienteFechaNacimiento" namedEscaped="true"/>
+                                <c:property id="clienteNotificacionCumpleanios" namedEscaped="true"/>
+                                <c:property id="clienteActivo" namedEscaped="true"/>
                             </c:fieldSet>
                         </bs3:col>
                     </bs3:row>
@@ -80,12 +61,6 @@
                         </bs3:col>
                     </bs3:row>
                 </bs3:tab>
-            </bs3:tabGroup>
-            <bs3:tabGroup>
-            </bs3:tabGroup>
-        </bs3:col>
-        <bs3:col span="6">
-            <bs3:tabGroup  unreferencedCollections="true">
             </bs3:tabGroup>
         </bs3:col>
     </bs3:row>

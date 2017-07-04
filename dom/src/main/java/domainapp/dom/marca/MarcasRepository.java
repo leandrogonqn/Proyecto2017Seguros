@@ -20,12 +20,16 @@ public class MarcasRepository {
         return repositoryService.allInstances(Marcas.class);
     }
 
-    public List<Marcas> buscarPorNombre(final String marcasNombre) {
+
+    public List<Marcas> buscarPorNombre(final String marcaNombre) {
+
         return repositoryService.allMatches(
                 new QueryDefault<>(
                         Marcas.class,
                         "buscarPorNombre",
-                        "marcasNombre", marcasNombre.toLowerCase()));
+
+                        "marcaNombre", marcaNombre));
+
     }
     
     public List<Marcas> listarActivos(){
@@ -44,8 +48,8 @@ public class MarcasRepository {
     
   
 
-    public Marcas crear(final String nombre) {
-        final Marcas object = new Marcas(nombre);
+    public Marcas crear(final String marcaNombre) {
+        final Marcas object = new Marcas(marcaNombre);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;

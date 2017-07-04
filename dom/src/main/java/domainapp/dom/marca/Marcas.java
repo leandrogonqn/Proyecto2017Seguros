@@ -36,6 +36,7 @@ import domainapp.dom.tipoVehiculo.TipoVehiculo;
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Marcas "
                         + "WHERE marcasNombre.toLowerCase().indexOf(:marcasNombre) >= 0 "),
+
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
@@ -79,12 +80,9 @@ public class Marcas implements Comparable<Marcas> {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
     private boolean activo;
-    @Property(
-            editing = Editing.DISABLED
-    )
-    
-    
-    
+//    @Property(
+//            editing = Editing.DISABLED
+//    )
     public boolean getActivo() {
 		return activo;
 	}

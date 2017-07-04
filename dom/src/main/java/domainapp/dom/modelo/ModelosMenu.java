@@ -65,9 +65,9 @@ public class ModelosMenu {
 	    @MemberOrder(sequence = "5")
 	    public List<Modelos> buscarPorNombre(
 	            @ParameterLayout(named="Nombre")
-	            final String nombre
+	            final String modeloNombre
 	    ) {
-	        return modelosRepository.buscarPorNombre(nombre);
+	        return modelosRepository.buscarPorNombre(modeloNombre);
 	    }
 	    
 	    public List<TipoVehiculo> choices1Crear(){
@@ -82,10 +82,10 @@ public class ModelosMenu {
 	    public static class CreateDomainEvent extends ActionDomainEvent<ModelosMenu> {}
 	    @MemberOrder(sequence = "1")
 	    public Modelos crear(
-	            @ParameterLayout(named="Nombre") final String nombre,
-	            @ParameterLayout(named="Tipo Vehiculo")final TipoVehiculo tipoVehiculo,
-	            @ParameterLayout(named="Marca") final Marcas marcas){
-	        return modelosRepository.crear(nombre, tipoVehiculo, marcas);
+	            @ParameterLayout(named="Nombre") final String modeloNombre,
+	            @ParameterLayout(named="Tipo Vehiculo")final TipoVehiculo modeloTipoVehiculo,
+	            @ParameterLayout(named="Marca") final Marcas modeloMarca){
+	        return modelosRepository.crear(modeloNombre, modeloTipoVehiculo, modeloMarca);
 	    }
 
 
