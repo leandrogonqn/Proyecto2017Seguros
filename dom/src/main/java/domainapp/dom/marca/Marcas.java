@@ -32,7 +32,7 @@ import org.apache.isis.applib.util.ObjectContracts;
                 name = "buscarPorNombre", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Marcas "
-                        + "WHERE nombre.indexOf(:nombre) >= 0 "),
+                        + "WHERE marcaNombre.indexOf(:marcaNombre) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
@@ -77,9 +77,9 @@ public class Marcas implements Comparable<Marcas> {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
     private boolean activo;
-    @Property(
-            editing = Editing.DISABLED
-    )
+//    @Property(
+//            editing = Editing.DISABLED
+//    )
     public boolean getActivo() {
 		return activo;
 	}

@@ -68,7 +68,7 @@ public class TipoVehiculoMenu {
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
     @MemberOrder(sequence = "5")
     public List<TipoVehiculo> buscarPorNombre(
-            @ParameterLayout(named="Name")
+            @ParameterLayout(named="Nombre")
             final String tipoVehiculoNombre
     ) {
         return tipoVehiculoRepository.buscarPorNombre(tipoVehiculoNombre);

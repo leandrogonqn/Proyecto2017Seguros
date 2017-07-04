@@ -71,9 +71,9 @@ public class ClientesMenu {
     @MemberOrder(sequence = "5")
     public List<Clientes> buscarPorNombre(
             @ParameterLayout(named="Nombre")
-            final String nombre
+            final String clienteNombre
     ) {
-        return clientesRepository.buscarPorNombre(nombre);
+        return clientesRepository.buscarPorNombre(clienteNombre);
     }
     
     @Action(semantics = SemanticsOf.SAFE)
@@ -81,9 +81,9 @@ public class ClientesMenu {
     @MemberOrder(sequence = "6")
     public List<Clientes> buscarPorDNI(
             @ParameterLayout(named="DNI")
-            final int dni
+            final int clienteDni
     ) {
-        return clientesRepository.buscarPorDNI(dni);
+        return clientesRepository.buscarPorDNI(clienteDni);
     }
 
 
@@ -91,17 +91,17 @@ public class ClientesMenu {
     @Action(domainEvent = CreateDomainEvent.class)
     @MemberOrder(sequence = "1")
     public Clientes crear(
-            @ParameterLayout(named="Nombre") final String nombre, 
-            @ParameterLayout(named="Apellido") final String apellido,
-    		@ParameterLayout(named="DNI") final int dni,
-    		@ParameterLayout(named="Sexo") final Sexo sexo,
-            @ParameterLayout(named="Dirección") final String direccion, 
-            @ParameterLayout(named="Teléfono") final String telefono,
-    		@ParameterLayout(named="E-Mail") final String mail,
-            //@ParameterLayout(named="CUIT/CUIL") final String cuitcuil,
-            @ParameterLayout(named="Fecha de Nacimiento") final Date fechaNacimiento, 
-            @ParameterLayout(named="Notif. Cumpleaños") final boolean notificacionCumpleanios) {
-        return clientesRepository.crear(nombre, apellido, sexo, dni, direccion, telefono, mail, fechaNacimiento, notificacionCumpleanios);
+            @ParameterLayout(named="Nombre") final String clienteNombre, 
+            @ParameterLayout(named="Apellido") final String clienteApellido,
+    		@ParameterLayout(named="DNI") final int clienteDni,
+    		@ParameterLayout(named="Sexo") final Sexo clienteSexo,
+            @ParameterLayout(named="Dirección") final String clienteDireccion, 
+            @ParameterLayout(named="Teléfono") final String clienteTelefono,
+    		@ParameterLayout(named="E-Mail") final String clienteMail,
+            //@ParameterLayout(named="CUIT/CUIL") final String clienteCuitCuil,
+            @ParameterLayout(named="Fecha de Nacimiento") final Date clienteFechaNacimiento, 
+            @ParameterLayout(named="Notif. Cumpleaños") final boolean clienteNotificacionCumpleanios) {
+        return clientesRepository.crear(clienteNombre, clienteApellido, clienteSexo, clienteDni, clienteDireccion, clienteTelefono, clienteMail, clienteFechaNacimiento, clienteNotificacionCumpleanios);
     }
 
 

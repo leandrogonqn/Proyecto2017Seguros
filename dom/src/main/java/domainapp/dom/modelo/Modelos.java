@@ -41,7 +41,7 @@ import domainapp.dom.tipoVehiculo.TipoVehiculo;
                 name = "buscarPorNombre", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Modelos "
-                        + "WHERE nombre.indexOf(:nombre) >= 0 "),
+                        + "WHERE modeloNombre.indexOf(:modeloNombre) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
@@ -53,7 +53,7 @@ import domainapp.dom.tipoVehiculo.TipoVehiculo;
                         + "FROM domainapp.dom.simple.Modelos "
                         + "WHERE activo == false ") 
 })
-@javax.jdo.annotations.Unique(name="Modelos_nombre_UNQ", members = {"nombre","marcas"})
+@javax.jdo.annotations.Unique(name="Modelos_modeloNombre_UNQ", members = {"modeloNombre","modeloMarcas"})
 @DomainObject(
         publishing = Publishing.ENABLED,
         auditing = Auditing.ENABLED
@@ -61,50 +61,50 @@ import domainapp.dom.tipoVehiculo.TipoVehiculo;
 public class Modelos implements Comparable<Modelos> {
 	 //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("Modelo: {nombre}", "nombre", getNombre());
+        return TranslatableString.tr("Modelo: {modeloNombre}", "modeloNombre", getModeloNombre());
     }
     //endregion
 
     public static final int NAME_LENGTH = 200;
     // Constructor
-    public Modelos(String nombre, TipoVehiculo tipoVehiculo, Marcas marcas) {
+    public Modelos(String modeloNombre, TipoVehiculo modeloTipoVehiculo, Marcas modeloMarcas) {
 		super();
 		
-		setNombre(nombre);
-		setTipoVehiculo(tipoVehiculo);
-		setMarcas(marcas);
+		setModeloNombre(modeloNombre);
+		setModeloTipoVehiculo(modeloTipoVehiculo);
+		setModeloMarcas(modeloMarcas);
 		this.activo = true;
 	}
     
     @javax.jdo.annotations.Column(allowsNull = "true", name="marcaId")
-    private Marcas marcas;
+    private Marcas modeloMarcas;
    
 
-	public Marcas getMarcas() {
-		return marcas;
+	public Marcas getModeloMarcas() {
+		return modeloMarcas;
 	}
-	public void setMarcas(Marcas marcas) {
-		this.marcas = marcas;
+	public void setModeloMarcas(Marcas modeloMarcas) {
+		this.modeloMarcas = modeloMarcas;
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false", name="tipoVehiculoId")
-	private TipoVehiculo tipoVehiculo;
+	private TipoVehiculo modeloTipoVehiculo;
 	
-	public TipoVehiculo getTipoVehiculo() {
-		return tipoVehiculo;
+	public TipoVehiculo getModeloTipoVehiculo() {
+		return modeloTipoVehiculo;
 	}
-	public void setTipoVehiculo(TipoVehiculo tipoVehiculo) {
-		this.tipoVehiculo = tipoVehiculo;
+	public void setModeloTipoVehiculo(TipoVehiculo modeloTipoVehiculo) {
+		this.modeloTipoVehiculo = modeloTipoVehiculo;
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    private String nombre;
+    private String modeloNombre;
 	
-    public String getNombre() {
-        return nombre;
+    public String getModeloNombre() {
+        return modeloNombre;
     }
-    public void setNombre(final String nombre) {
-        this.nombre = nombre;
+    public void setModeloNombre(final String modeloNombre) {
+        this.modeloNombre = modeloNombre;
     }
     
 	
@@ -144,7 +144,7 @@ public class Modelos implements Comparable<Modelos> {
     }
     @Override
     public int compareTo(final Modelos other) {
-        return ObjectContracts.compare(this, other, "nombre");
+        return ObjectContracts.compare(this, other, "modeloNombre");
     }
 
     //endregion
