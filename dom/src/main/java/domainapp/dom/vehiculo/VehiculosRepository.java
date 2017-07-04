@@ -19,12 +19,12 @@ public class VehiculosRepository {
         return repositoryService.allInstances(Vehiculos.class);
     }
 
-    public List<Vehiculos> buscarPorDominio(final String dominio) {
+    public List<Vehiculos> buscarPorDominio(final String vehiculoDominio) {
         return repositoryService.allMatches(
                 new QueryDefault<>(
                         Vehiculos.class,
                         "buscarPorDominio",
-                        "dominio", dominio));
+                        "vehiculoDominio", vehiculoDominio.toLowerCase()));
     }
     
     public List<Vehiculos> listarActivos(){
@@ -43,8 +43,8 @@ public class VehiculosRepository {
     
   
 
-    public Vehiculos crear(String dominio, int anio, String numeroMotor, String numeroChasis,Modelos modelo) {
-        final Vehiculos object = new Vehiculos(dominio, anio, numeroMotor, numeroChasis,modelo);
+    public Vehiculos crear(String vehiculoDominio, int vehiculoAnio, String vehiculoNumeroMotor, String vehiculoNumeroChasis,Modelos vehiculoModelo) {
+        final Vehiculos object = new Vehiculos(vehiculoDominio, vehiculoAnio, vehiculoNumeroMotor, vehiculoNumeroChasis,vehiculoModelo);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;

@@ -33,6 +33,7 @@
                             <c:fieldSet name="Nombre">
                                 <c:action id="borrarTipoVehiculo"/>
                                 <c:property id="tipoVehiculoNombre" namedEscaped="true" />
+                                <c:property id="tipoVehiculoActivo" namedEscaped="true" />
                             </c:fieldSet>
                         </bs3:col>
                     </bs3:row>

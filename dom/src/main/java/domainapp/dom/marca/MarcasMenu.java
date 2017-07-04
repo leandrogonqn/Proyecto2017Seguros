@@ -59,8 +59,8 @@ public class MarcasMenu {
 	    @MemberOrder(sequence = "5")
 	    public List<Marcas> buscarPorNombre(
 	            @ParameterLayout(named="Nombre")
-	            final String marcasNombre){
-	        return marcasRepository.buscarPorNombre(marcasNombre);
+	            final String marcaNombre){
+	        return marcasRepository.buscarPorNombre(marcaNombre);
 
 	    }
 
@@ -69,7 +69,7 @@ public class MarcasMenu {
 	    @Action(domainEvent = CreateDomainEvent.class)
 	    @MemberOrder(sequence = "1")
 	    public Marcas crear(
-	            @ParameterLayout(named="marcaNombre") final String marcaNombre){
+	            @ParameterLayout(named="Nombre") final String marcaNombre){
 	        return marcasRepository.crear(marcaNombre);
 	    }
 

@@ -53,7 +53,7 @@ import org.apache.isis.applib.util.ObjectContracts;
                 name = "findByName", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.tipoVehiculo "
-                        + "WHERE tipoVehiculoNombre.indexOf(:tipoVehiculoNombre) >= 0 "),
+                        + "WHERE tipoVehiculoNombre.toLowerCase().indexOf(:tipoVehiculoNombre) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
@@ -102,9 +102,9 @@ public class TipoVehiculo implements Comparable<TipoVehiculo> {
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
     private boolean tipoVehiculoActivo;
-    @Property(
-            editing = Editing.DISABLED
-    )
+//    @Property(
+//            editing = Editing.DISABLED
+//    )
 	public boolean getTipoVehiculoActivo() {
 		return tipoVehiculoActivo;
 	}

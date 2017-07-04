@@ -45,17 +45,17 @@ import domainapp.dom.tipoVehiculo.TipoVehiculoRepository;
                 name = "buscarPorNombre", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Modelos "
-                        + "WHERE modeloNombre.indexOf(:modeloNombre) >= 0 "),
+                        + "WHERE modeloNombre.toLowerCase().indexOf(:modeloNombre) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Modelos "
-                        + "WHERE activo == true "),
+                        + "WHERE modeloActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Modelos "
-                        + "WHERE activo == false ") 
+                        + "WHERE modeloActivo == false ") 
 })
 @javax.jdo.annotations.Unique(name="Modelos_modeloNombre_UNQ", members = {"modeloNombre","modeloMarcas"})
 @DomainObject(
@@ -78,10 +78,13 @@ public class Modelos implements Comparable<Modelos> {
 		setModeloNombre(modeloNombre);
 		setModeloTipoVehiculo(modeloTipoVehiculo);
 		setModeloMarcas(modeloMarcas);
-		this.activo = true;
+		this.modeloActivo = true;
 	}
     
-    @javax.jdo.annotations.Column(allowsNull = "true", name="marcaId")
+    @javax.jdo.annotations.Column(allowsNull = "false", name="marcaId")
+    @Property(
+    		editing = Editing.DISABLED
+    		)
     private Marcas modeloMarcas;
    
 
@@ -93,6 +96,9 @@ public class Modelos implements Comparable<Modelos> {
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false", name="tipoVehiculoId")
+	@Property(
+	editing = Editing.DISABLED
+	)
 	private TipoVehiculo modeloTipoVehiculo;
 	
 	public TipoVehiculo getModeloTipoVehiculo() {
@@ -103,6 +109,7 @@ public class Modelos implements Comparable<Modelos> {
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
+	
     private String modeloNombre;
 	
     public String getModeloNombre() {
@@ -114,15 +121,15 @@ public class Modelos implements Comparable<Modelos> {
     
 	
     @javax.jdo.annotations.Column(allowsNull = "false")
-    private boolean activo;
-    @Property(
-            editing = Editing.DISABLED
-    )
-    public boolean getActivo() {
-		return activo;
+    private boolean modeloActivo;
+//    @Property(
+//            editing = Editing.DISABLED
+//    )
+    public boolean getModeloActivo() {
+		return modeloActivo;
 	}
-	public void setActivo(boolean activo) {
-		this.activo = activo;
+	public void setModeloActivo(boolean modeloActivo) {
+		this.modeloActivo = modeloActivo;
 	}	
 	
     //endregion
@@ -137,12 +144,12 @@ public class Modelos implements Comparable<Modelos> {
     public void borrarModelo() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
-        setActivo(false);
+        setModeloActivo(false);
     }
     
-    public TipoVehiculo actualizarTipoVehiculo(@ParameterLayout(named="Tipo Vehiculo") final TipoVehiculo name) {
+    public Modelos actualizarTipoVehiculo(@ParameterLayout(named="Tipo Vehiculo") final TipoVehiculo name) {
         setModeloTipoVehiculo(name);
-        return name;
+        return this;
     }
     
     public List<TipoVehiculo> choices0ActualizarTipoVehiculo(){
@@ -153,9 +160,9 @@ public class Modelos implements Comparable<Modelos> {
     	return getModeloTipoVehiculo();
     }
     
-    public Marcas actualizarMarca(@ParameterLayout(named="Marca") final Marcas name) {
+    public Modelos actualizarMarca(@ParameterLayout(named="Marca") final Marcas name) {
         setModeloMarcas(name);
-        return name;
+        return this;
     }
     
     public List<Marcas> choices0ActualizarMarca(){
@@ -171,7 +178,7 @@ public class Modelos implements Comparable<Modelos> {
     //region > toString, compareTo
     @Override
     public String toString() {
-        return ObjectContracts.toString(this, "nombre");
+        return ObjectContracts.toString(this, "modeloNombre");
     }
     @Override
     public int compareTo(final Modelos other) {

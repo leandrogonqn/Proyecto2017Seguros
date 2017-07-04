@@ -30,7 +30,7 @@ public class ModelosRepository {
                 new QueryDefault<>(
                         Modelos.class,
                         "buscarPorNombre",
-                        "modeloNombre", modeloNombre));
+                        "modeloNombre", modeloNombre.toLowerCase()));
     }
     
     public List<Modelos> listarActivos(){

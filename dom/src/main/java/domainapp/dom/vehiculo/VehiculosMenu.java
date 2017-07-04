@@ -59,9 +59,9 @@ public class VehiculosMenu {
 	    @MemberOrder(sequence = "5")
 	    public List<Vehiculos> buscarPorDominio(
 	            @ParameterLayout(named="Dominio")
-	            final String dominio
+	            final String vehiculoDominio
 	    ) {
-	        return vehiculosRepository.buscarPorDominio(dominio);
+	        return vehiculosRepository.buscarPorDominio(vehiculoDominio);
 	    }
 	    
 
@@ -69,12 +69,12 @@ public class VehiculosMenu {
 	    @Action(domainEvent = CreateDomainEvent.class)
 	    @MemberOrder(sequence = "1")
 	    public Vehiculos crear(
-	            @ParameterLayout(named="Dominio") final String dominio,
-	    		@ParameterLayout(named="Año") final int anio,
-	    		@ParameterLayout(named="Numero de Motor") final String numeroMotor,
-	    		@ParameterLayout(named="Numero de Chasis") final String numeroChasis,
-	    		@ParameterLayout(named="Modelo") final Modelos modelo){
-	        return vehiculosRepository.crear(dominio, anio, numeroMotor, numeroChasis,modelo);
+	            @ParameterLayout(named="Dominio") final String vehiculoDominio,
+	    		@ParameterLayout(named="Año") final int vehiculoAnio,
+	    		@ParameterLayout(named="Numero de Motor") final String vehiculoNumeroMotor,
+	    		@ParameterLayout(named="Numero de Chasis") final String vehiculoNumeroChasis,
+	    		@ParameterLayout(named="Modelo") final Modelos vehiculoModelo){
+	        return vehiculosRepository.crear(vehiculoDominio, vehiculoAnio, vehiculoNumeroMotor, vehiculoNumeroChasis,vehiculoModelo);
 	    }
 
 

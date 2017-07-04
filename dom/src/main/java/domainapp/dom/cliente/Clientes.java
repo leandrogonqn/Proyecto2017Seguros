@@ -55,7 +55,7 @@ import org.apache.isis.applib.util.ObjectContracts;
                 name = "buscarPorNombre", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Clientes "
-                        + "WHERE clienteNombre.indexOf(:clienteNombre) >= 0 "),
+                        + "WHERE clienteNombre.toLowerCase().indexOf(:clienteNombre) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "

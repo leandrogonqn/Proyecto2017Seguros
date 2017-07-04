@@ -34,19 +34,19 @@ import domainapp.dom.modelo.Modelos;
                 name = "buscarPorDominio", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Vehiculos "
-                        + "WHERE dominio.indexOf(:dominio) >= 0 "),
+                        + "WHERE vehiculoDominio.toLowerCase().indexOf(:vehiculoDominio) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Vehiculos "
-                        + "WHERE activo == true "),
+                        + "WHERE vehiculoActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Vehiculos "
-                        + "WHERE activo == false ") 
+                        + "WHERE vehiculoActivo == false ") 
 })
-@javax.jdo.annotations.Unique(name="Vehiculos_dominio_UNQ", members = {"dominio"})
+@javax.jdo.annotations.Unique(name="Vehiculos_vehiculoDominio_UNQ", members = {"vehiculoDominio"})
 @DomainObject(
         publishing = Publishing.ENABLED,
         auditing = Auditing.ENABLED,
@@ -55,83 +55,83 @@ import domainapp.dom.modelo.Modelos;
 public class Vehiculos implements Comparable<Vehiculos> {
 	 //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("Vechiculo: {dominio}", "dominio", getDominio());
+        return TranslatableString.tr("Vechiculo: {vehiculoDominio}", "vehiculoDominio", getVehiculoDominio());
     }
     //endregion
 
     public static final int NAME_LENGTH = 200;
     // Constructor
-    public Vehiculos(String dominio, int anio, String numeroMotor, String numeroChasis,Modelos modelo) {
+    public Vehiculos(String vehiculoDominio, int vehiculoAnio, String vehiculoNumeroMotor, String vehiculoNumeroChasis,Modelos vehiculoModelo) {
 		super();
-		this.dominio = dominio;
-		this.anio = anio;
-		this.numeroMotor = numeroMotor;
-		this.numeroChasis = numeroChasis;
-		setModelo(modelo);
-		this.activo = true;
+		this.vehiculoDominio = vehiculoDominio;
+		this.vehiculoAnio = vehiculoAnio;
+		this.vehiculoNumeroMotor = vehiculoNumeroMotor;
+		this.vehiculoNumeroChasis = vehiculoNumeroChasis;
+		setVehiculoModelo(vehiculoModelo);
+		this.vehiculoActivo = true;
 	}
 
 
     @javax.jdo.annotations.Column(allowsNull = "false", name="modeloId")
-    private Modelos modelo;
+    private Modelos vehiculoModelo;
 
-	public Modelos getModelo() {
-		return modelo;
+	public Modelos getVehiculoModelo() {
+		return vehiculoModelo;
 	}
-	public void setModelo(Modelos modelo) {
-		this.modelo = modelo;
+	public void setVehiculoModelo(Modelos vehiculoModelo) {
+		this.vehiculoModelo = vehiculoModelo;
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    private String dominio;
+    private String vehiculoDominio;
 	
-    public String getDominio() {
-        return dominio;
+    public String getVehiculoDominio() {
+        return vehiculoDominio;
     }
-    public void setDominio(final String dominio) {
-        this.dominio = dominio;
+    public void setVehiculoDominio(final String vehiculoDominio) {
+        this.vehiculoDominio = vehiculoDominio;
     }
     
 	@javax.jdo.annotations.Column(allowsNull = "false")
-    private int anio;
+    private int vehiculoAnio;
 	
-    public int getAnio() {
-        return anio;
+    public int getVehiculoAnio() {
+        return vehiculoAnio;
     }
-    public void setAnio(final int anio) {
-        this.anio = anio;
+    public void setVehiculoAnio(final int vehiculoAnio) {
+        this.vehiculoAnio = vehiculoAnio;
     }
     
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    private String numeroMotor;
+    private String vehiculoNumeroMotor;
 	
-    public String getNumeroMotor() {
-        return numeroMotor;
+    public String getVehiculoNumeroMotor() {
+        return vehiculoNumeroMotor;
     }
-    public void setNumeroMotor(final String numeroMotor) {
-        this.numeroMotor = numeroMotor;
+    public void setVehiculoNumeroMotor(final String vehiculoNumeroMotor) {
+        this.vehiculoNumeroMotor = vehiculoNumeroMotor;
     }
     
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    private String numeroChasis;
+    private String vehiculoNumeroChasis;
 	
-    public String getNumeroChasis() {
-        return numeroChasis;
+    public String getVehiculoNumeroChasis() {
+        return vehiculoNumeroChasis;
     }
-    public void setNumeroChasis(final String numeroChasis) {
-        this.numeroChasis = numeroChasis;
+    public void setVehiculoNumeroChasis(final String vehiculoNumeroChasis) {
+        this.vehiculoNumeroChasis = vehiculoNumeroChasis;
     }	
     
     @javax.jdo.annotations.Column(allowsNull = "false")
-    private boolean activo;
-    @Property(
-            editing = Editing.DISABLED
-    )
-    public boolean getActivo() {
-		return activo;
+    private boolean vehiculoActivo;
+//    @Property(
+//            editing = Editing.DISABLED
+//    )
+    public boolean getVehiculoActivo() {
+		return vehiculoActivo;
 	}
-	public void setActivo(boolean activo) {
-		this.activo = activo;
+	public void setVehiculoActivo(boolean vehiculoActivo) {
+		this.vehiculoActivo = vehiculoActivo;
 	}	
 	
     //endregion
@@ -146,7 +146,7 @@ public class Vehiculos implements Comparable<Vehiculos> {
     public void borrarVechiculo() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
-        setActivo(false);
+        setVehiculoActivo(false);
     }
     
     //endregion
@@ -154,11 +154,11 @@ public class Vehiculos implements Comparable<Vehiculos> {
     //region > toString, compareTo
     @Override
     public String toString() {
-        return ObjectContracts.toString(this, "dominio");
+        return ObjectContracts.toString(this, "vehiculoDominio");
     }
     @Override
     public int compareTo(final Vehiculos other) {
-        return ObjectContracts.compare(this, other, "dominio");
+        return ObjectContracts.compare(this, other, "vehiculoDominio");
     }
 
     //endregion

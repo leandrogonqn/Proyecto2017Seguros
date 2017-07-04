@@ -43,7 +43,7 @@ public class ClientesRepository {
                 new QueryDefault<>(
                         Clientes.class,
                         "buscarPorNombre",
-                        "clienteNombre", clienteNombre));
+                        "clienteNombre", clienteNombre.toLowerCase()));
     }
     
     public List<Clientes> listarActivos(){

@@ -32,13 +32,14 @@
                         <bs3:col span="12">
                             <c:fieldSet name="Nombre">
                                 <c:action id="borrarModelo"/>
-                                <c:property id="nombre" namedEscaped="true"/>
-                                <c:property id="tipoVehiculo" namedEscaped="true">
+                                <c:property id="modeloNombre" namedEscaped="true"/>
+                                <c:property id="modeloMarcas" namedEscaped="true">
+                                               	<c:action id="actualizarMarca"/>
+                                </c:property>
+                                <c:property id="modeloTipoVehiculo" namedEscaped="true">
                                 	<c:action id="actualizarTipoVehiculo"/>
-                                </c:property>
-                                <c:property id="marcas" namedEscaped="true">
-                                	<c:action id="actualizarMarca"/>
-                                </c:property>
+                                 </c:property>
+                                <c:property id="modeloActivo" namedEscaped="true"/>
                             </c:fieldSet>
                         </bs3:col>
                     </bs3:row>

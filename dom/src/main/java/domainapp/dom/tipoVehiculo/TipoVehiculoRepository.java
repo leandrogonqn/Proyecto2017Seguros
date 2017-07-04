@@ -43,7 +43,7 @@ public class TipoVehiculoRepository {
                 new QueryDefault<>(
                         TipoVehiculo.class,
                         "findByName",
-                        "tipoVehiculoNombre", tipoVehiculoNombre));
+                        "tipoVehiculoNombre", tipoVehiculoNombre.toLowerCase()));
     }
 
     public List<TipoVehiculo> listarActivos(){
