@@ -81,7 +81,7 @@ public class Clientes implements Comparable<Clientes> {
 
     //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("Cliente: {clienteNombre}", "clienteNombre", getClienteNombre());
+        return TranslatableString.tr("Cliente: {clienteNombre}", "clienteNombre", getClienteNombre()+" "+getClienteApellido()+" Cuit/Cuil: "+getClienteCuitCuil());
     }
     //endregion
 

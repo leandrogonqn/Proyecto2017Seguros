@@ -60,13 +60,12 @@ import domainapp.dom.tipoVehiculo.TipoVehiculoRepository;
 @javax.jdo.annotations.Unique(name="Modelos_modeloNombre_UNQ", members = {"modeloNombre","modeloMarcas"})
 @DomainObject(
         publishing = Publishing.ENABLED,
-        auditing = Auditing.ENABLED,
-        bounded=true
+        auditing = Auditing.ENABLED
 )
 public class Modelos implements Comparable<Modelos> {
 	 //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("Modelo: {modeloNombre}", "modeloNombre", getModeloNombre());
+        return TranslatableString.tr("{modeloNombre}", "modeloNombre", this.getModeloMarcas().getMarcasNombre()+" | "+this.getModeloNombre()+" | "+this.getModeloTipoVehiculo().getTipoVehiculoNombre());
     }
     //endregion
 

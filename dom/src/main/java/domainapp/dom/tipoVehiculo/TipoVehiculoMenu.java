@@ -65,7 +65,7 @@ public class TipoVehiculoMenu {
     }
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")
     @MemberOrder(sequence = "5")
     public List<TipoVehiculo> buscarPorNombre(
             @ParameterLayout(named="Nombre")
@@ -78,6 +78,7 @@ public class TipoVehiculoMenu {
     public static class CreateDomainEvent extends ActionDomainEvent<TipoVehiculoMenu> {}
     @Action(domainEvent = CreateDomainEvent.class)
     @MemberOrder(sequence = "1")
+    @ActionLayout(cssClassFa="fa-plus")
     public TipoVehiculo crear(
             @ParameterLayout(named="Nombre")
             final String tipoVehiculoNombre) {

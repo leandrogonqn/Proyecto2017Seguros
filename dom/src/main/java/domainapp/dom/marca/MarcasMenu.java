@@ -28,7 +28,7 @@ import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
 )
 @DomainServiceLayout(
         named = "Marcas",
-        menuOrder = "3"
+        menuOrder = "2"
 )
 public class MarcasMenu {
 	
@@ -55,7 +55,7 @@ public class MarcasMenu {
 
 
 	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")
 	    @MemberOrder(sequence = "5")
 	    public List<Marcas> buscarPorNombre(
 	            @ParameterLayout(named="Nombre")
@@ -68,6 +68,7 @@ public class MarcasMenu {
 	    public static class CreateDomainEvent extends ActionDomainEvent<MarcasMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class)
 	    @MemberOrder(sequence = "1")
+	    @ActionLayout(cssClassFa="fa-plus")
 	    public Marcas crear(
 	            @ParameterLayout(named="Nombre") final String marcaNombre){
 	        return marcasRepository.crear(marcaNombre);

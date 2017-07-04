@@ -19,6 +19,8 @@ import domainapp.dom.cliente.ClientesMenu;
 import domainapp.dom.cliente.ClientesRepository;
 import domainapp.dom.cliente.Sexo;
 import domainapp.dom.modelo.Modelos;
+import domainapp.dom.modelo.ModelosRepository;
+import domainapp.dom.tipoVehiculo.TipoVehiculo;
 import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
 
 
@@ -28,7 +30,7 @@ import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
 )
 @DomainServiceLayout(
         named = "Vehiculos",
-        menuOrder = "2"
+        menuOrder = "3"
 )
 public class VehiculosMenu {
 	
@@ -55,7 +57,7 @@ public class VehiculosMenu {
 
 
 	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")
 	    @MemberOrder(sequence = "5")
 	    public List<Vehiculos> buscarPorDominio(
 	            @ParameterLayout(named="Dominio")
@@ -64,10 +66,15 @@ public class VehiculosMenu {
 	        return vehiculosRepository.buscarPorDominio(vehiculoDominio);
 	    }
 	    
+	    
+	    public List<Modelos> choices4Crear(){
+	    	return modelosRepository.listarActivos();
+	    }
 
 	    public static class CreateDomainEvent extends ActionDomainEvent<VehiculosMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class)
 	    @MemberOrder(sequence = "1")
+	    @ActionLayout(cssClassFa="fa-plus")
 	    public Vehiculos crear(
 	            @ParameterLayout(named="Dominio") final String vehiculoDominio,
 	    		@ParameterLayout(named="Año") final int vehiculoAnio,
@@ -80,5 +87,9 @@ public class VehiculosMenu {
 
 	    @javax.inject.Inject
 	    VehiculosRepository vehiculosRepository;
+	    
+	    @javax.inject.Inject
+	    ModelosRepository modelosRepository;
+
 
 }

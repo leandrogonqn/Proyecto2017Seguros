@@ -61,7 +61,7 @@ public class ModelosMenu {
 
 
 	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")
 	    @MemberOrder(sequence = "5")
 	    public List<Modelos> buscarPorNombre(
 	            @ParameterLayout(named="Nombre")
@@ -81,6 +81,7 @@ public class ModelosMenu {
 
 	    public static class CreateDomainEvent extends ActionDomainEvent<ModelosMenu> {}
 	    @MemberOrder(sequence = "1")
+	    @ActionLayout(cssClassFa="fa-plus")
 	    public Modelos crear(
 	            @ParameterLayout(named="Nombre") final String modeloNombre,
 	            @ParameterLayout(named="Tipo Vehiculo")final TipoVehiculo modeloTipoVehiculo,

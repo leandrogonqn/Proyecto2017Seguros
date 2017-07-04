@@ -67,7 +67,7 @@ public class ClientesMenu {
 
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")
     @MemberOrder(sequence = "5")
     public List<Clientes> buscarPorNombre(
             @ParameterLayout(named="Nombre")
@@ -77,7 +77,7 @@ public class ClientesMenu {
     }
     
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")
     @MemberOrder(sequence = "6")
     public List<Clientes> buscarPorDNI(
             @ParameterLayout(named="DNI")
@@ -90,6 +90,7 @@ public class ClientesMenu {
     public static class CreateDomainEvent extends ActionDomainEvent<ClientesMenu> {}
     @Action(domainEvent = CreateDomainEvent.class)
     @MemberOrder(sequence = "1")
+    @ActionLayout(cssClassFa="fa-plus")
     public Clientes crear(
             @ParameterLayout(named="Nombre") final String clienteNombre, 
             @ParameterLayout(named="Apellido") final String clienteApellido,
