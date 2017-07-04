@@ -16,6 +16,8 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import domainapp.dom.modelo.Modelos;
+
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
         schema = "simple",
@@ -47,7 +49,8 @@ import org.apache.isis.applib.util.ObjectContracts;
 @javax.jdo.annotations.Unique(name="Vehiculos_dominio_UNQ", members = {"dominio"})
 @DomainObject(
         publishing = Publishing.ENABLED,
-        auditing = Auditing.ENABLED
+        auditing = Auditing.ENABLED,
+        bounded = true
 )
 public class Vehiculos implements Comparable<Vehiculos> {
 	 //region > title
@@ -58,16 +61,26 @@ public class Vehiculos implements Comparable<Vehiculos> {
 
     public static final int NAME_LENGTH = 200;
     // Constructor
-    public Vehiculos(String dominio, int anio, String numeroMotor, String numeroChasis) {
+    public Vehiculos(String dominio, int anio, String numeroMotor, String numeroChasis,Modelos modelo) {
 		super();
 		this.dominio = dominio;
 		this.anio = anio;
 		this.numeroMotor = numeroMotor;
 		this.numeroChasis = numeroChasis;
+		setModelo(modelo);
 		this.activo = true;
 	}
 
 
+    @javax.jdo.annotations.Column(allowsNull = "false", name="modeloId")
+    private Modelos modelo;
+
+	public Modelos getModelo() {
+		return modelo;
+	}
+	public void setModelo(Modelos modelo) {
+		this.modelo = modelo;
+	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
     private String dominio;
@@ -123,7 +136,7 @@ public class Vehiculos implements Comparable<Vehiculos> {
 	
     //endregion
 
-    
+
     //region > delete (action)
     public static class DeleteDomainEvent extends ActionDomainEvent<Vehiculos> {}
     @Action(

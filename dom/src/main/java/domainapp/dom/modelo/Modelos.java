@@ -56,7 +56,8 @@ import domainapp.dom.tipoVehiculo.TipoVehiculo;
 @javax.jdo.annotations.Unique(name="Modelos_nombre_UNQ", members = {"nombre","marcas"})
 @DomainObject(
         publishing = Publishing.ENABLED,
-        auditing = Auditing.ENABLED
+        auditing = Auditing.ENABLED,
+        bounded=true
 )
 public class Modelos implements Comparable<Modelos> {
 	 //region > title
@@ -140,7 +141,7 @@ public class Modelos implements Comparable<Modelos> {
     //region > toString, compareTo
     @Override
     public String toString() {
-        return ObjectContracts.toString(this, "name");
+        return ObjectContracts.toString(this, "nombre");
     }
     @Override
     public int compareTo(final Modelos other) {

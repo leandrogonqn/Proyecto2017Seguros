@@ -27,6 +27,7 @@ import org.apache.isis.applib.annotation.CommandReification;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.Publishing;
@@ -173,7 +174,11 @@ public class Clientes implements Comparable<Clientes> {
 
     @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
     private String mail;
-
+//    @Parameter(
+//            maxLength=30,
+//            mustSatisfy=EmailSpecification.class,
+//
+//        )
     public String getMail() {
 		return mail;
 	}
@@ -228,27 +233,7 @@ public class Clientes implements Comparable<Clientes> {
     //endregion
 
 	
-	//region > updateName (action)
-//    public static class UpdateNameDomainEvent extends ActionDomainEvent<Clientes> {}
-//    @Action(
-//            command = CommandReification.ENABLED,
-//            publishing = Publishing.ENABLED,
-//            semantics = SemanticsOf.IDEMPOTENT,
-//            domainEvent = UpdateNameDomainEvent.class
-//    )
-//    public Clientes updateName(@ParameterLayout(named="Nombre") final String nombre) {
-//        setNombre(nombre);
-//        return this;
-//    }
-//    public String default0UpdateName() {
-//        return getNombre();
-//    }
-//    public TranslatableString validate0UpdateName(final String name) {
-//        return name != null && name.contains("!")? TranslatableString.tr("Exclamation mark is not allowed"): null;
-//    }
 
-    //endregion
-    
     //region > delete (action)
     public static class DeleteDomainEvent extends ActionDomainEvent<Clientes> {}
     @Action(

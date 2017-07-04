@@ -18,6 +18,7 @@ import domainapp.dom.cliente.Clientes;
 import domainapp.dom.cliente.ClientesMenu;
 import domainapp.dom.cliente.ClientesRepository;
 import domainapp.dom.cliente.Sexo;
+import domainapp.dom.modelo.Modelos;
 import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
 
 
@@ -71,8 +72,9 @@ public class VehiculosMenu {
 	            @ParameterLayout(named="Dominio") final String dominio,
 	    		@ParameterLayout(named="Año") final int anio,
 	    		@ParameterLayout(named="Numero de Motor") final String numeroMotor,
-	    		@ParameterLayout(named="Numero de Chasis") final String numeroChasis){
-	        return vehiculosRepository.crear(dominio, anio, numeroMotor, numeroChasis);
+	    		@ParameterLayout(named="Numero de Chasis") final String numeroChasis,
+	    		@ParameterLayout(named="Modelo") final Modelos modelo){
+	        return vehiculosRepository.crear(dominio, anio, numeroMotor, numeroChasis,modelo);
 	    }
 
 

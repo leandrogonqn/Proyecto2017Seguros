@@ -7,6 +7,8 @@ import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
+import domainapp.dom.modelo.Modelos;
+
 @DomainService(
         nature = NatureOfService.DOMAIN,
         repositoryFor = Vehiculos.class
@@ -41,8 +43,8 @@ public class VehiculosRepository {
     
   
 
-    public Vehiculos crear(String dominio, int anio, String numeroMotor, String numeroChasis) {
-        final Vehiculos object = new Vehiculos(dominio, anio, numeroMotor, numeroChasis);
+    public Vehiculos crear(String dominio, int anio, String numeroMotor, String numeroChasis,Modelos modelo) {
+        final Vehiculos object = new Vehiculos(dominio, anio, numeroMotor, numeroChasis,modelo);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;
