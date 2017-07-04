@@ -25,7 +25,7 @@ public class MarcasRepository {
                 new QueryDefault<>(
                         Marcas.class,
                         "buscarPorNombre",
-                        "marcasNombre", marcasNombre));
+                        "marcasNombre", marcasNombre.toLowerCase()));
     }
     
     public List<Marcas> listarActivos(){

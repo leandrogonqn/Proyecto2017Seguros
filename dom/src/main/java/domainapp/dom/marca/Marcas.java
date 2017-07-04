@@ -35,7 +35,7 @@ import domainapp.dom.tipoVehiculo.TipoVehiculo;
                 name = "buscarPorNombre", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Marcas "
-                        + "WHERE marcasNombre.indexOf(:marcasNombre) >= 0 "),
+                        + "WHERE marcasNombre.toLowerCase().indexOf(:marcasNombre) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
