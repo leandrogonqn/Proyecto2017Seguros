@@ -59,19 +59,11 @@ public class MarcasMenu {
 	    @MemberOrder(sequence = "5")
 	    public List<Marcas> buscarPorNombre(
 	            @ParameterLayout(named="Nombre")
-	            final String nombre
+	            final String marcasNombre
 	    ) {
-	        return marcasRepository.buscarPorNombre(nombre);
+	        return marcasRepository.buscarPorNombre(marcasNombre);
 	    }
-	    
-	    
-	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-	    @MemberOrder(sequence = "6")
-	    public List<Marcas> traerTodos() {
-	        return marcasRepository.traerTodos();
-	    }
-	    
+
 
 	    public static class CreateDomainEvent extends ActionDomainEvent<MarcasMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class)

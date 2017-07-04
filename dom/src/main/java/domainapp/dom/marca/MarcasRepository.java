@@ -20,12 +20,12 @@ public class MarcasRepository {
         return repositoryService.allInstances(Marcas.class);
     }
 
-    public List<Marcas> buscarPorNombre(final String nombre) {
+    public List<Marcas> buscarPorNombre(final String marcasNombre) {
         return repositoryService.allMatches(
                 new QueryDefault<>(
                         Marcas.class,
                         "buscarPorNombre",
-                        "nombre", nombre));
+                        "marcasNombre", marcasNombre));
     }
     
     public List<Marcas> listarActivos(){
@@ -34,13 +34,6 @@ public class MarcasRepository {
                         Marcas.class,
                         "listarActivos"));
    }
-    
-    public List<Marcas> traerTodos(){
-      	 return repositoryService.allMatches(
-                   new QueryDefault<>(
-                           Marcas.class,
-                           "traerTodos"));
-      }
     
     public List<Marcas> listarInactivos(){
       	 return repositoryService.allMatches(

@@ -68,8 +68,7 @@ import org.apache.isis.applib.util.ObjectContracts;
 @javax.jdo.annotations.Unique(name="tipoVehiculoject_tipoVehiculoNombre_UNQ", members = {"tipoVehiculoNombre"})
 @DomainObject(
         publishing = Publishing.ENABLED,
-        auditing = Auditing.ENABLED,
-        bounded = true
+        auditing = Auditing.ENABLED
 )
 public class TipoVehiculo implements Comparable<TipoVehiculo> {
 
