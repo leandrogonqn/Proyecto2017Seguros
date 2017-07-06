@@ -25,15 +25,19 @@
         </bs3:col>
     </bs3:row>
     <bs3:row>
-        <bs3:col span="6">
+        <bs3:col span="12">
             <bs3:tabGroup>
                 <bs3:tab name="General">
                     <bs3:row>
-                        <bs3:col span="12">
+                        <bs3:col span="6">
                             <c:fieldSet name="Nombre">
                                 <c:action id="borrarMarca"/>
-                                <c:property id="marcasNombre" namedEscaped="true"/>
-                                <c:property id="marcasActivo" namedEscaped="true"/>
+                                <c:property id="marcasNombre" namedEscaped="true">
+                                <c:action id="actualizarNombre" position="RIGHT"></c:action>
+                                </c:property>
+                                <c:property id="marcaActivo" namedEscaped="true">
+                                <c:action id="actualizarActivo" position="RIGHT"></c:action>
+                                </c:property>
                             </c:fieldSet>
                         </bs3:col>
                     </bs3:row>

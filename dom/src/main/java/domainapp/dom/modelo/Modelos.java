@@ -14,6 +14,7 @@ import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
+import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.annotation.Where;
@@ -65,7 +66,7 @@ import domainapp.dom.tipoVehiculo.TipoVehiculoRepository;
 public class Modelos implements Comparable<Modelos> {
 	 //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("{modeloNombre}", "modeloNombre", this.getModeloMarcas().getMarcasNombre()+" | "+this.getModeloNombre()+" | "+this.getModeloTipoVehiculo().getTipoVehiculoNombre());
+        return TranslatableString.tr("{modeloNombre}", "modeloNombre", this.getModeloMarcas().getMarcasNombre()+"-"+this.getModeloNombre()+"-"+this.getModeloTipoVehiculo().getTipoVehiculoNombre());
     }
     //endregion
 
@@ -82,38 +83,45 @@ public class Modelos implements Comparable<Modelos> {
     
     @javax.jdo.annotations.Column(allowsNull = "false", name="marcaId")
     @Property(
-    		editing = Editing.DISABLED
-    		)
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Marca")
     private Marcas modeloMarcas;
-   
 
 	public Marcas getModeloMarcas() {
 		return modeloMarcas;
 	}
+	
 	public void setModeloMarcas(Marcas modeloMarcas) {
 		this.modeloMarcas = modeloMarcas;
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false", name="tipoVehiculoId")
-	@Property(
-	editing = Editing.DISABLED
-	)
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Tipo Vehiculo")
 	private TipoVehiculo modeloTipoVehiculo;
 	
 	public TipoVehiculo getModeloTipoVehiculo() {
 		return modeloTipoVehiculo;
 	}
+	
 	public void setModeloTipoVehiculo(TipoVehiculo modeloTipoVehiculo) {
 		this.modeloTipoVehiculo = modeloTipoVehiculo;
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-	
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Nombre")
     private String modeloNombre;
 	
     public String getModeloNombre() {
         return modeloNombre;
     }
+    
     public void setModeloNombre(final String modeloNombre) {
         this.modeloNombre = modeloNombre;
     }
@@ -121,12 +129,14 @@ public class Modelos implements Comparable<Modelos> {
 	
     @javax.jdo.annotations.Column(allowsNull = "false")
     private boolean modeloActivo;
-//    @Property(
-//            editing = Editing.DISABLED
-//    )
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Activo")
     public boolean getModeloActivo() {
 		return modeloActivo;
 	}
+    
 	public void setModeloActivo(boolean modeloActivo) {
 		this.modeloActivo = modeloActivo;
 	}	
@@ -171,6 +181,24 @@ public class Modelos implements Comparable<Modelos> {
     public Marcas default0ActualizarMarca() {
     	return getModeloMarcas();
     }
+    
+	public Modelos actualizarNombre(@ParameterLayout(named="Nombre") final String modeloNombre){
+		setModeloNombre(modeloNombre);
+		return this;
+	}
+	
+	public String default0ActualizarNombre(){
+		return getModeloNombre();
+	}
+	
+	public Modelos actualizarActivo(@ParameterLayout(named="Activo") final boolean modeloActivo){
+		setModeloActivo(modeloActivo);
+		return this;
+	}
+
+	public boolean default0ActualizarActivo(){
+		return getModeloActivo();
+	}
     
     //endregion
 

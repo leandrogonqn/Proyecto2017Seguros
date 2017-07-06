@@ -8,6 +8,7 @@ import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
+import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
@@ -17,6 +18,7 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import domainapp.dom.cliente.Clientes;
 import domainapp.dom.tipoVehiculo.TipoVehiculo;
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -41,12 +43,12 @@ import domainapp.dom.tipoVehiculo.TipoVehiculo;
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Marcas "
-                        + "WHERE activo == true "),
+                        + "WHERE marcaActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Marcas "
-                        + "WHERE activo == false ") 
+                        + "WHERE marcaActivo == false ") 
 })
 @javax.jdo.annotations.Unique(name="Marcas_marcasNombre_UNQ", members = {"marcasNombre"})
 @DomainObject(
@@ -56,7 +58,7 @@ import domainapp.dom.tipoVehiculo.TipoVehiculo;
 public class Marcas implements Comparable<Marcas> {
 	 //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("Marca: {name}", "name", getMarcasNombre());
+        return TranslatableString.tr("{name}", "name", getMarcasNombre());
     }
     //endregion
 
@@ -64,12 +66,15 @@ public class Marcas implements Comparable<Marcas> {
     // Constructor
     public Marcas(String marcaNombre) {
 		setMarcasNombre(marcaNombre);
-		this.activo = true;
+		this.marcaActivo = true;
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    private String marcasNombre;
-	
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Nombre")
+	private String marcasNombre;
 	
     public String getMarcasNombre() {
 		return marcasNombre;
@@ -79,19 +84,20 @@ public class Marcas implements Comparable<Marcas> {
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-    private boolean activo;
-//    @Property(
-//            editing = Editing.DISABLED
-//    )
-    public boolean getActivo() {
-		return activo;
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Activo")
+	private boolean marcaActivo;
+
+    public boolean getMarcaActivo() {
+		return marcaActivo;
 	}
-	public void setActivo(boolean activo) {
-		this.activo = activo;
+	public void setMarcaActivo(boolean marcaActivo) {
+		this.marcaActivo = marcaActivo;
 	}	
 	
     //endregion
-
     
     //region > delete (action)
     public static class DeleteDomainEvent extends ActionDomainEvent<Marcas> {}
@@ -102,10 +108,26 @@ public class Marcas implements Comparable<Marcas> {
     public void borrarMarca() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
-        setActivo(false);
+        setMarcaActivo(false);
     }
     
+	public Marcas actualizarNombre(@ParameterLayout(named="Nombre") final String marcaNombre){
+		setMarcasNombre(marcaNombre);
+		return this;
+	}
+	
+	public String default0ActualizarNombre(){
+		return getMarcasNombre();
+	}
+	
+	public Marcas actualizarActivo(@ParameterLayout(named="Activo") final boolean marcaActivo){
+		setMarcaActivo(marcaActivo);
+		return this;
+	}
 
+	public boolean default0ActualizarActivo(){
+		return getMarcaActivo();
+	}
     
     //endregion
 
