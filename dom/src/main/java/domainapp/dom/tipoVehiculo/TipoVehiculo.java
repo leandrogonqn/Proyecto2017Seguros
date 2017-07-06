@@ -28,6 +28,7 @@ import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
+import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
@@ -37,6 +38,8 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
+
+import domainapp.dom.marca.Marcas;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -74,7 +77,7 @@ public class TipoVehiculo implements Comparable<TipoVehiculo> {
 
     //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("Tipo Vehiculo: {name}", "name", getTipoVehiculoNombre());
+        return TranslatableString.tr("Tipo: {name}", "name", getTipoVehiculoNombre());
     }
     //endregion
 
@@ -89,9 +92,12 @@ public class TipoVehiculo implements Comparable<TipoVehiculo> {
     public static final int NAME_LENGTH = 40;
 
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Nombre")
     private String tipoVehiculoNombre;
 
-	
     public String getTipoVehiculoNombre() {
 		return tipoVehiculoNombre;
 	}
@@ -101,10 +107,12 @@ public class TipoVehiculo implements Comparable<TipoVehiculo> {
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-    private boolean tipoVehiculoActivo;
-//    @Property(
-//            editing = Editing.DISABLED
-//    )
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Activo")
+	private boolean tipoVehiculoActivo;
+
 	public boolean getTipoVehiculoActivo() {
 		return tipoVehiculoActivo;
 	}
@@ -126,6 +134,25 @@ public class TipoVehiculo implements Comparable<TipoVehiculo> {
         messageService.informUser(String.format("'%s' deleted", title));
         setTipoVehiculoActivo(false);
     }
+    
+	public TipoVehiculo actualizarNombre(@ParameterLayout(named="Nombre") final String tipoVehiculoNombre){
+		setTipoVehiculoNombre(tipoVehiculoNombre);
+		return this;
+	}
+	
+	public String default0ActualizarNombre(){
+		return getTipoVehiculoNombre();
+	}
+	
+	public TipoVehiculo actualizarActivo(@ParameterLayout(named="Activo") final boolean tipoVehiculoActivo){
+		setTipoVehiculoActivo(tipoVehiculoActivo);
+		return this;
+	}
+
+	public boolean default0ActualizarActivo(){
+		return getTipoVehiculoActivo();
+	}
+
 
     //endregion
 

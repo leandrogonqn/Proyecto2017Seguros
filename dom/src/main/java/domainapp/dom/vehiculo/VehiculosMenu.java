@@ -1,6 +1,9 @@
 package domainapp.dom.vehiculo;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.isis.applib.annotation.Action;
@@ -13,15 +16,8 @@ import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
-
-import domainapp.dom.cliente.Clientes;
-import domainapp.dom.cliente.ClientesMenu;
-import domainapp.dom.cliente.ClientesRepository;
-import domainapp.dom.cliente.Sexo;
 import domainapp.dom.modelo.Modelos;
 import domainapp.dom.modelo.ModelosRepository;
-import domainapp.dom.tipoVehiculo.TipoVehiculo;
-import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
 
 
 @DomainService(
@@ -55,7 +51,6 @@ public class VehiculosMenu {
 	        return vehiculosRepository.listarInactivos();
 	    }
 
-
 	    @Action(semantics = SemanticsOf.SAFE)
 	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")
 	    @MemberOrder(sequence = "5")
@@ -66,15 +61,14 @@ public class VehiculosMenu {
 	        return vehiculosRepository.buscarPorDominio(vehiculoDominio);
 	    }
 	    
-	    
 	    public List<Modelos> choices4Crear(){
 	    	return modelosRepository.listarActivos();
 	    }
 
 	    public static class CreateDomainEvent extends ActionDomainEvent<VehiculosMenu> {}
-	    @Action(domainEvent = CreateDomainEvent.class)
+	    @Action(domainEvent = CreateDomainEvent.class, semantics=SemanticsOf.IDEMPOTENT)
 	    @MemberOrder(sequence = "1")
-	    @ActionLayout(cssClassFa="fa-plus")
+	    @ActionLayout()
 	    public Vehiculos crear(
 	            @ParameterLayout(named="Dominio") final String vehiculoDominio,
 	    		@ParameterLayout(named="Año") final int vehiculoAnio,
@@ -83,7 +77,17 @@ public class VehiculosMenu {
 	    		@ParameterLayout(named="Modelo") final Modelos vehiculoModelo){
 	        return vehiculosRepository.crear(vehiculoDominio, vehiculoAnio, vehiculoNumeroMotor, vehiculoNumeroChasis,vehiculoModelo);
 	    }
-
+	    
+	    public Collection<Integer> choices1Crear(){
+	    	ArrayList<Integer> numbers = new ArrayList<Integer>();
+	    	Calendar hoy= Calendar.getInstance(); 
+	    	int año= hoy.get(Calendar.YEAR); 
+	    	for (int i = 1910; i <= año; i++)
+	    	{
+	    	   numbers.add(i);
+	    	}
+	    	return numbers;
+	    }
 
 	    @javax.inject.Inject
 	    VehiculosRepository vehiculosRepository;

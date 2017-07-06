@@ -19,6 +19,8 @@
 package domainapp.dom.cliente;
 
 import java.util.Date;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.annotation.Action;
@@ -30,6 +32,7 @@ import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
+import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
@@ -113,6 +116,10 @@ public class Clientes implements Comparable<Clientes> {
     public static final int NAME_LENGTH = 40;
 
     @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Nombre")
     private String clienteNombre;
     
     public String getClienteNombre() {
@@ -123,6 +130,10 @@ public class Clientes implements Comparable<Clientes> {
     }
     
     @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Apellido")
     private String clienteApellido;
     public String getClienteApellido() {
 		return clienteApellido;
@@ -130,7 +141,12 @@ public class Clientes implements Comparable<Clientes> {
 	public void setClienteApellido(String clienteApellido) {
 		this.clienteApellido = clienteApellido;
 	}
-	 @javax.jdo.annotations.Column(allowsNull = "false")
+
+	@javax.jdo.annotations.Column(allowsNull = "false")
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Sexo")
 	private Sexo clienteSexo;
 
     public Sexo getClienteSexo() {
@@ -143,7 +159,11 @@ public class Clientes implements Comparable<Clientes> {
 
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-    private int clienteDni;
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="DNI")
+	private int clienteDni;
 
     public int getClienteDni() {
 		return clienteDni;
@@ -153,6 +173,10 @@ public class Clientes implements Comparable<Clientes> {
 	}
 	
     @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Direccion")
     private String clienteDireccion;
 
     public String getClienteDireccion() {
@@ -163,6 +187,10 @@ public class Clientes implements Comparable<Clientes> {
 	}	
 
     @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Telefono")
     private String clienteTelefono;
 
     public String getClienteTelefono() {
@@ -173,7 +201,10 @@ public class Clientes implements Comparable<Clientes> {
 	}	
 
     @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Mail")
     private String clienteMail;
 
     public String getClienteMail() {
@@ -184,10 +215,11 @@ public class Clientes implements Comparable<Clientes> {
 	}	
 
     @javax.jdo.annotations.Column(allowsNull = "false")
-    private String clienteCuitCuil;
     @Property(
             editing = Editing.DISABLED
     )
+    @PropertyLayout(named="Cuit/Cuil")
+    private String clienteCuitCuil;
     public String getClienteCuitCuil() {
 		return clienteCuitCuil;
 	}
@@ -196,6 +228,10 @@ public class Clientes implements Comparable<Clientes> {
 	}	
 	
     @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Fecha de Nacimiento")
     private Date clienteFechaNacimiento;
 
     public Date getClienteFechaNacimiento() {
@@ -206,6 +242,10 @@ public class Clientes implements Comparable<Clientes> {
 	}		
 	
     @javax.jdo.annotations.Column(allowsNull = "false")
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Notificacion cumpleaños")
     private boolean clienteNotificacionCumpleanios;
 
     public boolean getClienteNotificacionCumpleanios() {
@@ -216,6 +256,10 @@ public class Clientes implements Comparable<Clientes> {
 	}	
 	
     @javax.jdo.annotations.Column(allowsNull = "false")
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Activo")
     private boolean clienteActivo;
 //    @Property(
 //            editing = Editing.DISABLED
@@ -228,8 +272,99 @@ public class Clientes implements Comparable<Clientes> {
 	}	
 	
     //endregion
+	
+	public Clientes actualizarSexo(@ParameterLayout(named="Sexo") final Sexo clienteSexo){
+		setClienteCuitCuil(GenerarCuit.generar(clienteSexo, getClienteDni()));
+		setClienteSexo(clienteSexo);
+        return this;
+	}
+	
+	public Clientes actualizarDni(@ParameterLayout(named="Dni") final int clienteDni){
+		setClienteCuitCuil(GenerarCuit.generar(getClienteSexo(), clienteDni));
+		setClienteDni(clienteDni);
+        return this;
+	}
+	
+	public Sexo default0ActualizarSexo(){
+		return getClienteSexo();
+	}
+	
+	public int default0ActualizarDni(){
+		return getClienteDni();
+	}
+	
+	public Clientes actualizarNombre(@ParameterLayout(named="Nombre") final String clienteNombre){
+		setClienteNombre(clienteNombre);
+		return this;
+	}
+	
+	public String default0ActualizarNombre(){
+		return getClienteNombre();
+	}
 
+	public Clientes actualizarApellido(@ParameterLayout(named="Apellido") final String clienteApellido){
+		setClienteApellido(clienteApellido);
+		return this;
+	}
+	
+	public String default0ActualizarApellido(){
+		return getClienteApellido();
+	}
+	
+	public Clientes actualizarDireccion(@ParameterLayout(named="Direccion") final String clienteDireccion){
+		setClienteDireccion(clienteDireccion);
+		return this;
+	}
+	
+	public String default0ActualizarDireccion(){
+		return getClienteDireccion();
+	}
+	
+	public Clientes actualizarTelefono(@ParameterLayout(named="Telefono") final String clienteTelefono){
+		setClienteTelefono(clienteTelefono);
+		return this;
+	}	
+	
+	public String default0ActualizarTelefono(){
+		return getClienteTelefono();
+	}
+	
+	public Clientes actualizarMail(@ParameterLayout(named="Mail") final String clienteMail){
+		setClienteMail(clienteMail);
+		return this;
+	}	
+	
+	public String default0ActualizarMail(){
+		return getClienteMail();
+	}
+	
+	public Clientes actualizarFechaNacimiento(@ParameterLayout(named="Fecha de Nacimiento") final Date clienteFechaNacimiento){
+		setClienteFechaNacimiento(clienteFechaNacimiento);
+		return this;
+	}
 
+	public Date default0ActualizarFechaNacimiento(){
+		return getClienteFechaNacimiento();
+	}
+	
+	public Clientes actualizarNotificacionCumpleanios(@ParameterLayout(named="Notificacion Cumpleaños") final boolean clienteNotificacionCumpleanios){
+		setClienteNotificacionCumpleanios(clienteNotificacionCumpleanios);
+		return this;
+	}
+	
+	public boolean default0ActualizarNotificacionCumpleanios(){
+		return getClienteNotificacionCumpleanios();
+	}
+	
+	public Clientes actualizarActivo(@ParameterLayout(named="Activo") final boolean clienteActivo){
+		setClienteActivo(clienteActivo);
+		return this;
+	}
+
+	public boolean default0ActualizarActivo(){
+		return getClienteActivo();
+	}
+	
     //region > delete (action)
     public static class DeleteDomainEvent extends ActionDomainEvent<Clientes> {}
     @Action(

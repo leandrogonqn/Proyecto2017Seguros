@@ -1,12 +1,16 @@
 package domainapp.dom.vehiculo;
 
+import java.util.List;
+
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.Auditing;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
+import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
@@ -17,6 +21,8 @@ import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import domainapp.dom.modelo.Modelos;
+import domainapp.dom.modelo.ModelosRepository;
+import domainapp.dom.tipoVehiculo.TipoVehiculo;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -49,13 +55,12 @@ import domainapp.dom.modelo.Modelos;
 @javax.jdo.annotations.Unique(name="Vehiculos_vehiculoDominio_UNQ", members = {"vehiculoDominio"})
 @DomainObject(
         publishing = Publishing.ENABLED,
-        auditing = Auditing.ENABLED,
-        bounded = true
+        auditing = Auditing.ENABLED
 )
 public class Vehiculos implements Comparable<Vehiculos> {
 	 //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("Vechiculo: {vehiculoDominio}", "vehiculoDominio", getVehiculoDominio());
+        return TranslatableString.tr("Vechiculo: {vehiculoDominio}", "vehiculoDominio", this.getVehiculoDominio()+ " " + this.getVehiculoModelo().getModeloMarcas().getMarcasNombre() + " " + this.getVehiculoModelo().getModeloNombre() + " " + this.getVehiculoAnio());
     }
     //endregion
 
@@ -73,6 +78,10 @@ public class Vehiculos implements Comparable<Vehiculos> {
 
 
     @javax.jdo.annotations.Column(allowsNull = "false", name="modeloId")
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Modelo")
     private Modelos vehiculoModelo;
 
 	public Modelos getVehiculoModelo() {
@@ -83,54 +92,77 @@ public class Vehiculos implements Comparable<Vehiculos> {
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    private String vehiculoDominio;
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Dominio")
+	private String vehiculoDominio;
 	
     public String getVehiculoDominio() {
         return vehiculoDominio;
     }
+    
     public void setVehiculoDominio(final String vehiculoDominio) {
         this.vehiculoDominio = vehiculoDominio;
     }
     
 	@javax.jdo.annotations.Column(allowsNull = "false")
-    private int vehiculoAnio;
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Año")
+	private int vehiculoAnio;
 	
     public int getVehiculoAnio() {
         return vehiculoAnio;
     }
+    
     public void setVehiculoAnio(final int vehiculoAnio) {
         this.vehiculoAnio = vehiculoAnio;
     }
     
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    private String vehiculoNumeroMotor;
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Numero de Motor")
+	private String vehiculoNumeroMotor;
 	
     public String getVehiculoNumeroMotor() {
         return vehiculoNumeroMotor;
     }
+    
     public void setVehiculoNumeroMotor(final String vehiculoNumeroMotor) {
         this.vehiculoNumeroMotor = vehiculoNumeroMotor;
     }
     
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    private String vehiculoNumeroChasis;
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Numero de Chasis")
+	private String vehiculoNumeroChasis;
 	
     public String getVehiculoNumeroChasis() {
         return vehiculoNumeroChasis;
     }
+    
     public void setVehiculoNumeroChasis(final String vehiculoNumeroChasis) {
         this.vehiculoNumeroChasis = vehiculoNumeroChasis;
     }	
     
     @javax.jdo.annotations.Column(allowsNull = "false")
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Activo")
     private boolean vehiculoActivo;
-//    @Property(
-//            editing = Editing.DISABLED
-//    )
+
     public boolean getVehiculoActivo() {
 		return vehiculoActivo;
 	}
-	public void setVehiculoActivo(boolean vehiculoActivo) {
+
+    public void setVehiculoActivo(boolean vehiculoActivo) {
 		this.vehiculoActivo = vehiculoActivo;
 	}	
 	
@@ -143,11 +175,69 @@ public class Vehiculos implements Comparable<Vehiculos> {
             domainEvent = DeleteDomainEvent.class,
             semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
     )
-    public void borrarVechiculo() {
+    public void borrarVehiculo() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
         setVehiculoActivo(false);
     }
+    
+    public Vehiculos actualizarModelo(@ParameterLayout(named="Modelo") final Modelos nombreModelo) {
+        setVehiculoModelo(nombreModelo);
+        return this;
+    }
+    
+    public List<Modelos> choices0ActualizarModelo(){
+    	return modeloRepository.listarActivos();
+    }
+      
+    public Modelos default0ActualizarModelo() {
+    	return getVehiculoModelo();
+    }
+    
+	public Vehiculos actualizarDominio(@ParameterLayout(named="Dominio") final String vehiculoDominio){
+		setVehiculoDominio(vehiculoDominio);
+		return this;
+	}
+	
+	public String default0ActualizarDominio(){
+		return getVehiculoDominio();
+	}
+	
+	public Vehiculos actualizarAnio(@ParameterLayout(named="Año") final int modeloAnio){
+		setVehiculoAnio(modeloAnio);
+		return this;
+	}
+
+	public int default0ActualizarAnio(){
+		return getVehiculoAnio();
+	}	
+	
+	public Vehiculos actualizarNumeroMotor(@ParameterLayout(named="Numero de Motor") final String vehiculoNumeroMotor){
+		setVehiculoNumeroMotor(vehiculoNumeroMotor);
+		return this;
+	}
+	
+	public String default0ActualizarNumeroMotor(){
+		return getVehiculoNumeroMotor();
+	}
+	
+	public Vehiculos actualizarNumeroChasis(@ParameterLayout(named="Numero de Chasis") final String vehiculoNumeroChasis){
+		setVehiculoNumeroChasis(vehiculoNumeroChasis);
+		return this;
+	}
+	
+	public String default0ActualizarNumeroChasis(){
+		return getVehiculoNumeroChasis();
+	}
+	
+	public Vehiculos actualizarActivo(@ParameterLayout(named="Activo") final boolean vehiculoActivo){
+		setVehiculoActivo(vehiculoActivo);
+		return this;
+	}
+
+	public boolean default0ActualizarActivo(){
+		return getVehiculoActivo();
+	}
     
     //endregion
 
@@ -174,6 +264,8 @@ public class Vehiculos implements Comparable<Vehiculos> {
     @javax.inject.Inject
     MessageService messageService;
 
+    @javax.inject.Inject
+    ModelosRepository modeloRepository;
 
     //endregion
 }
