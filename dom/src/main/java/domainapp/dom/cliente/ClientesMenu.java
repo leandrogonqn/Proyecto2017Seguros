@@ -25,6 +25,7 @@ import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
+import org.apache.isis.applib.annotation.HomePage;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
@@ -90,7 +91,6 @@ public class ClientesMenu {
     public static class CreateDomainEvent extends ActionDomainEvent<ClientesMenu> {}
     @Action(domainEvent = CreateDomainEvent.class)
     @MemberOrder(sequence = "1")
-    @ActionLayout(cssClassFa="fa-plus")
     public Clientes crear(
             @ParameterLayout(named="Nombre") final String clienteNombre, 
             @ParameterLayout(named="Apellido") final String clienteApellido,

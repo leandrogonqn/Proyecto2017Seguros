@@ -9,10 +9,12 @@ import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
+import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.annotation.DomainServiceLayout.MenuBar;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
@@ -33,8 +35,8 @@ import domainapp.dom.marca.MarcasRepository;
         repositoryFor = Modelos.class
 )
 @DomainServiceLayout(
-        named = "Modelos",
-        menuOrder = "5"
+        named = "Vehiculos",
+        menuOrder = "3.3"
 )
 public class ModelosMenu {
 	
@@ -78,9 +80,14 @@ public class ModelosMenu {
 	    	return  marcaRepository.listarActivos();
 	    }
 
+	     @Property(
+	             editing = Editing.DISABLED, editingDisabledReason=" "
+	     )
+	     @MemberOrder(sequence="1.1")
+	     @ActionLayout(named="MODELO")
+	     public void vehiculoTitulo(){}
 
-	    public static class CreateDomainEvent extends ActionDomainEvent<ModelosMenu> {}
-	    @MemberOrder(sequence = "1")
+	    @MemberOrder(sequence = "1.2")
 	    @ActionLayout()
 	    public Modelos crear(
 	            @ParameterLayout(named="Nombre") final String modeloNombre,

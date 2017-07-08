@@ -25,9 +25,11 @@ import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
+import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
@@ -37,8 +39,8 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
         repositoryFor = TipoVehiculo.class
 )
 @DomainServiceLayout(
-        named = "Tipo Vehiculo",
-        menuOrder = "4"
+        named = "Vehiculos",
+        menuOrder = "3.2"
 )
 public class TipoVehiculoMenu {
 
@@ -73,12 +75,17 @@ public class TipoVehiculoMenu {
     ) {
         return tipoVehiculoRepository.buscarPorNombre(tipoVehiculoNombre);
     }
-
+    
+    @Property(
+            editing = Editing.DISABLED, editingDisabledReason=" "
+    )
+    @MemberOrder(sequence="1.1")
+    @ActionLayout(named="TIPO VEHICULO")
+    public void vehiculoTitulo(){}
 
     public static class CreateDomainEvent extends ActionDomainEvent<TipoVehiculoMenu> {}
     @Action(domainEvent = CreateDomainEvent.class)
-    @MemberOrder(sequence = "1")
-    @ActionLayout(cssClassFa="fa-plus")
+    @MemberOrder(sequence = "1.2")
     public TipoVehiculo crear(
             @ParameterLayout(named="Nombre")
             final String tipoVehiculoNombre) {

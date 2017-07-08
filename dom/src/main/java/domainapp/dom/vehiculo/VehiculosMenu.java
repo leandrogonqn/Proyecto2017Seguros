@@ -11,9 +11,14 @@ import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
+import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.HomePage;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
+import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.Property;
+import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import domainapp.dom.modelo.Modelos;
@@ -30,7 +35,7 @@ import domainapp.dom.modelo.ModelosRepository;
 )
 public class VehiculosMenu {
 	
-	  @Action(semantics = SemanticsOf.SAFE)
+	  	@Action(semantics = SemanticsOf.SAFE)
 	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
 	    @MemberOrder(sequence = "2")
 	    public List<Vehiculos> listar() {
@@ -65,9 +70,16 @@ public class VehiculosMenu {
 	    	return modelosRepository.listarActivos();
 	    }
 
+	    @Property(
+	            editing = Editing.DISABLED, editingDisabledReason=" "
+	    )
+	    @MemberOrder(sequence="1.1")
+	    @ActionLayout(named="VEHICULOS")
+	    public void vehiculoTitulo(){}
+	    
 	    public static class CreateDomainEvent extends ActionDomainEvent<VehiculosMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class, semantics=SemanticsOf.IDEMPOTENT)
-	    @MemberOrder(sequence = "1")
+	    @MemberOrder(sequence = "1.2")
 	    @ActionLayout()
 	    public Vehiculos crear(
 	            @ParameterLayout(named="Dominio") final String vehiculoDominio,

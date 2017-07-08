@@ -87,6 +87,10 @@ public class Clientes implements Comparable<Clientes> {
         return TranslatableString.tr("Cliente: {clienteNombre}", "clienteNombre", getClienteNombre()+" "+getClienteApellido()+" Cuit/Cuil: "+getClienteCuitCuil());
     }
     //endregion
+    
+    public String iconName(){
+    	return (getClienteSexo()==Sexo.Femenino)? "Femenino":"Masculino";
+    }
 
     //region > constructor
     public Clientes(final String clienteNombre) {

@@ -8,10 +8,12 @@ import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
+import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.DomainServiceLayout.MenuBar;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
@@ -27,8 +29,8 @@ import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
         repositoryFor = Marcas.class
 )
 @DomainServiceLayout(
-        named = "Marcas",
-        menuOrder = "2"
+        named = "Vehiculos",
+        menuOrder = "3.1"
 )
 public class MarcasMenu {
 	
@@ -55,7 +57,7 @@ public class MarcasMenu {
 
 
 	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
 	    @MemberOrder(sequence = "5")
 	    public List<Marcas> buscarPorNombre(
 	            @ParameterLayout(named="Nombre")
@@ -63,12 +65,17 @@ public class MarcasMenu {
 	        return marcasRepository.buscarPorNombre(marcaNombre);
 
 	    }
-
+	    
+	    @Property(
+	            editing = Editing.DISABLED, editingDisabledReason=" "
+	    )
+	    @MemberOrder(sequence="1.1")
+	    @ActionLayout(named="MARCAS")
+	    public void vehiculoTitulo(){}
 
 	    public static class CreateDomainEvent extends ActionDomainEvent<MarcasMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class)
-	    @MemberOrder(sequence = "1")
-	    @ActionLayout(cssClassFa="fa-plus")
+	    @MemberOrder(sequence = "1.2")
 	    public Marcas crear(
 	            @ParameterLayout(named="Nombre") final String marcaNombre){
 	        return marcasRepository.crear(marcaNombre);

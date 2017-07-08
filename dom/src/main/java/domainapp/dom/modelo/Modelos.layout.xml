@@ -37,6 +37,7 @@
                                 </c:property>
                                 <c:property id="modeloMarcas" namedEscaped="true">
                                 <c:action id="actualizarMarca" position="RIGHT"/>
+                                <c:action id="agregarMarca" position="RIGHT"/>
                                 </c:property>
                                 <c:property id="modeloTipoVehiculo" namedEscaped="true">
                                 <c:action id="actualizarTipoVehiculo" position="RIGHT"/>

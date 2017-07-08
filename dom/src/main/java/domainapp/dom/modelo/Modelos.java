@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.inject.Inject;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Persistent;
@@ -26,6 +27,7 @@ import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import domainapp.dom.marca.Marcas;
+import domainapp.dom.marca.MarcasMenu;
 import domainapp.dom.marca.MarcasRepository;
 import domainapp.dom.tipoVehiculo.TipoVehiculo;
 import domainapp.dom.tipoVehiculo.TipoVehiculoRepository;
@@ -199,6 +201,11 @@ public class Modelos implements Comparable<Modelos> {
 	public boolean default0ActualizarActivo(){
 		return getModeloActivo();
 	}
+	
+    public Marcas agregarMarca(
+            @ParameterLayout(named="Nombre") final String marcaNombre){
+        return marcaRepository.crear(marcaNombre);
+    }
     
     //endregion
 

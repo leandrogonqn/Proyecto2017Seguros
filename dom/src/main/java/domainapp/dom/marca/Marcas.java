@@ -19,6 +19,7 @@ import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import domainapp.dom.cliente.Clientes;
+import domainapp.dom.cliente.Sexo;
 import domainapp.dom.tipoVehiculo.TipoVehiculo;
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -61,6 +62,14 @@ public class Marcas implements Comparable<Marcas> {
         return TranslatableString.tr("{name}", "name", getMarcasNombre());
     }
     //endregion
+    
+    public String iconName(){
+    	String a;
+    	
+    	a = getMarcasNombre();
+    	
+    	return a;
+    }
 
     public static final int NAME_LENGTH = 200;
     // Constructor
