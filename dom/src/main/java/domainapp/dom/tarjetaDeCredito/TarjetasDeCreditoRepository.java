@@ -16,8 +16,8 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 )
 public class TarjetasDeCreditoRepository {
 
-    public TarjetasDeCredito crear(int tarjetaDeCreditoNumero, float tipoPagoImporte) {
-        final TarjetasDeCredito object = new TarjetasDeCredito(tarjetaDeCreditoNumero, tipoPagoImporte);
+    public TarjetasDeCredito crear(long tarjetaDeCreditoNumero, int tarjetaDeCreditoMesVencimiento, int tarjetaDeCreditoAnioVencimiento, float tipoPagoImporte) {
+        final TarjetasDeCredito object = new TarjetasDeCredito(tarjetaDeCreditoNumero, tarjetaDeCreditoMesVencimiento, tarjetaDeCreditoAnioVencimiento, tipoPagoImporte);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;

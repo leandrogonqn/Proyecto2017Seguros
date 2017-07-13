@@ -1,5 +1,8 @@
 package domainapp.dom.vehiculo;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 
 import javax.jdo.annotations.IdentityType;
@@ -211,6 +214,17 @@ public class Vehiculos implements Comparable<Vehiculos> {
 	public int default0ActualizarAnio(){
 		return getVehiculoAnio();
 	}	
+	
+    public Collection<Integer> choices0ActualizarAnio(){
+    	ArrayList<Integer> numbers = new ArrayList<Integer>();
+    	Calendar hoy= Calendar.getInstance(); 
+    	int año= hoy.get(Calendar.YEAR); 
+    	for (int i = 1910; i <= año; i++)
+    	{
+    	   numbers.add(i);
+    	}
+    	return numbers;
+    }
 	
 	public Vehiculos actualizarNumeroMotor(@ParameterLayout(named="Numero de Motor") final String vehiculoNumeroMotor){
 		setVehiculoNumeroMotor(vehiculoNumeroMotor);

@@ -1,5 +1,8 @@
 package domainapp.dom.tarjetaDeCredito;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -38,9 +41,31 @@ public class TarjetasDeCreditoMenu {
 	    @Action(domainEvent = CreateDomainEvent.class)
 	    @MemberOrder(sequence = "1.2")
 	    public TarjetasDeCredito crear(
-	            @ParameterLayout(named="N° de tarjeta") final int tarjetaDeCreditoNumero,
+	            @ParameterLayout(named="N° de tarjeta") final long tarjetaDeCreditoNumero,
+	            @ParameterLayout(named="Mes de Vencimiento") final int tarjetaDeCreditoMesVencimiento,
+	            @ParameterLayout(named="Año de Vencimiento") final int tarjetaDeCreditoAnioVencimiento,
 	    		@ParameterLayout(named="Importe") final float tipoPagoImporte){
-	        return debitoAutomaticoRepository.crear(tarjetaDeCreditoNumero, tipoPagoImporte);
+	        return debitoAutomaticoRepository.crear(tarjetaDeCreditoNumero, tarjetaDeCreditoMesVencimiento, tarjetaDeCreditoAnioVencimiento, tipoPagoImporte);
+	    }
+	    
+	    public Collection<Integer> choices1Crear(){
+	    	ArrayList<Integer> numbers = new ArrayList<Integer>();
+	    	for (int i = 1; i <= 12 ; i++){
+	    		numbers.add(i);
+	    	}
+	    	return numbers;
+	    }
+	    
+	    public Collection<Integer> choices2Crear(){
+	    	ArrayList<Integer> numbers = new ArrayList<Integer>();
+	    	Calendar hoy= Calendar.getInstance(); 
+	    	int año= hoy.get(Calendar.YEAR); 
+	    	int añoposterios = año + 30;
+	    	for (int i = año; i <= añoposterios; i++)
+	    	{
+	    	   numbers.add(i);
+	    	}
+	    	return numbers;
 	    }
 	    
 	    @Property(

@@ -8,6 +8,9 @@ import javax.jdo.annotations.DiscriminatorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
+
+import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -25,7 +28,10 @@ public abstract class DetalleTipoPagos {
 	public static final int NAME_LENGTH = 50;
 	
 	@Column(allowsNull="false")
-    @PropertyLayout(named="nombre")
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Importe")
     protected float tipoPagoImporte;
 	
     public float getTipoPagoImporte() {
@@ -37,7 +43,10 @@ public abstract class DetalleTipoPagos {
     	}
     
     @Column(allowsNull="false")
-    @PropertyLayout(named="activo")
+    @Property(
+    		editing=Editing.DISABLED
+	)
+    @PropertyLayout(named="Activo")
     protected boolean tipoPagoActivo;
     
 	public boolean getTipoPagoActivo() {

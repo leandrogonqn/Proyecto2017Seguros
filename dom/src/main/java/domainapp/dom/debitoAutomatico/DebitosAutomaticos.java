@@ -1,5 +1,7 @@
 package domainapp.dom.debitoAutomatico;
 
+import java.math.BigInteger;
+
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
@@ -34,13 +36,13 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
 public class DebitosAutomaticos extends DetalleTipoPagos implements Comparable<DebitosAutomaticos> {
 	 //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("{name}", "name", getDebitoAutomaticoCbu());
+        return TranslatableString.tr("{name}", "name","Debito Automatico CBU:" + getDebitoAutomaticoCbu());
     }
     //endregion
 
     public static final int NAME_LENGTH = 200;
     // Constructor
-    public DebitosAutomaticos(int debitoAutomaticoCbu, float tipoPagoImporte) {
+    public DebitosAutomaticos(BigInteger debitoAutomaticoCbu, float tipoPagoImporte) {
     	setDebitoAutomaticoCbu(debitoAutomaticoCbu);
     	setTipoPagoImporte(tipoPagoImporte);
 		this.tipoPagoActivo = true;
@@ -51,12 +53,12 @@ public class DebitosAutomaticos extends DetalleTipoPagos implements Comparable<D
             editing = Editing.DISABLED
     )
     @PropertyLayout(named="CBU")
-	private int debitoAutomaticoCbu;
+	private BigInteger debitoAutomaticoCbu;
 	
-    public int getDebitoAutomaticoCbu() {
+    public BigInteger getDebitoAutomaticoCbu() {
 		return debitoAutomaticoCbu;
 	}
-	public void setDebitoAutomaticoCbu(int debitoAutomaticoCbu) {
+	public void setDebitoAutomaticoCbu(BigInteger debitoAutomaticoCbu) {
 		this.debitoAutomaticoCbu = debitoAutomaticoCbu;
 	}
 
@@ -74,12 +76,12 @@ public class DebitosAutomaticos extends DetalleTipoPagos implements Comparable<D
         setTipoPagoActivo(false);
     }
     
-	public DebitosAutomaticos actualizarCbu(@ParameterLayout(named="CBU") final int debitoAutomaticoCbu){
+	public DebitosAutomaticos actualizarCbu(@ParameterLayout(named="CBU") final BigInteger debitoAutomaticoCbu){
 		setDebitoAutomaticoCbu(debitoAutomaticoCbu);
 		return this;
 	}
 	
-	public int default0ActualizarCbu(){
+	public BigInteger default0ActualizarCbu(){
 		return getDebitoAutomaticoCbu();
 	}
 	

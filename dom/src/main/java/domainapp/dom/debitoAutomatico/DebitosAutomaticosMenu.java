@@ -1,5 +1,6 @@
 package domainapp.dom.debitoAutomatico;
 
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class DebitosAutomaticosMenu {
 	    @Action(domainEvent = CreateDomainEvent.class)
 	    @MemberOrder(sequence = "1.2")
 	    public DebitosAutomaticos crear(
-	            @ParameterLayout(named="CBU") final int debitoAutomaticoCbu,
+	            @ParameterLayout(named="CBU") final BigInteger debitoAutomaticoCbu,
 	    		@ParameterLayout(named="Importe") final float tipoPagoImporte){
 	        return debitoAutomaticoRepository.crear(debitoAutomaticoCbu, tipoPagoImporte);
 	    }

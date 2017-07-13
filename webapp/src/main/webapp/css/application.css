@@ -21,8 +21,7 @@ tr.activo {
 }
 
 tr.inactivo {
-    background-color: #cc0000;
-    color: #d3d3d3;
+    color: #cc0000;
 }
 
 /* tr.activo {

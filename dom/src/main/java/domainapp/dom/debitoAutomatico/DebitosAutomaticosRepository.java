@@ -1,5 +1,6 @@
 package domainapp.dom.debitoAutomatico;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.xml.ws.Action;
@@ -16,7 +17,7 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 )
 public class DebitosAutomaticosRepository {
 
-    public DebitosAutomaticos crear(int debitoAutomaticoCbu, float tipoPagoImporte) {
+    public DebitosAutomaticos crear(BigInteger debitoAutomaticoCbu, float tipoPagoImporte) {
         final DebitosAutomaticos object = new DebitosAutomaticos(debitoAutomaticoCbu, tipoPagoImporte);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
