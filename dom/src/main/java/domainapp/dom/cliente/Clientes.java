@@ -91,6 +91,10 @@ public class Clientes implements Comparable<Clientes> {
     public String iconName(){
     	return (getClienteSexo()==Sexo.Femenino)? "Femenino":"Masculino";
     }
+    
+    public String cssClass(){
+    	return (getClienteActivo()==true)? "activo":"inactivo";
+    }
 
     //region > constructor
     public Clientes(final String clienteNombre) {

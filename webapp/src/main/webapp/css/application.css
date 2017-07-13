@@ -17,3 +17,18 @@
  *  under the License.
  */
 
+tr.activo {
+}
+
+tr.inactivo {
+    background-color: #cc0000;
+    color: #d3d3d3;
+}
+
+/* tr.activo {
+}
+
+tr.inactivo {
+    color: #d3d3d3;
+    background-color: #cc0000;
+} */
