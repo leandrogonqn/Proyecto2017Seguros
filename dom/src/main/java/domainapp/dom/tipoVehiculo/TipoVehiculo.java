@@ -19,7 +19,6 @@
 package domainapp.dom.tipoVehiculo;
 
 import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.Auditing;
@@ -48,9 +47,6 @@ import domainapp.dom.marca.Marcas;
 @javax.jdo.annotations.DatastoreIdentity(
         strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
          column="tipoVehiculoId")
-@javax.jdo.annotations.Version(
-        strategy= VersionStrategy.DATE_TIME,
-        column="version")
 @javax.jdo.annotations.Queries({
         @javax.jdo.annotations.Query(
                 name = "findByName", language = "JDOQL",
@@ -81,6 +77,10 @@ public class TipoVehiculo implements Comparable<TipoVehiculo> {
     }
     //endregion
 
+    public String cssClass(){
+    	return (getTipoVehiculoActivo()==true)? "activo":"inactivo";
+    }
+    
     //region > constructor
     public TipoVehiculo(final String tipoVehiculoNombre) {
     	setTipoVehiculoNombre(tipoVehiculoNombre);

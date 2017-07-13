@@ -22,7 +22,6 @@ import java.util.Date;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.Auditing;
 import org.apache.isis.applib.annotation.CommandReification;
@@ -50,9 +49,6 @@ import org.apache.isis.applib.util.ObjectContracts;
 @javax.jdo.annotations.DatastoreIdentity(
         strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
          column="clienteId")
-@javax.jdo.annotations.Version(
-        strategy= VersionStrategy.DATE_TIME,
-        column="version")
 @javax.jdo.annotations.Queries({
         @javax.jdo.annotations.Query(
                 name = "buscarPorNombre", language = "JDOQL",

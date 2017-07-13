@@ -7,8 +7,6 @@ import java.util.TreeSet;
 import javax.inject.Inject;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.Auditing;
 import org.apache.isis.applib.annotation.DomainObject;
@@ -40,9 +38,6 @@ import domainapp.dom.tipoVehiculo.TipoVehiculoRepository;
 @javax.jdo.annotations.DatastoreIdentity(
         strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
          column="modeloId")
-@javax.jdo.annotations.Version(
-        strategy= VersionStrategy.DATE_TIME,
-        column="version")
 @javax.jdo.annotations.Queries({
         @javax.jdo.annotations.Query(
                 name = "buscarPorNombre", language = "JDOQL",
@@ -71,6 +66,10 @@ public class Modelos implements Comparable<Modelos> {
         return TranslatableString.tr("{modeloNombre}", "modeloNombre", this.getModeloMarcas().getMarcasNombre()+"-"+this.getModeloNombre()+"-"+this.getModeloTipoVehiculo().getTipoVehiculoNombre());
     }
     //endregion
+    
+    public String cssClass(){
+    	return (getModeloActivo()==true)? "activo":"inactivo";
+    }
 
     public static final int NAME_LENGTH = 200;
     // Constructor

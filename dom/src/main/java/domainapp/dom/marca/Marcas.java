@@ -1,7 +1,6 @@
 package domainapp.dom.marca;
 
 import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.VersionStrategy;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.Auditing;
 import org.apache.isis.applib.annotation.DomainObject;
@@ -30,9 +29,6 @@ import domainapp.dom.tipoVehiculo.TipoVehiculo;
 @javax.jdo.annotations.DatastoreIdentity(
         strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
          column="marcaId")
-@javax.jdo.annotations.Version(
-        strategy= VersionStrategy.DATE_TIME,
-        column="version")
 @javax.jdo.annotations.Queries({
         @javax.jdo.annotations.Query(
                 name = "buscarPorNombre", language = "JDOQL",
@@ -71,6 +67,10 @@ public class Marcas implements Comparable<Marcas> {
     	return a;
     }
 
+    public String cssClass(){
+    	return (getMarcaActivo()==true)? "activo":"inactivo";
+    }
+    
     public static final int NAME_LENGTH = 200;
     // Constructor
     public Marcas(String marcaNombre) {
