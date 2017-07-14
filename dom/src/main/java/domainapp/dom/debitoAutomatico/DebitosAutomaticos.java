@@ -1,7 +1,10 @@
 package domainapp.dom.debitoAutomatico;
 
 import java.math.BigInteger;
+import java.util.List;
 
+import javax.inject.Inject;
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
@@ -21,7 +24,10 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import domainapp.dom.banco.Bancos;
+import domainapp.dom.banco.BancosRepository;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
+import domainapp.dom.tarjetaDeCredito.TarjetasDeCredito;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -42,11 +48,27 @@ public class DebitosAutomaticos extends DetalleTipoPagos implements Comparable<D
 
     public static final int NAME_LENGTH = 200;
     // Constructor
-    public DebitosAutomaticos(BigInteger debitoAutomaticoCbu, float tipoPagoImporte) {
+    public DebitosAutomaticos(Bancos debitoAutomaticoBanco, BigInteger debitoAutomaticoCbu, float tipoPagoImporte) {
+    	setDebitoAutomaticoBanco(debitoAutomaticoBanco);
     	setDebitoAutomaticoCbu(debitoAutomaticoCbu);
     	setTipoPagoImporte(tipoPagoImporte);
 		this.tipoPagoActivo = true;
 	}
+    
+    @Column(allowsNull="false", name="bancoId")
+    @Property(
+    		editing=Editing.DISABLED
+    )
+    @PropertyLayout(named="Banco")
+    private Bancos debitoAutomaticoBanco;
+    
+    public Bancos getDebitoAutomaticoBanco() {
+		return debitoAutomaticoBanco;
+	}
+	public void setDebitoAutomaticoBanco(Bancos debitoAutomaticoBanco) {
+		this.debitoAutomaticoBanco = debitoAutomaticoBanco;
+	}
+
 
 	@javax.jdo.annotations.Column
     @Property(
@@ -74,6 +96,19 @@ public class DebitosAutomaticos extends DetalleTipoPagos implements Comparable<D
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
         setTipoPagoActivo(false);
+    }
+    
+    public DebitosAutomaticos actualizarDebitoAutomaticoBanco(@ParameterLayout(named="Banco") final Bancos debitoAutomaticoBanco){
+    	setDebitoAutomaticoBanco(debitoAutomaticoBanco);
+    	return this;
+    }
+    
+    public Bancos default0ActualizarDebitoAutomaticoBanco(){
+    	return getDebitoAutomaticoBanco();
+    }
+    
+    public List<Bancos> choices0ActualizarDebitoAutomaticoBanco(){
+    	return debitoAutomaticoBancosRepository.listarActivos();
     }
     
 	public DebitosAutomaticos actualizarCbu(@ParameterLayout(named="CBU") final BigInteger debitoAutomaticoCbu){
@@ -118,8 +153,8 @@ public class DebitosAutomaticos extends DetalleTipoPagos implements Comparable<D
     //endregion
 
     //region > injected dependencies
-
-    @javax.inject.Inject
+    
+	@javax.inject.Inject
     RepositoryService repositoryService;
 
     @javax.inject.Inject
@@ -127,6 +162,9 @@ public class DebitosAutomaticos extends DetalleTipoPagos implements Comparable<D
 
     @javax.inject.Inject
     MessageService messageService;
+    
+    @Inject
+    BancosRepository debitoAutomaticoBancosRepository;
 
 
     //endregion

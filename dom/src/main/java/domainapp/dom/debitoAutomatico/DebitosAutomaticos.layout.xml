@@ -32,6 +32,9 @@
                         <bs3:col span="6">
                             <c:fieldSet name="Nombre">
                                 <c:action id="borrarDebitoAutomatico"/>
+                                <c:property id="debitoAutomaticoBanco" namedEscaped="true">
+                                <c:action id="actualizarDebitoAutomaticoBanco" position="RIGHT"></c:action>
+                                </c:property>
                                 <c:property id="debitoAutomaticoCbu" namedEscaped="true">
                                 <c:action id="actualizarCbu" position="RIGHT"></c:action>
                                 </c:property>

@@ -11,14 +11,16 @@ import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
+import domainapp.dom.banco.Bancos;
+
 @DomainService(
         nature = NatureOfService.DOMAIN,
         repositoryFor = DebitosAutomaticos.class
 )
 public class DebitosAutomaticosRepository {
 
-    public DebitosAutomaticos crear(BigInteger debitoAutomaticoCbu, float tipoPagoImporte) {
-        final DebitosAutomaticos object = new DebitosAutomaticos(debitoAutomaticoCbu, tipoPagoImporte);
+    public DebitosAutomaticos crear(Bancos debitoAutomaticoBanco, BigInteger debitoAutomaticoCbu, float tipoPagoImporte) {
+        final DebitosAutomaticos object = new DebitosAutomaticos(debitoAutomaticoBanco, debitoAutomaticoCbu, tipoPagoImporte);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;
