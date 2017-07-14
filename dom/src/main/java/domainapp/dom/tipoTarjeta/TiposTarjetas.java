@@ -73,7 +73,7 @@ public class TiposTarjetas implements Comparable<TiposTarjetas> {
 
     //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("tipoTarjeta: {name}", "name", getTipoTarjetaNombre());
+        return TranslatableString.tr("{name}", "name", getTipoTarjetaNombre());
     }
     //endregion
 

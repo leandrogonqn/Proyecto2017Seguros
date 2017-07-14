@@ -73,7 +73,7 @@ public class Bancos implements Comparable<Bancos> {
 
     //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("Banco: {name}", "name", getBancoNombre());
+        return TranslatableString.tr("{name}", "name", getBancoNombre());
     }
     //endregion
 

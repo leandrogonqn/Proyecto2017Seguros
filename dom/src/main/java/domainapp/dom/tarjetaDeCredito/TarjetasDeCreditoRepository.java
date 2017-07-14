@@ -10,14 +10,17 @@ import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
+import domainapp.dom.banco.Bancos;
+import domainapp.dom.tipoTarjeta.TiposTarjetas;
+
 @DomainService(
         nature = NatureOfService.DOMAIN,
         repositoryFor = TarjetasDeCredito.class
 )
 public class TarjetasDeCreditoRepository {
 
-    public TarjetasDeCredito crear(long tarjetaDeCreditoNumero, int tarjetaDeCreditoMesVencimiento, int tarjetaDeCreditoAnioVencimiento, float tipoPagoImporte) {
-        final TarjetasDeCredito object = new TarjetasDeCredito(tarjetaDeCreditoNumero, tarjetaDeCreditoMesVencimiento, tarjetaDeCreditoAnioVencimiento, tipoPagoImporte);
+    public TarjetasDeCredito crear(TiposTarjetas tipoTarjeta, Bancos banco, long tarjetaDeCreditoNumero, int tarjetaDeCreditoMesVencimiento, int tarjetaDeCreditoAnioVencimiento, float tipoPagoImporte) {
+        final TarjetasDeCredito object = new TarjetasDeCredito(tipoTarjeta, banco, tarjetaDeCreditoNumero, tarjetaDeCreditoMesVencimiento, tarjetaDeCreditoAnioVencimiento, tipoPagoImporte);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;
