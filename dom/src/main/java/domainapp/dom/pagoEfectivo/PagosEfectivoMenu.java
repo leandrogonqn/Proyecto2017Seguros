@@ -26,7 +26,7 @@ import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
 
 
 @DomainService(
-        nature = NatureOfService.VIEW_MENU_ONLY,
+        nature = NatureOfService.VIEW,
         repositoryFor = PagosEfectivo.class
 )
 @DomainServiceLayout(
@@ -38,9 +38,8 @@ public class PagosEfectivoMenu {
 	    public static class CreateDomainEvent extends ActionDomainEvent<PagosEfectivoMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class)
 	    @MemberOrder(sequence = "1.2")
-	    public PagosEfectivo crear(
-	    		@ParameterLayout(named="Importe") final float tipoPagoImporte){
-	        return pagoEfectivoRepository.crear(tipoPagoImporte);
+	    public PagosEfectivo crear(){
+	        return pagoEfectivoRepository.crear();
 	    }
 
 	    @Property(

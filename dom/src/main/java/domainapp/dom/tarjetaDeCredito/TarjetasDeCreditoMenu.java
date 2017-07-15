@@ -34,7 +34,7 @@ import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
 
 
 @DomainService(
-        nature = NatureOfService.VIEW_MENU_ONLY,
+        nature = NatureOfService.VIEW,
         repositoryFor = TarjetasDeCredito.class
 )
 @DomainServiceLayout(
@@ -51,9 +51,8 @@ public class TarjetasDeCreditoMenu {
 	    		@ParameterLayout(named="Banco") final Bancos banco,
 	            @ParameterLayout(named="N° de tarjeta") final long tarjetaDeCreditoNumero,
 	            @ParameterLayout(named="Mes de Vencimiento") final int tarjetaDeCreditoMesVencimiento,
-	            @ParameterLayout(named="Año de Vencimiento") final int tarjetaDeCreditoAnioVencimiento,
-	    		@ParameterLayout(named="Importe") final float tipoPagoImporte){
-	        return debitoAutomaticoRepository.crear(tipoTarjeta, banco, tarjetaDeCreditoNumero, tarjetaDeCreditoMesVencimiento, tarjetaDeCreditoAnioVencimiento, tipoPagoImporte);
+	            @ParameterLayout(named="Año de Vencimiento") final int tarjetaDeCreditoAnioVencimiento){
+	        return debitoAutomaticoRepository.crear(tipoTarjeta, banco, tarjetaDeCreditoNumero, tarjetaDeCreditoMesVencimiento, tarjetaDeCreditoAnioVencimiento);
 	    }
 	    
 	    public List<TiposTarjetas> choices0Crear(){
