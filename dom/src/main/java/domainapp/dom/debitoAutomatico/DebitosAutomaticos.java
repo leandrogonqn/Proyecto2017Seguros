@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.jdo.annotations.Column;
+import javax.jdo.annotations.Discriminator;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
@@ -39,6 +40,7 @@ import domainapp.dom.tarjetaDeCredito.TarjetasDeCredito;
         auditing = Auditing.ENABLED
 )
 @Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
+@Discriminator(value="Debito Automatico")
 public class DebitosAutomaticos extends DetalleTipoPagos implements Comparable<DebitosAutomaticos> {
 	 //region > title
     public TranslatableString title() {
@@ -48,10 +50,9 @@ public class DebitosAutomaticos extends DetalleTipoPagos implements Comparable<D
 
     public static final int NAME_LENGTH = 200;
     // Constructor
-    public DebitosAutomaticos(Bancos debitoAutomaticoBanco, BigInteger debitoAutomaticoCbu, float tipoPagoImporte) {
+    public DebitosAutomaticos(Bancos debitoAutomaticoBanco, BigInteger debitoAutomaticoCbu) {
     	setDebitoAutomaticoBanco(debitoAutomaticoBanco);
     	setDebitoAutomaticoCbu(debitoAutomaticoCbu);
-    	setTipoPagoImporte(tipoPagoImporte);
 		this.tipoPagoActivo = true;
 	}
     
@@ -118,15 +119,6 @@ public class DebitosAutomaticos extends DetalleTipoPagos implements Comparable<D
 	
 	public BigInteger default0ActualizarCbu(){
 		return getDebitoAutomaticoCbu();
-	}
-	
-	public DebitosAutomaticos actualizarImporte(@ParameterLayout(named="Importe") final float tipoPagoImporte){
-		setTipoPagoImporte(tipoPagoImporte);
-		return this;
-	}
-
-	public float default0ActualizarImporte(){
-		return getTipoPagoImporte();
 	}
 	
 	public DebitosAutomaticos actualizarActivo(@ParameterLayout(named="Activo") final boolean debitoAutomaticoActivo){

@@ -41,9 +41,6 @@
                                 <c:property id="tipoPagoImporte" namedEscaped="true">
                                 <c:action id="actualizarImporte" position="RIGHT"></c:action>
                                 </c:property>
-                                <c:property id="tipoPagoActivo" namedEscaped="true">
-                                <c:action id="actualizarActivo" position="RIGHT"></c:action>
-                                </c:property>
                             </c:fieldSet>
                         </bs3:col>
                     </bs3:row>

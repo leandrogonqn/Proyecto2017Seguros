@@ -30,12 +30,12 @@ import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
 
 
 @DomainService(
-        nature = NatureOfService.VIEW_MENU_ONLY,
+        nature = NatureOfService.VIEW,
         repositoryFor = DebitosAutomaticos.class
 )
 @DomainServiceLayout(
         named = "Tipo de pago",
-        menuOrder = "10"
+        menuOrder = "10.3"
 )
 public class DebitosAutomaticosMenu {
 	
@@ -44,9 +44,8 @@ public class DebitosAutomaticosMenu {
 	    @MemberOrder(sequence = "1.2")
 	    public DebitosAutomaticos crear(
 	    		@ParameterLayout(named="Banco") final Bancos debitoAutomaticoBanco,
-	            @ParameterLayout(named="CBU") final BigInteger debitoAutomaticoCbu,
-	    		@ParameterLayout(named="Importe") final float tipoPagoImporte){
-	        return debitoAutomaticoRepository.crear(debitoAutomaticoBanco, debitoAutomaticoCbu, tipoPagoImporte);
+	            @ParameterLayout(named="CBU") final BigInteger debitoAutomaticoCbu){
+	        return debitoAutomaticoRepository.crear(debitoAutomaticoBanco, debitoAutomaticoCbu);
 	    }
 	    
 	    public List<Bancos> choices0Crear(){

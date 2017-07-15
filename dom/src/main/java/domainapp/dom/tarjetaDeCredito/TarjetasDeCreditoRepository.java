@@ -19,8 +19,8 @@ import domainapp.dom.tipoTarjeta.TiposTarjetas;
 )
 public class TarjetasDeCreditoRepository {
 
-    public TarjetasDeCredito crear(TiposTarjetas tipoTarjeta, Bancos banco, long tarjetaDeCreditoNumero, int tarjetaDeCreditoMesVencimiento, int tarjetaDeCreditoAnioVencimiento, float tipoPagoImporte) {
-        final TarjetasDeCredito object = new TarjetasDeCredito(tipoTarjeta, banco, tarjetaDeCreditoNumero, tarjetaDeCreditoMesVencimiento, tarjetaDeCreditoAnioVencimiento, tipoPagoImporte);
+    public TarjetasDeCredito crear(TiposTarjetas tipoTarjeta, Bancos banco, long tarjetaDeCreditoNumero, int tarjetaDeCreditoMesVencimiento, int tarjetaDeCreditoAnioVencimiento) {
+        final TarjetasDeCredito object = new TarjetasDeCredito(tipoTarjeta, banco, tarjetaDeCreditoNumero, tarjetaDeCreditoMesVencimiento, tarjetaDeCreditoAnioVencimiento);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;

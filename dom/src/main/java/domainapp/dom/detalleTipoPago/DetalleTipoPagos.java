@@ -1,7 +1,5 @@
 package domainapp.dom.detalleTipoPago;
 
-
-
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Discriminator;
 import javax.jdo.annotations.DiscriminatorStrategy;
@@ -22,26 +20,11 @@ import org.apache.isis.applib.annotation.PropertyLayout;
         strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
          column="detalleTipoPagoId")
 @Inheritance(strategy=InheritanceStrategy.NEW_TABLE)
-@Discriminator(strategy=DiscriminatorStrategy.CLASS_NAME)
+@Discriminator(strategy=DiscriminatorStrategy.VALUE_MAP, column="tipoDePagoNombre")
 public abstract class DetalleTipoPagos {
 	
 	public static final int NAME_LENGTH = 50;
 	
-	@Column(allowsNull="false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Importe")
-    protected float tipoPagoImporte;
-	
-    public float getTipoPagoImporte() {
-    	return tipoPagoImporte;
-    	}
-    
-    public void setTipoPagoImporte(final float tipoPagoImporte) {
-    	this.tipoPagoImporte = tipoPagoImporte;
-    	}
-    
     @Column(allowsNull="false")
     @Property(
     		editing=Editing.DISABLED

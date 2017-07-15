@@ -11,8 +11,8 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 )
 public class PagosEfectivoRepository {
 
-    public PagosEfectivo crear(float tipoPagoImporte) {
-        final PagosEfectivo object = new PagosEfectivo(tipoPagoImporte);
+    public PagosEfectivo crear() {
+        final PagosEfectivo object = new PagosEfectivo();
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;

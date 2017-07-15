@@ -2,6 +2,7 @@ package domainapp.dom.pagoEfectivo;
 
 import java.math.BigInteger;
 
+import javax.jdo.annotations.Discriminator;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
@@ -33,6 +34,7 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
         auditing = Auditing.ENABLED
 )
 @Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
+@Discriminator(value="Efectivo")
 public class PagosEfectivo extends DetalleTipoPagos implements Comparable<PagosEfectivo> {
 	 //region > title
     public TranslatableString title() {
@@ -42,8 +44,7 @@ public class PagosEfectivo extends DetalleTipoPagos implements Comparable<PagosE
 
     public static final int NAME_LENGTH = 200;
     // Constructor
-    public PagosEfectivo(float tipoPagoImporte) {
-    	setTipoPagoImporte(tipoPagoImporte);
+    public PagosEfectivo() {
 		this.tipoPagoActivo = true;
 	}
     
@@ -58,15 +59,6 @@ public class PagosEfectivo extends DetalleTipoPagos implements Comparable<PagosE
         messageService.informUser(String.format("'%s' deleted", title));
         setTipoPagoActivo(false);
     }
-    
-	public PagosEfectivo actualizarImporte(@ParameterLayout(named="Importe") final float tipoPagoImporte){
-		setTipoPagoImporte(tipoPagoImporte);
-		return this;
-	}
-
-	public float default0ActualizarImporte(){
-		return getTipoPagoImporte();
-	}
 	
 	public PagosEfectivo actualizarActivo(@ParameterLayout(named="Activo") final boolean tipoPagoActivo){
 		setTipoPagoActivo(tipoPagoActivo);

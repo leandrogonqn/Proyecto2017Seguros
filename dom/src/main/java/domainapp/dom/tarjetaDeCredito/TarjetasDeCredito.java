@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.jdo.annotations.Column;
+import javax.jdo.annotations.Discriminator;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
@@ -44,6 +45,7 @@ import domainapp.dom.tipoTarjeta.TiposTarjetasRepository;
         auditing = Auditing.ENABLED
 )
 @Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
+@Discriminator(value="Tarjeta de Credito")
 public class TarjetasDeCredito extends DetalleTipoPagos implements Comparable<TarjetasDeCredito> {
 	 //region > title
     public TranslatableString title() {
@@ -53,13 +55,12 @@ public class TarjetasDeCredito extends DetalleTipoPagos implements Comparable<Ta
 
     public static final int NAME_LENGTH = 200;
     // Constructor
-    public TarjetasDeCredito(TiposTarjetas tarjetaDeCreditoTipoTarjeta, Bancos tarjetaDeCreditoBanco, long tarjetaDeCreditoNumero, int tarjetaDeCreditoMesVencimiento, int tarjetaDeCreditoAnioVencimiento, float tipoPagoImporte) {
+    public TarjetasDeCredito(TiposTarjetas tarjetaDeCreditoTipoTarjeta, Bancos tarjetaDeCreditoBanco, long tarjetaDeCreditoNumero, int tarjetaDeCreditoMesVencimiento, int tarjetaDeCreditoAnioVencimiento) {
     	setTarjetaDeCreditoTipoTarjeta(tarjetaDeCreditoTipoTarjeta);
     	setTarjetaDeCreditoBanco(tarjetaDeCreditoBanco);
     	setTarjetaDeCreditoNumero(tarjetaDeCreditoNumero);
     	setTarjetaDeCreditoMesVencimiento(tarjetaDeCreditoMesVencimiento);
     	setTarjetaDeCreditoAnioVencimiento(tarjetaDeCreditoAnioVencimiento);
-    	setTipoPagoImporte(tipoPagoImporte);
 		this.tipoPagoActivo = true;
 	}
     
@@ -218,15 +219,6 @@ public class TarjetasDeCredito extends DetalleTipoPagos implements Comparable<Ta
 	
 	public long default0ActualizarNumero(){
 		return getTarjetaDeCreditoNumero();
-	}
-	
-	public TarjetasDeCredito actualizarImporte(@ParameterLayout(named="Importe") final float tipoPagoImporte){
-		setTipoPagoImporte(tipoPagoImporte);
-		return this;
-	}
-
-	public float default0ActualizarImporte(){
-		return getTipoPagoImporte();
 	}
 	
 	public TarjetasDeCredito actualizarActivo(@ParameterLayout(named="Activo") final boolean tarjetaDeCreditoActivo){
