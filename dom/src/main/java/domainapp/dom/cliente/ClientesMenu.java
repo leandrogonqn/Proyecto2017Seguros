@@ -33,6 +33,9 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
+import domainapp.dom.localidad.Localidades;
+import domainapp.dom.localidad.LocalidadesRepository;
+
 
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
@@ -86,6 +89,10 @@ public class ClientesMenu {
     ) {
         return clientesRepository.buscarPorDNI(clienteDni);
     }
+    
+    public List<Localidades> choices4Crear(){
+    	return localidadesRepository.listarActivos();
+    }
 
 
     public static class CreateDomainEvent extends ActionDomainEvent<ClientesMenu> {}
@@ -96,17 +103,21 @@ public class ClientesMenu {
             @ParameterLayout(named="Apellido") final String clienteApellido,
     		@ParameterLayout(named="DNI") final int clienteDni,
     		@ParameterLayout(named="Sexo") final Sexo clienteSexo,
+    		@ParameterLayout(named="Localidad") final Localidades clienteLocalidad,
             @ParameterLayout(named="Dirección") final String clienteDireccion, 
             @ParameterLayout(named="Teléfono") final String clienteTelefono,
     		@ParameterLayout(named="E-Mail") final String clienteMail,
             //@ParameterLayout(named="CUIT/CUIL") final String clienteCuitCuil,
             @ParameterLayout(named="Fecha de Nacimiento") final Date clienteFechaNacimiento, 
             @ParameterLayout(named="Notif. Cumpleaños") final boolean clienteNotificacionCumpleanios) {
-        return clientesRepository.crear(clienteNombre, clienteApellido, clienteSexo, clienteDni, clienteDireccion, clienteTelefono, clienteMail, clienteFechaNacimiento, clienteNotificacionCumpleanios);
+        return clientesRepository.crear(clienteNombre, clienteApellido, clienteSexo, clienteLocalidad, clienteDni, clienteDireccion, clienteTelefono, clienteMail, clienteFechaNacimiento, clienteNotificacionCumpleanios);
     }
 
 
     @javax.inject.Inject
     ClientesRepository clientesRepository;
+    
+    @javax.inject.Inject
+    LocalidadesRepository localidadesRepository;
 
 }

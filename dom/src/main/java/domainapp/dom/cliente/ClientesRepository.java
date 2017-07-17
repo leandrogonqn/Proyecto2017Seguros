@@ -27,6 +27,8 @@ import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
+import domainapp.dom.localidad.Localidades;
+
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
@@ -68,8 +70,8 @@ public class ClientesRepository {
                         "clienteDni", clienteDni));
     }
 
-    public Clientes crear(final String clienteNombre, final String clienteApellido, Sexo clienteSexo, final int clienteDni, final String clienteDireccion, final String clienteTelefono, final String clienteMail, final Date clienteFechaNacimiento, final boolean clienteNotificacionCumpleanios) {
-        final Clientes object = new Clientes(clienteNombre, clienteApellido, clienteSexo, clienteDni, clienteDireccion, clienteTelefono, clienteMail, clienteFechaNacimiento, clienteNotificacionCumpleanios);
+    public Clientes crear(final String clienteNombre, final String clienteApellido, Sexo clienteSexo, Localidades clienteLocalidad, final int clienteDni, final String clienteDireccion, final String clienteTelefono, final String clienteMail, final Date clienteFechaNacimiento, final boolean clienteNotificacionCumpleanios) {
+        final Clientes object = new Clientes(clienteNombre, clienteApellido, clienteSexo, clienteLocalidad, clienteDni, clienteDireccion, clienteTelefono, clienteMail, clienteFechaNacimiento, clienteNotificacionCumpleanios);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;

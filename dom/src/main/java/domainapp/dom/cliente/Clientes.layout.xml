@@ -42,6 +42,9 @@
                                 <c:property id="clienteDni" namedEscaped="true">
                                 <c:action id="actualizarDni" position="RIGHT"></c:action>
                                 </c:property>
+                                <c:property id="clienteLocalidad" namedEscaped="true">
+                                <c:action id="actualizarLocalidad" position="RIGHT"></c:action>
+                                </c:property>
                                 <c:property id="clienteDireccion" namedEscaped="true">
                                 <c:action id="actualizarDireccion" position="RIGHT"></c:action>
                                 </c:property>

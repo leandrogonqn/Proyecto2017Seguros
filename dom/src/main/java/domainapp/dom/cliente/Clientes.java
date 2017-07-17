@@ -19,6 +19,7 @@
 package domainapp.dom.cliente;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.jdo.annotations.IdentityType;
@@ -40,6 +41,10 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
+
+import domainapp.dom.localidad.Localidades;
+import domainapp.dom.localidad.LocalidadesRepository;
+import domainapp.dom.provincia.Provincias;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -97,12 +102,13 @@ public class Clientes implements Comparable<Clientes> {
         setClienteNombre(clienteNombre);
     }
     
-    public Clientes(String clienteNombre, String clienteApellido, Sexo clienteSexo, int clienteDni, String clienteDireccion, String clienteTelefono, String clienteMail,
+    public Clientes(String clienteNombre, String clienteApellido, Sexo clienteSexo, Localidades clienteLocalidad, int clienteDni, String clienteDireccion, String clienteTelefono, String clienteMail,
 			Date clienteFechaNacimiento, boolean clienteNotificacionCumpleanios) {
 		super();
 		this.clienteNombre = clienteNombre;
 		this.clienteApellido = clienteApellido;
 		this.clienteSexo = clienteSexo;
+		this.clienteLocalidad = clienteLocalidad;
 		this.clienteDni = clienteDni;
 		this.clienteDireccion = clienteDireccion;
 		this.clienteTelefono = clienteTelefono;
@@ -159,6 +165,22 @@ public class Clientes implements Comparable<Clientes> {
 
 	public void setClienteSexo(Sexo clienteSexo) {
 		this.clienteSexo = clienteSexo;
+	}
+	
+	@javax.jdo.annotations.Column(allowsNull = "false", name="localidadId")
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Localidad")
+    private Localidades clienteLocalidad;
+
+
+	public Localidades getClienteLocalidad() {
+		return clienteLocalidad;
+	}
+
+	public void setClienteLocalidad(Localidades clienteLocalidad) {
+		this.clienteLocalidad = clienteLocalidad;
 	}
 
 
@@ -276,6 +298,19 @@ public class Clientes implements Comparable<Clientes> {
 	}	
 	
     //endregion
+	
+	public List<Localidades> choices0ActualizarLocalidad(){
+    	return localidadRepository.listarActivos();
+    }
+      
+    public Localidades default0ActualizarLocalidad() {
+    	return getClienteLocalidad();
+    }
+    
+    public Clientes actualizarLocalidad(@ParameterLayout(named="Localidades") final Localidades name) {
+        setClienteLocalidad(name);
+        return this;
+    }
 	
 	public Clientes actualizarSexo(@ParameterLayout(named="Sexo") final Sexo clienteSexo){
 		setClienteCuitCuil(GenerarCuit.generar(clienteSexo, getClienteDni()));
@@ -404,6 +439,9 @@ public class Clientes implements Comparable<Clientes> {
 
     @javax.inject.Inject
     RepositoryService repositoryService;
+    
+    @javax.inject.Inject
+    LocalidadesRepository localidadRepository;
 
     @javax.inject.Inject
     TitleService titleService;
