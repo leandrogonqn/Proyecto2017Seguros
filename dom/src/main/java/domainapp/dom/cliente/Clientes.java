@@ -102,12 +102,13 @@ public class Clientes implements Comparable<Clientes> {
         setClienteNombre(clienteNombre);
     }
     
-    public Clientes(String clienteNombre, String clienteApellido, Sexo clienteSexo, Localidades clienteLocalidad, int clienteDni, String clienteDireccion, String clienteTelefono, String clienteMail,
+    public Clientes(String clienteNombre, String clienteApellido, Sexo clienteSexo, TipoDocumento clienteTipoDocumento, Localidades clienteLocalidad, int clienteDni, String clienteDireccion, String clienteTelefono, String clienteMail,
 			Date clienteFechaNacimiento, boolean clienteNotificacionCumpleanios) {
 		super();
 		this.clienteNombre = clienteNombre;
 		this.clienteApellido = clienteApellido;
 		this.clienteSexo = clienteSexo;
+		this.clienteTipoDocumento = clienteTipoDocumento;
 		this.clienteLocalidad = clienteLocalidad;
 		this.clienteDni = clienteDni;
 		this.clienteDireccion = clienteDireccion;
@@ -167,6 +168,23 @@ public class Clientes implements Comparable<Clientes> {
 		this.clienteSexo = clienteSexo;
 	}
 	
+	@javax.jdo.annotations.Column(allowsNull = "false")
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Tipo Documento")
+	private TipoDocumento clienteTipoDocumento;
+	
+	
+	public TipoDocumento getClienteTipoDocumento() {
+		return clienteTipoDocumento;
+	}
+
+	public void setClienteTipoDocumento(TipoDocumento clienteTipoDocumento) {
+		this.clienteTipoDocumento = clienteTipoDocumento;
+	}
+
+
 	@javax.jdo.annotations.Column(allowsNull = "false", name="localidadId")
     @Property(
             editing = Editing.DISABLED
@@ -348,6 +366,16 @@ public class Clientes implements Comparable<Clientes> {
 	
 	public String default0ActualizarApellido(){
 		return getClienteApellido();
+	}
+	
+	
+	public Clientes actualizarTipoDocumento(@ParameterLayout(named="Tipo Documento") final TipoDocumento clienteTipoDocumento){
+		setClienteTipoDocumento(clienteTipoDocumento);
+		return this;
+	}
+	
+	public TipoDocumento default0ActualizarTipoDocumento(){
+		return getClienteTipoDocumento();
 	}
 	
 	public Clientes actualizarDireccion(@ParameterLayout(named="Direccion") final String clienteDireccion){

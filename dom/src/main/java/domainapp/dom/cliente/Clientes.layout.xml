@@ -36,6 +36,9 @@
                                 <c:property id="clienteApellido" namedEscaped="true">
                                 <c:action id="actualizarApellido" position="RIGHT"></c:action>
                                 </c:property>
+								<c:property id="clienteTipoDocumento" namedEscaped="true">
+                                <c:action id="actualizarTipoDocumento" position="RIGHT"></c:action>
+                                </c:property>
                                 <c:property id="clienteSexo" namedEscaped="true">
                                 <c:action id="actualizarSexo" position="RIGHT"></c:action>
                                 </c:property>

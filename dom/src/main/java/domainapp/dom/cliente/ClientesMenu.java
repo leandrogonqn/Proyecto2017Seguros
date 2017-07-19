@@ -90,7 +90,7 @@ public class ClientesMenu {
         return clientesRepository.buscarPorDNI(clienteDni);
     }
     
-    public List<Localidades> choices4Crear(){
+    public List<Localidades> choices5Crear(){
     	return localidadesRepository.listarActivos();
     }
 
@@ -101,6 +101,7 @@ public class ClientesMenu {
     public Clientes crear(
             @ParameterLayout(named="Nombre") final String clienteNombre, 
             @ParameterLayout(named="Apellido") final String clienteApellido,
+            @ParameterLayout(named="Tipo Documento") final TipoDocumento clienteTipoDocumento,
     		@ParameterLayout(named="DNI") final int clienteDni,
     		@ParameterLayout(named="Sexo") final Sexo clienteSexo,
     		@ParameterLayout(named="Localidad") final Localidades clienteLocalidad,
@@ -110,7 +111,7 @@ public class ClientesMenu {
             //@ParameterLayout(named="CUIT/CUIL") final String clienteCuitCuil,
             @ParameterLayout(named="Fecha de Nacimiento") final Date clienteFechaNacimiento, 
             @ParameterLayout(named="Notif. Cumpleaños") final boolean clienteNotificacionCumpleanios) {
-        return clientesRepository.crear(clienteNombre, clienteApellido, clienteSexo, clienteLocalidad, clienteDni, clienteDireccion, clienteTelefono, clienteMail, clienteFechaNacimiento, clienteNotificacionCumpleanios);
+        return clientesRepository.crear(clienteNombre, clienteApellido, clienteSexo,clienteTipoDocumento, clienteLocalidad, clienteDni, clienteDireccion, clienteTelefono, clienteMail, clienteFechaNacimiento, clienteNotificacionCumpleanios);
     }
 
 

@@ -70,8 +70,8 @@ public class ClientesRepository {
                         "clienteDni", clienteDni));
     }
 
-    public Clientes crear(final String clienteNombre, final String clienteApellido, Sexo clienteSexo, Localidades clienteLocalidad, final int clienteDni, final String clienteDireccion, final String clienteTelefono, final String clienteMail, final Date clienteFechaNacimiento, final boolean clienteNotificacionCumpleanios) {
-        final Clientes object = new Clientes(clienteNombre, clienteApellido, clienteSexo, clienteLocalidad, clienteDni, clienteDireccion, clienteTelefono, clienteMail, clienteFechaNacimiento, clienteNotificacionCumpleanios);
+    public Clientes crear(final String clienteNombre, final String clienteApellido, Sexo clienteSexo, TipoDocumento clienteTipoDocumento, Localidades clienteLocalidad, final int clienteDni, final String clienteDireccion, final String clienteTelefono, final String clienteMail, final Date clienteFechaNacimiento, final boolean clienteNotificacionCumpleanios) {
+        final Clientes object = new Clientes(clienteNombre, clienteApellido, clienteSexo,clienteTipoDocumento, clienteLocalidad, clienteDni, clienteDireccion, clienteTelefono, clienteMail, clienteFechaNacimiento, clienteNotificacionCumpleanios);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;
