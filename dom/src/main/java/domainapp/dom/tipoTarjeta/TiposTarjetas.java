@@ -91,7 +91,7 @@ public class TiposTarjetas implements Comparable<TiposTarjetas> {
     //region > name (read-only property)
     public static final int NAME_LENGTH = 40;
 
-	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
+	@javax.jdo.annotations.Column(length = NAME_LENGTH)
     @Property(
             editing = Editing.DISABLED
     )
@@ -106,7 +106,7 @@ public class TiposTarjetas implements Comparable<TiposTarjetas> {
 		this.tipoTarjetaNombre = tipoTarjetaNombre;
 	}
 
-	@javax.jdo.annotations.Column(allowsNull = "false")
+	@javax.jdo.annotations.Column
     @Property(
             editing = Editing.DISABLED
     )

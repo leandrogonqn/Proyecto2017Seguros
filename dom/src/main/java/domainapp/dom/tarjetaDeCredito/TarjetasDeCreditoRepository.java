@@ -26,6 +26,13 @@ public class TarjetasDeCreditoRepository {
         return object;
     }
 
+    public TarjetasDeCredito crear() {
+        final TarjetasDeCredito object = new TarjetasDeCredito();
+        serviceRegistry.injectServicesInto(object);
+        repositoryService.persist(object);
+        return object;
+    }
+    
     @javax.inject.Inject
     RepositoryService repositoryService;
     @javax.inject.Inject

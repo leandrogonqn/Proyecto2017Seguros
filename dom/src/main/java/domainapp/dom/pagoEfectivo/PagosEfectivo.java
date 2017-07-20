@@ -45,6 +45,7 @@ public class PagosEfectivo extends DetalleTipoPagos implements Comparable<PagosE
     public static final int NAME_LENGTH = 200;
     // Constructor
     public PagosEfectivo() {
+    	this.tipoPagoNombre = "Efectivo";
 		this.tipoPagoActivo = true;
 	}
     

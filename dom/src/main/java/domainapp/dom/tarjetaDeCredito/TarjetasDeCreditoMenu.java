@@ -17,10 +17,13 @@ import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.DomainServiceLayout.MenuBar;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
+import org.apache.isis.applib.annotation.Optionality;
+import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
+import org.apache.isis.applib.services.repository.RepositoryService;
 
 import domainapp.dom.banco.Bancos;
 import domainapp.dom.banco.BancosRepository;
@@ -34,7 +37,7 @@ import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
 
 
 @DomainService(
-        nature = NatureOfService.VIEW,
+        nature = NatureOfService.VIEW_MENU_ONLY,
         repositoryFor = TarjetasDeCredito.class
 )
 @DomainServiceLayout(
@@ -49,7 +52,8 @@ public class TarjetasDeCreditoMenu {
 	    public TarjetasDeCredito crear(
 	    		@ParameterLayout(named="Tipo de Tarjeta") final TiposTarjetas tipoTarjeta,
 	    		@ParameterLayout(named="Banco") final Bancos banco,
-	            @ParameterLayout(named="N° de tarjeta") final long tarjetaDeCreditoNumero,
+	    		@Parameter(optionality=Optionality.OPTIONAL) 
+	    		@ParameterLayout(named="N° de tarjeta") final long tarjetaDeCreditoNumero,
 	            @ParameterLayout(named="Mes de Vencimiento") final int tarjetaDeCreditoMesVencimiento,
 	            @ParameterLayout(named="Año de Vencimiento") final int tarjetaDeCreditoAnioVencimiento){
 	        return debitoAutomaticoRepository.crear(tipoTarjeta, banco, tarjetaDeCreditoNumero, tarjetaDeCreditoMesVencimiento, tarjetaDeCreditoAnioVencimiento);
@@ -98,5 +102,8 @@ public class TarjetasDeCreditoMenu {
 	    
 	    @Inject
 	    BancosRepository bancoRepository;
+	    
+	    @javax.inject.Inject
+	    RepositoryService repositoryService;
 
 }
