@@ -15,6 +15,7 @@ import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.Auditing;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.Optionality;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
@@ -55,7 +56,13 @@ public class TarjetasDeCredito extends DetalleTipoPagos implements Comparable<Ta
 
     public static final int NAME_LENGTH = 200;
     // Constructor
+    public TarjetasDeCredito(){
+    	this.tipoPagoNombre = "Tarjeta de Credito";
+    	this.tipoPagoActivo = true;
+    }
+    
     public TarjetasDeCredito(TiposTarjetas tarjetaDeCreditoTipoTarjeta, Bancos tarjetaDeCreditoBanco, long tarjetaDeCreditoNumero, int tarjetaDeCreditoMesVencimiento, int tarjetaDeCreditoAnioVencimiento) {
+    	this.tipoPagoNombre = "Tarjeta";
     	setTarjetaDeCreditoTipoTarjeta(tarjetaDeCreditoTipoTarjeta);
     	setTarjetaDeCreditoBanco(tarjetaDeCreditoBanco);
     	setTarjetaDeCreditoNumero(tarjetaDeCreditoNumero);
@@ -64,7 +71,7 @@ public class TarjetasDeCredito extends DetalleTipoPagos implements Comparable<Ta
 		this.tipoPagoActivo = true;
 	}
     
-    @Column(allowsNull="false", name="tipoTarjetaId")
+    @Column(name="tipoTarjetaId")
     @Property(
     		editing=Editing.DISABLED
     )
@@ -78,7 +85,7 @@ public class TarjetasDeCredito extends DetalleTipoPagos implements Comparable<Ta
 		this.tarjetaDeCreditoTipoTarjeta = tarjetaDeCreditoTipoTarjeta;
 	}
 
-	@Column(allowsNull="false", name="bancoId")
+	@Column(name="bancoId")
 	@Property(
 			editing=Editing.DISABLED
 			)
@@ -91,10 +98,10 @@ public class TarjetasDeCredito extends DetalleTipoPagos implements Comparable<Ta
 	public void setTarjetaDeCreditoBanco(Bancos tarjetaDeCreditoBanco) {
 		this.tarjetaDeCreditoBanco = tarjetaDeCreditoBanco;
 	}
-
-	@javax.jdo.annotations.Column
-    @Property(
-            editing = Editing.DISABLED
+	
+	@Property(
+            editing = Editing.DISABLED,
+            optionality=Optionality.OPTIONAL
     )
     @PropertyLayout(named="N° de Tarjeta")
 	private long tarjetaDeCreditoNumero;
@@ -235,11 +242,11 @@ public class TarjetasDeCredito extends DetalleTipoPagos implements Comparable<Ta
     //region > toString, compareTo
     @Override
     public String toString() {
-        return ObjectContracts.toString(this, "tarjetaDeCreditoNumero");
+        return ObjectContracts.toString(this, "tipoPagoNombre");
     }
     @Override
     public int compareTo(final TarjetasDeCredito other) {
-        return ObjectContracts.compare(this, other, "tarjetaDeCreditoNumero");
+        return ObjectContracts.compare(this, other, "tipoPagoNombre");
     }
 
     //endregion

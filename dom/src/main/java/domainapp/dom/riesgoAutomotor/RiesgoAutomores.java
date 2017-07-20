@@ -1,4 +1,4 @@
-package domainapp.dom.poliza;
+package domainapp.dom.riesgoAutomotor;
 
 import java.util.Date;
 
@@ -28,26 +28,15 @@ import domainapp.dom.tipoVehiculo.TipoVehiculo;
         schema = "simple",
         table = "Polizas"
 )
-@javax.jdo.annotations.DatastoreIdentity(
-        strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
-         column="polizaId")
-@javax.jdo.annotations.Queries({
-        @javax.jdo.annotations.Query(
-                name = "buscarPorNumeroPoliza", language = "JDOQL",
-                value = "SELECT "
-                        + "FROM domainapp.dom.simple.Polizas "
-                        + "WHERE polizaNumero.toLowerCase().indexOf(:polizaNumero) >= 0 ")
-})
-@javax.jdo.annotations.Unique(name="Polizas_polizaNumero_UNQ", members = {"polizaNumero"})
 @DomainObject(
         publishing = Publishing.ENABLED,
         auditing = Auditing.ENABLED
 )
-public class Polizas implements Comparable<Polizas> {
+public class RiesgoAutomores implements Comparable<RiesgoAutomores> {
 	
 	 //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("{name}", "name","Poliza N°: " + getPolizaNumero());
+        return TranslatableString.tr("{name}", "name", getPolizaNumero());
     }
     //endregion
 
@@ -143,7 +132,7 @@ public class Polizas implements Comparable<Polizas> {
     @PropertyLayout(named="polizaNumero")
 	private String polizaNumero;
 
-	public Polizas(String polizaNumero, Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
+	public RiesgoAutomores(String polizaNumero, Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
 			Date polizaFechaVencimientoPago, double polizaPrecioTotal, Clientes cliente) {
 		this.polizaNumero = polizaNumero;
 		this.polizaFechaEmision = polizaFechaEmision;
@@ -202,7 +191,7 @@ public class Polizas implements Comparable<Polizas> {
     //endregion
     
     //region > delete (action)
-    public static class DeleteDomainEvent extends ActionDomainEvent<Polizas> {}
+    public static class DeleteDomainEvent extends ActionDomainEvent<RiesgoAutomores> {}
     @Action(
             domainEvent = DeleteDomainEvent.class,
             semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
@@ -217,7 +206,7 @@ public class Polizas implements Comparable<Polizas> {
         return ObjectContracts.toString(this, "polizaNumero");
     }
     @Override
-    public int compareTo(final Polizas other) {
+    public int compareTo(final RiesgoAutomores other) {
         return ObjectContracts.compare(this, other, "polizaNumero");
     }
 

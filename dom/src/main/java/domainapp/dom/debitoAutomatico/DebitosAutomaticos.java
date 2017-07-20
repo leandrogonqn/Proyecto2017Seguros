@@ -50,13 +50,19 @@ public class DebitosAutomaticos extends DetalleTipoPagos implements Comparable<D
 
     public static final int NAME_LENGTH = 200;
     // Constructor
+    public DebitosAutomaticos() {
+    	this.tipoPagoNombre = "Debito Automatico";
+		this.tipoPagoActivo = true;
+	}
+    
     public DebitosAutomaticos(Bancos debitoAutomaticoBanco, BigInteger debitoAutomaticoCbu) {
+    	this.tipoPagoNombre = "Debito Automatico";
     	setDebitoAutomaticoBanco(debitoAutomaticoBanco);
     	setDebitoAutomaticoCbu(debitoAutomaticoCbu);
 		this.tipoPagoActivo = true;
 	}
     
-    @Column(allowsNull="false", name="bancoId")
+    @Column(name="bancoId")
     @Property(
     		editing=Editing.DISABLED
     )
