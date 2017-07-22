@@ -20,7 +20,6 @@ import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import domainapp.dom.cliente.Clientes;
-import domainapp.dom.tipoVehiculo.TipoVehiculo;
 
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -36,112 +35,32 @@ import domainapp.dom.tipoVehiculo.TipoVehiculo;
                 name = "buscarPorNumeroPoliza", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Polizas "
-                        + "WHERE polizaNumero.toLowerCase().indexOf(:polizaNumero) >= 0 ")
+                        + "WHERE polizaNumero == :polizaNumero"),
+        @javax.jdo.annotations.Query(
+                name = "listarActivo", language = "JDOQL",
+                value = "SELECT "
+                        + "FROM domainapp.dom.simple.Polizas "
+                        + "WHERE polizaActivo == true"),
+        @javax.jdo.annotations.Query(
+                name = "buscarPorCliente", language = "JDOQL",
+                value = "SELECT "
+                        + "FROM domainapp.dom.simple.Polizas "
+                        + "WHERE cliente == :cliente")
 })
 @javax.jdo.annotations.Unique(name="Polizas_polizaNumero_UNQ", members = {"polizaNumero"})
 @DomainObject(
         publishing = Publishing.ENABLED,
         auditing = Auditing.ENABLED
 )
-public class Polizas implements Comparable<Polizas> {
+public abstract class Polizas implements Comparable<Polizas> {
 	
 	 //region > title
     public TranslatableString title() {
         return TranslatableString.tr("{name}", "name","Poliza N°: " + getPolizaNumero());
     }
     //endregion
-
-
-    public String getPolizaNumero() {
-		return polizaNumero;
-	}
-
-	public void setPolizaNumero(String polizaNumero) {
-		this.polizaNumero = polizaNumero;
-	}
-
-	public Date getPolizaFechaEmision() {
-		return polizaFechaEmision;
-	}
-
-	public void setPolizaFechaEmision(Date polizaFechaEmision) {
-		this.polizaFechaEmision = polizaFechaEmision;
-	}
-
-	public Date getPolizaFechaVigencia() {
-		return polizaFechaVigencia;
-	}
-
-	public void setPolizaFechaVigencia(Date polizaFechaVigencia) {
-		this.polizaFechaVigencia = polizaFechaVigencia;
-	}
-
-	public Date getPolizaFechaVencimiento() {
-		return polizaFechaVencimiento;
-	}
-
-	public void setPolizaFechaVencimiento(Date polizaFechaVencimiento) {
-		this.polizaFechaVencimiento = polizaFechaVencimiento;
-	}
-
-	public Date getPolizaFechaVencimientoPago() {
-		return polizaFechaVencimientoPago;
-	}
-
-	public void setPolizaFechaVencimientoPago(Date polizaFechaVencimientoPago) {
-		this.polizaFechaVencimientoPago = polizaFechaVencimientoPago;
-	}
-
-	public Date getPolizaFechaBaja() {
-		return polizaFechaBaja;
-	}
-
-	public void setPolizaFechaBaja(Date polizaFechaBaja) {
-		this.polizaFechaBaja = polizaFechaBaja;
-	}
-
-	public String getPolizaMotivoBaja() {
-		return polizaMotivoBaja;
-	}
-
-	public void setPolizaMotivoBaja(String polizaMotivoBaja) {
-		this.polizaMotivoBaja = polizaMotivoBaja;
-	}
-
-	public double getPolizaPrecioTotal() {
-		return polizaPrecioTotal;
-	}
-
-	public void setPolizaPrecioTotal(double polizaPrecioTotal) {
-		this.polizaPrecioTotal = polizaPrecioTotal;
-	}
-
-	@javax.jdo.annotations.Column(allowsNull = "false", name="clienteId")
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Cliente")
-	private Clientes cliente;
-
-	public Clientes getCliente() {
-		return cliente;
-	}
-
-
-	public void setCliente(Clientes cliente) {
-		this.cliente = cliente;
-	}
-
-	public static final int NAME_LENGTH = 200;
-    // Constructor
-
     
-	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="polizaNumero")
-	private String polizaNumero;
+	// Constructor
 
 	public Polizas(String polizaNumero, Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
 			Date polizaFechaVencimientoPago, double polizaPrecioTotal, Clientes cliente) {
@@ -153,8 +72,42 @@ public class Polizas implements Comparable<Polizas> {
 		this.polizaPrecioTotal = polizaPrecioTotal;
 		this.cliente = cliente;
 	}
+	
+	public static final int NAME_LENGTH = 200;
+	
+	//Clientes
+	@javax.jdo.annotations.Column(allowsNull = "false", name="clienteId")
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Cliente")
+	private Clientes cliente;
 
+	public Clientes getCliente() {
+		return cliente;
+	}
 
+	public void setCliente(Clientes cliente) {
+		this.cliente = cliente;
+	}
+
+	//Poliza Numero
+	@javax.jdo.annotations.Column(allowsNull = "false")
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="polizaNumero")
+	private String polizaNumero;
+	
+    public String getPolizaNumero() {
+		return polizaNumero;
+	}
+
+	public void setPolizaNumero(String polizaNumero) {
+		this.polizaNumero = polizaNumero;
+	}
+
+	//Fecha Emision
 	@javax.jdo.annotations.Column(allowsNull = "false")
     @Property(
             editing = Editing.DISABLED
@@ -162,43 +115,104 @@ public class Polizas implements Comparable<Polizas> {
     @PropertyLayout(named="polizaFechaEmision")
 	private Date polizaFechaEmision;
 	
+	public Date getPolizaFechaEmision() {
+		return polizaFechaEmision;
+	}
+
+	public void setPolizaFechaEmision(Date polizaFechaEmision) {
+		this.polizaFechaEmision = polizaFechaEmision;
+	}
+
+	//Fecha Vigencia
 	@javax.jdo.annotations.Column(allowsNull = "false")
     @Property(
             editing = Editing.DISABLED
     )
 	private Date polizaFechaVigencia;
 	
+	public Date getPolizaFechaVigencia() {
+		return polizaFechaVigencia;
+	}
+
+	public void setPolizaFechaVigencia(Date polizaFechaVigencia) {
+		this.polizaFechaVigencia = polizaFechaVigencia;
+	}
+	
+	//Fecha Vencimiento
 	@javax.jdo.annotations.Column(allowsNull = "false")
     @Property(
             editing = Editing.DISABLED
     )
 	private Date polizaFechaVencimiento;
 	
+	public Date getPolizaFechaVencimiento() {
+		return polizaFechaVencimiento;
+	}
+
+	public void setPolizaFechaVencimiento(Date polizaFechaVencimiento) {
+		this.polizaFechaVencimiento = polizaFechaVencimiento;
+	}
+	
+	//Fecha Vencimiento Pago
 	@javax.jdo.annotations.Column(allowsNull = "false")
     @Property(
             editing = Editing.DISABLED
     )
 	private Date polizaFechaVencimientoPago;
-	
+
+	public Date getPolizaFechaVencimientoPago() {
+		return polizaFechaVencimientoPago;
+	}
+
+	public void setPolizaFechaVencimientoPago(Date polizaFechaVencimientoPago) {
+		this.polizaFechaVencimientoPago = polizaFechaVencimientoPago;
+	}
+
+	//Fecha Baja
 	@javax.jdo.annotations.Column(allowsNull = "false")
     @Property(
             editing = Editing.DISABLED
     )
 	private Date polizaFechaBaja;
 	
+	public Date getPolizaFechaBaja() {
+		return polizaFechaBaja;
+	}
+
+	public void setPolizaFechaBaja(Date polizaFechaBaja) {
+		this.polizaFechaBaja = polizaFechaBaja;
+	}
+
+	//Motivo Baja
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
     @Property(
             editing = Editing.DISABLED
     )
 	private String polizaMotivoBaja;
 	
+	public String getPolizaMotivoBaja() {
+		return polizaMotivoBaja;
+	}
+
+	public void setPolizaMotivoBaja(String polizaMotivoBaja) {
+		this.polizaMotivoBaja = polizaMotivoBaja;
+	}
+
+	//Precio Total
 	@javax.jdo.annotations.Column(allowsNull = "false")
     @Property(
             editing = Editing.DISABLED
     )
-	
 	private double polizaPrecioTotal; 
 	
+	public double getPolizaPrecioTotal() {
+		return polizaPrecioTotal;
+	}
+
+	public void setPolizaPrecioTotal(double polizaPrecioTotal) {
+		this.polizaPrecioTotal = polizaPrecioTotal;
+	}
+
     //endregion
     
     //region > delete (action)
@@ -207,8 +221,6 @@ public class Polizas implements Comparable<Polizas> {
             domainEvent = DeleteDomainEvent.class,
             semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
     )
-
-    
     //endregion
 
     //region > toString, compareTo
@@ -220,7 +232,6 @@ public class Polizas implements Comparable<Polizas> {
     public int compareTo(final Polizas other) {
         return ObjectContracts.compare(this, other, "polizaNumero");
     }
-
     //endregion
 
     //region > injected dependencies
@@ -234,7 +245,5 @@ public class Polizas implements Comparable<Polizas> {
     @javax.inject.Inject
     MessageService messageService;
 
-
     //endregion
-
 }

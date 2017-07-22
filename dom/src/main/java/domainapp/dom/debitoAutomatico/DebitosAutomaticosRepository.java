@@ -19,8 +19,8 @@ import domainapp.dom.banco.Bancos;
 )
 public class DebitosAutomaticosRepository {
 
-    public DebitosAutomaticos crear(Bancos debitoAutomaticoBanco, BigInteger debitoAutomaticoCbu) {
-        final DebitosAutomaticos object = new DebitosAutomaticos(debitoAutomaticoBanco, debitoAutomaticoCbu);
+    public DebitosAutomaticos crear(String tipoPagoTitular, Bancos debitoAutomaticoBanco, BigInteger debitoAutomaticoCbu) {
+        final DebitosAutomaticos object = new DebitosAutomaticos(tipoPagoTitular, debitoAutomaticoBanco, debitoAutomaticoCbu);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;

@@ -43,9 +43,10 @@ public class DebitosAutomaticosMenu {
 	    @Action(domainEvent = CreateDomainEvent.class)
 	    @MemberOrder(sequence = "1.2")
 	    public DebitosAutomaticos crear(
+	    		@ParameterLayout(named="Titular") final String tipoPagoTitular,
 	    		@ParameterLayout(named="Banco") final Bancos debitoAutomaticoBanco,
 	            @ParameterLayout(named="CBU") final BigInteger debitoAutomaticoCbu){
-	        return debitoAutomaticoRepository.crear(debitoAutomaticoBanco, debitoAutomaticoCbu);
+	        return debitoAutomaticoRepository.crear(tipoPagoTitular, debitoAutomaticoBanco, debitoAutomaticoCbu);
 	    }
 	    
 	    public List<Bancos> choices0Crear(){

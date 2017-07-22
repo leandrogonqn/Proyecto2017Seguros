@@ -31,12 +31,15 @@
                     <bs3:row>
                         <bs3:col span="6">
                             <c:fieldSet name="Nombre">
-                                <c:action id="borrarTarjetaDeCredito"/>                
+                                <c:action id="borrarTarjetaDeCredito"/> 
+                                <c:property id="tipoPagoTitular" namedEscaped="true">
+                                <c:action id="actualizarTipoPagoTitular" position="RIGHT"></c:action>
+                                </c:property>               
                                 <c:property id="tarjetaDeCreditoTipoTarjeta" namedEscaped="true">
                                 <c:action id="actualizarTarjetaDeCreditoTipoTarjeta" position="RIGHT"></c:action>
                                 </c:property>
-                                <c:property id="tarjetaDeCreditoBanco" namedEscaped="true">
-                                <c:action id="actualizarTarjetaDeCreditoBanco" position="RIGHT"></c:action>
+                                <c:property id="tipoPagoBanco" namedEscaped="true">
+                                <c:action id="actualizarTipoPagoBanco" position="RIGHT"></c:action>
                                 </c:property>                
                                 <c:property id="tarjetaDeCreditoNumero" namedEscaped="true">
                                 <c:action id="actualizarNumero" position="RIGHT"></c:action>

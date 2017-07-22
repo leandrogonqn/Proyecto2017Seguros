@@ -50,13 +50,14 @@ public class TarjetasDeCreditoMenu {
 	    @Action(domainEvent = CreateDomainEvent.class)
 	    @MemberOrder(sequence = "1.2")
 	    public TarjetasDeCredito crear(
+	    		@ParameterLayout(named="Titular") final String tipoPagoTitular,
 	    		@ParameterLayout(named="Tipo de Tarjeta") final TiposTarjetas tipoTarjeta,
 	    		@ParameterLayout(named="Banco") final Bancos banco,
 	    		@Parameter(optionality=Optionality.OPTIONAL) 
 	    		@ParameterLayout(named="N° de tarjeta") final long tarjetaDeCreditoNumero,
 	            @ParameterLayout(named="Mes de Vencimiento") final int tarjetaDeCreditoMesVencimiento,
 	            @ParameterLayout(named="Año de Vencimiento") final int tarjetaDeCreditoAnioVencimiento){
-	        return debitoAutomaticoRepository.crear(tipoTarjeta, banco, tarjetaDeCreditoNumero, tarjetaDeCreditoMesVencimiento, tarjetaDeCreditoAnioVencimiento);
+	        return debitoAutomaticoRepository.crear(tipoPagoTitular, tipoTarjeta, banco, tarjetaDeCreditoNumero, tarjetaDeCreditoMesVencimiento, tarjetaDeCreditoAnioVencimiento);
 	    }
 	    
 	    public List<TiposTarjetas> choices0Crear(){

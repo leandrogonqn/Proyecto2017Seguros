@@ -44,7 +44,7 @@ import domainapp.dom.tarjetaDeCredito.TarjetasDeCredito;
 public class DebitosAutomaticos extends DetalleTipoPagos implements Comparable<DebitosAutomaticos> {
 	 //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("{name}", "name","Debito Automatico CBU:" + getDebitoAutomaticoCbu());
+        return TranslatableString.tr("{name}", "name","Debito Automatico - Titular: " + getTipoPagoTitular() + " - CBU:" + getDebitoAutomaticoCbu());
     }
     //endregion
 
@@ -55,27 +55,16 @@ public class DebitosAutomaticos extends DetalleTipoPagos implements Comparable<D
 		this.tipoPagoActivo = true;
 	}
     
-    public DebitosAutomaticos(Bancos debitoAutomaticoBanco, BigInteger debitoAutomaticoCbu) {
+    public DebitosAutomaticos(
+    		String tipoPagoTitular,
+    		Bancos tipoPagoBanco, 
+    		BigInteger debitoAutomaticoCbu) {
     	this.tipoPagoNombre = "Debito Automatico";
-    	setDebitoAutomaticoBanco(debitoAutomaticoBanco);
+    	setTipoPagoTitular(tipoPagoTitular);
+    	setTipoPagoBanco(tipoPagoBanco); 
     	setDebitoAutomaticoCbu(debitoAutomaticoCbu);
 		this.tipoPagoActivo = true;
 	}
-    
-    @Column(name="bancoId")
-    @Property(
-    		editing=Editing.DISABLED
-    )
-    @PropertyLayout(named="Banco")
-    private Bancos debitoAutomaticoBanco;
-    
-    public Bancos getDebitoAutomaticoBanco() {
-		return debitoAutomaticoBanco;
-	}
-	public void setDebitoAutomaticoBanco(Bancos debitoAutomaticoBanco) {
-		this.debitoAutomaticoBanco = debitoAutomaticoBanco;
-	}
-
 
 	@javax.jdo.annotations.Column
     @Property(
@@ -105,16 +94,25 @@ public class DebitosAutomaticos extends DetalleTipoPagos implements Comparable<D
         setTipoPagoActivo(false);
     }
     
-    public DebitosAutomaticos actualizarDebitoAutomaticoBanco(@ParameterLayout(named="Banco") final Bancos debitoAutomaticoBanco){
-    	setDebitoAutomaticoBanco(debitoAutomaticoBanco);
+	public DebitosAutomaticos actualizarTipoPagoTitular(@ParameterLayout(named="Titular") final String tipoPagoTitular){
+		setTipoPagoTitular(tipoPagoTitular);
+		return this;
+	}
+	
+	public String default0ActualizarTipoPagoTitular(){
+		return getTipoPagoTitular();
+	}
+	
+    public DebitosAutomaticos actualizarTipoPagoBanco(@ParameterLayout(named="Banco") final Bancos tipoPagoBanco){
+    	setTipoPagoBanco(tipoPagoBanco);
     	return this;
     }
     
-    public Bancos default0ActualizarDebitoAutomaticoBanco(){
-    	return getDebitoAutomaticoBanco();
+    public Bancos default0ActualizarTipoPagoBanco(){
+    	return getTipoPagoBanco();
     }
     
-    public List<Bancos> choices0ActualizarDebitoAutomaticoBanco(){
+    public List<Bancos> choices0ActualizarTipoPagoBanco(){
     	return debitoAutomaticoBancosRepository.listarActivos();
     }
     

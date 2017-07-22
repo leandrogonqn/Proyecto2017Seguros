@@ -13,6 +13,8 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 
+import domainapp.dom.banco.Bancos;
+
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
         schema = "simple",
@@ -22,6 +24,11 @@ import org.apache.isis.applib.services.i18n.TranslatableString;
         strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
          column="detalleTipoPagoId")
 @javax.jdo.annotations.Queries({
+    @javax.jdo.annotations.Query(
+            name = "buscarPorTitular", language = "JDOQL",
+            value = "SELECT "
+                    + "FROM domainapp.dom.simple.DetalleTipoPago "
+                    + "WHERE tipoPagoTitular.toLowerCase().indexOf(:tipoPagoTitular) >= 0 "),
     @javax.jdo.annotations.Query(
             name = "listarActivos", language = "JDOQL",
             value = "SELECT "
@@ -61,6 +68,35 @@ public abstract class DetalleTipoPagos {
 
 	public void setTipoPagoNombre(String tipoPagoNombre) {
 		this.tipoPagoNombre = tipoPagoNombre;
+	}
+	
+	@Column
+	@Property(
+			editing=Editing.DISABLED
+	)
+	@PropertyLayout(named="Titular")
+	protected String tipoPagoTitular;
+	    
+	public String getTipoPagoTitular() {
+		return tipoPagoTitular;
+	}
+
+	public void setTipoPagoTitular(String tipoPagoTitular) {
+		this.tipoPagoTitular = tipoPagoTitular;
+	}
+	
+	@Column(name="bancoId")
+	@Property(
+			editing=Editing.DISABLED
+			)
+	@PropertyLayout(named="Banco")
+	private Bancos tipoPagoBanco;
+	
+	public Bancos getTipoPagoBanco() {
+		return tipoPagoBanco;
+	}
+	public void setTipoPagoBanco(Bancos tipoPagoBanco) {
+		this.tipoPagoBanco = tipoPagoBanco;
 	}
     
 }
