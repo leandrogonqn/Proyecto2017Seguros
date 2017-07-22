@@ -15,6 +15,7 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.DomainServiceLayout.MenuBar;
+import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.Optionality;
@@ -31,6 +32,7 @@ import domainapp.dom.cliente.Clientes;
 import domainapp.dom.cliente.ClientesMenu;
 import domainapp.dom.cliente.ClientesRepository;
 import domainapp.dom.cliente.Sexo;
+import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
 import domainapp.dom.tipoTarjeta.TiposTarjetas;
 import domainapp.dom.tipoTarjeta.TiposTarjetasRepository;
 import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
@@ -60,15 +62,15 @@ public class TarjetasDeCreditoMenu {
 	        return debitoAutomaticoRepository.crear(tipoPagoTitular, tipoTarjeta, banco, tarjetaDeCreditoNumero, tarjetaDeCreditoMesVencimiento, tarjetaDeCreditoAnioVencimiento);
 	    }
 	    
-	    public List<TiposTarjetas> choices0Crear(){
+	    public List<TiposTarjetas> choices1Crear(){
 	    	return tipoTarjetasRepository.listarActivos();
 	    }
 	    
-	    public List<Bancos> choices1Crear(){
+	    public List<Bancos> choices2Crear(){
 	    	return bancoRepository.listarActivos();
 	    }
 	    
-	    public Collection<Integer> choices3Crear(){
+	    public Collection<Integer> choices4Crear(){
 	    	ArrayList<Integer> numbers = new ArrayList<Integer>();
 	    	for (int i = 1; i <= 12 ; i++){
 	    		numbers.add(i);
@@ -76,7 +78,7 @@ public class TarjetasDeCreditoMenu {
 	    	return numbers;
 	    }
 	    
-	    public Collection<Integer> choices4Crear(){
+	    public Collection<Integer> choices5Crear(){
 	    	ArrayList<Integer> numbers = new ArrayList<Integer>();
 	    	Calendar hoy= Calendar.getInstance(); 
 	    	int año= hoy.get(Calendar.YEAR); 
@@ -94,7 +96,21 @@ public class TarjetasDeCreditoMenu {
 	    @MemberOrder(sequence="1.1")
 	    @ActionLayout(named="Tarjeta de Credito")
 	    public void titulo(){}
-
+	    
+	    @Action(semantics = SemanticsOf.SAFE)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")
+	    @MemberOrder(sequence = "5")
+	    public List<DetalleTipoPagos> buscarPorTitular(
+	            @ParameterLayout(named="Titular")
+	            final String tipoPagoTitular
+	    ) {
+	        return repositoryService.allMatches(
+	                new QueryDefault<>(
+	                		DetalleTipoPagos.class,
+	                        "buscarPorTitular",
+	                        "tipoPagoTitular", tipoPagoTitular.toLowerCase()));
+	    }
+	    
 	    @javax.inject.Inject
 	    TarjetasDeCreditoRepository debitoAutomaticoRepository;
 	    
@@ -106,5 +122,7 @@ public class TarjetasDeCreditoMenu {
 	    
 	    @javax.inject.Inject
 	    RepositoryService repositoryService;
+	    
+	    
 
 }

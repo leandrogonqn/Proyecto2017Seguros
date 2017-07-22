@@ -49,7 +49,7 @@ public class DebitosAutomaticosMenu {
 	        return debitoAutomaticoRepository.crear(tipoPagoTitular, debitoAutomaticoBanco, debitoAutomaticoCbu);
 	    }
 	    
-	    public List<Bancos> choices0Crear(){
+	    public List<Bancos> choices1Crear(){
 	    	return debitoAutomaticoBancoRepository.listarActivos();
 	    }
 

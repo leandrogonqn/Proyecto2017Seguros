@@ -1,5 +1,7 @@
 package domainapp.dom.detalleTipoPago;
 
+import java.util.List;
+
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Discriminator;
 import javax.jdo.annotations.DiscriminatorStrategy;
@@ -11,7 +13,9 @@ import javax.jdo.annotations.NotPersistent;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
+import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.i18n.TranslatableString;
+import org.apache.isis.applib.services.repository.RepositoryService;
 
 import domainapp.dom.banco.Bancos;
 
@@ -60,7 +64,7 @@ public abstract class DetalleTipoPagos {
 	)
     @PropertyLayout(named="Nombre")
     @NotPersistent
-    protected String tipoPagoNombre;
+	protected String tipoPagoNombre;
     
 	public String getTipoPagoNombre() {
 		return tipoPagoNombre;
@@ -98,5 +102,5 @@ public abstract class DetalleTipoPagos {
 	public void setTipoPagoBanco(Bancos tipoPagoBanco) {
 		this.tipoPagoBanco = tipoPagoBanco;
 	}
-    
+	
 }
