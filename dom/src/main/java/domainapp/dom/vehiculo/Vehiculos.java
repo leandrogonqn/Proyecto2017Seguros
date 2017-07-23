@@ -33,7 +33,7 @@ import domainapp.dom.tipoVehiculo.TipoVehiculo;
 )
 @javax.jdo.annotations.DatastoreIdentity(
         strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
-         column="vechiculoId")
+         column="vehiculoId")
 @javax.jdo.annotations.Queries({
         @javax.jdo.annotations.Query(
                 name = "buscarPorDominio", language = "JDOQL",

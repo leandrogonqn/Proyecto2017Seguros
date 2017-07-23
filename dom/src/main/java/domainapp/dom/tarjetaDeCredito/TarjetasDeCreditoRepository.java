@@ -1,12 +1,7 @@
 package domainapp.dom.tarjetaDeCredito;
 
-import java.util.List;
-
-import javax.xml.ws.Action;
-
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
-import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
@@ -19,8 +14,8 @@ import domainapp.dom.tipoTarjeta.TiposTarjetas;
 )
 public class TarjetasDeCreditoRepository {
 
-    public TarjetasDeCredito crear(TiposTarjetas tipoTarjeta, Bancos banco, long tarjetaDeCreditoNumero, int tarjetaDeCreditoMesVencimiento, int tarjetaDeCreditoAnioVencimiento) {
-        final TarjetasDeCredito object = new TarjetasDeCredito(tipoTarjeta, banco, tarjetaDeCreditoNumero, tarjetaDeCreditoMesVencimiento, tarjetaDeCreditoAnioVencimiento);
+    public TarjetasDeCredito crear(String tipoPagoTitular, TiposTarjetas tipoTarjeta, Bancos banco, long tarjetaDeCreditoNumero, int tarjetaDeCreditoMesVencimiento, int tarjetaDeCreditoAnioVencimiento) {
+        final TarjetasDeCredito object = new TarjetasDeCredito(tipoPagoTitular, tipoTarjeta, banco, tarjetaDeCreditoNumero, tarjetaDeCreditoMesVencimiento, tarjetaDeCreditoAnioVencimiento);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;

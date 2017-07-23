@@ -75,7 +75,7 @@ public class Marcas implements Comparable<Marcas> {
     // Constructor
     public Marcas(String marcaNombre) {
 		setMarcasNombre(marcaNombre);
-		this.marcaActivo = true;
+		setMarcaActivo(true);
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)

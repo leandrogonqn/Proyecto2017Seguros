@@ -442,13 +442,8 @@ public class Clientes implements Comparable<Clientes> {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
         setClienteActivo(false);
-//        repositoryService.remove(this);
     }
-    
-//    public void borrarCliente(){
-//    	setClienteActivo(false);
-//    }
-
+   
     //endregion
 
     //region > toString, compareTo

@@ -32,14 +32,18 @@
                         <bs3:col span="6">
                             <c:fieldSet name="Nombre">
                                 <c:action id="borrarDebitoAutomatico"/>
-                                <c:property id="debitoAutomaticoBanco" namedEscaped="true">
-                                <c:action id="actualizarDebitoAutomaticoBanco" position="RIGHT"></c:action>
+                                <c:property id="tipoPagoNombre" namedEscaped="true"/>
+                                <c:property id="tipoPagoTitular" namedEscaped="true">
+                                <c:action id="actualizarTipoPagoTitular" position="RIGHT"></c:action>
+                                </c:property>
+                                <c:property id="tipoPagoBanco" namedEscaped="true">
+                                <c:action id="actualizarTipoPagoBanco" position="RIGHT"></c:action>
                                 </c:property>
                                 <c:property id="debitoAutomaticoCbu" namedEscaped="true">
                                 <c:action id="actualizarCbu" position="RIGHT"></c:action>
                                 </c:property>
-                                <c:property id="tipoPagoImporte" namedEscaped="true">
-                                <c:action id="actualizarImporte" position="RIGHT"></c:action>
+                                <c:property id="tipoPagoActivo" namedEscaped="true">
+                                <c:action id="actualizarActivo" position="RIGHT"></c:action>
                                 </c:property>
                             </c:fieldSet>
                         </bs3:col>

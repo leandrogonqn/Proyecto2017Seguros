@@ -50,7 +50,7 @@ import domainapp.dom.tipoTarjeta.TiposTarjetasRepository;
 public class TarjetasDeCredito extends DetalleTipoPagos implements Comparable<TarjetasDeCredito> {
 	 //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("{name}", "name", "Tarjeta de Credito N° :" + getTarjetaDeCreditoNumero());
+        return TranslatableString.tr("{name}", "name", "Tarjeta de Credito  - Titular: " + getTipoPagoTitular() + " - N°:" + getTarjetaDeCreditoNumero());
     }
     //endregion
 
@@ -61,10 +61,17 @@ public class TarjetasDeCredito extends DetalleTipoPagos implements Comparable<Ta
     	this.tipoPagoActivo = true;
     }
     
-    public TarjetasDeCredito(TiposTarjetas tarjetaDeCreditoTipoTarjeta, Bancos tarjetaDeCreditoBanco, long tarjetaDeCreditoNumero, int tarjetaDeCreditoMesVencimiento, int tarjetaDeCreditoAnioVencimiento) {
+    public TarjetasDeCredito(
+    		String tipoPagoTitular,
+    		TiposTarjetas tarjetaDeCreditoTipoTarjeta, 
+    		Bancos tipoPagoBanco, 
+    		long tarjetaDeCreditoNumero, 
+    		int tarjetaDeCreditoMesVencimiento, 
+    		int tarjetaDeCreditoAnioVencimiento) {
     	this.tipoPagoNombre = "Tarjeta";
+    	setTipoPagoTitular(tipoPagoTitular);
     	setTarjetaDeCreditoTipoTarjeta(tarjetaDeCreditoTipoTarjeta);
-    	setTarjetaDeCreditoBanco(tarjetaDeCreditoBanco);
+    	setTipoPagoBanco(tipoPagoBanco);
     	setTarjetaDeCreditoNumero(tarjetaDeCreditoNumero);
     	setTarjetaDeCreditoMesVencimiento(tarjetaDeCreditoMesVencimiento);
     	setTarjetaDeCreditoAnioVencimiento(tarjetaDeCreditoAnioVencimiento);
@@ -85,20 +92,6 @@ public class TarjetasDeCredito extends DetalleTipoPagos implements Comparable<Ta
 		this.tarjetaDeCreditoTipoTarjeta = tarjetaDeCreditoTipoTarjeta;
 	}
 
-	@Column(name="bancoId")
-	@Property(
-			editing=Editing.DISABLED
-			)
-	@PropertyLayout(named="Banco")
-	private Bancos tarjetaDeCreditoBanco;
-	
-	public Bancos getTarjetaDeCreditoBanco() {
-		return tarjetaDeCreditoBanco;
-	}
-	public void setTarjetaDeCreditoBanco(Bancos tarjetaDeCreditoBanco) {
-		this.tarjetaDeCreditoBanco = tarjetaDeCreditoBanco;
-	}
-	
 	@Property(
             editing = Editing.DISABLED,
             optionality=Optionality.OPTIONAL
@@ -155,6 +148,15 @@ public class TarjetasDeCredito extends DetalleTipoPagos implements Comparable<Ta
         setTipoPagoActivo(false);
     }
     
+	public TarjetasDeCredito actualizarTipoPagoTitular(@ParameterLayout(named="Titular") final String tipoPagoTitular){
+		setTipoPagoTitular(tipoPagoTitular);
+		return this;
+	}
+	
+	public String default0ActualizarTipoPagoTitular(){
+		return getTipoPagoTitular();
+	}
+    
     public TarjetasDeCredito actualizarTarjetaDeCreditoTipoTarjeta(@ParameterLayout(named="Tipo de Tarjeta") final TiposTarjetas tarjetaDeCreditoTipoTarjeta){
     	setTarjetaDeCreditoTipoTarjeta(tarjetaDeCreditoTipoTarjeta);
     	return this;
@@ -168,16 +170,16 @@ public class TarjetasDeCredito extends DetalleTipoPagos implements Comparable<Ta
     	return tarjetaDeCreditoTipoTarjetaRepository.listarActivos();
     }
     
-    public TarjetasDeCredito actualizarTarjetaDeCreditoBanco(@ParameterLayout(named="Banco") final Bancos tarjetaDeCreditoBanco){
-    	setTarjetaDeCreditoBanco(tarjetaDeCreditoBanco);
+    public TarjetasDeCredito actualizarTipoPagoBanco(@ParameterLayout(named="Banco") final Bancos tipoPagoBanco){
+    	setTipoPagoBanco(tipoPagoBanco);
     	return this;
     }
     
-    public Bancos default0ActualizarTarjetaDeCreditoBanco(){
-    	return getTarjetaDeCreditoBanco();
+    public Bancos default0ActualizarTipoPagoBanco(){
+    	return getTipoPagoBanco();
     }
     
-    public List<Bancos> choices0ActualizarTarjetaDeCreditoBanco(){
+    public List<Bancos> choices0ActualizarTipoPagoBanco(){
     	return tarjetaDeCreditoBancosRepository.listarActivos();
     }
     

@@ -32,7 +32,8 @@
                         <bs3:col span="6">
                             <c:fieldSet name="Nombre">
                                 <c:action id="borrarPagoEfectivo"/>
-                                <c:property id="tipoPagoActivo" namedEscaped="true">
+                                <c:property id="tipoPagoNombre" namedEscaped="true"/>
+								<c:property id="tipoPagoActivo" namedEscaped="true">
                                 <c:action id="actualizarActivo" position="RIGHT"></c:action>
                                 </c:property>
                             </c:fieldSet>
