@@ -44,7 +44,7 @@ import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
 )
 @DomainServiceLayout(
         named = "Tipo de pago",
-        menuOrder = "10.1"
+        menuOrder = "10.3"
 )
 public class TarjetasDeCreditoMenu {
 	
@@ -96,20 +96,6 @@ public class TarjetasDeCreditoMenu {
 	    @MemberOrder(sequence="1.1")
 	    @ActionLayout(named="Tarjeta de Credito")
 	    public void titulo(){}
-	    
-	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")
-	    @MemberOrder(sequence = "5")
-	    public List<DetalleTipoPagos> buscarPorTitular(
-	            @ParameterLayout(named="Titular")
-	            final String tipoPagoTitular
-	    ) {
-	        return repositoryService.allMatches(
-	                new QueryDefault<>(
-	                		DetalleTipoPagos.class,
-	                        "buscarPorTitular",
-	                        "tipoPagoTitular", tipoPagoTitular.toLowerCase()));
-	    }
 	    
 	    @javax.inject.Inject
 	    TarjetasDeCreditoRepository debitoAutomaticoRepository;

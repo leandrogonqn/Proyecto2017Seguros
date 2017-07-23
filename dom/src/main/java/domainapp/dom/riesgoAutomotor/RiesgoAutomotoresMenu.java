@@ -2,6 +2,9 @@ package domainapp.dom.riesgoAutomotor;
 
 import java.util.Date;
 import java.util.List;
+
+import javax.inject.Inject;
+
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
@@ -15,6 +18,12 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
 import domainapp.dom.cliente.Clientes;
 import domainapp.dom.cliente.ClientesRepository;
+import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
+import domainapp.dom.detalleTipoPago.DetalleTipoPagosRepository;
+import domainapp.dom.pagoEfectivo.PagosEfectivoMenu;
+import domainapp.dom.poliza.Estado;
+import domainapp.dom.vehiculo.Vehiculos;
+import domainapp.dom.vehiculo.VehiculosRepository;
 
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
@@ -37,15 +46,21 @@ public class RiesgoAutomotoresMenu {
 	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
 	    @MemberOrder(sequence = "3")
 	    public List<RiesgoAutomores> buscarpolizaNumero(
-	            @ParameterLayout(named="Nombre")
+	            @ParameterLayout(named="Numero")
 	            final String polizaNumero){
-	        return polizasRepository.buscarpolizaNumero(polizaNumero);
-
+	        return polizasRepository.buscarPolizaNumero(polizaNumero);
 	    }
 	    
 	    public List<Clientes> choices1Crear(){
-	    	
 	    	return clientesRepository.listarActivos();
+	    }
+	    
+	    public List<Vehiculos> choices2Crear(){
+	    	return vehiculosRepository.listarActivos();
+	    }
+	    
+	    public List<DetalleTipoPagos> choices7Crear(){
+	    	return detalleTipoPagosRepository.listarActivos();
 	    }
 
 	    public static class CreateDomainEvent extends ActionDomainEvent<RiesgoAutomotoresMenu> {}
@@ -53,15 +68,29 @@ public class RiesgoAutomotoresMenu {
 	    @MemberOrder(sequence = "1")
 	    public RiesgoAutomores crear(
 	            @ParameterLayout(named="Número") final String polizaNumero,
-	            @ParameterLayout(named="Cliente") final Clientes cliente,
+	            @ParameterLayout(named="Cliente") final Clientes polizaCliente,
+	            @ParameterLayout(named="Vehiculo") final Vehiculos riesgoAutomotorVehiculo,
 	    		@ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
 				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
 				@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
 				@ParameterLayout(named="Fecha Vencimiento Pago") final Date polizaFechaVencimientoPago,
-				@ParameterLayout(named="Precio Total") final double polizaPrecioTotal)
+				@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago,
+				@ParameterLayout(named="Alerta Vencimiento Pago") final boolean polizaAlertaVencimientoPago,
+				@ParameterLayout(named="Precio Total") final double polizaImporteTotal,
+				@ParameterLayout(named="Estado") final Estado polizaEstado)
 	    {
-	        return polizasRepository.crear(polizaNumero,polizaFechaEmision,polizaFechaVigencia, polizaFechaVencimiento,
-	    			polizaFechaVencimientoPago, polizaPrecioTotal,cliente);
+	        return polizasRepository.crear(
+	        		polizaNumero, 
+	        		polizaCliente, 
+	        		riesgoAutomotorVehiculo, 
+	        		polizaFechaEmision, 
+	        		polizaFechaVigencia, 
+	        		polizaFechaVencimiento, 
+	        		polizaFechaVencimientoPago, 
+	        		polizaPago, 
+	        		polizaAlertaVencimientoPago, 
+	        		polizaImporteTotal, 
+	        		polizaEstado);
 	    }
 
 
@@ -69,4 +98,8 @@ public class RiesgoAutomotoresMenu {
 	    RiesgoAutomotoresRepository polizasRepository;
 	    @javax.inject.Inject
 	    ClientesRepository clientesRepository;
+	    @Inject
+	    VehiculosRepository vehiculosRepository;
+	    @Inject
+	    DetalleTipoPagosRepository detalleTipoPagosRepository;
 }

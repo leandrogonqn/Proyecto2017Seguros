@@ -1,8 +1,15 @@
 package domainapp.dom.riesgoAutomotor;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.inject.Inject;
+import javax.jdo.annotations.Column;
+import javax.jdo.annotations.Discriminator;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Inheritance;
+import javax.jdo.annotations.InheritanceStrategy;
+
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.Auditing;
 import org.apache.isis.applib.annotation.DomainObject;
@@ -20,7 +27,15 @@ import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import domainapp.dom.cliente.Clientes;
-import domainapp.dom.tipoVehiculo.TipoVehiculo;
+import domainapp.dom.cliente.ClientesRepository;
+import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
+import domainapp.dom.detalleTipoPago.DetalleTipoPagosRepository;
+import domainapp.dom.marca.Marcas;
+import domainapp.dom.modelo.Modelos;
+import domainapp.dom.poliza.Estado;
+import domainapp.dom.poliza.Polizas;
+import domainapp.dom.vehiculo.Vehiculos;
+import domainapp.dom.vehiculo.VehiculosRepository;
 
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -32,172 +47,220 @@ import domainapp.dom.tipoVehiculo.TipoVehiculo;
         publishing = Publishing.ENABLED,
         auditing = Auditing.ENABLED
 )
-public class RiesgoAutomores implements Comparable<RiesgoAutomores> {
+@Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
+@Discriminator(value="RiesgoAutomotores")
+public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomores> {
 	
 	 //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("{name}", "name", getPolizaNumero());
+        return TranslatableString.tr("{name}", "name","Poliza Automotor N°: " + getPolizaNumero());
     }
     //endregion
 
+	// Constructor
 
-    public String getPolizaNumero() {
-		return polizaNumero;
+	public RiesgoAutomores(
+			String polizaNumero, 
+			Clientes polizaCliente,
+			Vehiculos riesgoAutomotorVehiculo,
+			Date polizaFechaEmision, 
+			Date polizaFechaVigencia, 
+			Date polizaFechaVencimiento,
+			Date polizaFechaVencimientoPago, 
+			DetalleTipoPagos polizaPago,
+			boolean polizaAlertaVencimientoPago,
+			double polizaImporteTotal,
+			Estado polizaEstado) {
+		setPolizaNumero(polizaNumero);
+		setPolizasCliente(polizaCliente);
+		setRiesgoAutomotorVehiculo(riesgoAutomotorVehiculo);
+		setPolizaFechaEmision(polizaFechaEmision);
+		setPolizaFechaVigencia(polizaFechaVigencia);
+		setPolizaFechaVencimiento(polizaFechaVencimiento);
+		setPolizaFechaVencimientoPago(polizaFechaVencimientoPago);
+		setPolizaPago(polizaPago);
+		setPolizaAlertaVencimientoPago(polizaAlertaVencimientoPago);
+		setPolizaImporteTotal(polizaImporteTotal);
+		setPolizaEstado(polizaEstado);
+		setPolizaActivo(true);
 	}
-
-	public void setPolizaNumero(String polizaNumero) {
-		this.polizaNumero = polizaNumero;
-	}
-
-	public Date getPolizaFechaEmision() {
-		return polizaFechaEmision;
-	}
-
-	public void setPolizaFechaEmision(Date polizaFechaEmision) {
-		this.polizaFechaEmision = polizaFechaEmision;
-	}
-
-	public Date getPolizaFechaVigencia() {
-		return polizaFechaVigencia;
-	}
-
-	public void setPolizaFechaVigencia(Date polizaFechaVigencia) {
-		this.polizaFechaVigencia = polizaFechaVigencia;
-	}
-
-	public Date getPolizaFechaVencimiento() {
-		return polizaFechaVencimiento;
-	}
-
-	public void setPolizaFechaVencimiento(Date polizaFechaVencimiento) {
-		this.polizaFechaVencimiento = polizaFechaVencimiento;
-	}
-
-	public Date getPolizaFechaVencimientoPago() {
-		return polizaFechaVencimientoPago;
-	}
-
-	public void setPolizaFechaVencimientoPago(Date polizaFechaVencimientoPago) {
-		this.polizaFechaVencimientoPago = polizaFechaVencimientoPago;
-	}
-
-	public Date getPolizaFechaBaja() {
-		return polizaFechaBaja;
-	}
-
-	public void setPolizaFechaBaja(Date polizaFechaBaja) {
-		this.polizaFechaBaja = polizaFechaBaja;
-	}
-
-	public String getPolizaMotivoBaja() {
-		return polizaMotivoBaja;
-	}
-
-	public void setPolizaMotivoBaja(String polizaMotivoBaja) {
-		this.polizaMotivoBaja = polizaMotivoBaja;
-	}
-
-	public double getPolizaPrecioTotal() {
-		return polizaPrecioTotal;
-	}
-
-	public void setPolizaPrecioTotal(double polizaPrecioTotal) {
-		this.polizaPrecioTotal = polizaPrecioTotal;
-	}
-
-	@javax.jdo.annotations.Column(allowsNull = "false", name="clienteId")
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Cliente")
-	private Clientes cliente;
-
-	public Clientes getCliente() {
-		return cliente;
-	}
-
-
-	public void setCliente(Clientes cliente) {
-		this.cliente = cliente;
-	}
-
-	public static final int NAME_LENGTH = 200;
-    // Constructor
-
-    
-	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="polizaNumero")
-	private String polizaNumero;
-
-	public RiesgoAutomores(String polizaNumero, Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
-			Date polizaFechaVencimientoPago, double polizaPrecioTotal, Clientes cliente) {
-		this.polizaNumero = polizaNumero;
-		this.polizaFechaEmision = polizaFechaEmision;
-		this.polizaFechaVigencia = polizaFechaVigencia;
-		this.polizaFechaVencimiento = polizaFechaVencimiento;
-		this.polizaFechaVencimientoPago = polizaFechaVencimientoPago;
-		this.polizaPrecioTotal = polizaPrecioTotal;
-		this.cliente = cliente;
-	}
-
-
-	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="polizaFechaEmision")
-	private Date polizaFechaEmision;
 	
-	@javax.jdo.annotations.Column(allowsNull = "false")
+	//Vehiculo
+	@Column(name="vehiculoId")
     @Property(
             editing = Editing.DISABLED
     )
-	private Date polizaFechaVigencia;
+	@PropertyLayout(named="Vehiculo")
+	private Vehiculos riesgoAutomotorVehiculo; 
 	
-	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-	private Date polizaFechaVencimiento;
+	public Vehiculos getRiesgoAutomotorVehiculo() {
+		return riesgoAutomotorVehiculo;
+	}
+
+	public void setRiesgoAutomotorVehiculo(Vehiculos riesgoAutomotorVehiculo) {
+		this.riesgoAutomotorVehiculo = riesgoAutomotorVehiculo;
+	}	
 	
-	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-	private Date polizaFechaVencimientoPago;
+	//Tipo Cobertura
 	
-	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-	private Date polizaFechaBaja;
-	
-	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    @Property(
-            editing = Editing.DISABLED
-    )
-	private String polizaMotivoBaja;
-	
-	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-	
-	private double polizaPrecioTotal; 
-	
-    //endregion
-    
+	    
     //region > delete (action)
     public static class DeleteDomainEvent extends ActionDomainEvent<RiesgoAutomores> {}
     @Action(
             domainEvent = DeleteDomainEvent.class,
             semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
     )
-
+    //BORRAR
+    public void borrarRiesgoAutomotor() {
+        final String title = titleService.titleOf(this);
+        messageService.informUser(String.format("'%s' deleted", title));
+        setPolizaActivo(false);
+    }
     
+    //Actualizar PolizaNumero
+	public RiesgoAutomores actualizarPolizaNumero(@ParameterLayout(named="Numero") final String polizaNumero){
+		setPolizaNumero(polizaNumero);
+		return this;
+	}
+
+	public String default0ActualizarPolizaNumero(){
+		return getPolizaNumero();
+	}
+    
+	//Actualizar Poliza Cliente
+    public RiesgoAutomores actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Clientes polizaCliente) {
+        setPolizasCliente(polizaCliente);
+        return this;
+    }
+    
+    public List<Clientes> choices0ActualizarPolizaCliente(){
+    	return clientesRepository.listarActivos();
+    }
+      
+    public Clientes default0ActualizarPolizaCliente() {
+    	return getPolizaCliente();
+    }
+    
+    //Actualizar RiesgoAutomotorVehiculo
+    public RiesgoAutomores actualizarRiesgoAutomotorVehiculo(@ParameterLayout(named="Vehiculo") final Vehiculos riesgoAutomotorVehiculo) {
+        setRiesgoAutomotorVehiculo(riesgoAutomotorVehiculo);
+        return this;
+    }
+    
+    public List<Vehiculos> choices0ActualizarRiesgoAutomotorVehiculo(){
+    	return vehiculosRepository.listarActivos();
+    }
+      
+    public Vehiculos default0ActualizarRiesgoAutomotorVehiculo() {
+    	return getRiesgoAutomotorVehiculo();
+    }
+    
+    //ActualizarCompanias
+    
+    //Actualizar polizaFechaEmision
+	public RiesgoAutomores actualizarPolizaFechaEmision(@ParameterLayout(named="Fecha de Emision") final Date polizaFechaEmision){
+		setPolizaFechaEmision(polizaFechaEmision);
+		return this;
+	}
+
+	public Date default0ActualizarPolizaFechaEmision(){
+		return getPolizaFechaEmision();
+	}
+	
+    //Actualizar polizaFechaVigencia
+	public RiesgoAutomores actualizarPolizaFechaVigencia(@ParameterLayout(named="Fecha de Vigencia") final Date polizaFechaVigencia){
+		setPolizaFechaVigencia(polizaFechaVigencia);
+		return this;
+	}
+
+	public Date default0ActualizarPolizaFechaVigencia(){
+		return getPolizaFechaVigencia();
+	}
+	
+    //polizaFechaVencimiento
+	public RiesgoAutomores actualizarPolizaFechaVencimiento(@ParameterLayout(named="Fecha de Vencimiento") final Date polizaFechaVencimiento){
+		setPolizaFechaVencimiento(polizaFechaVencimiento);
+		return this;
+	}
+
+	public Date default0ActualizarPolizaFechaVencimiento(){
+		return getPolizaFechaVencimiento();
+	}
+	    
+    //polizaFechaVencimientoPago
+	public RiesgoAutomores actualizarPolizaFechaVencimientoPago(@ParameterLayout(named="Fecha Vencimiento de Pago") final Date polizaFechaVencimientoPago){
+		setPolizaFechaVencimientoPago(polizaFechaVencimientoPago);
+		return this;
+	}
+
+	public Date default0ActualizarPolizaFechaVencimientoPago(){
+		return getPolizaFechaVencimientoPago();
+	}    
+	
+    //polizaPago
+    public RiesgoAutomores actualizarPolizaPago(@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago) {
+        setPolizaPago(polizaPago);
+        return this;
+    }
+    
+    public List<DetalleTipoPagos> choices0ActualizarPolizaPago(){
+    	return detalleTipoPagosRepository.listarActivos();
+    }
+      
+    public DetalleTipoPagos default0ActualizarPolizaPago() {
+    	return getPolizaPago();
+    }
+	
+    //polizaAlertaVencimientoPago
+	public RiesgoAutomores actualizarPolizaAlertaVencimientoPago(@ParameterLayout(named="Alerta Vencimiento de Pago") final boolean polizaAlertaVencimientoPago){
+		setPolizaAlertaVencimientoPago(polizaAlertaVencimientoPago);
+		return this;
+	}
+
+	public boolean default0ActualizarPolizaAlertaVencimientoPago(){
+		return getPolizaAlertaVencimientoPago();
+	}    
+    
+    //polizaFechaBaja
+	public RiesgoAutomores actualizarPolizaFechaBaja(@ParameterLayout(named="Fecha de Baja") final Date polizaFechaBaja){
+		setPolizaFechaBaja(polizaFechaBaja);
+		return this;
+	}
+
+	public Date default0ActualizarPolizaFechaBaja(){
+		return getPolizaFechaBaja();
+	}    
+    
+    //polizaMotivoBaja
+	public RiesgoAutomores actualizarPolizaMotivoBaja(@ParameterLayout(named="Motivo de la Baja") final String polizaMotivoBaja){
+		setPolizaMotivoBaja(polizaMotivoBaja);
+		return this;
+	}
+
+	public String default0ActualizarPolizaMotivoBaja(){
+		return getPolizaMotivoBaja();
+	}    
+    
+    //polizaImporteTotal
+	public RiesgoAutomores actualizarPolizaImporteTotal(@ParameterLayout(named="Importe Total") final double polizaImporteTotal){
+		setPolizaImporteTotal(polizaImporteTotal);
+		return this;
+	}
+
+	public double default0ActualizarPolizaImporteTotal(){
+		return getPolizaImporteTotal();
+	}    
+    
+    //polizaEstado
+	public RiesgoAutomores actualizarPolizaEstado(@ParameterLayout(named="Estado") final Estado polizaEstado){
+		setPolizaEstado(polizaEstado);
+		return this;
+	}
+
+	public Estado default0ActualizarPolizaEstado(){
+		return getPolizaEstado();
+	}    
+	
     //endregion
 
     //region > toString, compareTo
@@ -222,8 +285,17 @@ public class RiesgoAutomores implements Comparable<RiesgoAutomores> {
 
     @javax.inject.Inject
     MessageService messageService;
+    
+    @Inject
+    ClientesRepository clientesRepository;
 
-
+    @Inject
+    VehiculosRepository vehiculosRepository;
+    
+    @Inject
+    DetalleTipoPagosRepository detalleTipoPagosRepository;
+    
+    
     //endregion
 
 }

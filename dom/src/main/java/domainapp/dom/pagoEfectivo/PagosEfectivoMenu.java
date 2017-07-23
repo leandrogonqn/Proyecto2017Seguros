@@ -29,6 +29,7 @@ import domainapp.dom.cliente.ClientesRepository;
 import domainapp.dom.cliente.Sexo;
 import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
+import domainapp.dom.detalleTipoPago.DetalleTipoPagosRepository;
 
 
 @DomainService(
@@ -46,7 +47,7 @@ public class PagosEfectivoMenu {
 	    @MemberOrder(sequence = "1.2")
 	    public PagosEfectivo crear(){
         	PagosEfectivo a;
-	    	List<DetalleTipoPagos> listaEfectivo = listarEfectivo();
+	    	List<DetalleTipoPagos> listaEfectivo = pagoEfectivoRepository.listarEfectivo();
           if(listaEfectivo.isEmpty())
           {
           	a = pagoEfectivoRepository.crear();
@@ -65,32 +66,33 @@ public class PagosEfectivoMenu {
 	    @ActionLayout(named="Efectivo")
 	    public void titulo(){}
 	    
-		public List<DetalleTipoPagos> listarEfectivo(){
-		List<DetalleTipoPagos> listaEfectivo = listarActivos();
-    	Iterator<DetalleTipoPagos> it = listaEfectivo.iterator();
-    	while (it.hasNext()) {
-    	    DetalleTipoPagos lista = it.next();
-    	    if (!lista.getTipoPagoNombre().equals("Efectivo")) {
-    	    	it.remove();
-    	    }
-    	}
-		return listaEfectivo;
-		}
+//		public List<DetalleTipoPagos> listarEfectivo(){
+//		List<DetalleTipoPagos> listaEfectivo = detalleTipoPagosRepository.listarActivos();
+//    	Iterator<DetalleTipoPagos> it = listaEfectivo.iterator();
+//    	while (it.hasNext()) {
+//    	    DetalleTipoPagos lista = it.next();
+//    	    if (!lista.getTipoPagoNombre().equals("Efectivo")) {
+//    	    	it.remove();
+//    	    }
+//    	}
+//		return listaEfectivo;
+//		}
 		
-		  public List<DetalleTipoPagos> listarActivos(){
-				 return repositoryService.allMatches(
-			          new QueryDefault<>(
-			                  DetalleTipoPagos.class,
-			                  "listarActivos"));
-			  }
+//		public List<DetalleTipoPagos> listarActivos(){
+//			 return repositoryService.allMatches(
+//		          new QueryDefault<>(
+//		                  DetalleTipoPagos.class,
+//		                  "listarActivos"));
+//		  }
 			  
-			@javax.inject.Inject
-			RepositoryService repositoryService;  
+		@javax.inject.Inject
+		RepositoryService repositoryService;  
 
 	    @javax.inject.Inject
 	    public PagosEfectivoRepository pagoEfectivoRepository;
 	    
 	    @Inject
-	    public DetalleTipoPagos detalleTipoPagos;
+	    public DetalleTipoPagosRepository detalleTipoPagosRepository;
+	    
 
 }
