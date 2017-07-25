@@ -18,6 +18,7 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
 import domainapp.dom.cliente.Clientes;
 import domainapp.dom.cliente.ClientesRepository;
+import domainapp.dom.compania.Companias;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagosRepository;
 import domainapp.dom.pagoEfectivo.PagosEfectivoMenu;
@@ -27,7 +28,7 @@ import domainapp.dom.vehiculo.VehiculosRepository;
 
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
-        repositoryFor = RiesgoAutomores.class
+        repositoryFor = RiesgoAutomotores.class
 )
 @DomainServiceLayout(
         named = "Polizas",
@@ -38,14 +39,14 @@ public class RiesgoAutomotoresMenu {
 	  @Action(semantics = SemanticsOf.SAFE)
 	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
 	    @MemberOrder(sequence = "2")
-	    public List<RiesgoAutomores> listar() {
+	    public List<RiesgoAutomotores> listar() {
 	        return polizasRepository.listar();
 	    }
 	    
 	    @Action(semantics = SemanticsOf.SAFE)
 	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
 	    @MemberOrder(sequence = "3")
-	    public List<RiesgoAutomores> buscarpolizaNumero(
+	    public List<RiesgoAutomotores> buscarpolizaNumero(
 	            @ParameterLayout(named="Numero")
 	            final String polizaNumero){
 	        return polizasRepository.buscarPolizaNumero(polizaNumero);
@@ -66,10 +67,11 @@ public class RiesgoAutomotoresMenu {
 	    public static class CreateDomainEvent extends ActionDomainEvent<RiesgoAutomotoresMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class)
 	    @MemberOrder(sequence = "1")
-	    public RiesgoAutomores crear(
+	    public RiesgoAutomotores crear(
 	            @ParameterLayout(named="Número") final String polizaNumero,
 	            @ParameterLayout(named="Cliente") final Clientes polizaCliente,
 	            @ParameterLayout(named="Vehiculo") final Vehiculos riesgoAutomotorVehiculo,
+	            @ParameterLayout(named="Compañia") final Companias polizaCompania,
 	    		@ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
 				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
 				@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
@@ -83,6 +85,7 @@ public class RiesgoAutomotoresMenu {
 	        		polizaNumero, 
 	        		polizaCliente, 
 	        		riesgoAutomotorVehiculo, 
+	        		polizaCompania,
 	        		polizaFechaEmision, 
 	        		polizaFechaVigencia, 
 	        		polizaFechaVencimiento, 

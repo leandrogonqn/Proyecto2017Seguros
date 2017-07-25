@@ -17,6 +17,7 @@ import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 
 import domainapp.dom.cliente.Clientes;
+import domainapp.dom.compania.Companias;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
 
 
@@ -89,6 +90,20 @@ public abstract class Polizas{
 	}
 	
 	//Companias
+	@Column(allowsNull = "false", name="companiaId")
+    @Property(
+            editing = Editing.DISABLED
+    )
+    @PropertyLayout(named="Compañia")
+	private Companias polizaCompania;
+
+	public Companias getPolizaCompania() {
+		return polizaCompania;
+	}
+
+	public void setPolizasCompania(Companias polizaCompania) {
+		this.polizaCompania = polizaCompania;
+	}
 
 	//Fecha Emision
 	@Column(allowsNull = "false")
@@ -266,6 +281,6 @@ public abstract class Polizas{
 		this.polizaActivo = polizaActivo;
 	}
 
-
     //endregion
-    }
+
+}

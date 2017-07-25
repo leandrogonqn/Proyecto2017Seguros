@@ -28,6 +28,8 @@ import org.apache.isis.applib.util.ObjectContracts;
 
 import domainapp.dom.cliente.Clientes;
 import domainapp.dom.cliente.ClientesRepository;
+import domainapp.dom.compania.CompaniaRepository;
+import domainapp.dom.compania.Companias;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagosRepository;
 import domainapp.dom.marca.Marcas;
@@ -49,7 +51,7 @@ import domainapp.dom.vehiculo.VehiculosRepository;
 )
 @Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
 @Discriminator(value="RiesgoAutomotores")
-public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomores> {
+public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutomotores> {
 	
 	 //region > title
     public TranslatableString title() {
@@ -59,10 +61,11 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
 
 	// Constructor
 
-	public RiesgoAutomores(
+	public RiesgoAutomotores(
 			String polizaNumero, 
 			Clientes polizaCliente,
 			Vehiculos riesgoAutomotorVehiculo,
+			Companias polizaCompania,
 			Date polizaFechaEmision, 
 			Date polizaFechaVigencia, 
 			Date polizaFechaVencimiento,
@@ -74,6 +77,7 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
 		setRiesgoAutomotorVehiculo(riesgoAutomotorVehiculo);
+		setPolizasCompania(polizaCompania);
 		setPolizaFechaEmision(polizaFechaEmision);
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
@@ -105,7 +109,7 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
 	
 	    
     //region > delete (action)
-    public static class DeleteDomainEvent extends ActionDomainEvent<RiesgoAutomores> {}
+    public static class DeleteDomainEvent extends ActionDomainEvent<RiesgoAutomotores> {}
     @Action(
             domainEvent = DeleteDomainEvent.class,
             semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
@@ -118,7 +122,7 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
     }
     
     //Actualizar PolizaNumero
-	public RiesgoAutomores actualizarPolizaNumero(@ParameterLayout(named="Numero") final String polizaNumero){
+	public RiesgoAutomotores actualizarPolizaNumero(@ParameterLayout(named="Numero") final String polizaNumero){
 		setPolizaNumero(polizaNumero);
 		return this;
 	}
@@ -128,7 +132,7 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
 	}
     
 	//Actualizar Poliza Cliente
-    public RiesgoAutomores actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Clientes polizaCliente) {
+    public RiesgoAutomotores actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Clientes polizaCliente) {
         setPolizasCliente(polizaCliente);
         return this;
     }
@@ -142,7 +146,7 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
     }
     
     //Actualizar RiesgoAutomotorVehiculo
-    public RiesgoAutomores actualizarRiesgoAutomotorVehiculo(@ParameterLayout(named="Vehiculo") final Vehiculos riesgoAutomotorVehiculo) {
+    public RiesgoAutomotores actualizarRiesgoAutomotorVehiculo(@ParameterLayout(named="Vehiculo") final Vehiculos riesgoAutomotorVehiculo) {
         setRiesgoAutomotorVehiculo(riesgoAutomotorVehiculo);
         return this;
     }
@@ -155,10 +159,23 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
     	return getRiesgoAutomotorVehiculo();
     }
     
-    //ActualizarCompanias
+    //Actualizar polizaCompania
+    public RiesgoAutomotores actualizarPolizaCompania(@ParameterLayout(named="Compañia") final Companias polizaCompania) {
+        actualizarPolizaCompania(polizaCompania);
+        return this;
+    }
+    
+    public List<Companias> choices0ActualizarPolizaCompania(){
+    	return companiaRepository.listarActivos();
+    }
+      
+    public Companias default0ActualizarPolizaCompania() {
+    	return getPolizaCompania();
+    }    
+    
     
     //Actualizar polizaFechaEmision
-	public RiesgoAutomores actualizarPolizaFechaEmision(@ParameterLayout(named="Fecha de Emision") final Date polizaFechaEmision){
+	public RiesgoAutomotores actualizarPolizaFechaEmision(@ParameterLayout(named="Fecha de Emision") final Date polizaFechaEmision){
 		setPolizaFechaEmision(polizaFechaEmision);
 		return this;
 	}
@@ -168,7 +185,7 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
 	}
 	
     //Actualizar polizaFechaVigencia
-	public RiesgoAutomores actualizarPolizaFechaVigencia(@ParameterLayout(named="Fecha de Vigencia") final Date polizaFechaVigencia){
+	public RiesgoAutomotores actualizarPolizaFechaVigencia(@ParameterLayout(named="Fecha de Vigencia") final Date polizaFechaVigencia){
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		return this;
 	}
@@ -178,7 +195,7 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
 	}
 	
     //polizaFechaVencimiento
-	public RiesgoAutomores actualizarPolizaFechaVencimiento(@ParameterLayout(named="Fecha de Vencimiento") final Date polizaFechaVencimiento){
+	public RiesgoAutomotores actualizarPolizaFechaVencimiento(@ParameterLayout(named="Fecha de Vencimiento") final Date polizaFechaVencimiento){
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		return this;
 	}
@@ -188,7 +205,7 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
 	}
 	    
     //polizaFechaVencimientoPago
-	public RiesgoAutomores actualizarPolizaFechaVencimientoPago(@ParameterLayout(named="Fecha Vencimiento de Pago") final Date polizaFechaVencimientoPago){
+	public RiesgoAutomotores actualizarPolizaFechaVencimientoPago(@ParameterLayout(named="Fecha Vencimiento de Pago") final Date polizaFechaVencimientoPago){
 		setPolizaFechaVencimientoPago(polizaFechaVencimientoPago);
 		return this;
 	}
@@ -198,7 +215,7 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
 	}    
 	
     //polizaPago
-    public RiesgoAutomores actualizarPolizaPago(@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago) {
+    public RiesgoAutomotores actualizarPolizaPago(@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago) {
         setPolizaPago(polizaPago);
         return this;
     }
@@ -212,7 +229,7 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
     }
 	
     //polizaAlertaVencimientoPago
-	public RiesgoAutomores actualizarPolizaAlertaVencimientoPago(@ParameterLayout(named="Alerta Vencimiento de Pago") final boolean polizaAlertaVencimientoPago){
+	public RiesgoAutomotores actualizarPolizaAlertaVencimientoPago(@ParameterLayout(named="Alerta Vencimiento de Pago") final boolean polizaAlertaVencimientoPago){
 		setPolizaAlertaVencimientoPago(polizaAlertaVencimientoPago);
 		return this;
 	}
@@ -222,7 +239,7 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
 	}    
     
     //polizaFechaBaja
-	public RiesgoAutomores actualizarPolizaFechaBaja(@ParameterLayout(named="Fecha de Baja") final Date polizaFechaBaja){
+	public RiesgoAutomotores actualizarPolizaFechaBaja(@ParameterLayout(named="Fecha de Baja") final Date polizaFechaBaja){
 		setPolizaFechaBaja(polizaFechaBaja);
 		return this;
 	}
@@ -232,7 +249,7 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
 	}    
     
     //polizaMotivoBaja
-	public RiesgoAutomores actualizarPolizaMotivoBaja(@ParameterLayout(named="Motivo de la Baja") final String polizaMotivoBaja){
+	public RiesgoAutomotores actualizarPolizaMotivoBaja(@ParameterLayout(named="Motivo de la Baja") final String polizaMotivoBaja){
 		setPolizaMotivoBaja(polizaMotivoBaja);
 		return this;
 	}
@@ -242,7 +259,7 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
 	}    
     
     //polizaImporteTotal
-	public RiesgoAutomores actualizarPolizaImporteTotal(@ParameterLayout(named="Importe Total") final double polizaImporteTotal){
+	public RiesgoAutomotores actualizarPolizaImporteTotal(@ParameterLayout(named="Importe Total") final double polizaImporteTotal){
 		setPolizaImporteTotal(polizaImporteTotal);
 		return this;
 	}
@@ -252,7 +269,7 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
 	}    
     
     //polizaEstado
-	public RiesgoAutomores actualizarPolizaEstado(@ParameterLayout(named="Estado") final Estado polizaEstado){
+	public RiesgoAutomotores actualizarPolizaEstado(@ParameterLayout(named="Estado") final Estado polizaEstado){
 		setPolizaEstado(polizaEstado);
 		return this;
 	}
@@ -269,7 +286,7 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
         return ObjectContracts.toString(this, "polizaNumero");
     }
     @Override
-    public int compareTo(final RiesgoAutomores other) {
+    public int compareTo(final RiesgoAutomotores other) {
         return ObjectContracts.compare(this, other, "polizaNumero");
     }
 
@@ -295,7 +312,8 @@ public class RiesgoAutomores extends Polizas implements Comparable<RiesgoAutomor
     @Inject
     DetalleTipoPagosRepository detalleTipoPagosRepository;
     
-    
+    @Inject
+    CompaniaRepository companiaRepository;
     //endregion
 
 }

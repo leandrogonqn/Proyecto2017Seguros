@@ -1,4 +1,4 @@
-package domainapp.dom.compania;
+package domainapp.dom.tiposDeCoberturas;
 
 import javax.jdo.annotations.IdentityType;
 import org.apache.isis.applib.annotation.Action;
@@ -17,63 +17,65 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import domainapp.dom.cliente.Clientes;
+import domainapp.dom.cliente.Sexo;
+import domainapp.dom.tipoVehiculo.TipoVehiculo;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
         schema = "simple",
-        table = "Companias"
+        table = "TiposDeCoberturas"
 )
 @javax.jdo.annotations.DatastoreIdentity(
         strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
-         column="companiaId")
+         column="tipoDeCoberturaId")
 @javax.jdo.annotations.Queries({
         @javax.jdo.annotations.Query(
                 name = "buscarPorNombre", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Companias "
-                        + "WHERE companiaNombre.toLowerCase().indexOf(:companiaNombre) >= 0 "),
+                        + "FROM domainapp.dom.simple.TiposDeCoberturas "
+                        + "WHERE tipoDeCoberturaNombre.toLowerCase().indexOf(:tipoDeCoberturaNombre) >= 0 "),
 
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Companias "
-                        + "WHERE companiaActivo == true "),
+                        + "FROM domainapp.dom.simple.TiposDeCoberturas "
+                        + "WHERE tipoDeCoberturaActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Companias "
-                        + "WHERE companiaActivo == false ") 
+                        + "FROM domainapp.dom.simple.TiposDeCoberturas "
+                        + "WHERE tipoDeCoberturaActivo == false ") 
 })
-@javax.jdo.annotations.Unique(name="Companias_companiaNombre_UNQ", members = {"companiaNombre"})
+@javax.jdo.annotations.Unique(name="TiposDeCoberturas_tipoDeCoberturaNombre_UNQ", members = {"tipoDeCoberturaNombre"})
 @DomainObject(
         publishing = Publishing.ENABLED,
         auditing = Auditing.ENABLED
 )
-public class Companias implements Comparable<Companias> {
-	
-	//region > title
+public class TiposDeCoberturas implements Comparable<TiposDeCoberturas> {
+	 //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("{name}", "name", getCompaniaNombre());
+        return TranslatableString.tr("{name}", "name", getTipoDeCoberturaNombre());
     }
     //endregion
     
     public String iconName(){
     	String a;
     	
-    	a = getCompaniaNombre();
+    	a = getTipoDeCoberturaNombre();
     	
     	return a;
     }
 
     public String cssClass(){
-    	return (isCompaniaActivo()==true)? "activo":"inactivo";
+    	return (getTipoDeCoberturaActivo()==true)? "activo":"inactivo";
     }
     
     public static final int NAME_LENGTH = 200;
     // Constructor
-    public Companias(String companiaNombre) {
-		setCompaniaNombre(companiaNombre);
-		setCompaniaActivo(true);
+    public TiposDeCoberturas(String tipoDeCoberturaNombre) {
+		setTipoDeCoberturaNombre(tipoDeCoberturaNombre);
+		setTipoDeCoberturaActivo(true);
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
@@ -81,91 +83,59 @@ public class Companias implements Comparable<Companias> {
             editing = Editing.DISABLED
     )
     @PropertyLayout(named="Nombre")
-	private String companiaNombre;
+	private String tipoDeCoberturaNombre;
 	
-	public String getCompaniaNombre() {
-		return companiaNombre;
+    public String getTipoDeCoberturaNombre() {
+		return tipoDeCoberturaNombre;
+	}
+	public void setTipoDeCoberturaNombre(String tipoDeCoberturaNombre) {
+		this.tipoDeCoberturaNombre = tipoDeCoberturaNombre;
 	}
 
-	public void setCompaniaNombre(String companiaNombre) {
-		this.companiaNombre = companiaNombre;
-	}
-	
-	@javax.jdo.annotations.Column(length = NAME_LENGTH)
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Direccion")
-	private String companiaDireccion;
-	
-	public String getCompaniaDireccion() {
-		return companiaDireccion;
-	}
-
-	public void setCompaniaDireccion(String companiaDireccion) {
-		this.companiaDireccion = companiaDireccion;
-	}	
-
-	@javax.jdo.annotations.Column(length = NAME_LENGTH)
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Telefono")
-	private String companiaTelefono;
-	
-	public String getCompaniaTelefono() {
-		return companiaDireccion;
-	}
-
-	public void setCompaniaTelefono(String companiaTelefono) {
-		this.companiaTelefono = companiaTelefono;
-	}
-	
 	@javax.jdo.annotations.Column(allowsNull = "false")
     @Property(
             editing = Editing.DISABLED
     )
     @PropertyLayout(named="Activo")
-	private boolean companiaActivo;
+	private boolean tipoDeCoberturaActivo;
 
-	public boolean isCompaniaActivo() {
-		return companiaActivo;
+    public boolean getTipoDeCoberturaActivo() {
+		return tipoDeCoberturaActivo;
 	}
-
-	public void setCompaniaActivo(boolean companiaActivo) {
-		this.companiaActivo = companiaActivo;
-	}
+	public void setTipoDeCoberturaActivo(boolean tipoDeCoberturaActivo) {
+		this.tipoDeCoberturaActivo = tipoDeCoberturaActivo;
+	}	
 	
     //endregion
     
     //region > delete (action)
-    public static class DeleteDomainEvent extends ActionDomainEvent<Companias> {}
+    public static class DeleteDomainEvent extends ActionDomainEvent<TiposDeCoberturas> {}
     @Action(
             domainEvent = DeleteDomainEvent.class,
             semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
     )
-    public void borrarMarca() {
+    public void borrarTipoDeCobertura() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
-        setCompaniaActivo(false);
+        setTipoDeCoberturaActivo(false);
     }
     
-	public Companias actualizarNombre(@ParameterLayout(named="Nombre") final String companiaNombre){
-		setCompaniaNombre(companiaNombre);
+	public TiposDeCoberturas actualizarNombre(@ParameterLayout(named="Nombre") final String tipoDeCoberturaNombre){
+		setTipoDeCoberturaNombre(tipoDeCoberturaNombre);
 		return this;
 	}
 	
 	public String default0ActualizarNombre(){
-		return getCompaniaNombre();
+		return getTipoDeCoberturaNombre();
 	}
 	
-	public Companias actualizarActivo(@ParameterLayout(named="Activo") final boolean companiaActivo){
-		setCompaniaActivo(companiaActivo);
+	public TiposDeCoberturas actualizarActivo(@ParameterLayout(named="Activo") final boolean tipoDeCoberturaActivo){
+		setTipoDeCoberturaActivo(tipoDeCoberturaActivo);
 		return this;
 	}
 
 	public boolean default0ActualizarActivo(){
-		return isCompaniaActivo();
+		return getTipoDeCoberturaActivo();
 	}
     
     //endregion
@@ -173,11 +143,11 @@ public class Companias implements Comparable<Companias> {
     //region > toString, compareTo
     @Override
     public String toString() {
-        return ObjectContracts.toString(this, "companiaNombre");
+        return ObjectContracts.toString(this, "tipoDeCoberturaNombre");
     }
     @Override
-    public int compareTo(final Companias other) {
-        return ObjectContracts.compare(this, other, "companiaNombre");
+    public int compareTo(final TiposDeCoberturas other) {
+        return ObjectContracts.compare(this, other, "tipoDeCoberturaNombre");
     }
 
     //endregion
@@ -192,6 +162,7 @@ public class Companias implements Comparable<Companias> {
 
     @javax.inject.Inject
     MessageService messageService;
+
 
     //endregion
 }

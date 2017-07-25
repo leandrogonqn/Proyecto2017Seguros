@@ -9,6 +9,7 @@ import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
 import domainapp.dom.cliente.Clientes;
+import domainapp.dom.compania.Companias;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
 import domainapp.dom.poliza.Estado;
 import domainapp.dom.vehiculo.Vehiculos;
@@ -16,36 +17,37 @@ import domainapp.dom.vehiculo.Vehiculos;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
-        repositoryFor = RiesgoAutomores.class
+        repositoryFor = RiesgoAutomotores.class
 )
 public class RiesgoAutomotoresRepository {
 
-    public List<RiesgoAutomores> listar() {
-        return repositoryService.allInstances(RiesgoAutomores.class);
+    public List<RiesgoAutomotores> listar() {
+        return repositoryService.allInstances(RiesgoAutomotores.class);
     }
 
 
-    public List<RiesgoAutomores> buscarPolizaNumero(final String polizaNumero) {
+    public List<RiesgoAutomotores> buscarPolizaNumero(final String polizaNumero) {
         return repositoryService.allMatches(
                 new QueryDefault<>(
-                        RiesgoAutomores.class,
+                        RiesgoAutomotores.class,
                         "buscarPolizaNumero",
                         "polizaNumero", polizaNumero));
     }
     
-    public List<RiesgoAutomores> buscarPorCliente(final Clientes polizaCliente) {
+    public List<RiesgoAutomotores> buscarPorCliente(final Clientes polizaCliente) {
         return repositoryService.allMatches(
                 new QueryDefault<>(
-                        RiesgoAutomores.class,
+                        RiesgoAutomotores.class,
                         "buscarPorCliente",
                         "polizaCliente", polizaCliente));
     }
     
   
-    public RiesgoAutomores crear(
+    public RiesgoAutomotores crear(
     		final String polizaNumero, 
     		final Clientes polizaCliente, 
     		final Vehiculos riesgoAutomotorVehiculo, 
+    		final Companias polizaCompanias,
     		final Date polizaFechaEmision, 
     		final Date polizaFechaVigencia, 
     		final Date polizaFechaVencimiento,
@@ -54,10 +56,11 @@ public class RiesgoAutomotoresRepository {
     		final boolean polizaAlertaVencimientoPago, 
     		final double polizaImporteTotal, 
     		Estado polizaEstado) {
-        final RiesgoAutomores object = new RiesgoAutomores(
+        final RiesgoAutomotores object = new RiesgoAutomotores(
         		polizaNumero,
         		polizaCliente,
         		riesgoAutomotorVehiculo,
+        		polizaCompanias,
         		polizaFechaEmision,
         		polizaFechaVigencia, 
         		polizaFechaVencimiento,
