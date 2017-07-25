@@ -67,8 +67,13 @@ public class CompaniasMenu {
 	    @Action(domainEvent = CreateDomainEvent.class)
 	    @MemberOrder(sequence = "1.2")
 	    public Companias crear(
-	            @ParameterLayout(named="Nombre") final String companiaNombre){
-	        return companiasRepository.crear(companiaNombre);
+	            @ParameterLayout(named="Nombre") final String companiaNombre,
+	    		@ParameterLayout(named="Direccion") final String companiaDireccion, 
+	    		@ParameterLayout(named="Telefono") final String companiaTelefono){
+	        return companiasRepository.crear(
+	        		companiaNombre,
+	        		companiaDireccion,
+	        		companiaTelefono);
 	    }
 
 

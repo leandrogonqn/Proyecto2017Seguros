@@ -46,8 +46,14 @@ public class CompaniaRepository {
     
   
 
-    public Companias crear(final String companiaNombre) {
-        final Companias object = new Companias(companiaNombre);
+    public Companias crear(
+    		final String companiaNombre, 
+    		final String companiaDireccion, 
+    		final String companiaTelefono) {
+        final Companias object = new Companias(
+        		companiaNombre,
+        		companiaDireccion,
+        		companiaTelefono);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;

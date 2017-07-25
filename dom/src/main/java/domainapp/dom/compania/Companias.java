@@ -66,13 +66,15 @@ public class Companias implements Comparable<Companias> {
     }
 
     public String cssClass(){
-    	return (isCompaniaActivo()==true)? "activo":"inactivo";
+    	return (getCompaniaActivo()==true)? "activo":"inactivo";
     }
     
     public static final int NAME_LENGTH = 200;
     // Constructor
-    public Companias(String companiaNombre) {
+    public Companias(String companiaNombre, String companiaDireccion, String companiaTelefono) {
 		setCompaniaNombre(companiaNombre);
+		setCompaniaDireccion(companiaDireccion);
+		setCompaniaTelefono(companiaTelefono);
 		setCompaniaActivo(true);
 	}
 
@@ -114,7 +116,7 @@ public class Companias implements Comparable<Companias> {
 	private String companiaTelefono;
 	
 	public String getCompaniaTelefono() {
-		return companiaDireccion;
+		return companiaTelefono;
 	}
 
 	public void setCompaniaTelefono(String companiaTelefono) {
@@ -128,7 +130,7 @@ public class Companias implements Comparable<Companias> {
     @PropertyLayout(named="Activo")
 	private boolean companiaActivo;
 
-	public boolean isCompaniaActivo() {
+	public boolean getCompaniaActivo() {
 		return companiaActivo;
 	}
 
@@ -144,28 +146,46 @@ public class Companias implements Comparable<Companias> {
             domainEvent = DeleteDomainEvent.class,
             semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
     )
-    public void borrarMarca() {
+    public void borrarCompania() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
         setCompaniaActivo(false);
     }
     
-	public Companias actualizarNombre(@ParameterLayout(named="Nombre") final String companiaNombre){
+	public Companias actualizarCompaniaNombre(@ParameterLayout(named="Nombre") final String companiaNombre){
 		setCompaniaNombre(companiaNombre);
 		return this;
 	}
 	
-	public String default0ActualizarNombre(){
+	public String default0ActualizarCompaniaNombre(){
 		return getCompaniaNombre();
 	}
+
+	public Companias actualizarCompaniaDireccion(@ParameterLayout(named="Direccion") final String companiaDireccion){
+		setCompaniaDireccion(companiaDireccion);
+		return this;
+	}
 	
-	public Companias actualizarActivo(@ParameterLayout(named="Activo") final boolean companiaActivo){
+	public String default0ActualizarCompaniaDireccion(){
+		return getCompaniaDireccion();
+	}
+	
+	public Companias actualizarCompaniaTelefono(@ParameterLayout(named="Telefono") final String companiaTelefono){
+		setCompaniaTelefono(companiaTelefono);
+		return this;
+	}
+	
+	public String default0ActualizarCompaniaTelefono(){
+		return getCompaniaTelefono();
+	}
+	
+	public Companias actualizarCompaniaActivo(@ParameterLayout(named="Activo") final boolean companiaActivo){
 		setCompaniaActivo(companiaActivo);
 		return this;
 	}
 
-	public boolean default0ActualizarActivo(){
-		return isCompaniaActivo();
+	public boolean default0ActualizarCompaniaActivo(){
+		return getCompaniaActivo();
 	}
     
     //endregion

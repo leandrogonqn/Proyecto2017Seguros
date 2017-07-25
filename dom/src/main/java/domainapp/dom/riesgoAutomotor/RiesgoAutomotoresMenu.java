@@ -18,11 +18,14 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
 import domainapp.dom.cliente.Clientes;
 import domainapp.dom.cliente.ClientesRepository;
+import domainapp.dom.compania.CompaniaRepository;
 import domainapp.dom.compania.Companias;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagosRepository;
 import domainapp.dom.pagoEfectivo.PagosEfectivoMenu;
 import domainapp.dom.poliza.Estado;
+import domainapp.dom.tiposDeCoberturas.TiposDeCoberturas;
+import domainapp.dom.tiposDeCoberturas.TiposDeCoberturasRepository;
 import domainapp.dom.vehiculo.Vehiculos;
 import domainapp.dom.vehiculo.VehiculosRepository;
 
@@ -60,7 +63,15 @@ public class RiesgoAutomotoresMenu {
 	    	return vehiculosRepository.listarActivos();
 	    }
 	    
-	    public List<DetalleTipoPagos> choices7Crear(){
+	    public List<Companias> choices3Crear(){
+	    	return companiaRepository.listarActivos();
+	    }	    
+	    
+	    public List<TiposDeCoberturas> choices4Crear(){
+	    	return tiposDeCoberturasRepository.listarActivos();
+	    }
+	    
+	    public List<DetalleTipoPagos> choices9Crear(){
 	    	return detalleTipoPagosRepository.listarActivos();
 	    }
 
@@ -72,6 +83,7 @@ public class RiesgoAutomotoresMenu {
 	            @ParameterLayout(named="Cliente") final Clientes polizaCliente,
 	            @ParameterLayout(named="Vehiculo") final Vehiculos riesgoAutomotorVehiculo,
 	            @ParameterLayout(named="Compañia") final Companias polizaCompania,
+	            @ParameterLayout(named="Tipo de Cobertura") final TiposDeCoberturas riesgoAutomotorTiposDeCoberturas,
 	    		@ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
 				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
 				@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
@@ -86,6 +98,7 @@ public class RiesgoAutomotoresMenu {
 	        		polizaCliente, 
 	        		riesgoAutomotorVehiculo, 
 	        		polizaCompania,
+	        		riesgoAutomotorTiposDeCoberturas,
 	        		polizaFechaEmision, 
 	        		polizaFechaVigencia, 
 	        		polizaFechaVencimiento, 
@@ -105,4 +118,8 @@ public class RiesgoAutomotoresMenu {
 	    VehiculosRepository vehiculosRepository;
 	    @Inject
 	    DetalleTipoPagosRepository detalleTipoPagosRepository;
+	    @Inject
+	    CompaniaRepository companiaRepository;
+	    @Inject
+	    TiposDeCoberturasRepository tiposDeCoberturasRepository;
 }

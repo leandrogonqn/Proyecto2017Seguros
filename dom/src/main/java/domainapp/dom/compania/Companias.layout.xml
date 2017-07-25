@@ -33,11 +33,17 @@
                             <c:fieldSet name="Nombre">
                                 <c:action id="borrarCompania"/>
                                 <c:property id="companiaNombre" namedEscaped="true">
-                                <c:action id="actualizarNombre" position="RIGHT"></c:action>
+                                <c:action id="actualizarCompaniaNombre" position="RIGHT"></c:action>
+                                </c:property>
+                                <c:property id="companiaDireccion" namedEscaped="true">
+                                <c:action id="actualizarCompaniaDireccion" position="RIGHT"></c:action>
+                                </c:property>        
+                                <c:property id="companiaTelefono" namedEscaped="true">
+                                <c:action id="actualizarCompaniaTelefono" position="RIGHT"></c:action>
                                 </c:property>
                                 <c:property id="companiaActivo" namedEscaped="true">
-                                <c:action id="actualizarActivo" position="RIGHT"></c:action>
-                                </c:property>                                
+                                <c:action id="actualizarCompaniaActivo" position="RIGHT"></c:action>
+                                </c:property>                                                          
                             </c:fieldSet>
                         </bs3:col>
                     </bs3:row>

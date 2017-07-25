@@ -12,6 +12,7 @@ import domainapp.dom.cliente.Clientes;
 import domainapp.dom.compania.Companias;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
 import domainapp.dom.poliza.Estado;
+import domainapp.dom.tiposDeCoberturas.TiposDeCoberturas;
 import domainapp.dom.vehiculo.Vehiculos;
 
 
@@ -48,6 +49,7 @@ public class RiesgoAutomotoresRepository {
     		final Clientes polizaCliente, 
     		final Vehiculos riesgoAutomotorVehiculo, 
     		final Companias polizaCompanias,
+    		final TiposDeCoberturas riesgoAutomotorTiposDeCoberturas,
     		final Date polizaFechaEmision, 
     		final Date polizaFechaVigencia, 
     		final Date polizaFechaVencimiento,
@@ -61,6 +63,7 @@ public class RiesgoAutomotoresRepository {
         		polizaCliente,
         		riesgoAutomotorVehiculo,
         		polizaCompanias,
+        		riesgoAutomotorTiposDeCoberturas,
         		polizaFechaEmision,
         		polizaFechaVigencia, 
         		polizaFechaVencimiento,

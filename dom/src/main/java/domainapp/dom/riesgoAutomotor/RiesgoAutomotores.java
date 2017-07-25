@@ -36,6 +36,8 @@ import domainapp.dom.marca.Marcas;
 import domainapp.dom.modelo.Modelos;
 import domainapp.dom.poliza.Estado;
 import domainapp.dom.poliza.Polizas;
+import domainapp.dom.tiposDeCoberturas.TiposDeCoberturas;
+import domainapp.dom.tiposDeCoberturas.TiposDeCoberturasRepository;
 import domainapp.dom.vehiculo.Vehiculos;
 import domainapp.dom.vehiculo.VehiculosRepository;
 
@@ -66,6 +68,7 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
 			Clientes polizaCliente,
 			Vehiculos riesgoAutomotorVehiculo,
 			Companias polizaCompania,
+			TiposDeCoberturas riesgoAutomotorTiposDeCoberturas,
 			Date polizaFechaEmision, 
 			Date polizaFechaVigencia, 
 			Date polizaFechaVencimiento,
@@ -78,6 +81,7 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
 		setPolizasCliente(polizaCliente);
 		setRiesgoAutomotorVehiculo(riesgoAutomotorVehiculo);
 		setPolizasCompania(polizaCompania);
+		setRiesgoAutomotorTipoDeCobertura(riesgoAutomotorTiposDeCoberturas);
 		setPolizaFechaEmision(polizaFechaEmision);
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
@@ -106,7 +110,20 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
 	}	
 	
 	//Tipo Cobertura
+	@Column(name="tipoDeCoberturaId")
+    @Property(
+            editing = Editing.DISABLED
+    )
+	@PropertyLayout(named="Tipo de Cobertura")
+	private TiposDeCoberturas riesgoAutomotorTipoDeCobertura; 
 	
+	public TiposDeCoberturas getRiesgoAutomotorTipoDeCobertura() {
+		return riesgoAutomotorTipoDeCobertura;
+	}
+
+	public void setRiesgoAutomotorTipoDeCobertura(TiposDeCoberturas riesgoAutomotorTipoDeCobertura) {
+		this.riesgoAutomotorTipoDeCobertura = riesgoAutomotorTipoDeCobertura;
+	}	
 	    
     //region > delete (action)
     public static class DeleteDomainEvent extends ActionDomainEvent<RiesgoAutomotores> {}
@@ -173,6 +190,19 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
     	return getPolizaCompania();
     }    
     
+    //Actualizar riesgoAutomotorTiposDeCoberturas
+    public RiesgoAutomotores actualizarRiesgoAutomotorTiposDeCoberturas(@ParameterLayout(named="Tipos De Coberturas") final TiposDeCoberturas riesgoAutomotorTiposDeCoberturas) {
+    	setRiesgoAutomotorTipoDeCobertura(riesgoAutomotorTiposDeCoberturas);
+        return this;
+    }
+    
+    public List<TiposDeCoberturas> choices0ActualizarRiesgoAutomotorTiposDeCoberturas(){
+    	return tiposDeCoberturasRepository.listarActivos();
+    }
+      
+    public TiposDeCoberturas default0ActualizarRiesgoAutomotorTiposDeCoberturas() {
+    	return getRiesgoAutomotorTipoDeCobertura();
+    }
     
     //Actualizar polizaFechaEmision
 	public RiesgoAutomotores actualizarPolizaFechaEmision(@ParameterLayout(named="Fecha de Emision") final Date polizaFechaEmision){
@@ -294,13 +324,13 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
 
     //region > injected dependencies
 
-    @javax.inject.Inject
+    @Inject
     RepositoryService repositoryService;
 
-    @javax.inject.Inject
+    @Inject
     TitleService titleService;
 
-    @javax.inject.Inject
+    @Inject
     MessageService messageService;
     
     @Inject
@@ -314,6 +344,10 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
     
     @Inject
     CompaniaRepository companiaRepository;
+    
+    @Inject
+    TiposDeCoberturasRepository tiposDeCoberturasRepository;
+    
     //endregion
 
 }
