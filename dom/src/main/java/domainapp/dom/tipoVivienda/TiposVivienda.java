@@ -116,7 +116,7 @@ public class TiposVivienda implements Comparable<TiposVivienda>{
             semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
     )
     
-    public void borrarOcupacion() {
+    public void borrarTipoVivienda() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
         setTipoViviendaActivo(false);
