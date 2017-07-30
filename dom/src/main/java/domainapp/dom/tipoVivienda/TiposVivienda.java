@@ -1,12 +1,10 @@
-package domainapp.dom.tipoTitular;
+package domainapp.dom.tipoVivienda;
 
-import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.Auditing;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
-import org.apache.isis.applib.annotation.Optionality;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
@@ -22,99 +20,124 @@ import org.apache.isis.applib.util.ObjectContracts;
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
         schema = "simple",
-        table = "TipoTitulares"
+        table = "TiposVivienda"
 )
 @javax.jdo.annotations.DatastoreIdentity(
         strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
-         column="tipoTitularId")
+         column="tipoViviendaId")
 @javax.jdo.annotations.Queries({
         @javax.jdo.annotations.Query(
                 name = "findByName", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.tipoTitulares "
-                        + "WHERE tipoTitularNombre.toLowerCase().indexOf(:tipoTitularNombre) >= 0 "),
+                        + "FROM domainapp.dom.simple.tipoVivienda "
+                        + "WHERE tipoViviendaNombre.toLowerCase().indexOf(:tipoViviendaNombre) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.tipoTitulares "
-                        + "WHERE tipoTitularActivo == true "),
+                        + "FROM domainapp.dom.simple.tipoVivienda "
+                        + "WHERE tipoViviendaActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.tipoTitulares "
-                        + "WHERE tipoTitularActivo == false ") 
+                        + "FROM domainapp.dom.simple.tipoVivienda "
+                        + "WHERE tipoViviendaActivo == false ") 
 })
-@javax.jdo.annotations.Unique(name="tipoTitulares_tipoTitularNombre_UNQ", members = {"tipoTitularNombre"})
+@javax.jdo.annotations.Unique(name="tiposVivienda_tipoViviendaNombre_UNQ", members = {"tipoViviendaNombre"})
 @DomainObject(
         publishing = Publishing.ENABLED,
         auditing = Auditing.ENABLED
 )
-public class TipoTitulares implements Comparable<TipoTitulares>{
-	
+public class TiposVivienda implements Comparable<TiposVivienda>{
+
     //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("Tipo: {name}", "name", getTipoTitularNombre());
+        return TranslatableString.tr("Tipo: {name}", "name", getTipoViviendaNombre());
     }
     //endregion
 
     
     //region > constructor
-    public TipoTitulares(final String tipoTitularNombre) {
-    	setTipoTitularNombre(tipoTitularNombre);
-    	setTipoTitularActivo(true);
+    public TiposVivienda(final String tipoViviendaNombre, final String tipoViviendaDescripcion) {
+    	setTipoViviendaNombre(tipoViviendaNombre);
+    	setTipoViviendaDescripcion(tipoViviendaDescripcion);
+    	setTipoViviendaActivo(true);
     }
     //endregion
 
 	//region > name (read-only property)
     public static final int NAME_LENGTH = 40;
 
-	@Column(allowsNull = "true", length = NAME_LENGTH)
-    @Property(editing = Editing.DISABLED,optionality=Optionality.OPTIONAL)
+	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
+    @Property(editing = Editing.DISABLED)
     @PropertyLayout(named="Nombre")
-    private String tipoTitularNombre;
-
-	public String getTipoTitularNombre() {
-		return tipoTitularNombre;
+    private String tipoViviendaNombre;
+	
+	public void setTipoViviendaNombre(String tipoViviendaNombre) {
+		this.tipoViviendaNombre = tipoViviendaNombre;
 	}
 
-	public void setTipoTitularNombre(String tipoTitularNombre) {
-		this.tipoTitularNombre = tipoTitularNombre;
+
+	public String getTipoViviendaDescripcion() {
+		return tipoViviendaDescripcion;
+	}
+	
+	@javax.jdo.annotations.Column(allowsNull = "false")
+    @Property(editing = Editing.DISABLED)
+    @PropertyLayout(named="Descripcion")
+	private String tipoViviendaDescripcion;
+	
+    public String getTipoViviendaNombre() {
+		return tipoViviendaNombre;
+	}
+
+	public void setTipoViviendaDescripcion(String tipoViviendaDescripcion) {
+		this.tipoViviendaDescripcion = tipoViviendaDescripcion;
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
     @Property(editing = Editing.DISABLED)
     @PropertyLayout(named="Activo")
-	private boolean tipoTitularActivo;
+	private boolean tipoViviendaActivo;
 	
-	public boolean isTipoTitularActivo() {
-		return tipoTitularActivo;
+	public boolean isTipoViviendaActivo(){
+		return tipoViviendaActivo;
 	}
 
-	public void setTipoTitularActivo(boolean tipoTitularActivo) {
-		this.tipoTitularActivo = tipoTitularActivo;
+
+	public void setTipoViviendaActivo(boolean tipoViviendaActivo) {
+		this.tipoViviendaActivo = tipoViviendaActivo;
 	}
     //endregion
 
-    //region > delete (action)
-    public static class DeleteDomainEvent extends ActionDomainEvent<TipoTitulares> {}
+	//region > delete (action)
+    public static class DeleteDomainEvent extends ActionDomainEvent<TiposVivienda> {}
     @Action(
             domainEvent = DeleteDomainEvent.class,
             semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
     )
     
-    public void borrarTipoTitular() {
+    public void borrarOcupacion() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
-        setTipoTitularActivo(false);
+        setTipoViviendaActivo(false);
     }
     
-	public TipoTitulares actualizarNombre(@ParameterLayout(named="Nombre") final String tipoTitularNombre){
-		setTipoTitularNombre(tipoTitularNombre);
+	public TiposVivienda actualizarNombre(@ParameterLayout(named="Nombre") final String tipoViviendaNombre){
+		setTipoViviendaNombre(tipoViviendaNombre);
 		return this;
 	}
 	
 	public String default0ActualizarNombre(){
-		return getTipoTitularNombre();
+		return getTipoViviendaNombre();
+	}
+	
+	public TiposVivienda actualizarDescripcion(@ParameterLayout(named="Descripcion") final String tipoViviendaDescripcion){
+		setTipoViviendaDescripcion(tipoViviendaDescripcion);
+		return this;
+	}
+
+	public String default0ActualizarDescripcion(){
+		return getTipoViviendaDescripcion();
 	}
 	
     //endregion
@@ -122,10 +145,10 @@ public class TipoTitulares implements Comparable<TipoTitulares>{
     //region > toString, compareTo
     @Override
     public String toString() {
-        return ObjectContracts.toString(this, "tipoTitularNombre");
+        return ObjectContracts.toString(this, "tipoViviendaNombre");
     }
     @Override
-    public int compareTo(final TipoTitulares other) {
+    public int compareTo(final TiposVivienda other) {
         return ObjectContracts.compare(this, other, "name");
     }
 
