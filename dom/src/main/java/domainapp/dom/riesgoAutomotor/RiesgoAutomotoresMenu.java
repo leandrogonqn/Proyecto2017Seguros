@@ -10,6 +10,7 @@ import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
+import org.apache.isis.applib.annotation.InvokeOn;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
@@ -22,8 +23,9 @@ import domainapp.dom.compania.CompaniaRepository;
 import domainapp.dom.compania.Companias;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagosRepository;
+import domainapp.dom.estado.Estado;
 import domainapp.dom.pagoEfectivo.PagosEfectivoMenu;
-import domainapp.dom.poliza.Estado;
+import domainapp.dom.poliza.Polizas;
 import domainapp.dom.tiposDeCoberturas.TiposDeCoberturas;
 import domainapp.dom.tiposDeCoberturas.TiposDeCoberturasRepository;
 import domainapp.dom.vehiculo.Vehiculos;
@@ -40,21 +42,16 @@ import domainapp.dom.vehiculo.VehiculosRepository;
 public class RiesgoAutomotoresMenu {
 
 	  @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-	    @MemberOrder(sequence = "2")
-	    public List<RiesgoAutomotores> listar() {
-	        return polizasRepository.listar();
+	  @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Polizas Auto")
+	  @MemberOrder(sequence = "2")
+	  public List<RiesgoAutomotores> listar() {
+			  List<RiesgoAutomotores> listaPolizasRiesgoAutomotores = polizasRepository.listar();
+			  for(int i=0; i< listaPolizasRiesgoAutomotores.size(); i++) {
+		            listaPolizasRiesgoAutomotores.get(i).actualizarPoliza();
+		        }
+		      return listaPolizasRiesgoAutomotores;
 	    }
-	    
-	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-	    @MemberOrder(sequence = "3")
-	    public List<RiesgoAutomotores> buscarpolizaNumero(
-	            @ParameterLayout(named="Numero")
-	            final String polizaNumero){
-	        return polizasRepository.buscarPolizaNumero(polizaNumero);
-	    }
-	    
+	  
 	    public List<Clientes> choices1Crear(){
 	    	return clientesRepository.listarActivos();
 	    }
@@ -76,7 +73,7 @@ public class RiesgoAutomotoresMenu {
 	    }
 
 	    public static class CreateDomainEvent extends ActionDomainEvent<RiesgoAutomotoresMenu> {}
-	    @Action(domainEvent = CreateDomainEvent.class)
+	    @Action(domainEvent = CreateDomainEvent.class, invokeOn=InvokeOn.OBJECT_ONLY)
 	    @MemberOrder(sequence = "1")
 	    public RiesgoAutomotores crear(
 	            @ParameterLayout(named="Número") final String polizaNumero,
@@ -90,8 +87,7 @@ public class RiesgoAutomotoresMenu {
 				@ParameterLayout(named="Fecha Vencimiento Pago") final Date polizaFechaVencimientoPago,
 				@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago,
 				@ParameterLayout(named="Alerta Vencimiento Pago") final boolean polizaAlertaVencimientoPago,
-				@ParameterLayout(named="Precio Total") final double polizaImporteTotal,
-				@ParameterLayout(named="Estado") final Estado polizaEstado)
+				@ParameterLayout(named="Precio Total") final double polizaImporteTotal)
 	    {
 	        return polizasRepository.crear(
 	        		polizaNumero, 
@@ -105,8 +101,7 @@ public class RiesgoAutomotoresMenu {
 	        		polizaFechaVencimientoPago, 
 	        		polizaPago, 
 	        		polizaAlertaVencimientoPago, 
-	        		polizaImporteTotal, 
-	        		polizaEstado);
+	        		polizaImporteTotal);
 	    }
 
 
