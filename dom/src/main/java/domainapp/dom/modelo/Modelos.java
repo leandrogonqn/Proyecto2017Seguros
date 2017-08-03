@@ -8,9 +8,13 @@ import javax.inject.Inject;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
+import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
@@ -201,11 +205,6 @@ public class Modelos implements Comparable<Modelos> {
 		return getModeloActivo();
 	}
 	
-    public Marcas agregarMarca(
-            @ParameterLayout(named="Nombre") final String marcaNombre){
-        return marcaRepository.crear(marcaNombre);
-    }
-    
     //endregion
 
     //region > toString, compareTo
@@ -219,6 +218,28 @@ public class Modelos implements Comparable<Modelos> {
     }
 
     //endregion
+    
+    //acciones
+    @Action(semantics = SemanticsOf.SAFE)
+	    @ActionLayout(named="Listar todos los Modelos")
+	    @MemberOrder(sequence = "2")
+	    public List<Modelos> listar() {
+	        return modelosRepository.listar();
+	    }
+	    
+	    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+	    @ActionLayout(named="Listar Modelos Activos")
+	    @MemberOrder(sequence = "3")
+	    public List<Modelos> listarActivos() {
+	        return modelosRepository.listarActivos();
+	    }
+	    
+	    @Action(semantics = SemanticsOf.SAFE)
+	    @ActionLayout(named="Listar Modelos Inactivos")
+	    @MemberOrder(sequence = "4")
+	    public List<Modelos> listarInactivos() {
+	        return modelosRepository.listarInactivos();
+	    }
 
     //region > injected dependencies
 
@@ -236,6 +257,9 @@ public class Modelos implements Comparable<Modelos> {
     
     @javax.inject.Inject
     MarcasRepository marcaRepository;
+    
+    @Inject
+    ModelosRepository modelosRepository;
 
 
     //endregion

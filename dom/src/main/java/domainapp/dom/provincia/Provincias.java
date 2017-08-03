@@ -1,10 +1,16 @@
 package domainapp.dom.provincia;
 
+import java.util.List;
+
+import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
@@ -16,10 +22,6 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
-
-import domainapp.dom.cliente.Clientes;
-import domainapp.dom.cliente.Sexo;
-import domainapp.dom.tipoVehiculo.TipoVehiculo;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -59,7 +61,9 @@ public class Provincias implements Comparable<Provincias> {
     }
     //endregion
     
-
+    public String cssClass(){
+    	return (getProvinciaActivo()==true)? "activo":"inactivo";
+    }
 
     public static final int NAME_LENGTH = 200;
     // Constructor
@@ -147,6 +151,28 @@ public class Provincias implements Comparable<Provincias> {
     }
 
     //endregion
+    
+    //acciones
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar todas las Provincias")
+    @MemberOrder(sequence = "2")
+    public List<Provincias> listar() {
+        return provinciasRepository.listar();
+    }
+    
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Provincia Activas")
+    @MemberOrder(sequence = "3")
+    public List<Provincias> listarActivos() {
+        return provinciasRepository.listarActivos();
+    }
+    
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Provincias Inactivas")
+    @MemberOrder(sequence = "4")
+    public List<Provincias> listarInactivos() {
+        return provinciasRepository.listarInactivos();
+    }
 
     //region > injected dependencies
 
@@ -159,6 +185,8 @@ public class Provincias implements Comparable<Provincias> {
     @javax.inject.Inject
     MessageService messageService;
 
+    @Inject
+    ProvinciasRepository provinciasRepository;
 
     //endregion
 }

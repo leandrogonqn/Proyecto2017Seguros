@@ -18,13 +18,20 @@
  */
 package domainapp.dom.banco;
 
+import java.util.List;
+
+import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
+import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.CommandReification;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
@@ -167,6 +174,28 @@ public class Bancos implements Comparable<Bancos> {
     }
 
     //endregion
+    
+    //acciones
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Todos los Bancos")
+    @MemberOrder(sequence = "2")
+    public List<Bancos> listar() {
+        return bancoRepository.listar();
+    }
+    
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Bancos Activos")
+    @MemberOrder(sequence = "3")
+    public List<Bancos> listarActivos() {
+        return bancoRepository.listarActivos();
+    }
+    
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Bancos Inactivos")
+    @MemberOrder(sequence = "4")
+    public List<Bancos> listarInactivos() {
+        return bancoRepository.listarInactivos();
+    }
 
     //region > injected dependencies
 
@@ -178,6 +207,9 @@ public class Bancos implements Comparable<Bancos> {
 
     @javax.inject.Inject
     MessageService messageService;
+    
+    @Inject
+    BancosRepository bancoRepository;
 
     //endregion
 

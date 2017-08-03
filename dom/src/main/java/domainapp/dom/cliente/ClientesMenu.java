@@ -49,29 +49,17 @@ public class ClientesMenu {
 
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, 
+    named="Listar todos los clientes")
     @MemberOrder(sequence = "2")
     public List<Clientes> listar() {
         return clientesRepository.listar();
     }
-    
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "3")
-    public List<Clientes> listarActivos() {
-        return clientesRepository.listarActivos();
-    }
-    
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "4")
-    public List<Clientes> listarInactivos() {
-        return clientesRepository.listarInactivos();
-    }
-
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, 
+    	cssClassFa="fa-search", 
+    	named="Buscar Por Nombre")
     @MemberOrder(sequence = "5")
     public List<Clientes> buscarPorNombre(
             @ParameterLayout(named="Nombre")
@@ -81,7 +69,9 @@ public class ClientesMenu {
     }
     
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, 
+    	cssClassFa="fa-search",
+    	named="Buscar Por DNI")
     @MemberOrder(sequence = "6")
     public List<Clientes> buscarPorDNI(
             @ParameterLayout(named="DNI")
@@ -97,6 +87,7 @@ public class ClientesMenu {
 
     public static class CreateDomainEvent extends ActionDomainEvent<ClientesMenu> {}
     @Action(domainEvent = CreateDomainEvent.class)
+    @ActionLayout(named="Crear Cliente")
     @MemberOrder(sequence = "1")
     public Clientes crear(
             @ParameterLayout(named="Nombre") final String clienteNombre, 

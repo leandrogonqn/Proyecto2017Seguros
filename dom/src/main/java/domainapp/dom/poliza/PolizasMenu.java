@@ -39,7 +39,7 @@ public class PolizasMenu {
 	    }
 	    
 	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Buscar poliza por Numero")
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Buscar polizas por Numero")
 	    @MemberOrder(sequence = "1.1")
 	    public List<Polizas> buscarpolizaNumero(
 	            @ParameterLayout(named="Numero")
@@ -48,7 +48,7 @@ public class PolizasMenu {
 	    }
 	    
 	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Buscar poliza por Clientes")
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Buscar polizas por Clientes")
 	    @MemberOrder(sequence = "1.2")
 	    public List<Polizas> buscarPorCliente(
 	    		@ParameterLayout(named="Cliente") final Clientes polizaCliente){

@@ -74,6 +74,7 @@ public class RiesgoAutomotoresMenu {
 
 	    public static class CreateDomainEvent extends ActionDomainEvent<RiesgoAutomotoresMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class, invokeOn=InvokeOn.OBJECT_ONLY)
+	    @ActionLayout(named="Crear Poliza Auto")
 	    @MemberOrder(sequence = "1")
 	    public RiesgoAutomotores crear(
 	            @ParameterLayout(named="Número") final String polizaNumero,

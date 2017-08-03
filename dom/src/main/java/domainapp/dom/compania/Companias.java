@@ -1,10 +1,17 @@
 package domainapp.dom.compania;
 
+import java.util.List;
+
+import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
+import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
@@ -32,7 +39,6 @@ import org.apache.isis.applib.util.ObjectContracts;
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Companias "
                         + "WHERE companiaNombre.toLowerCase().indexOf(:companiaNombre) >= 0 "),
-
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
@@ -201,6 +207,28 @@ public class Companias implements Comparable<Companias> {
     }
 
     //endregion
+    
+    //acciones
+	    @ActionLayout(named="Listar Todas las Compañias")
+	  @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+	    @MemberOrder(sequence = "2")
+	    public List<Companias> listar() {
+	        return companiaRepository.listar();
+	    }
+	    
+	    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+	    @ActionLayout(named="Listar Activos")
+	    @MemberOrder(sequence = "3")
+	    public List<Companias> listarActivos() {
+	        return companiaRepository.listarActivos();
+	    }
+	    
+	    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+	    @ActionLayout(named="Listar Inactivos")
+	    @MemberOrder(sequence = "4")
+	    public List<Companias> listarInactivos() {
+	        return companiaRepository.listarInactivos();
+	    }
 
     //region > injected dependencies
 
@@ -212,6 +240,9 @@ public class Companias implements Comparable<Companias> {
 
     @javax.inject.Inject
     MessageService messageService;
+    
+    @Inject
+    CompaniaRepository companiaRepository;
 
     //endregion
 }

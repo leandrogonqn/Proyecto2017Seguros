@@ -1,15 +1,21 @@
 package domainapp.dom.pagoEfectivo;
 
 import java.math.BigInteger;
+import java.util.List;
 
+import javax.inject.Inject;
 import javax.jdo.annotations.Discriminator;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
+import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
@@ -23,6 +29,8 @@ import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
 
 import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
+import domainapp.dom.tipoTarjeta.TiposTarjetas;
+import domainapp.dom.tipoTarjeta.TiposTarjetasRepository;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -83,7 +91,7 @@ public class PagosEfectivo extends DetalleTipoPagos implements Comparable<PagosE
     }
 
     //endregion
-
+    
     //region > injected dependencies
 
     @javax.inject.Inject
@@ -94,7 +102,7 @@ public class PagosEfectivo extends DetalleTipoPagos implements Comparable<PagosE
 
     @javax.inject.Inject
     MessageService messageService;
-
+    
 
     //endregion
 }

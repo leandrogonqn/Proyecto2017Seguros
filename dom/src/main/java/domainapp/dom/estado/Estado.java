@@ -12,13 +12,13 @@ import domainapp.dom.riesgoAutomotor.RiesgoAutomotoresMenu;
 import domainapp.dom.riesgoAutomotor.RiesgoAutomotoresRepository;
 
 public enum Estado implements IEstados{
-	previgente("Previgente"),
-	vigenteConRenovacion("Vigente Con Renovacion ya emitida"),
-	vigenteSinRenovacionConVencimientoMenor15Dias("Vigente S/Renovacion ¡Vence en menos de 15 días!"),
-	vigenteSinRenovacionConVencimientoMenor30Dias("Vigente S/Renovacion ¡Vence en menos de 30 días!"),
-	vigenteSinRenovacionConVencimientoMayor30Dias("Vigente"),
-	vencida("Vencida"),
-	anulada("Anulada"){
+	previgente("previgente"),
+	vigenteConRenovacion("vigenteConRenovacion"),
+	vigenteSinRenovacionConVencimientoMenor15Dias("vigenteSinRenovacionConVencimientoMenor15Dias"),
+	vigenteSinRenovacionConVencimientoMenor30Dias("vigenteSinRenovacionConVencimientoMenor30Dias"),
+	vigenteSinRenovacionConVencimientoMayor30Dias("vigenteSinRenovacionConVencimientoMayor30Dias"),
+	vencida("vencida"),
+	anulada("anulada"){
 		
 		@Override
 		public void actualizarEstado(Polizas poliza) {
@@ -26,16 +26,18 @@ public enum Estado implements IEstados{
 		}
 	
 		@Override
-		public void anulacion(Polizas poliza) {
+		public void anulacion(Polizas poliza, Date polizaFechaBaja, String polizaMotivoBaja) {
 			// TODO Auto-generated method stub
 			JOptionPane.showMessageDialog(null, "No se puede anular la poliza porque ya está anulada");
 		}
 	};
 	
 	@Override
-	public void anulacion(Polizas poliza) {
+	public void anulacion(Polizas poliza, Date polizaFechaBaja, String polizaMotivoBaja) {
 		// TODO Auto-generated method stub
 		poliza.setPolizaEstado(anulada);
+		poliza.setPolizaFechaBaja(polizaFechaBaja);
+		poliza.setPolizaMotivoBaja(polizaMotivoBaja);
 	}
 	
 	@Override

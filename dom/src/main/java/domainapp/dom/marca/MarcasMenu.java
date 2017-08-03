@@ -9,6 +9,7 @@ import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
 import org.apache.isis.applib.annotation.DomainServiceLayout.MenuBar;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
@@ -35,29 +36,14 @@ import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
 public class MarcasMenu {
 	
 	  @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar todas las Marcas")
 	    @MemberOrder(sequence = "2")
 	    public List<Marcas> listar() {
 	        return marcasRepository.listar();
 	    }
-	    
-	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-	    @MemberOrder(sequence = "3")
-	    public List<Marcas> listarActivos() {
-	        return marcasRepository.listarActivos();
-	    }
-	    
-	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-	    @MemberOrder(sequence = "4")
-	    public List<Marcas> listarInactivos() {
-	        return marcasRepository.listarInactivos();
-	    }
-
 
 	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Buscar Marca")
 	    @MemberOrder(sequence = "5")
 	    public List<Marcas> buscarPorNombre(
 	            @ParameterLayout(named="Nombre")
@@ -66,15 +52,9 @@ public class MarcasMenu {
 
 	    }
 	    
-	    @Property(
-	            editing = Editing.DISABLED, editingDisabledReason=" "
-	    )
-	    @MemberOrder(sequence="1.1")
-	    @ActionLayout(named="MARCAS")
-	    public void vehiculoTitulo(){}
-
 	    public static class CreateDomainEvent extends ActionDomainEvent<MarcasMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class)
+	    @ActionLayout(named="Crear Marca")
 	    @MemberOrder(sequence = "1.2")
 	    public Marcas crear(
 	            @ParameterLayout(named="Nombre") final String marcaNombre){

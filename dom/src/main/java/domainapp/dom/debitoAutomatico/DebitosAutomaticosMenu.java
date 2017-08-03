@@ -41,6 +41,7 @@ public class DebitosAutomaticosMenu {
 	
 	    public static class CreateDomainEvent extends ActionDomainEvent<DebitosAutomaticosMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class)
+	    @ActionLayout(named="Crear Debito Automatico")
 	    @MemberOrder(sequence = "1.2")
 	    public DebitosAutomaticos crear(
 	    		@ParameterLayout(named="Titular") final String tipoPagoTitular,
@@ -52,13 +53,6 @@ public class DebitosAutomaticosMenu {
 	    public List<Bancos> choices1Crear(){
 	    	return debitoAutomaticoBancoRepository.listarActivos();
 	    }
-
-	    @Property(
-	            editing = Editing.DISABLED, editingDisabledReason=" "
-	    )
-	    @MemberOrder(sequence="1.1")
-	    @ActionLayout(named="Debito Automatico")
-	    public void titulo(){}
 
 	    @javax.inject.Inject
 	    DebitosAutomaticosRepository debitoAutomaticoRepository;

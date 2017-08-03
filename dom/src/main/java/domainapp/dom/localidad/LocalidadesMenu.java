@@ -32,35 +32,21 @@ import domainapp.dom.tipoVehiculo.TipoVehiculo;
         repositoryFor = Localidades.class
 )
 @DomainServiceLayout(
-        named = "Lugares",
-        menuOrder = "6.2"
+        named = "Clientes",
+        menuOrder = "3"
 )
 public class LocalidadesMenu {
 	
 	  @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT,
+	    named="Listar todas las Localidades")
 	    @MemberOrder(sequence = "2")
 	    public List<Localidades> listar() {
 	        return localidadesRepository.listar();
 	    }
 	    
 	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-	    @MemberOrder(sequence = "3")
-	    public List<Localidades> listarActivos() {
-	        return localidadesRepository.listarActivos();
-	    }
-	    
-	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-	    @MemberOrder(sequence = "4")
-	    public List<Localidades> listarInactivos() {
-	        return localidadesRepository.listarInactivos();
-	    }
-
-
-	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Buscar Localidad Por Nombre")
 	    @MemberOrder(sequence = "5")
 	    public List<Localidades> buscarPorNombre(
 	            @ParameterLayout(named="Nombre")
@@ -73,16 +59,10 @@ public class LocalidadesMenu {
 	    	return provinciasRepository.listarActivos();
 	    }
 	    
-	    @Property(
-	            editing = Editing.DISABLED, editingDisabledReason=" "
-	    )
-	    @MemberOrder(sequence="1.1")
-	    @ActionLayout(named="Localidades")
-	    public void vehiculoTitulo(){}
-
 	    public static class CreateDomainEvent extends ActionDomainEvent<LocalidadesMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class)
 	    @MemberOrder(sequence = "1.2")
+	    @ActionLayout(named="Crear Localidad")
 	    public Localidades crear(
 	            @ParameterLayout(named="Nombre") final String localidadNombre,
 	            @ParameterLayout(named="Provincia") final Provincias localidadProvincia){

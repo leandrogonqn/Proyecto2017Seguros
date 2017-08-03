@@ -10,6 +10,7 @@ import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
@@ -41,29 +42,14 @@ import domainapp.dom.marca.MarcasRepository;
 public class ModelosMenu {
 	
 	  @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar todos los Modelos")
 	    @MemberOrder(sequence = "2")
 	    public List<Modelos> listar() {
 	        return modelosRepository.listar();
 	    }
-	    
-	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-	    @MemberOrder(sequence = "3")
-	    public List<Modelos> listarActivos() {
-	        return modelosRepository.listarActivos();
-	    }
-	    
-	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-	    @MemberOrder(sequence = "4")
-	    public List<Modelos> listarInactivos() {
-	        return modelosRepository.listarInactivos();
-	    }
-
 
 	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Buscar Modelos")
 	    @MemberOrder(sequence = "5")
 	    public List<Modelos> buscarPorNombre(
 	            @ParameterLayout(named="Nombre")
@@ -80,15 +66,8 @@ public class ModelosMenu {
 	    	return  marcaRepository.listarActivos();
 	    }
 
-	     @Property(
-	             editing = Editing.DISABLED, editingDisabledReason=" "
-	     )
-	     @MemberOrder(sequence="1.1")
-	     @ActionLayout(named="MODELO")
-	     public void vehiculoTitulo(){}
-
 	    @MemberOrder(sequence = "1.2")
-	    @ActionLayout()
+	    @ActionLayout(named="Crear Modelo")
 	    public Modelos crear(
 	            @ParameterLayout(named="Nombre") final String modeloNombre,
 	            @ParameterLayout(named="Tipo Vehiculo")final TipoVehiculo modeloTipoVehiculo,

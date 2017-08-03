@@ -26,6 +26,7 @@ import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
@@ -46,28 +47,14 @@ public class TipoVehiculoMenu {
 
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Tipos de Vehiculos")
     @MemberOrder(sequence = "2")
     public List<TipoVehiculo> listar() {
         return tipoVehiculoRepository.listar();
     }
-    
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "3")
-    public List<TipoVehiculo> listarActivos() {
-        return tipoVehiculoRepository.listarActivos();
-    }
-    
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "4")
-    public List<TipoVehiculo> listarInactivos() {
-        return tipoVehiculoRepository.listarInactivos();
-    }
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Buscar Tipo de Vehiculo")
     @MemberOrder(sequence = "5")
     public List<TipoVehiculo> buscarPorNombre(
             @ParameterLayout(named="Nombre")
@@ -76,16 +63,10 @@ public class TipoVehiculoMenu {
         return tipoVehiculoRepository.buscarPorNombre(tipoVehiculoNombre);
     }
     
-    @Property(
-            editing = Editing.DISABLED, editingDisabledReason=" "
-    )
-    @MemberOrder(sequence="1.1")
-    @ActionLayout(named="TIPO VEHICULO")
-    public void vehiculoTitulo(){}
-
     public static class CreateDomainEvent extends ActionDomainEvent<TipoVehiculoMenu> {}
     @Action(domainEvent = CreateDomainEvent.class)
     @MemberOrder(sequence = "1.2")
+    @ActionLayout(named="Crear Tipo de Vehiculo")
     public TipoVehiculo crear(
             @ParameterLayout(named="Nombre")
             final String tipoVehiculoNombre) {

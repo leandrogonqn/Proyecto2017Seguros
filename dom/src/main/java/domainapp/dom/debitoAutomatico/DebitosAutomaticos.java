@@ -81,7 +81,7 @@ public class DebitosAutomaticos extends DetalleTipoPagos implements Comparable<D
 	}
 
     //endregion
-    
+	
     //region > delete (action)
     public static class DeleteDomainEvent extends ActionDomainEvent<DebitosAutomaticos> {}
     @Action(

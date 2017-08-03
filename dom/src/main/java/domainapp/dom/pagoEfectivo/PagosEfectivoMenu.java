@@ -45,6 +45,7 @@ public class PagosEfectivoMenu {
 	    public static class CreateDomainEvent extends ActionDomainEvent<PagosEfectivoMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class)
 	    @MemberOrder(sequence = "1.2")
+	    @ActionLayout(named="Crear Efectivo")
 	    public PagosEfectivo crear(){
         	PagosEfectivo a;
 	    	List<DetalleTipoPagos> listaEfectivo = pagoEfectivoRepository.listarEfectivo();
@@ -59,32 +60,6 @@ public class PagosEfectivoMenu {
 	        return (PagosEfectivo) a;
 	    }
 
-	    @Property(
-	            editing = Editing.DISABLED, editingDisabledReason=" "
-	    )
-	    @MemberOrder(sequence="1.1")
-	    @ActionLayout(named="Efectivo")
-	    public void titulo(){}
-	    
-//		public List<DetalleTipoPagos> listarEfectivo(){
-//		List<DetalleTipoPagos> listaEfectivo = detalleTipoPagosRepository.listarActivos();
-//    	Iterator<DetalleTipoPagos> it = listaEfectivo.iterator();
-//    	while (it.hasNext()) {
-//    	    DetalleTipoPagos lista = it.next();
-//    	    if (!lista.getTipoPagoNombre().equals("Efectivo")) {
-//    	    	it.remove();
-//    	    }
-//    	}
-//		return listaEfectivo;
-//		}
-		
-//		public List<DetalleTipoPagos> listarActivos(){
-//			 return repositoryService.allMatches(
-//		          new QueryDefault<>(
-//		                  DetalleTipoPagos.class,
-//		                  "listarActivos"));
-//		  }
-			  
 		@javax.inject.Inject
 		RepositoryService repositoryService;  
 

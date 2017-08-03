@@ -1,10 +1,17 @@
 package domainapp.dom.marca;
 
+import java.util.List;
+
+import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
+import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
@@ -151,6 +158,28 @@ public class Marcas implements Comparable<Marcas> {
     }
 
     //endregion
+    
+    //acciones
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+	    @ActionLayout(named="Listar todas las Marcas")
+	    @MemberOrder(sequence = "2")
+	    public List<Marcas> listar() {
+	        return marcasRepository.listar();
+	    }
+	    
+	    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+	    @ActionLayout(named="Listar Marcas Activas")
+	    @MemberOrder(sequence = "3")
+	    public List<Marcas> listarActivos() {
+	        return marcasRepository.listarActivos();
+	    }
+	    
+	    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+	    @ActionLayout(named="Listar Marcas Inactivas")
+	    @MemberOrder(sequence = "4")
+	    public List<Marcas> listarInactivos() {
+	        return marcasRepository.listarInactivos();
+	    }
 
     //region > injected dependencies
 
@@ -162,6 +191,9 @@ public class Marcas implements Comparable<Marcas> {
 
     @javax.inject.Inject
     MessageService messageService;
+    
+    @Inject
+    MarcasRepository marcasRepository;
 
 
     //endregion

@@ -1,10 +1,17 @@
 package domainapp.dom.ocupacion;
 
+import java.util.List;
+
+import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
+import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
@@ -16,6 +23,7 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
+import org.datanucleus.enhancer.methods.GetTransactionalObjectId;
 
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -64,6 +72,10 @@ public class Ocupaciones implements Comparable<Ocupaciones>{
     	setOcupacionActivo(true);
     }
     //endregion
+    
+    public String cssClass(){
+    	return (isOcupacionActivo()==true)? "activo":"inactivo";
+    }
 
 	//region > name (read-only property)
     public static final int NAME_LENGTH = 40;
@@ -158,6 +170,28 @@ public class Ocupaciones implements Comparable<Ocupaciones>{
     }
 
     //endregion
+    
+    //acciones
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Ocupaciones")
+    @MemberOrder(sequence = "2")
+    public List<Ocupaciones> listar() {
+        return ocupacionesRepository.listar();
+    }
+    
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Ocupaciones Activas")
+    @MemberOrder(sequence = "3")
+    public List<Ocupaciones> listarActivos() {
+        return ocupacionesRepository.listarActivos();
+    }
+    
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Ocupaciones Inactivas")
+    @MemberOrder(sequence = "4")
+    public List<Ocupaciones> listarInactivos() {
+        return ocupacionesRepository.listarInactivos();
+    }
 
     //region > injected dependencies
 
@@ -169,6 +203,9 @@ public class Ocupaciones implements Comparable<Ocupaciones>{
 
     @javax.inject.Inject
     MessageService messageService;
+    
+    @Inject
+    OcupacionesRepository ocupacionesRepository;
 
     //endregion
 }

@@ -14,17 +14,30 @@ import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
+import domainapp.dom.banco.Bancos;
+
 @DomainService(
         nature = NatureOfService.DOMAIN,
         repositoryFor = DetalleTipoPagos.class
 )
 public class DetalleTipoPagosRepository {
 	
+    public List<DetalleTipoPagos> listar() {
+        return repositoryService.allInstances(DetalleTipoPagos.class);
+    }
+	
 	public List<DetalleTipoPagos> listarActivos(){
 		 return repositoryService.allMatches(
 	          new QueryDefault<>(
 	                  DetalleTipoPagos.class,
 	                  "listarActivos"));
+	  }
+	
+	public List<DetalleTipoPagos> listarInactivos(){
+		 return repositoryService.allMatches(
+	          new QueryDefault<>(
+	                  DetalleTipoPagos.class,
+	                  "listarInactivos"));
 	  }
 	
     public List<DetalleTipoPagos> buscarPorTitular(String tipoPagoTitular) {

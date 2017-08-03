@@ -1,10 +1,17 @@
 package domainapp.dom.tiposDeCoberturas;
 
+import java.util.List;
+
+import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
+import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
@@ -151,6 +158,28 @@ public class TiposDeCoberturas implements Comparable<TiposDeCoberturas> {
     }
 
     //endregion
+    
+    //acciones
+	  @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+	    @ActionLayout(named="Listar Tipos de Coberturas")
+	    @MemberOrder(sequence = "2")
+	    public List<TiposDeCoberturas> listar() {
+	        return tiposDeCoberturasRepository.listar();
+	    }
+	    
+	    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+	    @ActionLayout(named="Listar Tipos de Coberturas Activos")
+	    @MemberOrder(sequence = "3")
+	    public List<TiposDeCoberturas> listarActivos() {
+	        return tiposDeCoberturasRepository.listarActivos();
+	    }
+	    
+	    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+	    @ActionLayout(named="Listar Tipos de Coberturas Inactivos")
+	    @MemberOrder(sequence = "4")
+	    public List<TiposDeCoberturas> listarInactivos() {
+	        return tiposDeCoberturasRepository.listarInactivos();
+	    }
 
     //region > injected dependencies
 
@@ -163,6 +192,8 @@ public class TiposDeCoberturas implements Comparable<TiposDeCoberturas> {
     @javax.inject.Inject
     MessageService messageService;
 
+    @Inject
+    TiposDeCoberturasRepository tiposDeCoberturasRepository;
 
     //endregion
 }

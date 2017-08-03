@@ -5,11 +5,16 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
+import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
@@ -266,6 +271,28 @@ public class Vehiculos implements Comparable<Vehiculos> {
     }
 
     //endregion
+    
+    //acciones
+  	@Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Vehiculos")
+    @MemberOrder(sequence = "2")
+    public List<Vehiculos> listar() {
+        return vehiculosRepository.listar();
+    }
+    
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Vehiculos Activos")
+    @MemberOrder(sequence = "3")
+    public List<Vehiculos> listarActivos() {
+        return vehiculosRepository.listarActivos();
+    }
+    
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Vehiculos Inactivos")
+    @MemberOrder(sequence = "4")
+    public List<Vehiculos> listarInactivos() {
+        return vehiculosRepository.listarInactivos();
+    }
 
     //region > injected dependencies
 
@@ -281,5 +308,7 @@ public class Vehiculos implements Comparable<Vehiculos> {
     @javax.inject.Inject
     ModelosRepository modeloRepository;
 
+    @Inject
+    VehiculosRepository vehiculosRepository;
     //endregion
 }

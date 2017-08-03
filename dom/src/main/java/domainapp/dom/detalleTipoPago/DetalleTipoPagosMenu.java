@@ -23,6 +23,7 @@ import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
+import domainapp.dom.banco.Bancos;
 import domainapp.dom.cliente.Clientes;
 import domainapp.dom.cliente.ClientesMenu;
 import domainapp.dom.cliente.ClientesRepository;
@@ -42,18 +43,13 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPagosRepository;
 )
 public class DetalleTipoPagosMenu {
 	
-	    @Property(
-	            editing = Editing.DISABLED, editingDisabledReason=" "
-	    )
-	    @MemberOrder(sequence="1.1")
-	    @ActionLayout(named="General")
-	    public void titulo(){}
-	    
-	    @MemberOrder(sequence="1.2")
-	    @ActionLayout(named="Listar Activos")
-		public List<DetalleTipoPagos> listarActivos(){
-			 return detalleTipoPagosRepository.listarActivos();
-		  }
+	    @Action(semantics = SemanticsOf.SAFE)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT,
+	    		named="Listar Todos los Pagos")
+	    @MemberOrder(sequence = "2")
+	    public List<DetalleTipoPagos> listarPagos() {
+	        return detalleTipoPagosRepository.listar();
+	    }
 	    
 	    @Action(semantics = SemanticsOf.SAFE)
 	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")

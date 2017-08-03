@@ -68,6 +68,12 @@ public abstract class Polizas{
     
 	public static final int NAME_LENGTH = 200;
 	
+    public String cssClass(){
+    	String a = null;
+    	a = getPolizaEstado().toString();   		
+		return a;
+    }
+	
 	//Poliza Numero
 	@Column(allowsNull = "false")
     @Property(
@@ -309,10 +315,17 @@ public abstract class Polizas{
 			invokeOn=InvokeOn.OBJECT_ONLY
 			)
 	@ActionLayout(named="Anular Poliza")
-	public Polizas anulacion(){
-		polizaEstado.anulacion(this);
+	public Polizas anulacion(
+			@ParameterLayout(named="Fecha de la Baja") final Date polizaFechaBaja,
+			@ParameterLayout(named="Motivo de la Baja") final String polizaMotivoBaja){
+		polizaEstado.anulacion(this, polizaFechaBaja, polizaMotivoBaja);
 		return this;
 	}
+	
+    public Date default0Anulacion() {
+    	Date hoy = new Date();
+    	return hoy;
+    }
 	
 	@Inject 
 	PolizasRepository polizasRepository;

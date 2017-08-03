@@ -2,6 +2,7 @@ package domainapp.dom.detalleTipoPago;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Discriminator;
 import javax.jdo.annotations.DiscriminatorStrategy;
@@ -10,9 +11,15 @@ import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.NotPersistent;
 
+import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
+import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
+import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.repository.RepositoryService;
@@ -37,11 +44,19 @@ import domainapp.dom.banco.Bancos;
             name = "listarActivos", language = "JDOQL",
             value = "SELECT "
                     + "FROM domainapp.dom.simple.DetalleTipoPagos "
-                    + "WHERE tipoPagoActivo == true ")
-})
+                    + "WHERE tipoPagoActivo == true "),
+    @javax.jdo.annotations.Query(
+            name = "listarInactivos", language = "JDOQL",
+            value = "SELECT "
+                    + "FROM domainapp.dom.simple.DetalleTipoPagos "
+                    + "WHERE tipoPagoActivo == false ")})
 @Inheritance(strategy=InheritanceStrategy.NEW_TABLE)
 @Discriminator(strategy=DiscriminatorStrategy.VALUE_MAP, column="tipoDePagoNombre")
 public abstract class DetalleTipoPagos {
+	
+    public String cssClass(){
+    	return (getTipoPagoActivo()==true)? "activo":"inactivo";
+    }
 	
     @Column(allowsNull="false")
     @Property(
@@ -102,5 +117,30 @@ public abstract class DetalleTipoPagos {
 	public void setTipoPagoBanco(Bancos tipoPagoBanco) {
 		this.tipoPagoBanco = tipoPagoBanco;
 	}
+	
+	//acciones
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Todos los Pagos")
+    @MemberOrder(sequence = "2")
+    public List<DetalleTipoPagos> listarPagos() {
+        return detalleTipoPagosRepository.listar();
+    }
+
+    @MemberOrder(sequence="1.2")
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Pagos Activos")
+	public List<DetalleTipoPagos> listarActivos(){
+		 return detalleTipoPagosRepository.listarActivos();
+	  }
+    
+    @MemberOrder(sequence="1.2")
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Pagos Inactivos")
+	public List<DetalleTipoPagos> listarInactivos(){
+		 return detalleTipoPagosRepository.listarInactivos();
+	  }
+    
+    @Inject
+    DetalleTipoPagosRepository detalleTipoPagosRepository;
 	
 }

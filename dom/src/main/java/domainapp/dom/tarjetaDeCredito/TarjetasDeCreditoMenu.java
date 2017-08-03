@@ -51,6 +51,7 @@ public class TarjetasDeCreditoMenu {
 	    public static class CreateDomainEvent extends ActionDomainEvent<TarjetasDeCreditoMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class)
 	    @MemberOrder(sequence = "1.2")
+	    @ActionLayout(named="Crear Tarjeta de Credito")
 	    public TarjetasDeCredito crear(
 	    		@ParameterLayout(named="Titular") final String tipoPagoTitular,
 	    		@ParameterLayout(named="Tipo de Tarjeta") final TiposTarjetas tipoTarjeta,
@@ -89,13 +90,6 @@ public class TarjetasDeCreditoMenu {
 	    	}
 	    	return numbers;
 	    }
-	    
-	    @Property(
-	            editing = Editing.DISABLED, editingDisabledReason=" "
-	    )
-	    @MemberOrder(sequence="1.1")
-	    @ActionLayout(named="Tarjeta de Credito")
-	    public void titulo(){}
 	    
 	    @javax.inject.Inject
 	    TarjetasDeCreditoRepository debitoAutomaticoRepository;

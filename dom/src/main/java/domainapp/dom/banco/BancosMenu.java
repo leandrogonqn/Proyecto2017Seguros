@@ -39,35 +39,24 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
         repositoryFor = Bancos.class
 )
 @DomainServiceLayout(
-        named = "Bancos",
-        menuOrder = "15"
+        named = "Tipo de pago",
+        menuOrder = "25"
 )
 public class BancosMenu {
 
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT,
+    		named="Listar Todos los Bancos")
     @MemberOrder(sequence = "2")
     public List<Bancos> listar() {
         return bancoRepository.listar();
     }
     
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "3")
-    public List<Bancos> listarActivos() {
-        return bancoRepository.listarActivos();
-    }
-    
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "4")
-    public List<Bancos> listarInactivos() {
-        return bancoRepository.listarInactivos();
-    }
-
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT,
+    	cssClassFa="fa-search",
+    	named="Buscar Banco Por Nombre")
     @MemberOrder(sequence = "5")
     public List<Bancos> buscarPorNombre(
             @ParameterLayout(named="Nombre")
@@ -78,6 +67,7 @@ public class BancosMenu {
 
     public static class CreateDomainEvent extends ActionDomainEvent<BancosMenu> {}
     @Action(domainEvent = CreateDomainEvent.class)
+    @ActionLayout(named="Crear Banco")
     @MemberOrder(sequence = "1.2")
     public Bancos crear(
             @ParameterLayout(named="Nombre")

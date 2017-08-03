@@ -1,11 +1,18 @@
 package domainapp.dom.tipoTitular;
 
+import java.util.List;
+
+import javax.inject.Inject;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
+import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Optionality;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
@@ -64,6 +71,10 @@ public class TipoTitulares implements Comparable<TipoTitulares>{
     	setTipoTitularActivo(true);
     }
     //endregion
+    
+    public String cssClass(){
+    	return (isTipoTitularActivo()==true)? "activo":"inactivo";
+    }
 
 	//region > name (read-only property)
     public static final int NAME_LENGTH = 40;
@@ -130,6 +141,28 @@ public class TipoTitulares implements Comparable<TipoTitulares>{
     }
 
     //endregion
+    
+    //acciones
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Tipos de Titulares")
+    @MemberOrder(sequence = "2")
+    public List<TipoTitulares> listar() {
+        return tipoTitularesRepository.listar();
+    }
+    
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Tipos de Titulares Activos")
+    @MemberOrder(sequence = "3")
+    public List<TipoTitulares> listarActivos() {
+        return tipoTitularesRepository.listarActivos();
+    }
+    
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Tipos de Titulares Inactivos")
+    @MemberOrder(sequence = "4")
+    public List<TipoTitulares> listarInactivos() {
+        return tipoTitularesRepository.listarInactivos();
+    }
 
     //region > injected dependencies
 
@@ -141,6 +174,9 @@ public class TipoTitulares implements Comparable<TipoTitulares>{
 
     @javax.inject.Inject
     MessageService messageService;
+    
+    @Inject
+    TipoTitularesRepository tipoTitularesRepository;
 
     //endregion
 }

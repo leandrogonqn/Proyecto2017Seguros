@@ -2,11 +2,15 @@ package domainapp.dom.localidad;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
+import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
@@ -65,7 +69,9 @@ public class Localidades implements Comparable<Localidades> {
     }
     //endregion
     
-
+    public String cssClass(){
+    	return (getLocalidadActivo()==true)? "activo":"inactivo";
+    }
 
     public static final int NAME_LENGTH = 200;
     // Constructor
@@ -183,6 +189,28 @@ public class Localidades implements Comparable<Localidades> {
     }
 
     //endregion
+    
+    //acciones
+	  @Action(semantics = SemanticsOf.SAFE)
+	    @ActionLayout(named="Listar todas las Localidades")
+	    @MemberOrder(sequence = "2")
+	    public List<Localidades> listar() {
+	        return localidadesRepository.listar();
+	    }
+	    
+	    @Action(semantics = SemanticsOf.SAFE)
+	    @ActionLayout(named="Listar las Localidades Activas")
+	    @MemberOrder(sequence = "3")
+	    public List<Localidades> listarActivos() {
+	        return localidadesRepository.listarActivos();
+	    }
+	    
+	    @Action(semantics = SemanticsOf.SAFE)
+	    @ActionLayout(named="Listar las Localidades Inactivas")
+	    @MemberOrder(sequence = "4")
+	    public List<Localidades> listarInactivos() {
+	        return localidadesRepository.listarInactivos();
+	    }
 
     //region > injected dependencies
 
@@ -198,6 +226,9 @@ public class Localidades implements Comparable<Localidades> {
 
     @javax.inject.Inject
     MessageService messageService;
+    
+    @Inject
+    LocalidadesRepository localidadesRepository;
 
 
     //endregion

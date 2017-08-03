@@ -1,10 +1,17 @@
 package domainapp.dom.tipoVivienda;
 
+import java.util.List;
+
+import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
+import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
@@ -66,6 +73,10 @@ public class TiposVivienda implements Comparable<TiposVivienda>{
 
 	//region > name (read-only property)
     public static final int NAME_LENGTH = 40;
+    
+    public String cssClass(){
+    	return (isTipoViviendaActivo()==true)? "activo":"inactivo";
+    }
 
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
     @Property(editing = Editing.DISABLED)
@@ -153,6 +164,28 @@ public class TiposVivienda implements Comparable<TiposVivienda>{
     }
 
     //endregion
+    
+    //acciones
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Tipos de Viviendas")
+    @MemberOrder(sequence = "2")
+    public List<TiposVivienda> listar() {
+        return tiposViviendaRepository.listar();
+    }
+    
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Tipos de Viviendas Activos")
+    @MemberOrder(sequence = "3")
+    public List<TiposVivienda> listarActivos() {
+        return tiposViviendaRepository.listarActivos();
+    }
+    
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Tipos de Viviendas Inactivos")
+    @MemberOrder(sequence = "4")
+    public List<TiposVivienda> listarInactivos() {
+        return tiposViviendaRepository.listarInactivos();
+    }
 
     //region > injected dependencies
 
@@ -164,6 +197,9 @@ public class TiposVivienda implements Comparable<TiposVivienda>{
 
     @javax.inject.Inject
     MessageService messageService;
+    
+    @Inject
+    TiposViviendaRepository tiposViviendaRepository;
 
     //endregion
 }

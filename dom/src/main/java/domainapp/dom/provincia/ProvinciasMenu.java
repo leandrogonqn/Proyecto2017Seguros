@@ -29,35 +29,20 @@ import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
         repositoryFor = Provincias.class
 )
 @DomainServiceLayout(
-        named = "Lugares",
-        menuOrder = "6.1"
+        named = "Clientes",
+        menuOrder = "2"
 )
 public class ProvinciasMenu {
 	
 	  @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar todas las Provincias")
 	    @MemberOrder(sequence = "2")
 	    public List<Provincias> listar() {
 	        return provinciasRepository.listar();
 	    }
 	    
 	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-	    @MemberOrder(sequence = "3")
-	    public List<Provincias> listarActivos() {
-	        return provinciasRepository.listarActivos();
-	    }
-	    
-	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-	    @MemberOrder(sequence = "4")
-	    public List<Provincias> listarInactivos() {
-	        return provinciasRepository.listarInactivos();
-	    }
-
-
-	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Buscar Provincia Por Nombre")
 	    @MemberOrder(sequence = "5")
 	    public List<Provincias> buscarPorNombre(
 	            @ParameterLayout(named="Nombre")
@@ -66,15 +51,9 @@ public class ProvinciasMenu {
 
 	    }
 	    
-	    @Property(
-	            editing = Editing.DISABLED, editingDisabledReason=" "
-	    )
-	    @MemberOrder(sequence="1.1")
-	    @ActionLayout(named="Provincias")
-	    public void vehiculoTitulo(){}
-
 	    public static class CreateDomainEvent extends ActionDomainEvent<ProvinciasMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class)
+	    @ActionLayout(named="Crear Provincia")
 	    @MemberOrder(sequence = "1.2")
 	    public Provincias crear(
 	            @ParameterLayout(named="Nombre") final String provinciaNombre){

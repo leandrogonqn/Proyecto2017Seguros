@@ -39,35 +39,23 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
         repositoryFor = TiposTarjetas.class
 )
 @DomainServiceLayout(
-        named = "TiposTarjetas",
+        named = "Tipo de pago",
         menuOrder = "15"
 )
 public class TiposTarjetasMenu {
 
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Todos los Tipos Tarjetas")
     @MemberOrder(sequence = "2")
     public List<TiposTarjetas> listar() {
         return tipoTarjetaRepository.listar();
     }
     
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "3")
-    public List<TiposTarjetas> listarActivos() {
-        return tipoTarjetaRepository.listarActivos();
-    }
-    
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "4")
-    public List<TiposTarjetas> listarInactivos() {
-        return tipoTarjetaRepository.listarInactivos();
-    }
-
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT,
+    	cssClassFa="fa-search",
+    	named="Buscar Tipo Tarjeta")
     @MemberOrder(sequence = "5")
     public List<TiposTarjetas> buscarPorNombre(
             @ParameterLayout(named="Nombre")
@@ -79,6 +67,7 @@ public class TiposTarjetasMenu {
     public static class CreateDomainEvent extends ActionDomainEvent<TiposTarjetasMenu> {}
     @Action(domainEvent = CreateDomainEvent.class)
     @MemberOrder(sequence = "1.2")
+    @ActionLayout(named="Crear Tipo Tarjeta")
     public TiposTarjetas crear(
             @ParameterLayout(named="Nombre")
             final String tipoTarjetaNombre) {

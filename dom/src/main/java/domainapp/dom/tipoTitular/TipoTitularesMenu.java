@@ -10,6 +10,7 @@ import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
 import org.apache.isis.applib.annotation.LabelPosition;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
@@ -29,34 +30,20 @@ import domainapp.dom.ocupacion.OcupacionesMenu.CreateDomainEvent;
         repositoryFor = TipoTitulares.class
 )
 @DomainServiceLayout(
-        named = "Combinado Familiar",
-        menuOrder = "15"
+        named = "Polizas Extras",
+        menuOrder = "20"
 )
 public class TipoTitularesMenu {
 	
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Tipos de Titulares")
     @MemberOrder(sequence = "2")
     public List<TipoTitulares> listar() {
         return TipoTitularesRepository.listar();
     }
-    
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "3")
-    public List<TipoTitulares> listarActivos() {
-        return TipoTitularesRepository.listarActivos();
-    }
-    
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "4")
-    public List<TipoTitulares> listarInactivos() {
-        return TipoTitularesRepository.listarInactivos();
-    }
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search")
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search", named="Buscar Tipos de Titulares")
     @MemberOrder(sequence = "5")
     public List<TipoTitulares> buscarPorNombre(
             @ParameterLayout(named="Nombre")
@@ -65,16 +52,10 @@ public class TipoTitularesMenu {
         return TipoTitularesRepository.buscarPorNombre(ocupacionNombre);
     }
     
-    @Property(
-            editing = Editing.DISABLED, editingDisabledReason=" "
-    )
-    @MemberOrder(sequence="1")
-    @ActionLayout(named="Tipo Titular")
-    public void ocupacionesTitulo(){}
-
     public static class CreateDomainEvent extends ActionDomainEvent<TipoTitulares> {}
     @Action(domainEvent = CreateDomainEvent.class)
     @MemberOrder(sequence = "1.2")
+    @ActionLayout(named="Crear Tipo de Titulare")
     public TipoTitulares crear(@ParameterLayout(named="Nombre",labelPosition=LabelPosition.TOP)@Parameter(optionality=Optionality.OPTIONAL) final String tipoTitularNombre){
         return TipoTitularesRepository.crear(tipoTitularNombre);
     }

@@ -18,13 +18,19 @@
  */
 package domainapp.dom.tipoVehiculo;
 
+import java.util.List;
+
 import javax.jdo.annotations.IdentityType;
 
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
+import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.CommandReification;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
@@ -167,6 +173,28 @@ public class TipoVehiculo implements Comparable<TipoVehiculo> {
     }
 
     //endregion
+    
+    //acciones
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Tipos de Vehiculos")
+    @MemberOrder(sequence = "2")
+    public List<TipoVehiculo> listar() {
+        return tipoVehiculoRepository.listar();
+    }
+    
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Tipos de Vehiculos Activos")
+    @MemberOrder(sequence = "3")
+    public List<TipoVehiculo> listarActivos() {
+        return tipoVehiculoRepository.listarActivos();
+    }
+    
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @ActionLayout(named="Listar Tipos de Vehiculos Activos")
+    @MemberOrder(sequence = "4")
+    public List<TipoVehiculo> listarInactivos() {
+        return tipoVehiculoRepository.listarInactivos();
+    }
 
     //region > injected dependencies
 
@@ -178,6 +206,8 @@ public class TipoVehiculo implements Comparable<TipoVehiculo> {
 
     @javax.inject.Inject
     MessageService messageService;
+    
+    TipoVehiculoRepository tipoVehiculoRepository;
 
     //endregion
 

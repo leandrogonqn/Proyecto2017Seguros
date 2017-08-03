@@ -22,13 +22,18 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
+import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.CommandReification;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
@@ -445,7 +450,7 @@ public class Clientes implements Comparable<Clientes> {
     }
    
     //endregion
-
+    
     //region > toString, compareTo
     @Override
     public String toString() {
@@ -458,6 +463,28 @@ public class Clientes implements Comparable<Clientes> {
 
     //endregion
 
+    //accion
+    @ActionLayout(named="Listar todos los clientes")
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @MemberOrder(sequence = "2")
+    public List<Clientes> listar() {
+        return clientesRepository.listar();
+    }
+    
+    @ActionLayout(named="Listar Clientes Activos")
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @MemberOrder(sequence = "3")
+    public List<Clientes> listarActivos() {
+        return clientesRepository.listarActivos();
+    }
+    
+    @ActionLayout(named="Listar Clientes Inactivos")
+    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @MemberOrder(sequence = "4")
+    public List<Clientes> listarInactivos() {
+        return clientesRepository.listarInactivos();
+    }
+    
     //region > injected dependencies
 
     @javax.inject.Inject
@@ -471,6 +498,9 @@ public class Clientes implements Comparable<Clientes> {
 
     @javax.inject.Inject
     MessageService messageService;
+    
+    @Inject
+    ClientesRepository clientesRepository;
 
     //endregion
 

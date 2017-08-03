@@ -19,35 +19,22 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
         repositoryFor = Companias.class
 )
 @DomainServiceLayout(
-        named = "Companias",
-        menuOrder = "8"
+        named = "Polizas Extras",
+        menuOrder = "1"
 )
 public class CompaniasMenu {
 
 	  @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT,
+	    		named="Listar Todas las Compañias")
 	    @MemberOrder(sequence = "2")
 	    public List<Companias> listar() {
 	        return companiasRepository.listar();
 	    }
-	    
-	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-	    @MemberOrder(sequence = "3")
-	    public List<Companias> listarActivos() {
-	        return companiasRepository.listarActivos();
-	    }
-	    
-	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-	    @MemberOrder(sequence = "4")
-	    public List<Companias> listarInactivos() {
-	        return companiasRepository.listarInactivos();
-	    }
-
 
 	    @Action(semantics = SemanticsOf.SAFE)
-	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT,
+	    		named="Buscar Compañias por Nombre")
 	    @MemberOrder(sequence = "5")
 	    public List<Companias> buscarPorNombre(
 	            @ParameterLayout(named="Nombre")
@@ -55,16 +42,10 @@ public class CompaniasMenu {
 	        return companiasRepository.buscarPorNombre(companiaNombre);
 
 	    }
-	    
-	    @Property(
-	            editing = Editing.DISABLED, editingDisabledReason=" "
-	    )
-	    @MemberOrder(sequence="1.1")
-	    @ActionLayout(named="COMPANIAS")
-	    public void vehiculoTitulo(){}
 
 	    public static class CreateDomainEvent extends ActionDomainEvent<CompaniasMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class)
+	    @ActionLayout(named="Crear Compañias")
 	    @MemberOrder(sequence = "1.2")
 	    public Companias crear(
 	            @ParameterLayout(named="Nombre") final String companiaNombre,
