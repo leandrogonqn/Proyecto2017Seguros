@@ -1,7 +1,9 @@
 package domainapp.dom.poliza;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.inject.Inject;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Discriminator;
 import javax.jdo.annotations.DiscriminatorStrategy;
@@ -9,9 +11,13 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 
+import org.apache.isis.applib.annotation.Action;
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
@@ -19,6 +25,11 @@ import org.apache.isis.applib.annotation.Publishing;
 import domainapp.dom.cliente.Clientes;
 import domainapp.dom.compania.Companias;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
+import domainapp.dom.estado.Estado;
+import domainapp.dom.riesgoAutomotor.RiesgoAutomotores;
+import domainapp.dom.riesgoAutomotor.RiesgoAutomotoresRepository;
+import domainapp.dom.tiposDeCoberturas.TiposDeCoberturas;
+import domainapp.dom.vehiculo.Vehiculos;
 
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -34,17 +45,17 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
                 name = "buscarPorNumeroPoliza", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Polizas "
-                        + "WHERE polizaNumero == :polizaNumero"),
+                        + "WHERE polizaNumero.toLowerCase().indexOf(:polizaNumero) >= 0 "),
         @javax.jdo.annotations.Query(
-                name = "listarActivo", language = "JDOQL",
+                name = "listarPorEstado", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Polizas "
-                        + "WHERE polizaActivo == true"),
+                        + "WHERE polizaEstado == :polizaEstado"),
         @javax.jdo.annotations.Query(
                 name = "buscarPorCliente", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Polizas "
-                        + "WHERE cliente == :cliente")
+                        + "WHERE polizaCliente == :polizaCliente")
 })
 @javax.jdo.annotations.Unique(name="Polizas_polizaNumero_UNQ", members = {"polizaNumero"})
 @DomainObject(
@@ -249,13 +260,29 @@ public abstract class Polizas{
 		this.polizaImporteTotal = polizaImporteTotal;
 	}
 	
+	//Renovacion
+	@Column(allowsNull = "true")
+    @Property(
+            editing = Editing.DISABLED
+    )
+	@PropertyLayout(named="Renovacion")
+	protected Polizas polizaRenovacion; 
+	
+	public Polizas getPolizaRenovacion() {
+		return polizaRenovacion;
+	}
+
+	public void setPolizaRenovacion(Polizas polizaRenovacion) {
+		this.polizaRenovacion = polizaRenovacion;
+	}	
+	
 	//Estado
 	@Column
     @Property(
             editing = Editing.DISABLED
     )
 	@PropertyLayout(named="Estado")
-	private Estado polizaEstado; 
+	protected Estado polizaEstado; 
 	
 	public Estado getPolizaEstado() {
 		return polizaEstado;
@@ -265,22 +292,32 @@ public abstract class Polizas{
 		this.polizaEstado = polizaEstado;
 	}	
 	
-	//Activo
-	@Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-	@PropertyLayout(named="Activo")
-	private boolean polizaActivo;
-
-	public boolean getPolizaActivo() {
-		return polizaActivo;
-	}
-
-	public void setPolizaActivo(boolean polizaActivo) {
-		this.polizaActivo = polizaActivo;
-	}
-
     //endregion
 
+	//acciones
+	
+	@Action(
+			invokeOn=InvokeOn.OBJECT_AND_COLLECTION
+			)
+	@ActionLayout(named="Actualizar Estado de las Polizas")
+	public Polizas actualizarPoliza(){
+		polizaEstado.actualizarEstado(this);
+		return this;
+	}
+	
+	@Action(
+			invokeOn=InvokeOn.OBJECT_ONLY
+			)
+	@ActionLayout(named="Anular Poliza")
+	public Polizas anulacion(){
+		polizaEstado.anulacion(this);
+		return this;
+	}
+	
+	@Inject 
+	PolizasRepository polizasRepository;
+	
+    @Inject
+    RiesgoAutomotoresRepository riesgoAutomotoresRepository;
+	
 }

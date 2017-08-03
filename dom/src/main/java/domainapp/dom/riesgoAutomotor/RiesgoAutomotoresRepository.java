@@ -2,6 +2,9 @@ package domainapp.dom.riesgoAutomotor;
 
 import java.util.Date;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.query.QueryDefault;
@@ -11,7 +14,9 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import domainapp.dom.cliente.Clientes;
 import domainapp.dom.compania.Companias;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
-import domainapp.dom.poliza.Estado;
+import domainapp.dom.estado.Estado;
+import domainapp.dom.marca.Marcas;
+import domainapp.dom.poliza.Polizas;
 import domainapp.dom.tiposDeCoberturas.TiposDeCoberturas;
 import domainapp.dom.vehiculo.Vehiculos;
 
@@ -26,24 +31,6 @@ public class RiesgoAutomotoresRepository {
         return repositoryService.allInstances(RiesgoAutomotores.class);
     }
 
-
-    public List<RiesgoAutomotores> buscarPolizaNumero(final String polizaNumero) {
-        return repositoryService.allMatches(
-                new QueryDefault<>(
-                        RiesgoAutomotores.class,
-                        "buscarPolizaNumero",
-                        "polizaNumero", polizaNumero));
-    }
-    
-    public List<RiesgoAutomotores> buscarPorCliente(final Clientes polizaCliente) {
-        return repositoryService.allMatches(
-                new QueryDefault<>(
-                        RiesgoAutomotores.class,
-                        "buscarPorCliente",
-                        "polizaCliente", polizaCliente));
-    }
-    
-  
     public RiesgoAutomotores crear(
     		final String polizaNumero, 
     		final Clientes polizaCliente, 
@@ -56,8 +43,39 @@ public class RiesgoAutomotoresRepository {
     		final Date polizaFechaVencimientoPago, 
     		final DetalleTipoPagos polizaPago, 
     		final boolean polizaAlertaVencimientoPago, 
+    		final double polizaImporteTotal) {
+        final RiesgoAutomotores object = new RiesgoAutomotores(
+        		polizaNumero,
+        		polizaCliente,
+        		riesgoAutomotorVehiculo,
+        		polizaCompanias,
+        		riesgoAutomotorTiposDeCoberturas,
+        		polizaFechaEmision,
+        		polizaFechaVigencia, 
+        		polizaFechaVencimiento,
+        		polizaFechaVencimientoPago, 
+        		polizaPago,
+        		polizaAlertaVencimientoPago,
+        		polizaImporteTotal);
+        serviceRegistry.injectServicesInto(object);
+        repositoryService.persist(object);
+        return object;
+    }
+    
+    public RiesgoAutomotores renovacion(
+    		final String polizaNumero, 
+    		final Clientes polizaCliente, 
+    		final Vehiculos riesgoAutomotorVehiculo, 
+    		final Companias polizaCompanias,
+    		final TiposDeCoberturas riesgoAutomotorTiposDeCoberturas,
+    		final Date polizaFechaEmision, 
+    		final Date polizaFechaVigencia, 
+    		final Date polizaFechaVencimiento,
+    		final Date polizaFechaVencimientoPago, 
+    		final DetalleTipoPagos polizaPago, 
+    		final boolean polizaAlertaVencimientoPago, 
     		final double polizaImporteTotal, 
-    		Estado polizaEstado) {
+    		final Polizas riesgoAutomotor) {
         final RiesgoAutomotores object = new RiesgoAutomotores(
         		polizaNumero,
         		polizaCliente,
@@ -71,7 +89,7 @@ public class RiesgoAutomotoresRepository {
         		polizaPago,
         		polizaAlertaVencimientoPago,
         		polizaImporteTotal,
-        		polizaEstado);
+        		riesgoAutomotor);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;

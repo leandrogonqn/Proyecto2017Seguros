@@ -41,6 +41,12 @@
                                 <c:property id="riesgoAutomotorVehiculo" namedEscaped="true">
                                 <c:action id="actualizarRiesgoAutomotorVehiculo" position="RIGHT"/>
                                 </c:property>
+                                <c:property id="polizaCompania" namedEscaped="true">
+                                <c:action id="actualizarPolizaCompania" position="RIGHT"/>
+                                </c:property>
+                                <c:property id="riesgoAutomotorTipoDeCobertura" namedEscaped="true">
+                                <c:action id="actualizarRiesgoAutomotorTiposDeCoberturas" position="RIGHT"/>
+                                </c:property>
                                 <c:property id="polizaFechaEmision" namedEscaped="true">
                                 <c:action id="actualizarPolizaFechaEmision" position="RIGHT"/>
                                 </c:property>
@@ -53,6 +59,12 @@
                                 <c:property id="polizaFechaVencimientoPago" namedEscaped="true">
                                 <c:action id="actualizarPolizaFechaVencimientoPago" position="RIGHT"/>
                                 </c:property>
+                                <c:property id="polizaFechaBaja" namedEscaped="true">
+                                <c:action id="actualizarPolizaFechaBaja" position="RIGHT"/>
+                                </c:property>
+                                <c:property id="polizaMotivoBaja" namedEscaped="true">
+                                <c:action id="actualizarPolizaMotivoBaja" position="RIGHT"/>
+                                </c:property> 		
                                 <c:property id="polizaPago" namedEscaped="true">
                                 <c:action id="actualizarPolizaPago" position="RIGHT"/>
                                 </c:property>
@@ -61,6 +73,10 @@
                                 </c:property>
                                 <c:property id="polizaImporteTotal" namedEscaped="true">
                                 <c:action id="actualizarPolizaImporteTotal" position="RIGHT"/>
+                                </c:property>
+                                <c:property id="polizaRenovacion" namedEscaped="true">
+                                <c:action id="actualizarPolizaRenovacion" position="RIGHT"/>
+								<c:action id="borrarPolizaRenovacion" position="RIGHT"/>
                                 </c:property>
                                 <c:property id="polizaEstado" namedEscaped="true">
                                 <c:action id="actualizarPolizaEstado" position="RIGHT"/>
