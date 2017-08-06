@@ -26,7 +26,7 @@ import domainapp.dom.ocupacion.OcupacionesRepository;
 import domainapp.dom.ocupacion.OcupacionesMenu.CreateDomainEvent;
 
 @DomainService(
-        nature = NatureOfService.VIEW_MENU_ONLY,
+        nature = NatureOfService.VIEW,
         repositoryFor = TipoTitulares.class
 )
 @DomainServiceLayout(
