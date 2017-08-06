@@ -456,11 +456,11 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
    public Ocupaciones default4Renovacion() {
    	return getRiesgoCombinadosFamiliaresOcupacion();
    }   
-   public TiposVivienda defaul5Renovacion() {
+   public TiposVivienda default5Renovacion() {
    	return getRiesgoCombinadosFamiliaresTipoVivienda();
    }   
 	   
-   public TipoTitulares defaul6Renovacion() {
+   public TipoTitulares default6Renovacion() {
    	return getRiesgoCombinadosFamiliaresTipoTitular();
    }  
    public DetalleTipoPagos default11Renovacion(){
