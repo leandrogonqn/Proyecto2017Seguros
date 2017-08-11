@@ -16,7 +16,6 @@ import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.InvokeOn;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
@@ -38,17 +37,11 @@ import domainapp.dom.ocupacion.Ocupaciones;
 import domainapp.dom.ocupacion.OcupacionesRepository;
 import domainapp.dom.poliza.Polizas;
 import domainapp.dom.poliza.PolizasRepository;
-import domainapp.dom.riesgoAutomotor.RiesgoAutomotores;
-import domainapp.dom.riesgoAutomotor.RiesgoAutomotoresRepository;
 import domainapp.dom.tipoTitular.TipoTitulares;
 import domainapp.dom.tipoTitular.TipoTitularesRepository;
 import domainapp.dom.tipoVivienda.TiposVivienda;
 import domainapp.dom.tipoVivienda.TiposViviendaRepository;
-import domainapp.dom.riesgoAutomotor.RiesgoAutomotores.DeleteDomainEvent;
-import domainapp.dom.tiposDeCoberturas.TiposDeCoberturas;
 import domainapp.dom.tiposDeCoberturas.TiposDeCoberturasRepository;
-import domainapp.dom.vehiculo.Vehiculos;
-import domainapp.dom.vehiculo.VehiculosRepository;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -138,7 +131,7 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
 		this.riesgoCombinadosFamiliaresDomicilio = riesgoCombinadosFamiliaresDomicilio;
 	}
 	
-	//Domicilio
+	//Localidad
 	@Property(editing = Editing.DISABLED)
 	@PropertyLayout(named = "Localidad")
 	@Column(allowsNull = "false", name="localidadId")
