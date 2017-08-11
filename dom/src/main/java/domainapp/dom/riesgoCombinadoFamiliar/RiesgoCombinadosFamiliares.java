@@ -90,24 +90,40 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
 		polizaEstado.actualizarEstado(this);
 	}
 	
-//	public RiesgoCombinadosFamiliares(String polizaNumero,Clientes polizaCliente,Companias polizaCompania,String riesgoCombinadosFamiliaresDomicilio,Ocupaciones riesgoCombinadosFamiliaresOcupacion,TiposVivienda riesgoCombinadosFamiliaresTipoVivienda,TipoTitulares riesgoCombinadosFamiliaresTipoTitular,Date polizaFechaEmision,Date polizaFechaVigencia,Date polizaFechaVencimiento,Date polizaFechaVencimientoPago, DetalleTipoPagos polizaPago,boolean polizaAlertaVencimientoPago,double polizaImporteTotal) {
-//		setPolizaNumero(polizaNumero);
-//		setPolizasCliente(polizaCliente);
-//		setPolizasCompania(polizaCompania);
-//		setRiesgoCombinadosFamiliaresDomicilio(riesgoCombinadosFamiliaresDomicilio);
-//		setRiesgoCombinadosFamiliaresOcupacion(riesgoCombinadosFamiliaresOcupacion);
-//		setRiesgoCombinadosFamiliaresTipoVivienda(riesgoCombinadosFamiliaresTipoVivienda);
-//		setRiesgoCombinadosFamiliaresTipoTitular(riesgoCombinadosFamiliaresTipoTitular);
-//		setPolizaFechaEmision(polizaFechaEmision);
-//		setPolizaFechaVigencia(polizaFechaVigencia);
-//		setPolizaFechaVencimiento(polizaFechaVencimiento);
-//		setPolizaFechaVencimientoPago(polizaFechaVencimientoPago);
-//		setPolizaPago(polizaPago);
-//		setPolizaAlertaVencimientoPago(polizaAlertaVencimientoPago);
-//		setPolizaImporteTotal(polizaImporteTotal);
-//		setPolizaEstado(Estado.previgente);
-//		polizaEstado.actualizarEstado(this);
-//	}
+	public RiesgoCombinadosFamiliares(
+			String polizaNumero,
+			Clientes polizaCliente,
+			Companias polizaCompania,
+			String riesgoCombinadosFamiliaresDomicilio,
+			Ocupaciones riesgoCombinadosFamiliaresOcupacion,
+			TiposVivienda riesgoCombinadosFamiliaresTipoVivienda,
+			TipoTitulares riesgoCombinadosFamiliaresTipoTitular,
+			Date polizaFechaEmision,Date polizaFechaVigencia,
+			Date polizaFechaVencimiento,
+			Date polizaFechaVencimientoPago, 
+			DetalleTipoPagos polizaPago,
+			boolean polizaAlertaVencimientoPago,
+			double polizaImporteTotal,
+			Polizas riesgoCombinadoFamiliar) {
+		setPolizaNumero(polizaNumero);
+		setPolizasCliente(polizaCliente);
+		setPolizasCompania(polizaCompania);
+		setRiesgoCombinadosFamiliaresDomicilio(riesgoCombinadosFamiliaresDomicilio);
+		setRiesgoCombinadosFamiliaresOcupacion(riesgoCombinadosFamiliaresOcupacion);
+		setRiesgoCombinadosFamiliaresTipoVivienda(riesgoCombinadosFamiliaresTipoVivienda);
+		setRiesgoCombinadosFamiliaresTipoTitular(riesgoCombinadosFamiliaresTipoTitular);
+		setPolizaFechaEmision(polizaFechaEmision);
+		setPolizaFechaVigencia(polizaFechaVigencia);
+		setPolizaFechaVencimiento(polizaFechaVencimiento);
+		setPolizaFechaVencimientoPago(polizaFechaVencimientoPago);
+		setPolizaPago(polizaPago);
+		setPolizaAlertaVencimientoPago(polizaAlertaVencimientoPago);
+		setPolizaImporteTotal(polizaImporteTotal);
+		setPolizaEstado(Estado.previgente);
+		riesgoCombinadoFamiliar.setPolizaRenovacion(this);
+		polizaEstado.actualizarEstado(this);
+	}
+	
 	//Domicilio
    @Property(editing = Editing.DISABLED)
 	@PropertyLayout(named="Domicilio")
@@ -120,6 +136,20 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
 
 	public void setRiesgoCombinadosFamiliaresDomicilio(String riesgoCombinadosFamiliaresDomicilio) {
 		this.riesgoCombinadosFamiliaresDomicilio = riesgoCombinadosFamiliaresDomicilio;
+	}
+	
+	//Domicilio
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Localidad")
+	@Column(allowsNull = "false", name="localidadId")
+	private String riesgoCombinadosFamiliaresLocalidad;
+
+	public String getRiesgoCombinadosFamiliaresLocalidad() {
+		return riesgoCombinadosFamiliaresLocalidad;
+	}
+
+	public void setRiesgoCombinadosFamiliaresLocalidad(String riesgoCombinadosFamiliaresLocalidad) {
+		this.riesgoCombinadosFamiliaresLocalidad = riesgoCombinadosFamiliaresLocalidad;
 	}
 
 	//Ocupación

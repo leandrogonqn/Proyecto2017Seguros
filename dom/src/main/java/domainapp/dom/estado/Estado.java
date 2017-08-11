@@ -4,12 +4,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 
 import domainapp.dom.estado.IEstados;
 import domainapp.dom.poliza.Polizas;
-import domainapp.dom.riesgoAutomotor.RiesgoAutomotoresMenu;
-import domainapp.dom.riesgoAutomotor.RiesgoAutomotoresRepository;
 
 public enum Estado implements IEstados{
 	previgente("previgente"),

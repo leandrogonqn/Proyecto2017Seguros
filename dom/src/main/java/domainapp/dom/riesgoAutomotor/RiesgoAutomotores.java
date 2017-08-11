@@ -9,7 +9,6 @@ import javax.jdo.annotations.Discriminator;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
-import javax.swing.JOptionPane;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
@@ -245,7 +244,6 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
 	public RiesgoAutomotores actualizarPolizaFechaVigencia(@ParameterLayout(named="Fecha de Vigencia") final Date polizaFechaVigencia){
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		polizaEstado.actualizarEstado(this);
-		JOptionPane.showMessageDialog(null, getPolizaEstado().toString());
 		return this;
 	}
 

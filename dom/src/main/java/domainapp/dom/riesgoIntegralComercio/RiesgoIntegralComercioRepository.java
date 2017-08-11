@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
+import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
@@ -48,7 +49,9 @@ public class RiesgoIntegralComercioRepository {
     		float riesgoIntegralComercioIncendioContenido, 
     		float riesgoIntegralComercioRc, 
     		float riesgoIntegralComercioRcl, 
-    		float riesgoIntegralComercioDanioPorAgua) {
+    		float riesgoIntegralComercioDanioPorAgua,
+    		final String riesgoIntegralComercioOtrosNombre,
+    		final float riesgoIntegralComercioOtrosMonto) {
         final RiesgoIntegralComercio object = new RiesgoIntegralComercio(
         		polizaNumero,
         		polizaCliente,
@@ -66,7 +69,9 @@ public class RiesgoIntegralComercioRepository {
         		riesgoIntegralComercioIncendioContenido, 
         		riesgoIntegralComercioRc,
         		riesgoIntegralComercioRcl,
-        		riesgoIntegralComercioDanioPorAgua);
+        		riesgoIntegralComercioDanioPorAgua,
+        		riesgoIntegralComercioOtrosNombre,
+        		riesgoIntegralComercioOtrosMonto);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;
@@ -83,6 +88,15 @@ public class RiesgoIntegralComercioRepository {
     		final DetalleTipoPagos polizaPago, 
     		final boolean polizaAlertaVencimientoPago, 
     		final double polizaImporteTotal, 
+    		float riesgoIntegralComercioRobo, 
+    		float riesgoIntegralComercioCristales, 
+    		float riesgoIntegralComercioIncendioEdificio, 
+    		float riesgoIntegralComercioIncendioContenido, 
+    		float riesgoIntegralComercioRc, 
+    		float riesgoIntegralComercioRcl, 
+    		float riesgoIntegralComercioDanioPorAgua,
+    		final String riesgoIntegralComercioOtrosNombre,
+    		final float riesgoIntegralComercioOtrosMonto, 
     		final Polizas riesgoAutomotor) {
         final RiesgoIntegralComercio object = new RiesgoIntegralComercio(
         		polizaNumero,
@@ -95,6 +109,15 @@ public class RiesgoIntegralComercioRepository {
         		polizaPago,
         		polizaAlertaVencimientoPago,
         		polizaImporteTotal,
+        		riesgoIntegralComercioRobo,
+	    		riesgoIntegralComercioCristales,
+        		riesgoIntegralComercioIncendioEdificio,
+        		riesgoIntegralComercioIncendioContenido, 
+        		riesgoIntegralComercioRc,
+        		riesgoIntegralComercioRcl,
+        		riesgoIntegralComercioDanioPorAgua,
+        		riesgoIntegralComercioOtrosNombre,
+        		riesgoIntegralComercioOtrosMonto,
         		riesgoAutomotor);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);

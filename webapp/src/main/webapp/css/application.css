@@ -18,6 +18,7 @@
  */
 
 tr.activo {
+	color: black;
 }
 
 tr.inactivo {
@@ -28,16 +29,18 @@ tr.previgente {
 	color: #4e9a06;
 }
 tr.vigenteConRenovacion{
+	color: black;
 }
 tr.vigenteSinRenovacionConVencimientoMenor15Dias{
-	color: #eeeeec;
+	color: #ffffff;
 	background-color: #cc0000;
 }
 tr.vigenteSinRenovacionConVencimientoMenor30Dias{
-	color: #eeeeec;
+	color: #ffffff;
 	background-color: #204a87;
 }
 tr.vigenteSinRenovacionConVencimientoMayor30Dias{
+	color: black;
 }
 tr.vencida{
 	color: #f57900;

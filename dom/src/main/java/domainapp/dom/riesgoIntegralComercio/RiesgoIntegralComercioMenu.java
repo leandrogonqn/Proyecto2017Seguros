@@ -85,7 +85,9 @@ public class RiesgoIntegralComercioMenu {
 	    		@ParameterLayout(named="Cristales") final float riesgoIntegralComercioCristales,
 	    		@ParameterLayout(named="RC") final float riesgoIntegralComercioRc,
 	    		@ParameterLayout(named="RCL") final float riesgoIntegralComercioRcl,
-	    		@ParameterLayout(named="Daño por Agua") final float riesgoIntegralComercioDanioPorAgua)
+	    		@ParameterLayout(named="Daño por Agua") final float riesgoIntegralComercioDanioPorAgua,
+	    		@ParameterLayout(named="Otros Nombre") final String riesgoIntegralComercioOtrosNombre,
+	    		@ParameterLayout(named="Otros Monto") final float riesgoIntegralComercioOtrosMonto)
 	    {
 	        return polizasRepository.crear(
 	        		polizaNumero, 
@@ -104,7 +106,9 @@ public class RiesgoIntegralComercioMenu {
 	        		riesgoIntegralComercioIncendioContenido,
 	        		riesgoIntegralComercioRc,
 	        		riesgoIntegralComercioRcl,
-	        		riesgoIntegralComercioDanioPorAgua);
+	        		riesgoIntegralComercioDanioPorAgua,
+	        		riesgoIntegralComercioOtrosNombre,
+	        		riesgoIntegralComercioOtrosMonto);
 	    }
 
 

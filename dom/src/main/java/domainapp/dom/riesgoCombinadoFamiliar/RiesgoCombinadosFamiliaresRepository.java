@@ -48,7 +48,22 @@ public class RiesgoCombinadosFamiliaresRepository {
         return object;
     }
     
-    public RiesgoCombinadosFamiliares renovacion(final String polizaNumero, final Clientes polizaCliente, final Companias polizaCompania,final String riesgoCombinadosFamiliaresDomicilio,final Ocupaciones riesgoCombinadosFamiliaresOcupacion,final TiposVivienda riesgoCombinadosFamiliaresTipoVivienda,final TipoTitulares riesgoCombinadosFamiliaresTipoTitular,final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,final Date polizaFechaVencimientoPago, final DetalleTipoPagos polizaPago, final boolean polizaAlertaVencimientoPago, final double polizaImporteTota,Polizas riesgoCombinadosFamiliares) {
+    public RiesgoCombinadosFamiliares renovacion(
+    		final String polizaNumero, 
+    		final Clientes polizaCliente, 
+    		final Companias polizaCompania,
+    		final String riesgoCombinadosFamiliaresDomicilio,
+    		final Ocupaciones riesgoCombinadosFamiliaresOcupacion,
+    		final TiposVivienda riesgoCombinadosFamiliaresTipoVivienda,
+    		final TipoTitulares riesgoCombinadosFamiliaresTipoTitular,
+    		final Date polizaFechaEmision, 
+    		final Date polizaFechaVigencia, 
+    		final Date polizaFechaVencimiento,
+    		final Date polizaFechaVencimientoPago, 
+    		final DetalleTipoPagos polizaPago, 
+    		final boolean polizaAlertaVencimientoPago, 
+    		final double polizaImporteTotal,
+    		Polizas riesgoCombinadosFamiliares) {
         final RiesgoCombinadosFamiliares object = new RiesgoCombinadosFamiliares(
         		polizaNumero,
         		polizaCliente,
@@ -63,7 +78,8 @@ public class RiesgoCombinadosFamiliaresRepository {
         		polizaFechaVencimientoPago, 
         		polizaPago,
         		polizaAlertaVencimientoPago,
-        		polizaImporteTota);
+        		polizaImporteTotal,
+        		riesgoCombinadosFamiliares);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;
