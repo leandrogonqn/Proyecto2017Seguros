@@ -70,7 +70,7 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
 			String riesgoCombinadosFamiliaresDomicilio, Localidades riesgoCombinadosFamiliaresLocalidad, Ocupaciones riesgoCombinadosFamiliaresOcupacion,
 			TiposVivienda riesgoCombinadosFamiliaresTipoVivienda, TipoTitulares riesgoCombinadosFamiliaresTipoTitular,
 			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
-			Date polizaFechaVencimientoPago, DetalleTipoPagos polizaPago, boolean polizaAlertaVencimientoPago,
+			 DetalleTipoPagos polizaPago, 
 			double polizaImporteTotal) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
@@ -83,9 +83,7 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
 		setPolizaFechaEmision(polizaFechaEmision);
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
-		setPolizaFechaVencimientoPago(polizaFechaVencimientoPago);
 		setPolizaPago(polizaPago);
-		setPolizaAlertaVencimientoPago(polizaAlertaVencimientoPago);
 		setPolizaImporteTotal(polizaImporteTotal);
 		setPolizaEstado(Estado.previgente);
 		polizaEstado.actualizarEstado(this);
@@ -102,9 +100,7 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
 			TipoTitulares riesgoCombinadosFamiliaresTipoTitular,
 			Date polizaFechaEmision,Date polizaFechaVigencia,
 			Date polizaFechaVencimiento,
-			Date polizaFechaVencimientoPago, 
 			DetalleTipoPagos polizaPago,
-			boolean polizaAlertaVencimientoPago,
 			double polizaImporteTotal,
 			Polizas riesgoCombinadoFamiliar) {
 		setPolizaNumero(polizaNumero);
@@ -118,9 +114,7 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
 		setPolizaFechaEmision(polizaFechaEmision);
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
-		setPolizaFechaVencimientoPago(polizaFechaVencimientoPago);
 		setPolizaPago(polizaPago);
-		setPolizaAlertaVencimientoPago(polizaAlertaVencimientoPago);
 		setPolizaImporteTotal(polizaImporteTotal);
 		setPolizaEstado(Estado.previgente);
 		riesgoCombinadoFamiliar.setPolizaRenovacion(this);
@@ -339,16 +333,6 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
 		return getPolizaFechaVencimiento();
 	}
 	    
-   //polizaFechaVencimientoPago
-	public RiesgoCombinadosFamiliares actualizarPolizaFechaVencimientoPago(@ParameterLayout(named="Fecha Vencimiento de Pago") final Date polizaFechaVencimientoPago){
-		setPolizaFechaVencimientoPago(polizaFechaVencimientoPago);
-		return this;
-	}
-
-	public Date default0ActualizarPolizaFechaVencimientoPago(){
-		return getPolizaFechaVencimientoPago();
-	}    
-	
    //polizaPago
    public RiesgoCombinadosFamiliares actualizarPolizaPago(@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago) {
        setPolizaPago(polizaPago);
@@ -362,16 +346,6 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
    public DetalleTipoPagos default0ActualizarPolizaPago() {
    	return getPolizaPago();
    }
-	
-   //polizaAlertaVencimientoPago
-	public RiesgoCombinadosFamiliares actualizarPolizaAlertaVencimientoPago(@ParameterLayout(named="Alerta Vencimiento de Pago") final boolean polizaAlertaVencimientoPago){
-		setPolizaAlertaVencimientoPago(polizaAlertaVencimientoPago);
-		return this;
-	}
-
-	public boolean default0ActualizarPolizaAlertaVencimientoPago(){
-		return getPolizaAlertaVencimientoPago();
-	}    
    
    //polizaFechaBaja
 	public RiesgoCombinadosFamiliares actualizarPolizaFechaBaja(@ParameterLayout(named="Fecha de Baja") final Date polizaFechaBaja){
@@ -436,17 +410,15 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
 			/*1*/	            @ParameterLayout(named="Cliente") final Clientes polizaCliente,
 			/*2*/	            @ParameterLayout(named="Compañia") final Companias polizaCompania,
 			/*3*/	    		@ParameterLayout(named="Domicilio") final String riesgoCombinadosFamiliaresDomicilio,
-								@ParameterLayout(named="Localidad") final Localidades riesgoCombinadoFamiliarLocalidad,
-			/*4*/	            @ParameterLayout(named="Ocupación") final Ocupaciones riesgoCombinadosFamiliaresOcupacion,
-			/*5*/	            @ParameterLayout(named="Tipo de Vivienda") final TiposVivienda riesgoCombinadosFamiliaresTipoVivienda,
-			/*6*/	            @ParameterLayout(named="Tipo de Titular") final TipoTitulares riesgoCombinadosFamiliaresTipoTitular,
-			/*7*/	            @ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
-			/*8*/				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
-			/*9*/				@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
-			/*10*/				@ParameterLayout(named="Fecha Vencimiento Pago") final Date polizaFechaVencimientoPago,
+			/*4*/				@ParameterLayout(named="Localidad") final Localidades riesgoCombinadoFamiliarLocalidad,
+			/*5*/	            @ParameterLayout(named="Ocupación") final Ocupaciones riesgoCombinadosFamiliaresOcupacion,
+			/*6*/	            @ParameterLayout(named="Tipo de Vivienda") final TiposVivienda riesgoCombinadosFamiliaresTipoVivienda,
+			/*7*/	            @ParameterLayout(named="Tipo de Titular") final TipoTitulares riesgoCombinadosFamiliaresTipoTitular,
+			/*8*/	            @ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
+			/*9*/				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
+			/*10*/				@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
 			/*11*/				@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago,
-			/*12*/				@ParameterLayout(named="Alerta Vencimiento Pago") final boolean polizaAlertaVencimientoPago,
-			/*13*/				@ParameterLayout(named="Precio Total") final double polizaImporteTotal){
+			/*12*/				@ParameterLayout(named="Precio Total") final double polizaImporteTotal){
        return riesgoCombinadosFamiliaresRepository.renovacion(
     		polizaNumero,
        		polizaCliente,
@@ -459,9 +431,7 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
        		polizaFechaEmision,
        		polizaFechaVigencia, 
        		polizaFechaVencimiento,
-       		polizaFechaVencimientoPago, 
        		polizaPago,
-       		polizaAlertaVencimientoPago,
        		polizaImporteTotal,this);
 	}
 	
@@ -488,7 +458,7 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
 	   	return tipoTitularesRepository.listarActivos();
 	   }
    
-   public List<DetalleTipoPagos> choices12Renovacion(){
+   public List<DetalleTipoPagos> choices11Renovacion(){
    	return detalleTipoPagosRepository.listarActivos();
    }
    
@@ -517,12 +487,8 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
    public TipoTitulares default7Renovacion() {
    	return getRiesgoCombinadosFamiliaresTipoTitular();
    }  
-   public DetalleTipoPagos default12Renovacion(){
+   public DetalleTipoPagos default11Renovacion(){
    	return getPolizaPago();
-   }
-   
-   public boolean default13Renovacion(){
-   	return getPolizaAlertaVencimientoPago();
    }
    
    //region > toString, compareTo

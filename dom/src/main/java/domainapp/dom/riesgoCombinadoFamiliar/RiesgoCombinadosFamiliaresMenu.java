@@ -76,7 +76,7 @@ public class RiesgoCombinadosFamiliaresMenu {
 	    	return tiposViviendaRepository.listarActivos();
 	    }
 	    
-	    public List<DetalleTipoPagos> choices12Crear(){
+	    public List<DetalleTipoPagos> choices11Crear(){
 	    	return detalleTipoPagosRepository.listarActivos();
 	    }
 
@@ -89,17 +89,15 @@ public class RiesgoCombinadosFamiliaresMenu {
 /*1*/	            @ParameterLayout(named="Cliente") final Clientes polizaCliente,
 /*2*/	            @ParameterLayout(named="Compañia") final Companias polizaCompania,
 /*3*/	    		@ParameterLayout(named="Domicilio") final String riesgoCombinadosFamiliaresDomicilio,
-					@ParameterLayout(named="Localidad") final Localidades riesgoCombinadoFamiliarLocalidad,
-/*4*/	            @ParameterLayout(named="Ocupación") final Ocupaciones riesgoCombinadosFamiliaresOcupacion,
-/*5*/	            @ParameterLayout(named="Tipo de Vivienda") final TiposVivienda riesgoCombinadosFamiliaresTipoVivienda,
-/*6*/	            @ParameterLayout(named="Tipo de Titular") final TipoTitulares riesgoCombinadosFamiliaresTipoTitular,
-/*7*/	            @ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
-/*8*/				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
-/*9*/				@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
-/*10*/				@ParameterLayout(named="Fecha Vencimiento Pago") final Date polizaFechaVencimientoPago,
+/*4*/					@ParameterLayout(named="Localidad") final Localidades riesgoCombinadoFamiliarLocalidad,
+/*5*/	            @ParameterLayout(named="Ocupación") final Ocupaciones riesgoCombinadosFamiliaresOcupacion,
+/*6*/	            @ParameterLayout(named="Tipo de Vivienda") final TiposVivienda riesgoCombinadosFamiliaresTipoVivienda,
+/*7*/	            @ParameterLayout(named="Tipo de Titular") final TipoTitulares riesgoCombinadosFamiliaresTipoTitular,
+/*8*/	            @ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
+/*9*/				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
+/*10*/				@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
 /*11*/				@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago,
-/*12*/				@ParameterLayout(named="Alerta Vencimiento Pago") final boolean polizaAlertaVencimientoPago,
-/*13*/				@ParameterLayout(named="Precio Total") final double polizaImporteTotal)
+/*12*/				@ParameterLayout(named="Precio Total") final double polizaImporteTotal)
 	    {
 	        return polizasRepository.crear(
 	        		polizaNumero,
@@ -113,9 +111,7 @@ public class RiesgoCombinadosFamiliaresMenu {
 	        		polizaFechaEmision,
 	        		polizaFechaVigencia, 
 	        		polizaFechaVencimiento,
-	        		polizaFechaVencimientoPago, 
 	        		polizaPago,
-	        		polizaAlertaVencimientoPago,
 	        		polizaImporteTotal);
 	    }
 

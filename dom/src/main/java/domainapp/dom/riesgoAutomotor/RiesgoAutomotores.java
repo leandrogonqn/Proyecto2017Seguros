@@ -74,9 +74,7 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
 			Date polizaFechaEmision, 
 			Date polizaFechaVigencia, 
 			Date polizaFechaVencimiento,
-			Date polizaFechaVencimientoPago, 
 			DetalleTipoPagos polizaPago,
-			boolean polizaAlertaVencimientoPago,
 			double polizaImporteTotal) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
@@ -86,9 +84,7 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
 		setPolizaFechaEmision(polizaFechaEmision);
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
-		setPolizaFechaVencimientoPago(polizaFechaVencimientoPago);
 		setPolizaPago(polizaPago);
-		setPolizaAlertaVencimientoPago(polizaAlertaVencimientoPago);
 		setPolizaImporteTotal(polizaImporteTotal);
 		setPolizaEstado(Estado.previgente);
 		polizaEstado.actualizarEstado(this);
@@ -103,9 +99,7 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
 			Date polizaFechaEmision, 
 			Date polizaFechaVigencia, 
 			Date polizaFechaVencimiento,
-			Date polizaFechaVencimientoPago, 
 			DetalleTipoPagos polizaPago,
-			boolean polizaAlertaVencimientoPago,
 			double polizaImporteTotal,
 			Polizas riesgoAutomotores) {
 		setPolizaNumero(polizaNumero);
@@ -116,9 +110,7 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
 		setPolizaFechaEmision(polizaFechaEmision);
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
-		setPolizaFechaVencimientoPago(polizaFechaVencimientoPago);
 		setPolizaPago(polizaPago);
-		setPolizaAlertaVencimientoPago(polizaAlertaVencimientoPago);
 		setPolizaImporteTotal(polizaImporteTotal);
 		riesgoAutomotores.setPolizaRenovacion(this);
 		setPolizaEstado(Estado.previgente);
@@ -262,16 +254,6 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
 		return getPolizaFechaVencimiento();
 	}
 	    
-    //polizaFechaVencimientoPago
-	public RiesgoAutomotores actualizarPolizaFechaVencimientoPago(@ParameterLayout(named="Fecha Vencimiento de Pago") final Date polizaFechaVencimientoPago){
-		setPolizaFechaVencimientoPago(polizaFechaVencimientoPago);
-		return this;
-	}
-
-	public Date default0ActualizarPolizaFechaVencimientoPago(){
-		return getPolizaFechaVencimientoPago();
-	}    
-	
     //polizaPago
     public RiesgoAutomotores actualizarPolizaPago(@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago) {
         setPolizaPago(polizaPago);
@@ -285,16 +267,6 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
     public DetalleTipoPagos default0ActualizarPolizaPago() {
     	return getPolizaPago();
     }
-	
-    //polizaAlertaVencimientoPago
-	public RiesgoAutomotores actualizarPolizaAlertaVencimientoPago(@ParameterLayout(named="Alerta Vencimiento de Pago") final boolean polizaAlertaVencimientoPago){
-		setPolizaAlertaVencimientoPago(polizaAlertaVencimientoPago);
-		return this;
-	}
-
-	public boolean default0ActualizarPolizaAlertaVencimientoPago(){
-		return getPolizaAlertaVencimientoPago();
-	}    
     
     //polizaFechaBaja
 	public RiesgoAutomotores actualizarPolizaFechaBaja(@ParameterLayout(named="Fecha de Baja") final Date polizaFechaBaja){
@@ -365,9 +337,7 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
     		@ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
 			@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
 			@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
-			@ParameterLayout(named="Fecha Vencimiento Pago") final Date polizaFechaVencimientoPago,
 			@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago,
-			@ParameterLayout(named="Alerta Vencimiento Pago") final boolean polizaAlertaVencimientoPago,
 			@ParameterLayout(named="Precio Total") final double polizaImporteTotal){
         return riesgoAutomotoresRepository.renovacion(
         		polizaNumero, 
@@ -378,9 +348,7 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
         		polizaFechaEmision, 
         		polizaFechaVigencia, 
         		polizaFechaVencimiento, 
-        		polizaFechaVencimientoPago, 
         		polizaPago, 
-        		polizaAlertaVencimientoPago, 
         		polizaImporteTotal, this);
 	}
 	
@@ -400,7 +368,7 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
     	return tiposDeCoberturasRepository.listarActivos();
     }
     
-    public List<DetalleTipoPagos> choices9Renovacion(){
+    public List<DetalleTipoPagos> choices8Renovacion(){
     	return detalleTipoPagosRepository.listarActivos();
     }
     
@@ -420,12 +388,8 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
     	return getRiesgoAutomotorTipoDeCobertura();
     }
     
-    public DetalleTipoPagos default9Renovacion(){
+    public DetalleTipoPagos default8Renovacion(){
     	return getPolizaPago();
-    }
-    
-    public boolean default10Renovacion(){
-    	return getPolizaAlertaVencimientoPago();
     }
     
     //region > toString, compareTo

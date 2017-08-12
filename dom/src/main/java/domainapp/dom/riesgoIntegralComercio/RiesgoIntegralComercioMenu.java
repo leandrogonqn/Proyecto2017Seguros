@@ -60,7 +60,7 @@ public class RiesgoIntegralComercioMenu {
 	    	return companiaRepository.listarActivos();
 	    }	    
 	    
-	    public List<DetalleTipoPagos> choices7Crear(){
+	    public List<DetalleTipoPagos> choices6Crear(){
 	    	return detalleTipoPagosRepository.listarActivos();
 	    }
 
@@ -75,9 +75,7 @@ public class RiesgoIntegralComercioMenu {
 	    		@ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
 				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
 				@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
-				@ParameterLayout(named="Fecha Vencimiento Pago") final Date polizaFechaVencimientoPago,
 				@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago,
-				@ParameterLayout(named="Alerta Vencimiento Pago") final boolean polizaAlertaVencimientoPago,
 				@ParameterLayout(named="Precio Total") final double polizaImporteTotal,
 	    		@ParameterLayout(named="Incendio Edificio") final float riesgoIntegralComercioIncendioEdificio,
 	    		@ParameterLayout(named="Incendio Contenido") final float riesgoIntegralComercioIncendioContenido,
@@ -97,9 +95,7 @@ public class RiesgoIntegralComercioMenu {
 	        		polizaFechaEmision, 
 	        		polizaFechaVigencia, 
 	        		polizaFechaVencimiento, 
-	        		polizaFechaVencimientoPago, 
 	        		polizaPago, 
-	        		polizaAlertaVencimientoPago, 
 	        		polizaImporteTotal,
 	        		riesgoIntegralComercioRobo,
 	        		riesgoIntegralComercioCristales,

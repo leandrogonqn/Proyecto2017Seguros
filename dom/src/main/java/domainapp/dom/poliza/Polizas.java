@@ -170,21 +170,6 @@ public abstract class Polizas{
 		this.polizaFechaVencimiento = polizaFechaVencimiento;
 	}
 	
-	//Fecha Vencimiento Pago
-	@Column
-    @Property(
-            editing = Editing.DISABLED
-    )
-	@PropertyLayout(named="Fecha Vencimiento del Pago")
-	private Date polizaFechaVencimientoPago;
-
-	public Date getPolizaFechaVencimientoPago() {
-		return polizaFechaVencimientoPago;
-	}
-
-	public void setPolizaFechaVencimientoPago(Date polizaFechaVencimientoPago) {
-		this.polizaFechaVencimientoPago = polizaFechaVencimientoPago;
-	}
 	
 	//Pago
 	@Column(allowsNull = "false")
@@ -202,22 +187,6 @@ public abstract class Polizas{
 		this.polizaPago = polizaPago;
 	}
 	
-	//AlertaVencimientoPago
-	@Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-	@PropertyLayout(named="Alerta Vencimiento del Pago")
-	private boolean polizaAlertaVencimientoPago;
-
-	public boolean getPolizaAlertaVencimientoPago() {
-		return polizaAlertaVencimientoPago;
-	}
-
-	public void setPolizaAlertaVencimientoPago(boolean polizaAlertaVencimientoPago) {
-		this.polizaAlertaVencimientoPago = polizaAlertaVencimientoPago;
-	}
-
 	//Fecha Baja
 	@Column
     @Property(

@@ -68,7 +68,7 @@ public class RiesgoAutomotoresMenu {
 	    	return tiposDeCoberturasRepository.listarActivos();
 	    }
 	    
-	    public List<DetalleTipoPagos> choices9Crear(){
+	    public List<DetalleTipoPagos> choices8Crear(){
 	    	return detalleTipoPagosRepository.listarActivos();
 	    }
 
@@ -85,9 +85,7 @@ public class RiesgoAutomotoresMenu {
 	    		@ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
 				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
 				@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
-				@ParameterLayout(named="Fecha Vencimiento Pago") final Date polizaFechaVencimientoPago,
 				@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago,
-				@ParameterLayout(named="Alerta Vencimiento Pago") final boolean polizaAlertaVencimientoPago,
 				@ParameterLayout(named="Precio Total") final double polizaImporteTotal)
 	    {
 	        return polizasRepository.crear(
@@ -99,9 +97,7 @@ public class RiesgoAutomotoresMenu {
 	        		polizaFechaEmision, 
 	        		polizaFechaVigencia, 
 	        		polizaFechaVencimiento, 
-	        		polizaFechaVencimientoPago, 
 	        		polizaPago, 
-	        		polizaAlertaVencimientoPago, 
 	        		polizaImporteTotal);
 	    }
 

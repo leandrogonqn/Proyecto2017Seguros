@@ -40,9 +40,7 @@ public class RiesgoAutomotoresRepository {
     		final Date polizaFechaEmision, 
     		final Date polizaFechaVigencia, 
     		final Date polizaFechaVencimiento,
-    		final Date polizaFechaVencimientoPago, 
     		final DetalleTipoPagos polizaPago, 
-    		final boolean polizaAlertaVencimientoPago, 
     		final double polizaImporteTotal) {
         final RiesgoAutomotores object = new RiesgoAutomotores(
         		polizaNumero,
@@ -53,9 +51,7 @@ public class RiesgoAutomotoresRepository {
         		polizaFechaEmision,
         		polizaFechaVigencia, 
         		polizaFechaVencimiento,
-        		polizaFechaVencimientoPago, 
         		polizaPago,
-        		polizaAlertaVencimientoPago,
         		polizaImporteTotal);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
@@ -71,9 +67,7 @@ public class RiesgoAutomotoresRepository {
     		final Date polizaFechaEmision, 
     		final Date polizaFechaVigencia, 
     		final Date polizaFechaVencimiento,
-    		final Date polizaFechaVencimientoPago, 
     		final DetalleTipoPagos polizaPago, 
-    		final boolean polizaAlertaVencimientoPago, 
     		final double polizaImporteTotal, 
     		final Polizas riesgoAutomotor) {
         final RiesgoAutomotores object = new RiesgoAutomotores(
@@ -85,9 +79,7 @@ public class RiesgoAutomotoresRepository {
         		polizaFechaEmision,
         		polizaFechaVigencia, 
         		polizaFechaVencimiento,
-        		polizaFechaVencimientoPago, 
         		polizaPago,
-        		polizaAlertaVencimientoPago,
         		polizaImporteTotal,
         		riesgoAutomotor);
         serviceRegistry.injectServicesInto(object);

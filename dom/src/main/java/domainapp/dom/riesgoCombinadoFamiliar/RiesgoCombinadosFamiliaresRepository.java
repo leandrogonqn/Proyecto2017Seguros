@@ -34,8 +34,8 @@ public class RiesgoCombinadosFamiliaresRepository {
 			final Ocupaciones riesgoCombinadosFamiliaresOcupacion,
 			final TiposVivienda riesgoCombinadosFamiliaresTipoVivienda,
 			final TipoTitulares riesgoCombinadosFamiliaresTipoTitular, final Date polizaFechaEmision,
-			final Date polizaFechaVigencia, final Date polizaFechaVencimiento, final Date polizaFechaVencimientoPago,
-			final DetalleTipoPagos polizaPago, final boolean polizaAlertaVencimientoPago,
+			final Date polizaFechaVigencia, final Date polizaFechaVencimiento, 
+			final DetalleTipoPagos polizaPago, 
 			final double polizaImporteTotal) {
 		final RiesgoCombinadosFamiliares object = new RiesgoCombinadosFamiliares(polizaNumero, polizaCliente,
 				polizaCompania,
@@ -47,9 +47,7 @@ public class RiesgoCombinadosFamiliaresRepository {
         		polizaFechaEmision,
         		polizaFechaVigencia, 
         		polizaFechaVencimiento,
-        		polizaFechaVencimientoPago, 
         		polizaPago,
-        		polizaAlertaVencimientoPago,
         		polizaImporteTotal);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
@@ -68,9 +66,7 @@ public class RiesgoCombinadosFamiliaresRepository {
     		final Date polizaFechaEmision, 
     		final Date polizaFechaVigencia, 
     		final Date polizaFechaVencimiento,
-    		final Date polizaFechaVencimientoPago, 
     		final DetalleTipoPagos polizaPago, 
-    		final boolean polizaAlertaVencimientoPago, 
     		final double polizaImporteTotal,
     		Polizas riesgoCombinadosFamiliares) {
         final RiesgoCombinadosFamiliares object = new RiesgoCombinadosFamiliares(
@@ -85,9 +81,7 @@ public class RiesgoCombinadosFamiliaresRepository {
         		polizaFechaEmision,
         		polizaFechaVigencia, 
         		polizaFechaVencimiento,
-        		polizaFechaVencimientoPago, 
         		polizaPago,
-        		polizaAlertaVencimientoPago,
         		polizaImporteTotal,
         		riesgoCombinadosFamiliares);
         serviceRegistry.injectServicesInto(object);

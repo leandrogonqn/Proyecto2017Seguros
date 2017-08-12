@@ -366,6 +366,4 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
    RiesgosARTRepository riesgosARTRepository;
    
    //endregion
-
-	
 }

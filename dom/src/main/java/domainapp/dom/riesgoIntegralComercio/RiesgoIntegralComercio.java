@@ -61,7 +61,7 @@ public class RiesgoIntegralComercio extends Polizas implements Comparable<Riesgo
 	// Constructor
 	public RiesgoIntegralComercio(String polizaNumero, Clientes polizaCliente, Companias polizaCompania,
 			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
-			Date polizaFechaVencimientoPago, DetalleTipoPagos polizaPago, boolean polizaAlertaVencimientoPago,
+			 DetalleTipoPagos polizaPago, 
 			double polizaImporteTotal, float riesgoIntegralComercioRobo, float riesgoIntegralComercioCristales,
 			float riesgoIntegralComercioIncendioEdificio, float riesgoIntegralComercioIncendioContenido,
 			float riesgoIntegralComercioRc, float riesgoIntegralComercioRcl, float riesgoIntegralComercioDanioPorAgua,
@@ -72,9 +72,7 @@ public class RiesgoIntegralComercio extends Polizas implements Comparable<Riesgo
 		setPolizaFechaEmision(polizaFechaEmision);
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
-		setPolizaFechaVencimientoPago(polizaFechaVencimientoPago);
 		setPolizaPago(polizaPago);
-		setPolizaAlertaVencimientoPago(polizaAlertaVencimientoPago);
 		setPolizaImporteTotal(polizaImporteTotal);
 		setRiesgoIntegralComercioCristales(riesgoIntegralComercioCristales);
 		setRiesgoIntegralComercioRobo(riesgoIntegralComercioRobo);
@@ -92,7 +90,7 @@ public class RiesgoIntegralComercio extends Polizas implements Comparable<Riesgo
 
 	public RiesgoIntegralComercio(String polizaNumero, Clientes polizaCliente, Companias polizaCompania,
 			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
-			Date polizaFechaVencimientoPago, DetalleTipoPagos polizaPago, boolean polizaAlertaVencimientoPago,
+			 DetalleTipoPagos polizaPago,
 			double polizaImporteTotal, float riesgoIntegralComercioRobo, float riesgoIntegralComercioCristales,
 			float riesgoIntegralComercioIncendioEdificio, float riesgoIntegralComercioIncendioContenido,
 			float riesgoIntegralComercioRc, float riesgoIntegralComercioRcl, float riesgoIntegralComercioDanioPorAgua,
@@ -104,9 +102,7 @@ public class RiesgoIntegralComercio extends Polizas implements Comparable<Riesgo
 		setPolizaFechaEmision(polizaFechaEmision);
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
-		setPolizaFechaVencimientoPago(polizaFechaVencimientoPago);
 		setPolizaPago(polizaPago);
-		setPolizaAlertaVencimientoPago(polizaAlertaVencimientoPago);
 		setPolizaImporteTotal(polizaImporteTotal);
 		setRiesgoIntegralComercioRobo(riesgoIntegralComercioRobo);
 		setRiesgoIntegralComercioCristales(riesgoIntegralComercioCristales);
@@ -427,17 +423,6 @@ public class RiesgoIntegralComercio extends Polizas implements Comparable<Riesgo
 		return getPolizaFechaVencimiento();
 	}
 
-	// polizaFechaVencimientoPago
-	public RiesgoIntegralComercio actualizarPolizaFechaVencimientoPago(
-			@ParameterLayout(named = "Fecha Vencimiento de Pago") final Date polizaFechaVencimientoPago) {
-		setPolizaFechaVencimientoPago(polizaFechaVencimientoPago);
-		return this;
-	}
-
-	public Date default0ActualizarPolizaFechaVencimientoPago() {
-		return getPolizaFechaVencimientoPago();
-	}
-
 	// polizaPago
 	public RiesgoIntegralComercio actualizarPolizaPago(
 			@ParameterLayout(named = "Pago") final DetalleTipoPagos polizaPago) {
@@ -451,17 +436,6 @@ public class RiesgoIntegralComercio extends Polizas implements Comparable<Riesgo
 
 	public DetalleTipoPagos default0ActualizarPolizaPago() {
 		return getPolizaPago();
-	}
-
-	// polizaAlertaVencimientoPago
-	public RiesgoIntegralComercio actualizarPolizaAlertaVencimientoPago(
-			@ParameterLayout(named = "Alerta Vencimiento de Pago") final boolean polizaAlertaVencimientoPago) {
-		setPolizaAlertaVencimientoPago(polizaAlertaVencimientoPago);
-		return this;
-	}
-
-	public boolean default0ActualizarPolizaAlertaVencimientoPago() {
-		return getPolizaAlertaVencimientoPago();
 	}
 
 	// polizaFechaBaja
@@ -549,29 +523,27 @@ public class RiesgoIntegralComercio extends Polizas implements Comparable<Riesgo
 	@Action(invokeOn = InvokeOn.OBJECT_ONLY)
 	@ActionLayout(named = "Emitir Renovacion")
 	public RiesgoIntegralComercio renovacion(
-			@ParameterLayout(named = "Número") final String polizaNumero,
-			@ParameterLayout(named = "Cliente") final Clientes polizaCliente,
-			@ParameterLayout(named = "Compañia") final Companias polizaCompania,
-			@ParameterLayout(named = "Fecha Emision") final Date polizaFechaEmision,
-			@ParameterLayout(named = "Fecha Vigencia") final Date polizaFechaVigencia,
-			@ParameterLayout(named = "Fecha Vencimiento") final Date polizaFechaVencimiento,
-			@ParameterLayout(named = "Fecha Vencimiento Pago") final Date polizaFechaVencimientoPago,
-			@ParameterLayout(named = "Pago") final DetalleTipoPagos polizaPago,
-			@ParameterLayout(named = "Alerta Vencimiento Pago") final boolean polizaAlertaVencimientoPago,
-			@ParameterLayout(named = "Precio Total") final double polizaImporteTotal,
-			@ParameterLayout(named = "Robo") float riesgoIntegralComercioRobo, 
-			@ParameterLayout(named = "Cristales") float riesgoIntegralComercioCristales,
-			@ParameterLayout(named = "Incendio Edificio") float riesgoIntegralComercioIncendioEdificio,
-			@ParameterLayout(named = "Incendio Contenido") float riesgoIntegralComercioIncendioContenido,
-			@ParameterLayout(named = "RC") float riesgoIntegralComercioRc, 
-			@ParameterLayout(named = "RCL") float riesgoIntegralComercioRcl, 
-			@ParameterLayout(named = "Daño Por Agua") float riesgoIntegralComercioDanioPorAgua,
-			@ParameterLayout(named = "RCC") float riesgoIntegralComercioRCC,
-			@ParameterLayout(named = "Otros Nombre") final String riesgoIntegralComercioOtrosNombre, 
-			@ParameterLayout(named = "Otros Monto") final float riesgoIntegralComercioOtrosMonto) {
+/*0*/			@ParameterLayout(named = "Número") final String polizaNumero,
+/*1*/			@ParameterLayout(named = "Cliente") final Clientes polizaCliente,
+/*2*/		@ParameterLayout(named = "Compañia") final Companias polizaCompania,
+/*3*/			@ParameterLayout(named = "Fecha Emision") final Date polizaFechaEmision,
+/*4*/			@ParameterLayout(named = "Fecha Vigencia") final Date polizaFechaVigencia,
+/*5*/			@ParameterLayout(named = "Fecha Vencimiento") final Date polizaFechaVencimiento,
+/*6*/			@ParameterLayout(named = "Pago") final DetalleTipoPagos polizaPago,
+/*7*/			@ParameterLayout(named = "Precio Total") final double polizaImporteTotal,
+/*8*/			@ParameterLayout(named = "Robo") float riesgoIntegralComercioRobo, 
+/*9*/			@ParameterLayout(named = "Cristales") float riesgoIntegralComercioCristales,
+/*10*/			@ParameterLayout(named = "Incendio Edificio") float riesgoIntegralComercioIncendioEdificio,
+/*11*/			@ParameterLayout(named = "Incendio Contenido") float riesgoIntegralComercioIncendioContenido,
+/*12*/			@ParameterLayout(named = "RC") float riesgoIntegralComercioRc, 
+/*13*/			@ParameterLayout(named = "RCL") float riesgoIntegralComercioRcl, 
+/*14*/			@ParameterLayout(named = "Daño Por Agua") float riesgoIntegralComercioDanioPorAgua,
+/*15*/			@ParameterLayout(named = "RCC") float riesgoIntegralComercioRCC,
+/*16*/			@ParameterLayout(named = "Otros Nombre") final String riesgoIntegralComercioOtrosNombre, 
+/*17*/			@ParameterLayout(named = "Otros Monto") final float riesgoIntegralComercioOtrosMonto) {
 		return riesgoIntegralComercioRepository.renovacion(polizaNumero, polizaCliente, polizaCompania,
-				polizaFechaEmision, polizaFechaVigencia, polizaFechaVencimiento, polizaFechaVencimientoPago, polizaPago,
-				polizaAlertaVencimientoPago, polizaImporteTotal, riesgoIntegralComercioRobo, riesgoIntegralComercioCristales,
+				polizaFechaEmision, polizaFechaVigencia, polizaFechaVencimiento, polizaPago,
+				 polizaImporteTotal, riesgoIntegralComercioRobo, riesgoIntegralComercioCristales,
 				riesgoIntegralComercioIncendioEdificio, riesgoIntegralComercioIncendioContenido, riesgoIntegralComercioRc, 
 				riesgoIntegralComercioRcl, riesgoIntegralComercioDanioPorAgua, riesgoIntegralComercioRCC, riesgoIntegralComercioOtrosNombre,
 				riesgoIntegralComercioOtrosMonto,this);
@@ -585,7 +557,7 @@ public class RiesgoIntegralComercio extends Polizas implements Comparable<Riesgo
 		return companiaRepository.listarActivos();
 	}
 
-	public List<DetalleTipoPagos> choices7Renovacion() {
+	public List<DetalleTipoPagos> choices6Renovacion() {
 		return detalleTipoPagosRepository.listarActivos();
 	}
 
@@ -597,51 +569,48 @@ public class RiesgoIntegralComercio extends Polizas implements Comparable<Riesgo
 		return getPolizaCompania();
 	}
 
-	public DetalleTipoPagos default7Renovacion() {
+	public DetalleTipoPagos default6Renovacion() {
 		return getPolizaPago();
 	}
 
-	public boolean default8Renovacion() {
-		return getPolizaAlertaVencimientoPago();
-	}
 
-	public float default10Renovacion() {
+	public float default8Renovacion() {
 		return getRiesgoIntegralComercioRobo();
 	}
 
-	public float default11Renovacion() {
+	public float default9Renovacion() {
 		return getRiesgoIntegralComercioCristales();
 	}
 
-	public float default12Renovacion() {
+	public float default10Renovacion() {
 		return getRiesgoIntegralComercioIncendioEdificio();
 	}
 
-	public float default13Renovacion() {
+	public float default11Renovacion() {
 		return getRiesgoIntegralComercioIncendioContenido();
 	}
 	
-	public float default14Renovacion() {
+	public float default12Renovacion() {
 		return getRiesgoIntegralComercioRc();
 	}
 
-	public float default15Renovacion() {
+	public float default13Renovacion() {
 		return getRiesgoIntegralComercioRcl();
 	}
 
-	public float default16Renovacion() {
+	public float default14Renovacion() {
 		return getRiesgoIntegralComercioDanioPorAgua();
 	}
 
-	public float default17Renovacion() {
+	public float default15Renovacion() {
 		return getRiesgoIntegralComercioRCC();
 	}
 	
-	public String default18Renovacion() {
+	public String default16Renovacion() {
 		return getRiesgoIntegralComercioOtrosNombre();
 	}
 
-	public float default19Renovacion() {
+	public float default17Renovacion() {
 		return getRiesgoIntegralComercioOtrosMonto();
 	}
 
