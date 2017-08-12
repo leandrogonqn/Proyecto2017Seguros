@@ -9,6 +9,7 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import domainapp.dom.cliente.Clientes;
 import domainapp.dom.compania.Companias;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
+import domainapp.dom.localidad.Localidades;
 import domainapp.dom.ocupacion.Ocupaciones;
 import domainapp.dom.poliza.Polizas;
 import domainapp.dom.riesgoAutomotor.RiesgoAutomotores;
@@ -27,12 +28,19 @@ public class RiesgoCombinadosFamiliaresRepository {
         return repositoryService.allInstances(RiesgoCombinadosFamiliares.class);
     }
 
-    public RiesgoCombinadosFamiliares crear(final String polizaNumero, final Clientes polizaCliente, final Companias polizaCompania,final String riesgoCombinadosFamiliaresDomicilio,final Ocupaciones riesgoCombinadosFamiliaresOcupacion,final TiposVivienda riesgoCombinadosFamiliaresTipoVivienda,final TipoTitulares riesgoCombinadosFamiliaresTipoTitular,final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,final Date polizaFechaVencimientoPago, final DetalleTipoPagos polizaPago, final boolean polizaAlertaVencimientoPago, final double polizaImporteTotal) {
-        final RiesgoCombinadosFamiliares object = new RiesgoCombinadosFamiliares(
-        		polizaNumero,
-        		polizaCliente,
-        		polizaCompania,
+	public RiesgoCombinadosFamiliares crear(final String polizaNumero, final Clientes polizaCliente,
+			final Companias polizaCompania, final String riesgoCombinadosFamiliaresDomicilio,
+			final Localidades riesgoCombinadosFamiliaresLocalidad,
+			final Ocupaciones riesgoCombinadosFamiliaresOcupacion,
+			final TiposVivienda riesgoCombinadosFamiliaresTipoVivienda,
+			final TipoTitulares riesgoCombinadosFamiliaresTipoTitular, final Date polizaFechaEmision,
+			final Date polizaFechaVigencia, final Date polizaFechaVencimiento, final Date polizaFechaVencimientoPago,
+			final DetalleTipoPagos polizaPago, final boolean polizaAlertaVencimientoPago,
+			final double polizaImporteTotal) {
+		final RiesgoCombinadosFamiliares object = new RiesgoCombinadosFamiliares(polizaNumero, polizaCliente,
+				polizaCompania,
         		riesgoCombinadosFamiliaresDomicilio,
+        		riesgoCombinadosFamiliaresLocalidad,
         		riesgoCombinadosFamiliaresOcupacion,
         		riesgoCombinadosFamiliaresTipoVivienda,
         		riesgoCombinadosFamiliaresTipoTitular,
@@ -53,6 +61,7 @@ public class RiesgoCombinadosFamiliaresRepository {
     		final Clientes polizaCliente, 
     		final Companias polizaCompania,
     		final String riesgoCombinadosFamiliaresDomicilio,
+    		final Localidades riesgoCombinadosFamiliaresLocalidad,
     		final Ocupaciones riesgoCombinadosFamiliaresOcupacion,
     		final TiposVivienda riesgoCombinadosFamiliaresTipoVivienda,
     		final TipoTitulares riesgoCombinadosFamiliaresTipoTitular,
@@ -69,6 +78,7 @@ public class RiesgoCombinadosFamiliaresRepository {
         		polizaCliente,
         		polizaCompania,
         		riesgoCombinadosFamiliaresDomicilio,
+        		riesgoCombinadosFamiliaresLocalidad,
         		riesgoCombinadosFamiliaresOcupacion,
         		riesgoCombinadosFamiliaresTipoVivienda,
         		riesgoCombinadosFamiliaresTipoTitular,

@@ -36,6 +36,7 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
 import domainapp.dom.tipoTarjeta.TiposTarjetas;
 import domainapp.dom.tipoTarjeta.TiposTarjetasRepository;
 import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
+import domainapp.dom.debitoAutomatico.DebitosAutomaticos;
 
 
 @DomainService(
@@ -89,6 +90,14 @@ public class TarjetasDeCreditoMenu {
 	    	   numbers.add(i);
 	    	}
 	    	return numbers;
+	    }
+	    
+	    @Action(semantics = SemanticsOf.SAFE)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT,
+	    		named="Listar Tarjetas de credito")
+	    @MemberOrder(sequence = "2")
+	    public List<TarjetasDeCredito> listarPagos() {
+	        return debitoAutomaticoRepository.listar();
 	    }
 	    
 	    @javax.inject.Inject

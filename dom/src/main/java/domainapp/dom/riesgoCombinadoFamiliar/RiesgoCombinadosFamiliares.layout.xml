@@ -44,6 +44,9 @@
                                 <c:property id="riesgoCombinadosFamiliaresDomicilio" namedEscaped="true">
                                 <c:action id="actualizarPolizaDomicilio" position="RIGHT"/>
                                 </c:property>
+                                <c:property id="riesgoCombinadosFamiliaresLocalidad" namedEscaped="true">
+                                <c:action id="actualizarPolizaLocalidad" position="RIGHT"/>
+                                </c:property>                                
                                 <c:property id="riesgoCombinadosFamiliaresOcupacion" namedEscaped="true">
                                 <c:action id="actualizarPolizaOcupacion" position="RIGHT"/>
                                 </c:property>

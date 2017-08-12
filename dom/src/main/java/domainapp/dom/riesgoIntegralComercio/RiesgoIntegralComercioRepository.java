@@ -50,6 +50,7 @@ public class RiesgoIntegralComercioRepository {
     		float riesgoIntegralComercioRc, 
     		float riesgoIntegralComercioRcl, 
     		float riesgoIntegralComercioDanioPorAgua,
+    		float riesgoIntegralComercioRCC,
     		final String riesgoIntegralComercioOtrosNombre,
     		final float riesgoIntegralComercioOtrosMonto) {
         final RiesgoIntegralComercio object = new RiesgoIntegralComercio(
@@ -70,6 +71,7 @@ public class RiesgoIntegralComercioRepository {
         		riesgoIntegralComercioRc,
         		riesgoIntegralComercioRcl,
         		riesgoIntegralComercioDanioPorAgua,
+        		riesgoIntegralComercioRCC,
         		riesgoIntegralComercioOtrosNombre,
         		riesgoIntegralComercioOtrosMonto);
         serviceRegistry.injectServicesInto(object);
@@ -95,6 +97,7 @@ public class RiesgoIntegralComercioRepository {
     		float riesgoIntegralComercioRc, 
     		float riesgoIntegralComercioRcl, 
     		float riesgoIntegralComercioDanioPorAgua,
+    		float riesgoIntegralComercioRCC,
     		final String riesgoIntegralComercioOtrosNombre,
     		final float riesgoIntegralComercioOtrosMonto, 
     		final Polizas riesgoAutomotor) {
@@ -116,6 +119,7 @@ public class RiesgoIntegralComercioRepository {
         		riesgoIntegralComercioRc,
         		riesgoIntegralComercioRcl,
         		riesgoIntegralComercioDanioPorAgua,
+        		riesgoIntegralComercioRCC,
         		riesgoIntegralComercioOtrosNombre,
         		riesgoIntegralComercioOtrosMonto,
         		riesgoAutomotor);
