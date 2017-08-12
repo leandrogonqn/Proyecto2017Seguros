@@ -1,4 +1,4 @@
-package domainapp.dom.riesgoRC;
+package domainapp.dom.riesgoConvenioMercantil;
 
 import java.util.Date;
 import java.util.List;
@@ -38,6 +38,9 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPagosRepository;
 import domainapp.dom.estado.Estado;
 import domainapp.dom.poliza.Polizas;
 import domainapp.dom.poliza.PolizasRepository;
+import domainapp.dom.riesgoRC.RiesgosRC;
+import domainapp.dom.riesgoRC.RiesgosRCRepository;
+import domainapp.dom.riesgoRC.RiesgosRC.DeleteDomainEvent;
 import domainapp.dom.tiposDeCoberturas.TiposDeCoberturasRepository;
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -50,8 +53,9 @@ import domainapp.dom.tiposDeCoberturas.TiposDeCoberturasRepository;
         auditing = Auditing.ENABLED
 )
 @Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
-@Discriminator(value="RiesgoCombinadosRiesgosRC")
-public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
+@Discriminator(value="RiesgoCombinadosRiesgosConvenioMercantil")
+public class RiesgosConvenioMercantil extends Polizas implements Comparable<RiesgosConvenioMercantil>{
+	
 	 //region > title
 	   public TranslatableString title() {
 	       return TranslatableString.tr("{name}", "name","Poliza RC N°: " + getPolizaNumero());
@@ -59,10 +63,10 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 	   //endregion
 
 		// Constructor
-		public RiesgosRC(String polizaNumero, Clientes polizaCliente, Companias polizaCompania,
+		public RiesgosConvenioMercantil(String polizaNumero, Clientes polizaCliente, Companias polizaCompania,
 				Date polizaFechaEmision, Date polizaFechaVigencia,
 				Date polizaFechaVencimiento, DetalleTipoPagos polizaPago,
-				double polizaImporteTotal, float riesgoRCMonto) {
+				double polizaImporteTotal, float riesgoConvenioMercantilMonto) {
 			setPolizaNumero(polizaNumero);
 			setPolizasCliente(polizaCliente);
 			setPolizasCompania(polizaCompania);
@@ -71,18 +75,18 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 			setPolizaFechaVencimiento(polizaFechaVencimiento);
 			setPolizaPago(polizaPago);
 			setPolizaImporteTotal(polizaImporteTotal);
-			setRiesgoRCMonto(riesgoRCMonto);
+			setRiesgoConvenioMercantilMonto(riesgoConvenioMercantilMonto);
 			setPolizaEstado(Estado.previgente);
 			polizaEstado.actualizarEstado(this);
 		}
 		
-		public RiesgosRC(
+		public RiesgosConvenioMercantil(
 				String polizaNumero, Clientes polizaCliente, Companias polizaCompania,
 				Date polizaFechaEmision, Date polizaFechaVigencia,
 				Date polizaFechaVencimiento, DetalleTipoPagos polizaPago,
 				double polizaImporteTotal, 
 				Polizas riesgoRC,
-				float riesgoRCMonto) {
+				float riesgoConvenioMercantilMonto) {
 			setPolizaNumero(polizaNumero);
 			setPolizasCliente(polizaCliente);
 			setPolizasCompania(polizaCompania);
@@ -91,7 +95,7 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 			setPolizaFechaVencimiento(polizaFechaVencimiento);
 			setPolizaPago(polizaPago);
 			setPolizaImporteTotal(polizaImporteTotal);
-			setRiesgoRCMonto(riesgoRCMonto);
+			setRiesgoConvenioMercantilMonto(riesgoConvenioMercantilMonto);
 			setPolizaEstado(Estado.previgente);
 			riesgoRC.setPolizaRenovacion(this);
 			polizaEstado.actualizarEstado(this);
@@ -101,15 +105,15 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 	   @Property(editing = Editing.DISABLED)
 		@PropertyLayout(named="Monto")
 	   @Column(allowsNull = "false")
-		private float riesgoRCMonto; 
+		private float riesgoConvenioMercantilMonto; 
 		
-	public float getRiesgoRCMonto() {
-		return riesgoRCMonto;
-		}
+	public float getRiesgoConvenioMercantilMonto() {
+		return riesgoConvenioMercantilMonto;
+	}
 
-	public void setRiesgoRCMonto(float riesgoRCMonto) {
-		this.riesgoRCMonto = riesgoRCMonto;
-		}
+	public void setRiesgoConvenioMercantilMonto(float riesgoConvenioMercantilMonto) {
+		this.riesgoConvenioMercantilMonto = riesgoConvenioMercantilMonto;
+	}
 
 	//region > delete (action)
 	   public static class DeleteDomainEvent extends ActionDomainEvent<RiesgosRC> {}
@@ -119,7 +123,7 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 	   )
 	   
 	   //Actualizar PolizaNumero
-		public RiesgosRC actualizarPolizaNumero(@ParameterLayout(named="Numero") final String polizaNumero){
+		public RiesgosConvenioMercantil actualizarPolizaNumero(@ParameterLayout(named="Numero") final String polizaNumero){
 			setPolizaNumero(polizaNumero);
 			return this;
 		}
@@ -129,7 +133,7 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 		}
 	   
 		//Actualizar Poliza Cliente
-	   public RiesgosRC actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Clientes polizaCliente) {
+	   public RiesgosConvenioMercantil actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Clientes polizaCliente) {
 	       setPolizasCliente(polizaCliente);
 	       return this;
 	   }
@@ -143,7 +147,7 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 	   }
 	   
 	   //Actualizar polizaCompania
-	   public RiesgosRC actualizarPolizaCompania(@ParameterLayout(named="Compañia") final Companias polizaCompania) {
+	   public RiesgosConvenioMercantil actualizarPolizaCompania(@ParameterLayout(named="Compañia") final Companias polizaCompania) {
 	       actualizarPolizaCompania(polizaCompania);
 	       return this;
 	   }
@@ -158,7 +162,7 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 	   
 
 	   //Actualizar polizaFechaEmision
-		public RiesgosRC actualizarPolizaFechaEmision(@ParameterLayout(named="Fecha de Emision") final Date polizaFechaEmision){
+		public RiesgosConvenioMercantil actualizarPolizaFechaEmision(@ParameterLayout(named="Fecha de Emision") final Date polizaFechaEmision){
 			setPolizaFechaEmision(polizaFechaEmision);
 			return this;
 		}
@@ -168,7 +172,7 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 		}
 		
 	   //Actualizar polizaFechaVigencia
-		public RiesgosRC actualizarPolizaFechaVigencia(@ParameterLayout(named="Fecha de Vigencia") final Date polizaFechaVigencia){
+		public RiesgosConvenioMercantil actualizarPolizaFechaVigencia(@ParameterLayout(named="Fecha de Vigencia") final Date polizaFechaVigencia){
 			setPolizaFechaVigencia(polizaFechaVigencia);
 			polizaEstado.actualizarEstado(this);
 			JOptionPane.showMessageDialog(null, getPolizaEstado().toString());
@@ -180,7 +184,7 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 		}
 		
 	   //polizaFechaVencimiento
-		public RiesgosRC actualizarPolizaFechaVencimiento(@ParameterLayout(named="Fecha de Vencimiento") final Date polizaFechaVencimiento){
+		public RiesgosConvenioMercantil actualizarPolizaFechaVencimiento(@ParameterLayout(named="Fecha de Vencimiento") final Date polizaFechaVencimiento){
 			setPolizaFechaVencimiento(polizaFechaVencimiento);
 			polizaEstado.actualizarEstado(this);
 			return this;
@@ -191,7 +195,7 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 		}
 		
 	   //polizaPago
-	   public RiesgosRC actualizarPolizaPago(@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago) {
+	   public RiesgosConvenioMercantil actualizarPolizaPago(@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago) {
 	       setPolizaPago(polizaPago);
 	       return this;
 	   }
@@ -205,7 +209,7 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 	   }
 	   
 	   //polizaFechaBaja
-		public RiesgosRC actualizarPolizaFechaBaja(@ParameterLayout(named="Fecha de Baja") final Date polizaFechaBaja){
+		public RiesgosConvenioMercantil actualizarPolizaFechaBaja(@ParameterLayout(named="Fecha de Baja") final Date polizaFechaBaja){
 			setPolizaFechaBaja(polizaFechaBaja);
 			return this;
 		}
@@ -215,7 +219,7 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 		}    
 	   
 	   //polizaMotivoBaja
-		public RiesgosRC actualizarPolizaMotivoBaja(@ParameterLayout(named="Motivo de la Baja") final String polizaMotivoBaja){
+		public RiesgosConvenioMercantil actualizarPolizaMotivoBaja(@ParameterLayout(named="Motivo de la Baja") final String polizaMotivoBaja){
 			setPolizaMotivoBaja(polizaMotivoBaja);
 			return this;
 		}
@@ -225,7 +229,7 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 		}    
 	   
 	   //polizaImporteTotal
-		public RiesgosRC actualizarPolizaImporteTotal(@ParameterLayout(named="Importe Total") final double polizaImporteTotal){
+		public RiesgosConvenioMercantil actualizarPolizaImporteTotal(@ParameterLayout(named="Importe Total") final double polizaImporteTotal){
 			setPolizaImporteTotal(polizaImporteTotal);
 			return this;
 		}
@@ -235,19 +239,19 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 		}    
 		
 		// riesgoARTMonto
-		public RiesgosRC actualizarRiesgoRCMonto(
-				@ParameterLayout(named = "Monto asegurado") final float riesgoRCMonto) {
-			setRiesgoRCMonto(riesgoRCMonto);
+		public RiesgosConvenioMercantil actualizarRiesgoRCMonto(
+				@ParameterLayout(named = "Monto asegurado") final float riesgoConvenioMercantilMonto) {
+			setRiesgoConvenioMercantilMonto(riesgoConvenioMercantilMonto);
 			return this;
 		}
 
 		public float default0ActualizarRiesgoRCMonto() {
-			return getRiesgoRCMonto();
+			return getRiesgoConvenioMercantilMonto();
 		}
 
 	   //polizaRenovacion
 		@ActionLayout(named="Actualizar Renovacion")
-	   public RiesgosRC actualizarPolizaRenovacion(@ParameterLayout(named="Renovacion") final Polizas polizaRenovacion) {
+	   public RiesgosConvenioMercantil actualizarPolizaRenovacion(@ParameterLayout(named="Renovacion") final Polizas polizaRenovacion) {
 	       setPolizaRenovacion(polizaRenovacion);
 	       polizaEstado.actualizarEstado(this);
 	       return this;
@@ -261,7 +265,7 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 	   	return getPolizaRenovacion();
 	   }
 	   
-	   public RiesgosRC borrarPolizaRenovacion() {
+	   public RiesgosConvenioMercantil borrarPolizaRenovacion() {
 			setPolizaRenovacion(null);
 			polizaEstado.actualizarEstado(this);
 	   	return this;
@@ -273,7 +277,7 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 
 		@Action(invokeOn=InvokeOn.OBJECT_ONLY)
 		@ActionLayout(named="Emitir Renovacion")
-		public RiesgosRC renovacion(
+		public RiesgosConvenioMercantil renovacion(
 				@ParameterLayout(named="Número") final String polizaNumero,
 				@ParameterLayout(named="Cliente") final Clientes polizaCliente,
 				@ParameterLayout(named="Compañia") final Companias polizaCompania,
@@ -282,8 +286,8 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 				@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
 				@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago,
 				@ParameterLayout(named="Precio Total") final double polizaImporteTotal,
-				@ParameterLayout(named="Monto") final float riesgoRCMonto){
-	       return riesgosRCRepository.renovacion(
+				@ParameterLayout(named="Monto") final float riesgoConvenioMercantilMonto){
+	       return riesgosConvenioMercantilRepository.renovacion(
 	    		polizaNumero,
 	       		polizaCliente,
 	       		polizaCompania,
@@ -292,7 +296,7 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 	       		polizaFechaVencimiento,
 	       		polizaPago,
 	       		polizaImporteTotal,
-	       		riesgoRCMonto,this);
+	       		riesgoConvenioMercantilMonto,this);
 		}
 		
 	   public List<Clientes> choices1Renovacion(){
@@ -325,7 +329,7 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 	       return ObjectContracts.toString(this, "polizaNumero");
 	   }
 	   @Override
-	   public int compareTo(final RiesgosRC other) {
+	   public int compareTo(final RiesgosConvenioMercantil other) {
 	       return ObjectContracts.compare(this, other, "polizaNumero");
 	   }
 
@@ -358,7 +362,7 @@ public class RiesgosRC extends Polizas implements Comparable<RiesgosRC>{
 	   PolizasRepository polizasRepository;
 
 	   @Inject
-	   RiesgosRCRepository riesgosRCRepository;
+	   RiesgosConvenioMercantilRepository riesgosConvenioMercantilRepository;
 	   
 	   //endregion
 

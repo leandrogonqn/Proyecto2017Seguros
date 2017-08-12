@@ -36,11 +36,11 @@ public class RiesgosRCRepository {
     		final String polizaNumero, final Clientes polizaCliente, final Companias polizaCompania,
 			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
 			final DetalleTipoPagos polizaPago, final double polizaImporteTotal, final float riesgoRCMonto,
-    		Polizas riesgoART) {
+    		Polizas riesgoRC) {
         final RiesgosRC object = new RiesgosRC(
         		polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
 				polizaFechaVigencia, polizaFechaVencimiento, polizaPago, polizaImporteTotal, 
-				riesgoART, riesgoRCMonto);
+				riesgoRC, riesgoRCMonto);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;
