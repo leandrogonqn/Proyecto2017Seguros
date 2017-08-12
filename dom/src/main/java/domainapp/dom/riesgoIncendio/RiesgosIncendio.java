@@ -1,4 +1,4 @@
-package domainapp.dom.riesgoART;
+package domainapp.dom.riesgoIncendio;
 
 import java.util.Date;
 import java.util.List;
@@ -53,21 +53,21 @@ import domainapp.dom.tiposDeCoberturas.TiposDeCoberturasRepository;
         auditing = Auditing.ENABLED
 )
 @Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
-@Discriminator(value="RiesgoCombinadosRiesgosART")
-public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
+@Discriminator(value="RiesgoCombinadosRiesgosIncendio")
+public class RiesgosIncendio extends Polizas implements Comparable<RiesgosIncendio> {
 
 	
 	 //region > title
    public TranslatableString title() {
-       return TranslatableString.tr("{name}", "name","Poliza ART N°: " + getPolizaNumero());
+       return TranslatableString.tr("{name}", "name","Poliza Incendio N°: " + getPolizaNumero());
    }
    //endregion
 
 	// Constructor
-	public RiesgosART(String polizaNumero, Clientes polizaCliente, Companias polizaCompania,
+	public RiesgosIncendio(String polizaNumero, Clientes polizaCliente, Companias polizaCompania,
 			Date polizaFechaEmision, Date polizaFechaVigencia,
 			Date polizaFechaVencimiento, DetalleTipoPagos polizaPago,
-			double polizaImporteTotal, float riesgoARTMonto) {
+			double polizaImporteTotal, float riesgoIncendioMonto) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
 		setPolizasCompania(polizaCompania);
@@ -76,18 +76,18 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		setPolizaPago(polizaPago);
 		setPolizaImporteTotal(polizaImporteTotal);
-		setRiesgoARTMonto(riesgoARTMonto);
+		setRiesgoIncendioMonto(riesgoIncendioMonto);
 		setPolizaEstado(Estado.previgente);
 		polizaEstado.actualizarEstado(this);
 	}
 	
-	public RiesgosART(
+	public RiesgosIncendio(
 			String polizaNumero, Clientes polizaCliente, Companias polizaCompania,
 			Date polizaFechaEmision, Date polizaFechaVigencia,
 			Date polizaFechaVencimiento, DetalleTipoPagos polizaPago,
 			double polizaImporteTotal, 
-			Polizas riesgoART,
-			float riesgoARTMonto) {
+			Polizas riesgoIncendio,
+			float riesgoIncendioMonto) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
 		setPolizasCompania(polizaCompania);
@@ -96,35 +96,35 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		setPolizaPago(polizaPago);
 		setPolizaImporteTotal(polizaImporteTotal);
-		setRiesgoARTMonto(riesgoARTMonto);
+		setRiesgoIncendioMonto(riesgoIncendioMonto);
 		setPolizaEstado(Estado.previgente);
-		riesgoART.setPolizaRenovacion(this);
+		riesgoIncendio.setPolizaRenovacion(this);
 		polizaEstado.actualizarEstado(this);
 	}
-	
-	//Monto
-   @Property(editing = Editing.DISABLED)
-	@PropertyLayout(named="Monto")
-   @Column(allowsNull = "false")
-	private float riesgoARTMonto; 
-	
-	public float getRiesgoARTMonto() {
-		return riesgoARTMonto;
+
+	// Monto
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Monto")
+	@Column(allowsNull = "false")
+	private float riesgoIncendioMonto;
+
+	public float getRiesgoIncendioMonto() {
+		return riesgoIncendioMonto;
 	}
 
-	public void setRiesgoARTMonto(float riesgoARTMonto) {
-		this.riesgoARTMonto = riesgoARTMonto;
+	public void setRiesgoIncendioMonto(float riesgoIncendioMonto) {
+		this.riesgoIncendioMonto = riesgoIncendioMonto;
 	}
 
-	//region > delete (action)
-   public static class DeleteDomainEvent extends ActionDomainEvent<RiesgosART> {}
+	// region > delete (action)
+	public static class DeleteDomainEvent extends ActionDomainEvent<RiesgosIncendio> {}
    @Action(
            domainEvent = DeleteDomainEvent.class,
            semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
    )
    
    //Actualizar PolizaNumero
-	public RiesgosART actualizarPolizaNumero(@ParameterLayout(named="Numero") final String polizaNumero){
+	public RiesgosIncendio actualizarPolizaNumero(@ParameterLayout(named="Numero") final String polizaNumero){
 		setPolizaNumero(polizaNumero);
 		return this;
 	}
@@ -134,7 +134,7 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
 	}
    
 	//Actualizar Poliza Cliente
-   public RiesgosART actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Clientes polizaCliente) {
+   public RiesgosIncendio actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Clientes polizaCliente) {
        setPolizasCliente(polizaCliente);
        return this;
    }
@@ -148,7 +148,7 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
    }
    
    //Actualizar polizaCompania
-   public RiesgosART actualizarPolizaCompania(@ParameterLayout(named="Compañia") final Companias polizaCompania) {
+   public RiesgosIncendio actualizarPolizaCompania(@ParameterLayout(named="Compañia") final Companias polizaCompania) {
        actualizarPolizaCompania(polizaCompania);
        return this;
    }
@@ -163,7 +163,7 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
    
 
    //Actualizar polizaFechaEmision
-	public RiesgosART actualizarPolizaFechaEmision(@ParameterLayout(named="Fecha de Emision") final Date polizaFechaEmision){
+	public RiesgosIncendio actualizarPolizaFechaEmision(@ParameterLayout(named="Fecha de Emision") final Date polizaFechaEmision){
 		setPolizaFechaEmision(polizaFechaEmision);
 		return this;
 	}
@@ -173,7 +173,7 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
 	}
 	
    //Actualizar polizaFechaVigencia
-	public RiesgosART actualizarPolizaFechaVigencia(@ParameterLayout(named="Fecha de Vigencia") final Date polizaFechaVigencia){
+	public RiesgosIncendio actualizarPolizaFechaVigencia(@ParameterLayout(named="Fecha de Vigencia") final Date polizaFechaVigencia){
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		polizaEstado.actualizarEstado(this);
 		JOptionPane.showMessageDialog(null, getPolizaEstado().toString());
@@ -185,7 +185,7 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
 	}
 	
    //polizaFechaVencimiento
-	public RiesgosART actualizarPolizaFechaVencimiento(@ParameterLayout(named="Fecha de Vencimiento") final Date polizaFechaVencimiento){
+	public RiesgosIncendio actualizarPolizaFechaVencimiento(@ParameterLayout(named="Fecha de Vencimiento") final Date polizaFechaVencimiento){
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		polizaEstado.actualizarEstado(this);
 		return this;
@@ -196,7 +196,7 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
 	}
 	
    //polizaPago
-   public RiesgosART actualizarPolizaPago(@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago) {
+   public RiesgosIncendio actualizarPolizaPago(@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago) {
        setPolizaPago(polizaPago);
        return this;
    }
@@ -210,7 +210,7 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
    }
    
    //polizaFechaBaja
-	public RiesgosART actualizarPolizaFechaBaja(@ParameterLayout(named="Fecha de Baja") final Date polizaFechaBaja){
+	public RiesgosIncendio actualizarPolizaFechaBaja(@ParameterLayout(named="Fecha de Baja") final Date polizaFechaBaja){
 		setPolizaFechaBaja(polizaFechaBaja);
 		return this;
 	}
@@ -220,7 +220,7 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
 	}    
    
    //polizaMotivoBaja
-	public RiesgosART actualizarPolizaMotivoBaja(@ParameterLayout(named="Motivo de la Baja") final String polizaMotivoBaja){
+	public RiesgosIncendio actualizarPolizaMotivoBaja(@ParameterLayout(named="Motivo de la Baja") final String polizaMotivoBaja){
 		setPolizaMotivoBaja(polizaMotivoBaja);
 		return this;
 	}
@@ -230,29 +230,29 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
 	}    
    
    //polizaImporteTotal
-	public RiesgosART actualizarPolizaImporteTotal(@ParameterLayout(named="Importe Total") final double polizaImporteTotal){
+	public RiesgosIncendio actualizarPolizaImporteTotal(@ParameterLayout(named="Importe Total") final double polizaImporteTotal){
 		setPolizaImporteTotal(polizaImporteTotal);
 		return this;
 	}
 
 	public double default0ActualizarPolizaImporteTotal(){
 		return getPolizaImporteTotal();
-	}    
-	
-	// riesgoARTMonto
-	public RiesgosART actualizarRiesgoARTMonto(
-			@ParameterLayout(named = "Monto asegurado") final float riesgoARTMonto) {
-		setRiesgoARTMonto(riesgoARTMonto);
+	}
+
+	// riesgoIncendioMonto
+	public RiesgosIncendio actualizarRiesgoIncendioMonto(
+			@ParameterLayout(named = "Monto asegurado") final float riesgoIncendioMonto) {
+		setRiesgoIncendioMonto(riesgoIncendioMonto);
 		return this;
 	}
 
-	public float default0ActualizarRiesgoARTMonto() {
-		return getRiesgoARTMonto();
+	public float default0ActualizarRiesgoIncendioMonto() {
+		return getRiesgoIncendioMonto();
 	}
-
+	
    //polizaRenovacion
 	@ActionLayout(named="Actualizar Renovacion")
-   public RiesgosART actualizarPolizaRenovacion(@ParameterLayout(named="Renovacion") final Polizas polizaRenovacion) {
+   public RiesgosIncendio actualizarPolizaRenovacion(@ParameterLayout(named="Renovacion") final Polizas polizaRenovacion) {
        setPolizaRenovacion(polizaRenovacion);
        polizaEstado.actualizarEstado(this);
        return this;
@@ -266,7 +266,7 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
    	return getPolizaRenovacion();
    }
    
-   public RiesgosART borrarPolizaRenovacion() {
+   public RiesgosIncendio borrarPolizaRenovacion() {
 		setPolizaRenovacion(null);
 		polizaEstado.actualizarEstado(this);
    	return this;
@@ -278,7 +278,7 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
 
 	@Action(invokeOn=InvokeOn.OBJECT_ONLY)
 	@ActionLayout(named="Emitir Renovacion")
-	public RiesgosART renovacion(
+	public RiesgosIncendio renovacion(
 			@ParameterLayout(named="Número") final String polizaNumero,
 			@ParameterLayout(named="Cliente") final Clientes polizaCliente,
 			@ParameterLayout(named="Compañia") final Companias polizaCompania,
@@ -287,8 +287,8 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
 			@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
 			@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago,
 			@ParameterLayout(named="Precio Total") final double polizaImporteTotal,
-			@ParameterLayout(named="Monto") final float riesgoARTMonto){
-       return riesgosARTRepository.renovacion(
+			@ParameterLayout(named="Monto") final float riesgoIncendioMonto){
+       return riesgosIncendioRepository.renovacion(
     		polizaNumero,
        		polizaCliente,
        		polizaCompania,
@@ -297,7 +297,7 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
        		polizaFechaVencimiento,
        		polizaPago,
        		polizaImporteTotal,
-       		riesgoARTMonto,this);
+       		riesgoIncendioMonto,this);
 	}
 	
    public List<Clientes> choices1Renovacion(){
@@ -330,7 +330,7 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
        return ObjectContracts.toString(this, "polizaNumero");
    }
    @Override
-   public int compareTo(final RiesgosART other) {
+   public int compareTo(final RiesgosIncendio other) {
        return ObjectContracts.compare(this, other, "polizaNumero");
    }
 
@@ -363,7 +363,7 @@ public class RiesgosART extends Polizas implements Comparable<RiesgosART> {
    PolizasRepository polizasRepository;
 
    @Inject
-   RiesgosARTRepository riesgosARTRepository;
+   RiesgosIncendioRepository riesgosIncendioRepository;
    
    //endregion
 

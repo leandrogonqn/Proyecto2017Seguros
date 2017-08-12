@@ -224,7 +224,7 @@ public class Vehiculos implements Comparable<Vehiculos> {
     	ArrayList<Integer> numbers = new ArrayList<Integer>();
     	Calendar hoy= Calendar.getInstance(); 
     	int año= hoy.get(Calendar.YEAR); 
-    	for (int i = 1910; i <= año; i++)
+    	for (int i = 1980; i <= año; i++)
     	{
     	   numbers.add(i);
     	}

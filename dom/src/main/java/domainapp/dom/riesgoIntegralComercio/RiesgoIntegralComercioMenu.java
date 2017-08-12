@@ -86,6 +86,7 @@ public class RiesgoIntegralComercioMenu {
 	    		@ParameterLayout(named="RC") final float riesgoIntegralComercioRc,
 	    		@ParameterLayout(named="RCL") final float riesgoIntegralComercioRcl,
 	    		@ParameterLayout(named="Daño por Agua") final float riesgoIntegralComercioDanioPorAgua,
+	    		@ParameterLayout(named = "RCC") float riesgoIntegralComercioRCC,
 	    		@ParameterLayout(named="Otros Nombre") final String riesgoIntegralComercioOtrosNombre,
 	    		@ParameterLayout(named="Otros Monto") final float riesgoIntegralComercioOtrosMonto)
 	    {
@@ -107,6 +108,7 @@ public class RiesgoIntegralComercioMenu {
 	        		riesgoIntegralComercioRc,
 	        		riesgoIntegralComercioRcl,
 	        		riesgoIntegralComercioDanioPorAgua,
+	        		riesgoIntegralComercioRCC,
 	        		riesgoIntegralComercioOtrosNombre,
 	        		riesgoIntegralComercioOtrosMonto);
 	    }

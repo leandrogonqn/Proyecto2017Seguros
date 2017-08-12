@@ -27,6 +27,7 @@ import domainapp.dom.cliente.ClientesMenu;
 import domainapp.dom.cliente.ClientesRepository;
 import domainapp.dom.cliente.Sexo;
 import domainapp.dom.cliente.ClientesMenu.CreateDomainEvent;
+import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
 
 
 @DomainService(
@@ -52,6 +53,14 @@ public class DebitosAutomaticosMenu {
 	    
 	    public List<Bancos> choices1Crear(){
 	    	return debitoAutomaticoBancoRepository.listarActivos();
+	    }
+	    
+	    @Action(semantics = SemanticsOf.SAFE)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT,
+	    		named="Listar Debitos Automaticos")
+	    @MemberOrder(sequence = "2")
+	    public List<DebitosAutomaticos> listarPagos() {
+	        return debitoAutomaticoRepository.listar();
 	    }
 
 	    @javax.inject.Inject

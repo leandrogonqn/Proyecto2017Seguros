@@ -12,6 +12,7 @@ import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
 import domainapp.dom.banco.Bancos;
+import domainapp.dom.tarjetaDeCredito.TarjetasDeCredito;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
@@ -24,6 +25,10 @@ public class DebitosAutomaticosRepository {
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;
+    }
+    
+    public List<DebitosAutomaticos> listar() {
+        return repositoryService.allInstances(DebitosAutomaticos.class);
     }
 
     @javax.inject.Inject

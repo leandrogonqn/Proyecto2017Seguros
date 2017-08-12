@@ -33,6 +33,8 @@ import domainapp.dom.compania.Companias;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagos;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagosRepository;
 import domainapp.dom.estado.Estado;
+import domainapp.dom.localidad.Localidades;
+import domainapp.dom.localidad.LocalidadesRepository;
 import domainapp.dom.ocupacion.Ocupaciones;
 import domainapp.dom.ocupacion.OcupacionesRepository;
 import domainapp.dom.poliza.Polizas;
@@ -64,11 +66,17 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
    //endregion
 
 	// Constructor
-	public RiesgoCombinadosFamiliares(String polizaNumero,Clientes polizaCliente,Companias polizaCompania,String riesgoCombinadosFamiliaresDomicilio,Ocupaciones riesgoCombinadosFamiliaresOcupacion,TiposVivienda riesgoCombinadosFamiliaresTipoVivienda,TipoTitulares riesgoCombinadosFamiliaresTipoTitular,Date polizaFechaEmision,Date polizaFechaVigencia,Date polizaFechaVencimiento,Date polizaFechaVencimientoPago, DetalleTipoPagos polizaPago,boolean polizaAlertaVencimientoPago,double polizaImporteTotal) {
+	public RiesgoCombinadosFamiliares(String polizaNumero, Clientes polizaCliente, Companias polizaCompania,
+			String riesgoCombinadosFamiliaresDomicilio, Localidades riesgoCombinadosFamiliaresLocalidad, Ocupaciones riesgoCombinadosFamiliaresOcupacion,
+			TiposVivienda riesgoCombinadosFamiliaresTipoVivienda, TipoTitulares riesgoCombinadosFamiliaresTipoTitular,
+			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
+			Date polizaFechaVencimientoPago, DetalleTipoPagos polizaPago, boolean polizaAlertaVencimientoPago,
+			double polizaImporteTotal) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
 		setPolizasCompania(polizaCompania);
 		setRiesgoCombinadosFamiliaresDomicilio(riesgoCombinadosFamiliaresDomicilio);
+		setRiesgoCombinadosFamiliaresLocalidad(riesgoCombinadosFamiliaresLocalidad);
 		setRiesgoCombinadosFamiliaresOcupacion(riesgoCombinadosFamiliaresOcupacion);
 		setRiesgoCombinadosFamiliaresTipoVivienda(riesgoCombinadosFamiliaresTipoVivienda);
 		setRiesgoCombinadosFamiliaresTipoTitular(riesgoCombinadosFamiliaresTipoTitular);
@@ -88,6 +96,7 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
 			Clientes polizaCliente,
 			Companias polizaCompania,
 			String riesgoCombinadosFamiliaresDomicilio,
+			Localidades riesgoCombinadosFamiliaresLocalidad, 
 			Ocupaciones riesgoCombinadosFamiliaresOcupacion,
 			TiposVivienda riesgoCombinadosFamiliaresTipoVivienda,
 			TipoTitulares riesgoCombinadosFamiliaresTipoTitular,
@@ -102,6 +111,7 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
 		setPolizasCliente(polizaCliente);
 		setPolizasCompania(polizaCompania);
 		setRiesgoCombinadosFamiliaresDomicilio(riesgoCombinadosFamiliaresDomicilio);
+		setRiesgoCombinadosFamiliaresLocalidad(riesgoCombinadosFamiliaresLocalidad);
 		setRiesgoCombinadosFamiliaresOcupacion(riesgoCombinadosFamiliaresOcupacion);
 		setRiesgoCombinadosFamiliaresTipoVivienda(riesgoCombinadosFamiliaresTipoVivienda);
 		setRiesgoCombinadosFamiliaresTipoTitular(riesgoCombinadosFamiliaresTipoTitular);
@@ -135,13 +145,13 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
 	@Property(editing = Editing.DISABLED)
 	@PropertyLayout(named = "Localidad")
 	@Column(allowsNull = "false", name="localidadId")
-	private String riesgoCombinadosFamiliaresLocalidad;
+	private Localidades riesgoCombinadosFamiliaresLocalidad;
 
-	public String getRiesgoCombinadosFamiliaresLocalidad() {
+	public Localidades getRiesgoCombinadosFamiliaresLocalidad() {
 		return riesgoCombinadosFamiliaresLocalidad;
 	}
 
-	public void setRiesgoCombinadosFamiliaresLocalidad(String riesgoCombinadosFamiliaresLocalidad) {
+	public void setRiesgoCombinadosFamiliaresLocalidad(Localidades riesgoCombinadosFamiliaresLocalidad) {
 		this.riesgoCombinadosFamiliaresLocalidad = riesgoCombinadosFamiliaresLocalidad;
 	}
 
@@ -239,10 +249,21 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
 		return this;
 	}
 
-	public String default0ActualizarPolizaDomicilio(){
+	public String default0ActualizarPolizaDomicilio() {
 		return getRiesgoCombinadosFamiliaresDomicilio();
 	}
-	//Actualizar poliza Ocupacion
+
+	// Actualizar poliza Localidad
+	public RiesgoCombinadosFamiliares actualizarPolizaLocalidad(@ParameterLayout(named = "Localidad") final Localidades riesgoCombinadosFamiliaresLocalidad) {
+		setRiesgoCombinadosFamiliaresLocalidad(riesgoCombinadosFamiliaresLocalidad);
+		return this;
+	}
+
+	public Localidades default0ActualizarPolizaLocalidad() {
+		return getRiesgoCombinadosFamiliaresLocalidad();
+	}
+
+	// Actualizar poliza Ocupacion
 	   public RiesgoCombinadosFamiliares actualizarPolizaOcupacion(@ParameterLayout(named="Ocupación") final Ocupaciones riesgoCombinadosFamiliaresOcupacion) {
 		   actualizarPolizaOcupacion(riesgoCombinadosFamiliaresOcupacion);
 	       return this;
@@ -415,6 +436,7 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
 			/*1*/	            @ParameterLayout(named="Cliente") final Clientes polizaCliente,
 			/*2*/	            @ParameterLayout(named="Compañia") final Companias polizaCompania,
 			/*3*/	    		@ParameterLayout(named="Domicilio") final String riesgoCombinadosFamiliaresDomicilio,
+								@ParameterLayout(named="Localidad") final Localidades riesgoCombinadoFamiliarLocalidad,
 			/*4*/	            @ParameterLayout(named="Ocupación") final Ocupaciones riesgoCombinadosFamiliaresOcupacion,
 			/*5*/	            @ParameterLayout(named="Tipo de Vivienda") final TiposVivienda riesgoCombinadosFamiliaresTipoVivienda,
 			/*6*/	            @ParameterLayout(named="Tipo de Titular") final TipoTitulares riesgoCombinadosFamiliaresTipoTitular,
@@ -430,6 +452,7 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
        		polizaCliente,
        		polizaCompania,
        		riesgoCombinadosFamiliaresDomicilio,
+       		riesgoCombinadoFamiliarLocalidad,
        		riesgoCombinadosFamiliaresOcupacion,
        		riesgoCombinadosFamiliaresTipoVivienda,
        		riesgoCombinadosFamiliaresTipoTitular,
@@ -448,20 +471,24 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
    
    public List<Companias> choices2Renovacion(){
    	return companiaRepository.listarActivos();
-   }	    
+   }	   
    
-   public List<Ocupaciones> choices4Renovacion(){
+   public List<Localidades> choices4Renovacion(){
+	   	return localidadesRepository.listarActivos();
+	   }	    
+   
+   public List<Ocupaciones> choices5Renovacion(){
    	return ocupacionesRepository.listarActivos();
    }
-   public List<TiposVivienda> choices5Renovacion(){
+   public List<TiposVivienda> choices6Renovacion(){
 	   	return tiposViviendaRepository.listarActivos();
    }
 	     
-   public List<TipoTitulares> choices6Renovacion(){
+   public List<TipoTitulares> choices7Renovacion(){
 	   	return tipoTitularesRepository.listarActivos();
 	   }
    
-   public List<DetalleTipoPagos> choices11Renovacion(){
+   public List<DetalleTipoPagos> choices12Renovacion(){
    	return detalleTipoPagosRepository.listarActivos();
    }
    
@@ -476,21 +503,25 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
    	return getPolizaCompania();
    }
    
-   public Ocupaciones default4Renovacion() {
+   public Localidades default4Renovacion(){
+	   	return getRiesgoCombinadosFamiliaresLocalidad();
+	   }
+   
+   public Ocupaciones default5Renovacion() {
    	return getRiesgoCombinadosFamiliaresOcupacion();
    }   
-   public TiposVivienda default5Renovacion() {
+   public TiposVivienda default6Renovacion() {
    	return getRiesgoCombinadosFamiliaresTipoVivienda();
    }   
 	   
-   public TipoTitulares default6Renovacion() {
+   public TipoTitulares default7Renovacion() {
    	return getRiesgoCombinadosFamiliaresTipoTitular();
    }  
-   public DetalleTipoPagos default11Renovacion(){
+   public DetalleTipoPagos default12Renovacion(){
    	return getPolizaPago();
    }
    
-   public boolean default12Renovacion(){
+   public boolean default13Renovacion(){
    	return getPolizaAlertaVencimientoPago();
    }
    
@@ -543,6 +574,9 @@ public class RiesgoCombinadosFamiliares extends Polizas implements Comparable<Ri
 
    @Inject
    RiesgoCombinadosFamiliaresRepository riesgoCombinadosFamiliaresRepository;
+   
+   @Inject
+   LocalidadesRepository localidadesRepository;
    
    //endregion
 
