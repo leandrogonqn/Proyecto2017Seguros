@@ -1,9 +1,11 @@
 package domainapp.dom.riesgoAutomotor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.swing.JOptionPane;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
@@ -56,11 +58,11 @@ public class RiesgoAutomotoresMenu {
 	    	return clientesRepository.listarActivos();
 	    }
 	    
-	    public List<Vehiculos> choices2Crear(){
+	    public List<Vehiculos> choices3Crear(){
 	    	return vehiculosRepository.listarActivos();
 	    }
 	    
-	    public List<Companias> choices3Crear(){
+	    public List<Companias> choices2Crear(){
 	    	return companiaRepository.listarActivos();
 	    }	    
 	    
@@ -79,8 +81,8 @@ public class RiesgoAutomotoresMenu {
 	    public RiesgoAutomotores crear(
 	            @ParameterLayout(named="Número") final String polizaNumero,
 	            @ParameterLayout(named="Cliente") final Clientes polizaCliente,
-	            @ParameterLayout(named="Vehiculo") final Vehiculos riesgoAutomotorVehiculo,
 	            @ParameterLayout(named="Compañia") final Companias polizaCompania,
+	            @ParameterLayout(named="Vehiculo") final Vehiculos riesgoAutomotorVehiculo,
 	            @ParameterLayout(named="Tipo de Cobertura") final TiposDeCoberturas riesgoAutomotorTiposDeCoberturas,
 	    		@ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
 				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
@@ -88,11 +90,13 @@ public class RiesgoAutomotoresMenu {
 				@ParameterLayout(named="Pago") final DetalleTipoPagos polizaPago,
 				@ParameterLayout(named="Precio Total") final double polizaImporteTotal)
 	    {
+	    	List<Vehiculos> riesgoAutomotorListaVehiculos = new ArrayList<>();
+	    	riesgoAutomotorListaVehiculos.add(riesgoAutomotorVehiculo);
 	        return polizasRepository.crear(
 	        		polizaNumero, 
 	        		polizaCliente, 
-	        		riesgoAutomotorVehiculo, 
 	        		polizaCompania,
+	        		riesgoAutomotorListaVehiculos,
 	        		riesgoAutomotorTiposDeCoberturas,
 	        		polizaFechaEmision, 
 	        		polizaFechaVigencia, 

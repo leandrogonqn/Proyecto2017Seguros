@@ -34,8 +34,8 @@ public class RiesgoAutomotoresRepository {
     public RiesgoAutomotores crear(
     		final String polizaNumero, 
     		final Clientes polizaCliente, 
-    		final Vehiculos riesgoAutomotorVehiculo, 
     		final Companias polizaCompanias,
+			final List<Vehiculos> riesgoAutomotorListaVehiculos,
     		final TiposDeCoberturas riesgoAutomotorTiposDeCoberturas,
     		final Date polizaFechaEmision, 
     		final Date polizaFechaVigencia, 
@@ -45,8 +45,8 @@ public class RiesgoAutomotoresRepository {
         final RiesgoAutomotores object = new RiesgoAutomotores(
         		polizaNumero,
         		polizaCliente,
-        		riesgoAutomotorVehiculo,
         		polizaCompanias,
+        		riesgoAutomotorListaVehiculos,
         		riesgoAutomotorTiposDeCoberturas,
         		polizaFechaEmision,
         		polizaFechaVigencia, 
@@ -61,8 +61,8 @@ public class RiesgoAutomotoresRepository {
     public RiesgoAutomotores renovacion(
     		final String polizaNumero, 
     		final Clientes polizaCliente, 
-    		final Vehiculos riesgoAutomotorVehiculo, 
     		final Companias polizaCompanias,
+			final List<Vehiculos> riesgoAutomotorListaVehiculos,
     		final TiposDeCoberturas riesgoAutomotorTiposDeCoberturas,
     		final Date polizaFechaEmision, 
     		final Date polizaFechaVigencia, 
@@ -73,8 +73,8 @@ public class RiesgoAutomotoresRepository {
         final RiesgoAutomotores object = new RiesgoAutomotores(
         		polizaNumero,
         		polizaCliente,
-        		riesgoAutomotorVehiculo,
         		polizaCompanias,
+        		riesgoAutomotorListaVehiculos,
         		riesgoAutomotorTiposDeCoberturas,
         		polizaFechaEmision,
         		polizaFechaVigencia, 

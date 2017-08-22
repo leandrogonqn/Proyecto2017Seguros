@@ -38,9 +38,6 @@
                                 <c:property id="polizaCliente" namedEscaped="true">
                                 <c:action id="actualizarPolizaCliente" position="RIGHT"/>
                                 </c:property>
-                                <c:property id="riesgoAutomotorVehiculo" namedEscaped="true">
-                                <c:action id="actualizarRiesgoAutomotorVehiculo" position="RIGHT"/>
-                                </c:property>
                                 <c:property id="polizaCompania" namedEscaped="true">
                                 <c:action id="actualizarPolizaCompania" position="RIGHT"/>
                                 </c:property>
@@ -104,6 +101,8 @@
             </bs3:tabGroup>
         </bs3:col>
         <bs3:col span="6">
+            <c:action id="modificarCoche"/>
+            <c:action id="quitarCoche"/>
             <bs3:tabGroup  unreferencedCollections="true">
             </bs3:tabGroup>
         </bs3:col>
