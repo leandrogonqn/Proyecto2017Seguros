@@ -13,6 +13,7 @@ import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.Join;
 import javax.jdo.annotations.NotPersistent;
+import javax.jdo.annotations.Queries;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
@@ -53,6 +54,13 @@ import domainapp.dom.vehiculo.VehiculosRepository;
         schema = "simple",
         table = "Polizas"
 )
+@Queries({
+    @javax.jdo.annotations.Query(
+            name = "listarPorEstado", language = "JDOQL",
+            value = "SELECT "
+                    + "FROM domainapp.dom.simple.Polizas "
+                    + "WHERE polizaEstado == :polizaEstado")
+})
 @DomainObject(
         publishing = Publishing.ENABLED,
         auditing = Auditing.ENABLED
@@ -166,13 +174,6 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
 		this.riesgoAutomotorTipoDeCobertura = riesgoAutomotorTipoDeCobertura;
 	}	
 	    
-    //region > delete (action)
-    public static class DeleteDomainEvent extends ActionDomainEvent<RiesgoAutomotores> {}
-    @Action(
-            domainEvent = DeleteDomainEvent.class,
-            semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
-    )
-    
     //Actualizar PolizaNumero
 	public RiesgoAutomotores actualizarPolizaNumero(@ParameterLayout(named="Numero") final String polizaNumero){
 		setPolizaNumero(polizaNumero);
@@ -327,7 +328,6 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
 
     //acciones
 
-    
 	@Action(
 			invokeOn=InvokeOn.OBJECT_ONLY
 			)
@@ -390,13 +390,18 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
     }
     
     public RiesgoAutomotores agregarVehiculo(
-    		@ParameterLayout(named="Vehiculo") final Vehiculos riesgoAutomorVehiculo) {
-    	if (this.getRiesgoAutomotorListaVehiculos().contains(riesgoAutomorVehiculo)){
-    		messageService.informUser(String.format("El vehiculo ya está agregado en la lista", null));
-		} 
-    	else {
-			this.getRiesgoAutomotorListaVehiculos().add(riesgoAutomorVehiculo);
-			this.setRiesgoAutomotorListaVehiculos(this.getRiesgoAutomotorListaVehiculos());
+			@ParameterLayout(named = "Vehiculo") final Vehiculos riesgoAutomorVehiculo) {
+
+		boolean validador = riesgoAutomotoresRepository.validar(riesgoAutomorVehiculo, this.getPolizaFechaVigencia());
+		if (validador) {
+			if (this.getRiesgoAutomotorListaVehiculos().contains(riesgoAutomorVehiculo)) {
+				messageService.warnUser("ERROR: El vehiculo ya está agregado en la lista");
+			} else {
+				this.getRiesgoAutomotorListaVehiculos().add(riesgoAutomorVehiculo);
+				this.setRiesgoAutomotorListaVehiculos(this.getRiesgoAutomotorListaVehiculos());
+			}
+		} else {
+			messageService.warnUser("ERROR: vehiculo existente en otra poliza vigente");
 		}
     	return this;
 	}
@@ -413,7 +418,7 @@ public class RiesgoAutomotores extends Polizas implements Comparable<RiesgoAutom
 			messageService.warnUser("ERROR: el vehiculo a agregar y el vehiculo a quitar son el mismo");
 		} else {
 			if (this.getRiesgoAutomotorListaVehiculos().contains(riesgoAutomotorVehiculoNuevo)) {
-				messageService.warnUser("El vehiculo que quiere agregar ya está agregado en la lista");
+				messageService.warnUser("ERROR: El vehiculo que quiere agregar ya está agregado en la lista");
 			} else {
 				while (it.hasNext()) {
 					Vehiculos lista = it.next();

@@ -86,7 +86,35 @@ public class RiesgoAutomotoresRepository {
         repositoryService.persist(object);
         return object;
     }
+    
+    public boolean validar(Vehiculos vehiculo, Date fechaVigencia){
+    	
+    	boolean validador = true;
+    	
+    	List<RiesgoAutomotores> listaPolizas = listarPorEstado(Estado.vigente);
+    	listaPolizas.addAll(listarPorEstado(Estado.previgente));
+    	
+    	for (RiesgoAutomotores r : listaPolizas){
+    		for (Vehiculos v : r.getRiesgoAutomotorListaVehiculos()){
+    			if (vehiculo.equals(v)){
+    				if(fechaVigencia.before(r.getPolizaFechaVencimiento())){
+    					validador = false;
+    				}
+    			}
+    		}
+    	}
+    	
+    	return validador;
+    }
 
+    public List<RiesgoAutomotores> listarPorEstado(final Estado polizaEstado) {
+        return repositoryService.allMatches(
+                new QueryDefault<>(
+                		RiesgoAutomotores.class,
+                        "listarPorEstado",
+                        "polizaEstado", polizaEstado));
+    }
+    
     @javax.inject.Inject
     RepositoryService repositoryService;
     @javax.inject.Inject

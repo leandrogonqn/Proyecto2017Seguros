@@ -1,5 +1,6 @@
 package domainapp.dom.poliza;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -69,8 +70,34 @@ public abstract class Polizas{
 	public static final int NAME_LENGTH = 200;
 	
     public String cssClass(){
-    	String a = null;
-    	a = getPolizaEstado().toString();   		
+    	
+		String a = null;
+		if (this.getPolizaEstado()==Estado.vigente) {
+			if (this.getPolizaRenovacion() == null) {
+				Calendar hoyMasTreintaDias = Calendar.getInstance();
+				hoyMasTreintaDias.add(hoyMasTreintaDias.DATE, 30);
+				Date hoyMasTreintaDiasDate = hoyMasTreintaDias.getTime();
+
+				if (hoyMasTreintaDiasDate.before(this.getPolizaFechaVencimiento())) {
+					a = "vigenteSinRenovacionConVencimientoMayor30Dias";
+				} else {
+					Calendar hoyMasQuinceDias = Calendar.getInstance();
+					hoyMasQuinceDias.add(hoyMasQuinceDias.DATE, 15);
+					Date hoyMasQuinceDiasDate = hoyMasQuinceDias.getTime();
+					if (hoyMasQuinceDiasDate.before(this.getPolizaFechaVencimiento())) {
+						a = "vigenteSinRenovacionConVencimientoMenor30Dias";
+					} else {
+						a = "vigenteSinRenovacionConVencimientoMenor15Dias";
+					}
+				}
+			} else {
+				a = "vigenteConRenovacion";
+			}
+		}
+		else {
+			a = getPolizaEstado().toString();  
+		}
+    	
 		return a;
     }
 	
