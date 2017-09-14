@@ -21,8 +21,8 @@ package domainapp.fixture.dom.tipoTarjeta;
 
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
-import domainapp.dom.tipoTarjeta.TiposTarjetas;
-import domainapp.dom.tipoTarjeta.TiposTarjetasMenu;
+import domainapp.dom.tipoTarjeta.TipoTarjeta;
+import domainapp.dom.tipoTarjeta.TipoTarjetaMenu;
 
 
 
@@ -45,13 +45,13 @@ public class TipoTarjetaCreate extends FixtureScript {
 
 
     //region > simpleObject (output)
-    private TiposTarjetas simpleObject;
+    private TipoTarjeta simpleObject;
 
     /**
      * The created simple object (output).
      * @return
      */
-    public TiposTarjetas getSimpleObject() {
+    public TipoTarjeta getSimpleObject() {
         return simpleObject;
     }
     //endregion
@@ -68,6 +68,6 @@ public class TipoTarjetaCreate extends FixtureScript {
     }
 
     @javax.inject.Inject
-    private TiposTarjetasMenu simpleObjectMenu;
+    private TipoTarjetaMenu simpleObjectMenu;
 
 }

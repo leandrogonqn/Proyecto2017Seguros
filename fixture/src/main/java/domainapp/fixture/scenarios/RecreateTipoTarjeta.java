@@ -25,7 +25,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import domainapp.dom.tipoTarjeta.TiposTarjetas;
+import domainapp.dom.tipoTarjeta.TipoTarjeta;
 import domainapp.fixture.dom.tipoTarjeta.TipoTarjetaCreate;
 import domainapp.fixture.dom.tipoTarjeta.TipoTarjetaTearDown;
 
@@ -59,13 +59,13 @@ public class RecreateTipoTarjeta extends FixtureScript {
     //endregion
 
     //region > simpleObjects (output)
-    private final List<TiposTarjetas> simpleObjects = Lists.newArrayList();
+    private final List<TipoTarjeta> simpleObjects = Lists.newArrayList();
 
     /**
      * The simpleobjects created by this fixture (output).
      */
     @Programmatic
-    public List<TiposTarjetas> getSimpleObjects() {
+    public List<TipoTarjeta> getSimpleObjects() {
         return simpleObjects;
     }
     //endregion

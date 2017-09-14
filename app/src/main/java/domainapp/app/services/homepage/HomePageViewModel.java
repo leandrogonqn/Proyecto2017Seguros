@@ -3,8 +3,8 @@ package domainapp.app.services.homepage;
 import java.util.List;
 import org.apache.isis.applib.annotation.ViewModel;
 import org.apache.isis.applib.services.i18n.TranslatableString;
-import domainapp.dom.cliente.Clientes;
-import domainapp.dom.cliente.ClientesRepository;
+import domainapp.dom.cliente.Cliente;
+import domainapp.dom.cliente.ClienteRepository;
 
 @ViewModel
 public class HomePageViewModel {
@@ -17,14 +17,14 @@ public class HomePageViewModel {
 
     //region > object (collection)
     @org.apache.isis.applib.annotation.HomePage
-    public List<Clientes> getObjects() {
+    public List<Cliente> getObjects() {
         return clientesRepository.listarActivos();
     }
     //endregion
 
     //region > injected services
     @javax.inject.Inject
-    ClientesRepository clientesRepository;
+    ClienteRepository clientesRepository;
 
     //endregion
 }

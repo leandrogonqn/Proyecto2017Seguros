@@ -21,8 +21,8 @@ package domainapp.fixture.dom.compania;
 
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
-import domainapp.dom.compania.Companias;
-import domainapp.dom.compania.CompaniasMenu;
+import domainapp.dom.compania.Compania;
+import domainapp.dom.compania.CompaniaMenu;
 
 
 
@@ -63,13 +63,13 @@ public class CompaniaCreate extends FixtureScript {
 	}
 
 	//region > simpleObject (output)
-    private Companias simpleObject;
+    private Compania simpleObject;
 
     /**
      * The created simple object (output).
      * @return
      */
-    public Companias getSimpleObject() {
+    public Compania getSimpleObject() {
         return simpleObject;
     }
     //endregion
@@ -88,6 +88,6 @@ public class CompaniaCreate extends FixtureScript {
     }
 
     @javax.inject.Inject
-    private CompaniasMenu simpleObjectMenu;
+    private CompaniaMenu simpleObjectMenu;
 
 }

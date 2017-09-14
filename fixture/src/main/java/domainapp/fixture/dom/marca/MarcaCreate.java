@@ -21,8 +21,8 @@ package domainapp.fixture.dom.marca;
 
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
-import domainapp.dom.marca.Marcas;
-import domainapp.dom.marca.MarcasMenu;
+import domainapp.dom.marca.Marca;
+import domainapp.dom.marca.MarcaMenu;
 
 public class MarcaCreate extends FixtureScript {
 
@@ -43,13 +43,13 @@ public class MarcaCreate extends FixtureScript {
 
 
     //region > simpleObject (output)
-    private Marcas simpleObject;
+    private Marca simpleObject;
 
     /**
      * The created simple object (output).
      * @return
      */
-    public Marcas getSimpleObject() {
+    public Marca getSimpleObject() {
         return simpleObject;
     }
     //endregion
@@ -66,6 +66,6 @@ public class MarcaCreate extends FixtureScript {
     }
 
     @javax.inject.Inject
-    private MarcasMenu simpleObjectMenu;
+    private MarcaMenu simpleObjectMenu;
 
 }

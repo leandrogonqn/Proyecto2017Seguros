@@ -28,7 +28,7 @@ import com.google.common.collect.Lists;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
-import domainapp.dom.marca.Marcas;
+import domainapp.dom.marca.Marca;
 import domainapp.fixture.dom.marca.MarcaCreate;
 import domainapp.fixture.dom.marca.MarcaTearDown;
 
@@ -58,13 +58,13 @@ public class RecreateMarca extends FixtureScript {
     //endregion
 
     //region > simpleObjects (output)
-    private final List<Marcas> simpleObjects = Lists.newArrayList();
+    private final List<Marca> simpleObjects = Lists.newArrayList();
 
     /**
      * The simpleobjects created by this fixture (output).
      */
     @Programmatic
-    public List<Marcas> getSimpleObjects() {
+    public List<Marca> getSimpleObjects() {
         return simpleObjects;
     }
     //endregion

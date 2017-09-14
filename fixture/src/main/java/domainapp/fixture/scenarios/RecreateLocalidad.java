@@ -25,7 +25,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import domainapp.dom.localidad.Localidades;
+import domainapp.dom.localidad.Localidad;
 import domainapp.fixture.dom.localidad.LocalidadCreate;
 import domainapp.fixture.dom.localidad.LocalidadTearDown;
 
@@ -59,13 +59,13 @@ public class RecreateLocalidad extends FixtureScript {
     //endregion
 
     //region > simpleObjects (output)
-    private final List<Localidades> simpleObjects = Lists.newArrayList();
+    private final List<Localidad> simpleObjects = Lists.newArrayList();
 
     /**
      * The simpleobjects created by this fixture (output).
      */
     @Programmatic
-    public List<Localidades> getSimpleObjects() {
+    public List<Localidad> getSimpleObjects() {
         return simpleObjects;
     }
     //endregion

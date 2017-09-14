@@ -26,7 +26,7 @@ import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
-import domainapp.dom.modelo.Modelos;
+import domainapp.dom.modelo.Modelo;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,

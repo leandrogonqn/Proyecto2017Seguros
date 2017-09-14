@@ -21,10 +21,10 @@ package domainapp.fixture.dom.localidad;
 
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
-import domainapp.dom.localidad.Localidades;
-import domainapp.dom.localidad.LocalidadesMenu;
-import domainapp.dom.provincia.Provincias;
-import domainapp.dom.provincia.ProvinciasRepository;
+import domainapp.dom.localidad.Localidad;
+import domainapp.dom.localidad.LocalidadMenu;
+import domainapp.dom.provincia.Provincia;
+import domainapp.dom.provincia.ProvinciaRepository;
 
 
 
@@ -44,25 +44,25 @@ public class LocalidadCreate extends FixtureScript {
         return this;
     }
     
-    private Provincias provincia;
+    private Provincia provincia;
     //endregion
 
-    public Provincias getProvincia() {
+    public Provincia getProvincia() {
 		return provincia;
 	}
 
-	public void setProvincia(Provincias provincia) {
+	public void setProvincia(Provincia provincia) {
 		this.provincia = provincia;
 	}
 
 	//region > simpleObject (output)
-    private Localidades simpleObject;
+    private Localidad simpleObject;
 
     /**
      * The created simple object (output).
      * @return
      */
-    public Localidades getSimpleObject() {
+    public Localidad getSimpleObject() {
         return simpleObject;
     }
     //endregion
@@ -79,9 +79,9 @@ public class LocalidadCreate extends FixtureScript {
     }
 
     @javax.inject.Inject
-    private LocalidadesMenu simpleObjectMenu;
+    private LocalidadMenu simpleObjectMenu;
 
     @javax.inject.Inject
-    ProvinciasRepository provinciasRepository;
+    ProvinciaRepository provinciasRepository;
 
 }

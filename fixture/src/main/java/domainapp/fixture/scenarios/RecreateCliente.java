@@ -27,11 +27,11 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import domainapp.dom.cliente.Clientes;
+import domainapp.dom.cliente.Cliente;
 import domainapp.dom.cliente.Sexo;
 import domainapp.dom.cliente.TipoDocumento;
-import domainapp.dom.localidad.Localidades;
-import domainapp.dom.localidad.LocalidadesRepository;
+import domainapp.dom.localidad.Localidad;
+import domainapp.dom.localidad.LocalidadRepository;
 import domainapp.fixture.dom.cliente.ClienteCreate;
 import domainapp.fixture.dom.cliente.ClienteTearDown;
 
@@ -83,13 +83,13 @@ public class RecreateCliente extends FixtureScript {
     //endregion
 
     //region > simpleObjects (output)
-    private final List<Clientes> simpleObjects = Lists.newArrayList();
+    private final List<Cliente> simpleObjects = Lists.newArrayList();
 
     /**
      * The simpleobjects created by this fixture (output).
      */
     @Programmatic
-    public List<Clientes> getSimpleObjects() {
+    public List<Cliente> getSimpleObjects() {
         return simpleObjects;
     }
     //endregion
@@ -130,5 +130,5 @@ public class RecreateCliente extends FixtureScript {
     }
     
     @javax.inject.Inject
-    LocalidadesRepository localidadesRepository;
+    LocalidadRepository localidadesRepository;
 }

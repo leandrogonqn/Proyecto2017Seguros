@@ -25,7 +25,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import domainapp.dom.compania.Companias;
+import domainapp.dom.compania.Compania;
 import domainapp.fixture.dom.compania.CompaniaCreate;
 import domainapp.fixture.dom.compania.CompaniaTearDown;
 
@@ -65,13 +65,13 @@ public class RecreateCompania extends FixtureScript {
     //endregion
 
     //region > simpleObjects (output)
-    private final List<Companias> simpleObjects = Lists.newArrayList();
+    private final List<Compania> simpleObjects = Lists.newArrayList();
 
     /**
      * The simpleobjects created by this fixture (output).
      */
     @Programmatic
-    public List<Companias> getSimpleObjects() {
+    public List<Compania> getSimpleObjects() {
         return simpleObjects;
     }
     //endregion

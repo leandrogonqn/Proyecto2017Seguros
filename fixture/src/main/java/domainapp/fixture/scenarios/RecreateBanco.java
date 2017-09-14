@@ -28,7 +28,7 @@ import com.google.common.collect.Lists;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
-import domainapp.dom.banco.Bancos;
+import domainapp.dom.banco.Banco;
 import domainapp.fixture.dom.banco.BancoCreate;
 import domainapp.fixture.dom.banco.BancoTearDown;
 
@@ -58,13 +58,13 @@ public class RecreateBanco extends FixtureScript {
     //endregion
 
     //region > simpleObjects (output)
-    private final List<Bancos> simpleObjects = Lists.newArrayList();
+    private final List<Banco> simpleObjects = Lists.newArrayList();
 
     /**
      * The simpleobjects created by this fixture (output).
      */
     @Programmatic
-    public List<Bancos> getSimpleObjects() {
+    public List<Banco> getSimpleObjects() {
         return simpleObjects;
     }
     //endregion

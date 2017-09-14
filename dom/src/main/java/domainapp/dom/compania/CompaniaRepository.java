@@ -7,50 +7,50 @@ import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
-import domainapp.dom.marca.Marcas;
+import domainapp.dom.marca.Marca;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
-        repositoryFor = Companias.class
+        repositoryFor = Compania.class
 )
 public class CompaniaRepository {
 
-    public List<Companias> listar() {
-        return repositoryService.allInstances(Companias.class);
+    public List<Compania> listar() {
+        return repositoryService.allInstances(Compania.class);
     }
 
 
-    public List<Companias> buscarPorNombre(final String companiaNombre) {
+    public List<Compania> buscarPorNombre(final String companiaNombre) {
 
         return repositoryService.allMatches(
                 new QueryDefault<>(
-                        Companias.class,
+                        Compania.class,
                         "buscarPorNombre",
                         "companiaNombre", companiaNombre.toLowerCase()));
 
     }
     
-    public List<Companias> listarActivos(){
+    public List<Compania> listarActivos(){
    	 return repositoryService.allMatches(
                 new QueryDefault<>(
-                		Companias.class,
+                		Compania.class,
                         "listarActivos"));
    }
     
-    public List<Companias> listarInactivos(){
+    public List<Compania> listarInactivos(){
       	 return repositoryService.allMatches(
                    new QueryDefault<>(
-                		   Companias.class,
+                		   Compania.class,
                            "listarInactivos"));
       }
     
   
 
-    public Companias crear(
+    public Compania crear(
     		final String companiaNombre, 
     		final String companiaDireccion, 
     		final String companiaTelefono) {
-        final Companias object = new Companias(
+        final Compania object = new Compania(
         		companiaNombre,
         		companiaDireccion,
         		companiaTelefono);

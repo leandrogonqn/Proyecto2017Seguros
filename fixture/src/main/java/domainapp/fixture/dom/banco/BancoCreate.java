@@ -21,8 +21,8 @@ package domainapp.fixture.dom.banco;
 
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
-import domainapp.dom.banco.Bancos;
-import domainapp.dom.banco.BancosMenu;
+import domainapp.dom.banco.Banco;
+import domainapp.dom.banco.BancoMenu;
 
 
 
@@ -45,13 +45,13 @@ public class BancoCreate extends FixtureScript {
 
 
     //region > simpleObject (output)
-    private Bancos simpleObject;
+    private Banco simpleObject;
 
     /**
      * The created simple object (output).
      * @return
      */
-    public Bancos getSimpleObject() {
+    public Banco getSimpleObject() {
         return simpleObject;
     }
     //endregion
@@ -68,6 +68,6 @@ public class BancoCreate extends FixtureScript {
     }
 
     @javax.inject.Inject
-    private BancosMenu simpleObjectMenu;
+    private BancoMenu simpleObjectMenu;
 
 }

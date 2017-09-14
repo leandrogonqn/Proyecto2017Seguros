@@ -1,22 +1,18 @@
 package domainapp.dom.estado;
 
 import java.util.Date;
+import javax.inject.Inject;
+import org.apache.isis.applib.services.message.MessageService;
+import domainapp.dom.estado.IEstado;
+import domainapp.dom.poliza.Poliza;
 
-import javax.swing.JOptionPane;
-
-import domainapp.dom.estado.IEstados;
-import domainapp.dom.poliza.Polizas;
-
-public enum Estado implements IEstados{
+public enum Estado implements IEstado{
 	previgente("previgente"){
 		@Override
-		public void actualizarEstado(Polizas poliza) {
+		public void actualizarEstado(Poliza poliza) {
 			// TODO Auto-generated method stub
 			Date hoy = new Date();
-			if (hoy.before(poliza.getPolizaFechaVigencia())){
-				
-			}
-			else {
+			if (hoy.after(poliza.getPolizaFechaVigencia())){
 				poliza.setPolizaEstado(vigente);
 				poliza.getPolizaEstado().actualizarEstado(poliza);
 			}
@@ -24,7 +20,7 @@ public enum Estado implements IEstados{
 	},
 	vigente("vigente"){
 		@Override
-		public void actualizarEstado(Polizas poliza) {
+		public void actualizarEstado(Poliza poliza) {
 			// TODO Auto-generated method stub
 			Date hoy = new Date();
 			if (hoy.before(poliza.getPolizaFechaVigencia())) {
@@ -40,35 +36,30 @@ public enum Estado implements IEstados{
 	},
 	vencida("vencida"){
 		@Override
-		public void actualizarEstado(Polizas poliza) {
+		public void actualizarEstado(Poliza poliza) {
 			// TODO Auto-generated method stub
 			Date hoy = new Date();
-			if (hoy.after(poliza.getPolizaFechaVencimiento())) {
-				
-			}
-			else {
+			if (hoy.before(poliza.getPolizaFechaVencimiento())) {
 				poliza.setPolizaEstado(vigente);
 				poliza.getPolizaEstado().actualizarEstado(poliza);
 			}
 		}
-		
 	},
 	anulada("anulada"){
-		
 		@Override
-		public void actualizarEstado(Polizas poliza) {
+		public void actualizarEstado(Poliza poliza) {
 			// TODO Auto-generated method stub
 		}
 	
 		@Override
-		public void anulacion(Polizas poliza, Date polizaFechaBaja, String polizaMotivoBaja) {
+		public void anulacion(Poliza poliza, Date polizaFechaBaja, String polizaMotivoBaja) {
 			// TODO Auto-generated method stub
-			JOptionPane.showMessageDialog(null, "No se puede anular la poliza porque ya está anulada");
+			messageService.warnUser("No se puede anular la poliza porque ya está anulada");
 		}
 	};
 	
 	@Override
-	public void anulacion(Polizas poliza, Date polizaFechaBaja, String polizaMotivoBaja) {
+	public void anulacion(Poliza poliza, Date polizaFechaBaja, String polizaMotivoBaja) {
 		// TODO Auto-generated method stub
 		poliza.setPolizaEstado(anulada);
 		poliza.setPolizaFechaBaja(polizaFechaBaja);
@@ -89,5 +80,8 @@ public enum Estado implements IEstados{
 	public String toString() {
 		return this.nombre;
 	}
+
+	@Inject
+	MessageService messageService;
 	
 }

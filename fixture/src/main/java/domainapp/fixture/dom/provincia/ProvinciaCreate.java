@@ -21,8 +21,8 @@ package domainapp.fixture.dom.provincia;
 
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
-import domainapp.dom.provincia.Provincias;
-import domainapp.dom.provincia.ProvinciasMenu;
+import domainapp.dom.provincia.Provincia;
+import domainapp.dom.provincia.ProvinciaMenu;
 
 
 public class ProvinciaCreate extends FixtureScript {
@@ -44,13 +44,13 @@ public class ProvinciaCreate extends FixtureScript {
 
 
     //region > simpleObject (output)
-    private Provincias simpleObject;
+    private Provincia simpleObject;
 
     /**
      * The created simple object (output).
      * @return
      */
-    public Provincias getSimpleObject() {
+    public Provincia getSimpleObject() {
         return simpleObject;
     }
     //endregion
@@ -67,6 +67,6 @@ public class ProvinciaCreate extends FixtureScript {
     }
 
     @javax.inject.Inject
-    private ProvinciasMenu simpleObjectMenu;
+    private ProvinciaMenu simpleObjectMenu;
 
 }

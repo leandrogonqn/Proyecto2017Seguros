@@ -23,11 +23,11 @@ import java.util.Date;
 
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
-import domainapp.dom.cliente.Clientes;
-import domainapp.dom.cliente.ClientesMenu;
+import domainapp.dom.cliente.Cliente;
+import domainapp.dom.cliente.ClienteMenu;
 import domainapp.dom.cliente.Sexo;
 import domainapp.dom.cliente.TipoDocumento;
-import domainapp.dom.localidad.Localidades;
+import domainapp.dom.localidad.Localidad;
 
 
 
@@ -92,13 +92,13 @@ public class ClienteCreate extends FixtureScript {
     	return this;
     }
     
-    private Localidades localidad;
+    private Localidad localidad;
     
-    public Localidades getLocalidad(){
+    public Localidad getLocalidad(){
     	return localidad;
     }
     
-    public ClienteCreate setLocalidad(final Localidades localidad){
+    public ClienteCreate setLocalidad(final Localidad localidad){
     	this.localidad = localidad;
     	return this;
     }
@@ -151,13 +151,13 @@ public class ClienteCreate extends FixtureScript {
     
 
 	//region > simpleObject (output)
-    private Clientes simpleObject;
+    private Cliente simpleObject;
 
     /**
      * The created simple object (output).
      * @return
      */
-    public Clientes getSimpleObject() {
+    public Cliente getSimpleObject() {
         return simpleObject;
     }
     //endregion
@@ -176,6 +176,6 @@ public class ClienteCreate extends FixtureScript {
     }
 
     @javax.inject.Inject
-    private ClientesMenu simpleObjectMenu;
+    private ClienteMenu simpleObjectMenu;
 
 }
