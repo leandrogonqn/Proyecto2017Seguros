@@ -25,26 +25,23 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import domainapp.dom.compania.Compania;
-import domainapp.fixture.dom.compania.CompaniaCreate;
-import domainapp.fixture.dom.compania.CompaniaTearDown;
+import domainapp.dom.ocupacion.Ocupacion;
+import domainapp.fixture.dom.ocupacion.OcupacionCreate;
+import domainapp.fixture.dom.ocupacion.OcupacionTearDown;
 
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
 
-public class RecreateCompania extends FixtureScript {
+public class RecreateOcupacion extends FixtureScript {
 
     public final List<String> NAMES = Collections.unmodifiableList(Arrays.asList(
-            "SURA", "La Caja"));
+            "Permanente", "Transitoria"));
     
-    public final List<String> direcciones = Collections.unmodifiableList(Arrays.asList(
-    		"Av. Argentina 36", "Rivadavia 78"));
-    
-    public final List<String> telefonos = Collections.unmodifiableList(Arrays.asList(
-    		"447-1351", "448-0585"));
+    public final List<String> descripcion  = Collections.unmodifiableList(Arrays.asList(
+            "Dueño", "Alquila"));
 
-    public RecreateCompania() {
+    public RecreateOcupacion() {
         withDiscoverability(Discoverability.DISCOVERABLE);
     }
 
@@ -58,20 +55,20 @@ public class RecreateCompania extends FixtureScript {
         return number;
     }
 
-    public RecreateCompania setNumber(final Integer number) {
+    public RecreateOcupacion setNumber(final Integer number) {
         this.number = number;
         return this;
     }
     //endregion
 
     //region > simpleObjects (output)
-    private final List<Compania> simpleObjects = Lists.newArrayList();
+    private final List<Ocupacion> simpleObjects = Lists.newArrayList();
 
     /**
      * The simpleobjects created by this fixture (output).
      */
     @Programmatic
-    public List<Compania> getSimpleObjects() {
+    public List<Ocupacion> getSimpleObjects() {
         return simpleObjects;
     }
     //endregion
@@ -90,13 +87,12 @@ public class RecreateCompania extends FixtureScript {
         //
         // execute
         //
-        ec.executeChild(this, new CompaniaTearDown());
+        ec.executeChild(this, new OcupacionTearDown());
 
         for (int i = 0; i < number; i++) {
-            final CompaniaCreate fs = new CompaniaCreate();
+            final OcupacionCreate fs = new OcupacionCreate();
             fs.setName(NAMES.get(i));
-            fs.setDireccion(direcciones.get(i));
-            fs.setTelefono(telefonos.get(i));
+            fs.setDescripcion(descripcion.get(i));
             ec.executeChild(this, fs.getName(), fs);
             simpleObjects.add(fs.getSimpleObject());
         }

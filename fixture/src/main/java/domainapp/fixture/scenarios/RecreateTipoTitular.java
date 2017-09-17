@@ -25,26 +25,20 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import domainapp.dom.compania.Compania;
-import domainapp.fixture.dom.compania.CompaniaCreate;
-import domainapp.fixture.dom.compania.CompaniaTearDown;
+import domainapp.dom.tipoTitular.TipoTitular;
+import domainapp.fixture.dom.tipoTitular.TipoTitularCreate;
+import domainapp.fixture.dom.tipoTitular.TipoTitularTearDown;
 
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
 
-public class RecreateCompania extends FixtureScript {
+public class RecreateTipoTitular extends FixtureScript {
 
     public final List<String> NAMES = Collections.unmodifiableList(Arrays.asList(
-            "SURA", "La Caja"));
-    
-    public final List<String> direcciones = Collections.unmodifiableList(Arrays.asList(
-    		"Av. Argentina 36", "Rivadavia 78"));
-    
-    public final List<String> telefonos = Collections.unmodifiableList(Arrays.asList(
-    		"447-1351", "448-0585"));
+            "Propietario","Inquilino"));
 
-    public RecreateCompania() {
+    public RecreateTipoTitular() {
         withDiscoverability(Discoverability.DISCOVERABLE);
     }
 
@@ -58,20 +52,20 @@ public class RecreateCompania extends FixtureScript {
         return number;
     }
 
-    public RecreateCompania setNumber(final Integer number) {
+    public RecreateTipoTitular setNumber(final Integer number) {
         this.number = number;
         return this;
     }
     //endregion
 
     //region > simpleObjects (output)
-    private final List<Compania> simpleObjects = Lists.newArrayList();
+    private final List<TipoTitular> simpleObjects = Lists.newArrayList();
 
     /**
      * The simpleobjects created by this fixture (output).
      */
     @Programmatic
-    public List<Compania> getSimpleObjects() {
+    public List<TipoTitular> getSimpleObjects() {
         return simpleObjects;
     }
     //endregion
@@ -90,13 +84,10 @@ public class RecreateCompania extends FixtureScript {
         //
         // execute
         //
-        ec.executeChild(this, new CompaniaTearDown());
+        ec.executeChild(this, new TipoTitularTearDown());
 
         for (int i = 0; i < number; i++) {
-            final CompaniaCreate fs = new CompaniaCreate();
-            fs.setName(NAMES.get(i));
-            fs.setDireccion(direcciones.get(i));
-            fs.setTelefono(telefonos.get(i));
+            final TipoTitularCreate fs = new TipoTitularCreate().setName(NAMES.get(i));
             ec.executeChild(this, fs.getName(), fs);
             simpleObjects.add(fs.getSimpleObject());
         }
