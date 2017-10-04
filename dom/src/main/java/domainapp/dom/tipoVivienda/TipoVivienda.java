@@ -64,9 +64,8 @@ public class TipoVivienda implements Comparable<TipoVivienda>{
 
     
     //region > constructor
-    public TipoVivienda(final String tipoViviendaNombre, final String tipoViviendaDescripcion) {
+    public TipoVivienda(final String tipoViviendaNombre) {
     	setTipoViviendaNombre(tipoViviendaNombre);
-    	setTipoViviendaDescripcion(tipoViviendaDescripcion);
     	setTipoViviendaActivo(true);
     }
     //endregion
@@ -87,22 +86,8 @@ public class TipoVivienda implements Comparable<TipoVivienda>{
 		this.tipoViviendaNombre = tipoViviendaNombre;
 	}
 
-
-	public String getTipoViviendaDescripcion() {
-		return tipoViviendaDescripcion;
-	}
-	
-	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(editing = Editing.DISABLED)
-    @PropertyLayout(named="Descripcion")
-	private String tipoViviendaDescripcion;
-	
     public String getTipoViviendaNombre() {
 		return tipoViviendaNombre;
-	}
-
-	public void setTipoViviendaDescripcion(String tipoViviendaDescripcion) {
-		this.tipoViviendaDescripcion = tipoViviendaDescripcion;
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -140,15 +125,6 @@ public class TipoVivienda implements Comparable<TipoVivienda>{
 	
 	public String default0ActualizarNombre(){
 		return getTipoViviendaNombre();
-	}
-	
-	public TipoVivienda actualizarDescripcion(@ParameterLayout(named="Descripcion") final String tipoViviendaDescripcion){
-		setTipoViviendaDescripcion(tipoViviendaDescripcion);
-		return this;
-	}
-
-	public String default0ActualizarDescripcion(){
-		return getTipoViviendaDescripcion();
 	}
 	
     //endregion

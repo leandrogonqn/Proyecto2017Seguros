@@ -66,9 +66,8 @@ public class Ocupacion implements Comparable<Ocupacion>{
 
     
     //region > constructor
-    public Ocupacion(final String ocupacionNombre, final String ocupacionDescripcion) {
+    public Ocupacion(final String ocupacionNombre) {
     	setOcupacionNombre(ocupacionNombre);
-    	setOcupacionDescripcion(ocupacionDescripcion);
     	setOcupacionActivo(true);
     }
     //endregion
@@ -93,20 +92,6 @@ public class Ocupacion implements Comparable<Ocupacion>{
 
 	public void setOcupacionNombre(String ocupacionNombre) {
 		this.ocupacionNombre = ocupacionNombre;
-	}
-	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Descripcion")
-	private String ocupacionDescripcion;
-	
-	public String getOcupacionDescripcion() {
-		return ocupacionDescripcion;
-	}
-
-	public void setOcupacionDescripcion(String ocupacionDescripcion) {
-		this.ocupacionDescripcion = ocupacionDescripcion;
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -146,15 +131,6 @@ public class Ocupacion implements Comparable<Ocupacion>{
 	
 	public String default0ActualizarNombre(){
 		return getOcupacionNombre();
-	}
-	
-	public Ocupacion actualizarDescripcion(@ParameterLayout(named="Descripcion") final String ocupacionDescripcion){
-		setOcupacionDescripcion(ocupacionDescripcion);
-		return this;
-	}
-
-	public String default0ActualizarDescripcion(){
-		return getOcupacionDescripcion();
 	}
 	
     //endregion

@@ -4,36 +4,20 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.jdo.annotations.Column;
-import javax.jdo.annotations.Discriminator;
-import javax.jdo.annotations.DiscriminatorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
-import javax.jdo.annotations.NotPersistent;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
-import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.InvokeOn;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
-import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.query.QueryDefault;
-import org.apache.isis.applib.services.i18n.TranslatableString;
-import org.apache.isis.applib.services.repository.RepositoryService;
 
 import domainapp.dom.banco.Banco;
 
-@javax.jdo.annotations.PersistenceCapable(
-        identityType=IdentityType.DATASTORE,
-        schema = "simple",
-        table = "DetalleTipoPagos"
-)
-@javax.jdo.annotations.DatastoreIdentity(
-        strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
-         column="detalleTipoPagoId")
 @javax.jdo.annotations.Queries({
     @javax.jdo.annotations.Query(
             name = "buscarPorTitular", language = "JDOQL",
@@ -50,45 +34,17 @@ import domainapp.dom.banco.Banco;
             value = "SELECT "
                     + "FROM domainapp.dom.simple.DetalleTipoPagos "
                     + "WHERE tipoPagoActivo == false ")})
+@javax.jdo.annotations.PersistenceCapable(
+        identityType=IdentityType.DATASTORE,
+        schema = "simple"
+)
 @Inheritance(strategy=InheritanceStrategy.NEW_TABLE)
-@Discriminator(strategy=DiscriminatorStrategy.VALUE_MAP, column="tipoDePagoNombre")
 public abstract class DetalleTipoPago {
 	
     public String cssClass(){
     	return (getTipoPagoActivo()==true)? "activo":"inactivo";
     }
-	
-    @Column(allowsNull="false")
-    @Property(
-    		editing=Editing.DISABLED
-	)
-    @PropertyLayout(named="Activo")
-    protected boolean tipoPagoActivo;
     
-	public boolean getTipoPagoActivo() {
-		return tipoPagoActivo;
-	}
-
-	public void setTipoPagoActivo(boolean tipoPagoActivo) {
-		this.tipoPagoActivo = tipoPagoActivo;
-	}
-	
-    @Column(name="tipoDePagoNombre")
-    @Property(
-    		editing=Editing.DISABLED
-	)
-    @PropertyLayout(named="Nombre")
-    @NotPersistent
-	protected String tipoPagoNombre;
-    
-	public String getTipoPagoNombre() {
-		return tipoPagoNombre;
-	}
-
-	public void setTipoPagoNombre(String tipoPagoNombre) {
-		this.tipoPagoNombre = tipoPagoNombre;
-	}
-	
 	@Column
 	@Property(
 			editing=Editing.DISABLED
@@ -116,6 +72,21 @@ public abstract class DetalleTipoPago {
 	}
 	public void setTipoPagoBanco(Banco tipoPagoBanco) {
 		this.tipoPagoBanco = tipoPagoBanco;
+	}
+	
+    @javax.jdo.annotations.Column(allowsNull = "false")
+    @Property(
+    		editing=Editing.DISABLED
+	)
+    @PropertyLayout(named="Activo")
+    protected boolean tipoPagoActivo;
+    
+	public boolean getTipoPagoActivo() {
+		return tipoPagoActivo;
+	}
+
+	public void setTipoPagoActivo(boolean tipoPagoActivo) {
+		this.tipoPagoActivo = tipoPagoActivo;
 	}
 	
 	//acciones

@@ -11,6 +11,7 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
+import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.polizaRC.RiesgoRC;
 
@@ -26,9 +27,9 @@ public class PolizaRCPRepository {
 
 		public PolizaRCP crear(final String polizaNumero, final Cliente polizaCliente, final Compania polizaCompania,
 				final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
-				final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoRCPMonto) {
+				final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoRCPMonto) {
 			final PolizaRCP object = new PolizaRCP(polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
-					polizaFechaVigencia, polizaFechaVencimiento, polizaPago, polizaImporteTotal, riesgoRCPMonto);
+					polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, riesgoRCPMonto);
 	        serviceRegistry.injectServicesInto(object);
 	        repositoryService.persist(object);
 	        return object;
@@ -37,11 +38,11 @@ public class PolizaRCPRepository {
 	    public PolizaRCP renovacion(
 	    		final String polizaNumero, final Cliente polizaCliente, final Compania polizaCompania,
 				final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
-				final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoRCPMonto,
+				final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoRCPMonto,
 	    		Poliza riesgoRC) {
 	        final PolizaRCP object = new PolizaRCP(
 	        		polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
-					polizaFechaVigencia, polizaFechaVencimiento, polizaPago, polizaImporteTotal, 
+					polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, 
 					riesgoRC, riesgoRCPMonto);
 	        serviceRegistry.injectServicesInto(object);
 	        repositoryService.persist(object);

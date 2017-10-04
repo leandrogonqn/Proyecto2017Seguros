@@ -26,6 +26,7 @@ import org.apache.isis.applib.annotation.Publishing;
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
+import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.estado.Estado;
 import domainapp.dom.polizaAutomotor.PolizaAutomotor;
 import domainapp.dom.polizaAutomotor.PolizaAutomotoresRepository;
@@ -197,13 +198,28 @@ public abstract class Poliza{
 		this.polizaFechaVencimiento = polizaFechaVencimiento;
 	}
 	
-	
-	//Pago
+	//TipoPago
 	@Column(allowsNull = "false")
     @Property(
             editing = Editing.DISABLED
     )
-	@PropertyLayout(named="Pago")
+	@PropertyLayout(named="Tipo de Pago")
+	private TipoPago polizaTipoDePago;
+
+	public TipoPago getPolizaTipoDePago() {
+		return polizaTipoDePago;
+	}
+
+	public void setPolizaTipoDePago(TipoPago polizaTipoDePago) {
+		this.polizaTipoDePago = polizaTipoDePago;
+	}
+	
+	//Detalle de Pago
+	@Column(allowsNull = "true")
+    @Property(
+            editing = Editing.DISABLED
+    )
+	@PropertyLayout(named="Detalle Pago")
 	private DetalleTipoPago polizaPago;
 
 	public DetalleTipoPago getPolizaPago() {

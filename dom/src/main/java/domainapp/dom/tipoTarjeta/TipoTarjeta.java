@@ -131,9 +131,7 @@ public class TipoTarjeta implements Comparable<TipoTarjeta> {
     //endregion
 
     //region > delete (action)
-    public static class DeleteDomainEvent extends ActionDomainEvent<TipoTarjeta> {}
     @Action(
-            domainEvent = DeleteDomainEvent.class,
             semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
     )
     public void borrarTipoTarjeta() {

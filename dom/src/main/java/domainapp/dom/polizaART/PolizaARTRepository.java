@@ -9,6 +9,7 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
+import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.ocupacion.Ocupacion;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.polizaAutomotor.PolizaAutomotor;
@@ -27,24 +28,49 @@ public class PolizaARTRepository {
         return repositoryService.allInstances(PolizaART.class);
     }
 
-	public PolizaART crear(final String polizaNumero, final Cliente polizaCliente, final Compania polizaCompania,
-			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
-			final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoARTMonto) {
-		final PolizaART object = new PolizaART(polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
-				polizaFechaVigencia, polizaFechaVencimiento, polizaPago, polizaImporteTotal, riesgoARTMonto);
+	public PolizaART crear(
+			final String polizaNumero, 
+			final Cliente polizaCliente, 
+			final Compania polizaCompania,
+			final Date polizaFechaEmision, 
+			final Date polizaFechaVigencia, 
+			final Date polizaFechaVencimiento,
+    		final TipoPago polizaTipoDePago,
+			final DetalleTipoPago polizaPago, 
+			final double polizaImporteTotal, 
+			final float riesgoARTMonto) {
+		final PolizaART object = new PolizaART(
+				polizaNumero, 
+				polizaCliente, 
+				polizaCompania, 
+				polizaFechaEmision,
+				polizaFechaVigencia, 
+				polizaFechaVencimiento, 
+				polizaTipoDePago,
+				polizaPago, 
+				polizaImporteTotal, 
+				riesgoARTMonto);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;
     }
     
     public PolizaART renovacion(
-    		final String polizaNumero, final Cliente polizaCliente, final Compania polizaCompania,
-			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
-			final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoARTMonto,
+    		final String polizaNumero, 
+    		final Cliente polizaCliente, 
+    		final Compania polizaCompania,
+			final Date polizaFechaEmision, 
+			final Date polizaFechaVigencia, 
+			final Date polizaFechaVencimiento,
+    		final TipoPago polizaTipoDePago,
+			final DetalleTipoPago polizaPago, 
+			final double polizaImporteTotal, 
+			final float riesgoARTMonto,
     		Poliza riesgoART) {
         final PolizaART object = new PolizaART(
         		polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
-				polizaFechaVigencia, polizaFechaVencimiento, polizaPago, polizaImporteTotal, 
+				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago,
+				polizaPago, polizaImporteTotal, 
 				riesgoART, riesgoARTMonto);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);

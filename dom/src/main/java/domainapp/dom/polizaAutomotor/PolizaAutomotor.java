@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Discriminator;
@@ -14,19 +15,25 @@ import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.Join;
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.Queries;
+import javax.swing.JOptionPane;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
 import org.apache.isis.applib.annotation.CollectionLayout;
 import org.apache.isis.applib.annotation.DomainObject;
+import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.NatureOfService;
+import org.apache.isis.applib.annotation.Optionality;
+import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
+import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
@@ -39,7 +46,9 @@ import domainapp.dom.cliente.ClienteRepository;
 import domainapp.dom.compania.CompaniaRepository;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
+import domainapp.dom.detalleTipoPago.DetalleTipoPagoMenu;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagoRepository;
+import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.estado.Estado;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.poliza.PolizaRepository;
@@ -85,6 +94,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 			Date polizaFechaEmision, 
 			Date polizaFechaVigencia, 
 			Date polizaFechaVencimiento,
+			TipoPago polizaTipoDePago,
 			DetalleTipoPago polizaPago,
 			double polizaImporteTotal) {
 		setPolizaNumero(polizaNumero);
@@ -96,6 +106,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		setPolizaPago(polizaPago);
+		setPolizaTipoDePago(polizaTipoDePago);
 		setPolizaImporteTotal(polizaImporteTotal);
 		setPolizaEstado(Estado.previgente);
 		polizaEstado.actualizarEstado(this);
@@ -110,6 +121,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 			Date polizaFechaEmision, 
 			Date polizaFechaVigencia, 
 			Date polizaFechaVencimiento,
+			TipoPago polizaTipoDePago,
 			DetalleTipoPago polizaPago,
 			double polizaImporteTotal,
 			Poliza riesgoAutomotores) {
@@ -121,6 +133,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 		setPolizaFechaEmision(polizaFechaEmision);
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
+		setPolizaTipoDePago(polizaTipoDePago);
 		setPolizaPago(polizaPago);
 		setPolizaImporteTotal(polizaImporteTotal);
 		riesgoAutomotores.setPolizaRenovacion(this);
@@ -249,6 +262,9 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 				return "ERROR: vehiculo existente en otra poliza vigente";
 			}
 		}
+		if (polizaFechaVigencia.after(this.getPolizaFechaVencimiento())){
+			return "La fecha de vigencia es mayor a la de vencimiento";
+		}
 		return "";
 	}
 	
@@ -269,20 +285,32 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 				return "ERROR: vehiculo existente en otra poliza vigente";
 			}
 		}
+		if (this.getPolizaFechaVigencia().after(polizaFechaVencimiento)){
+			return "La fecha de vencimiento es menor a la de vigencia";
+		}
 		return "";
 	}
 	    
     //polizaPago
-    public PolizaAutomotor actualizarPolizaPago(@ParameterLayout(named="Pago") final DetalleTipoPago polizaPago) {
-        setPolizaPago(polizaPago);
+    public PolizaAutomotor actualizarPolizaPago(
+    		@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
+			@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago) {
+        setPolizaTipoDePago(polizaTipoDePago);
+    	setPolizaPago(polizaPago);
         return this;
     }
     
-    public List<DetalleTipoPago> choices0ActualizarPolizaPago(){
-    	return detalleTipoPagosRepository.listarActivos();
+    public List<DetalleTipoPago> choices1ActualizarPolizaPago(			
+ 			final TipoPago polizaTipoDePago,
+ 			final DetalleTipoPago polizaPago) {
+ 		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
+    }
+    
+    public TipoPago default0ActualizarPolizaPago() {
+    	return getPolizaTipoDePago();
     }
       
-    public DetalleTipoPago default0ActualizarPolizaPago() {
+    public DetalleTipoPago default1ActualizarPolizaPago() {
     	return getPolizaPago();
     }
     
@@ -341,7 +369,6 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
     //endregion
 
     //acciones
-
 	@Action(
 			invokeOn=InvokeOn.OBJECT_ONLY
 			)
@@ -354,7 +381,8 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
     		@ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
 			@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
 			@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
-			@ParameterLayout(named="Pago") final DetalleTipoPago polizaPago,
+			@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
+			@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago,
 			@ParameterLayout(named="Precio Total") final double polizaImporteTotal){
     	List<Vehiculo> riesgoAutomotorListaVehiculos = new ArrayList<>();
     	riesgoAutomotorListaVehiculos = this.getRiesgoAutomotorListaVehiculos();
@@ -367,6 +395,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
         		polizaFechaEmision, 
         		polizaFechaVigencia, 
         		polizaFechaVencimiento, 
+        		polizaTipoDePago,
         		polizaPago, 
         		polizaImporteTotal, this);
 	}
@@ -379,14 +408,17 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 			final Date polizaFechaEmision,
 			final Date polizaFechaVigencia,
 			final Date polizaFechaVencimiento,
+			final TipoPago polizaTipoDePago,
 			final DetalleTipoPago polizaPago,
 			final double polizaImporteTotal){
 		if (polizaFechaVigencia.after(polizaFechaVencimiento)){
 			return "La fecha de vigencia es mayor a la de vencimiento";
 		}
-//		if (riesgoAutomotoresRepository.validar(riesgoAutomotorVehiculo, polizaFechaVigencia)==false){
-//			return "ERROR: vehiculo existente en otra poliza vigente";
-//		}
+		for (Vehiculo vehiculo : this.getRiesgoAutomotorListaVehiculos()) {
+			if (riesgoAutomotoresRepository.validar(vehiculo,polizaFechaVigencia) == false) {
+				return "ERROR: vehiculo existente en otra poliza vigente";
+			}
+		}
 		return "";
 	}
 	
@@ -402,9 +434,20 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
     	return tiposDeCoberturasRepository.listarActivos();
     }
     
-    public List<DetalleTipoPago> choices7Renovacion(){
-    	return detalleTipoPagosRepository.listarActivos();
+    public List<DetalleTipoPago> choices8Renovacion(			
+			final String polizaNumero,
+			final Cliente polizaCliente,
+			final Compania polizaCompania,
+			final TipoDeCobertura riesgoAutomotorTiposDeCoberturas,
+			final Date polizaFechaEmision,
+			final Date polizaFechaVigencia,
+			final Date polizaFechaVencimiento,
+			final TipoPago polizaTipoDePago,
+			final DetalleTipoPago polizaPago,
+			final double polizaImporteTotal) {
+ 		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
     }
+    
     
     public Cliente default1Renovacion() {
     	return getPolizaCliente();
@@ -418,13 +461,16 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
     	return getRiesgoAutomotorTipoDeCobertura();
     }
     
-    public DetalleTipoPago default7Renovacion(){
-    	return getPolizaPago();
-    }
+    public TipoPago default7Renovacion(){
+	   	return getPolizaTipoDePago();
+	   }
+   
+   public DetalleTipoPago default8Renovacion(){
+   	return getPolizaPago();
+   }
     
     public PolizaAutomotor agregarVehiculo(
 			@ParameterLayout(named = "Vehiculo") final Vehiculo riesgoAutomorVehiculo) {
-
 		boolean validador = riesgoAutomotoresRepository.validar(riesgoAutomorVehiculo, this.getPolizaFechaVigencia());
 		if (validador) {
 			if (this.getRiesgoAutomotorListaVehiculos().contains(riesgoAutomorVehiculo)) {
@@ -488,6 +534,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 		return getRiesgoAutomotorListaVehiculos();
 	}
 	
+	@ActionLayout(hidden=Where.EVERYWHERE)
 	public boolean validarModificarFechaVigencia(Vehiculo vehiculo, Date fechaVigencia, PolizaAutomotor riesgoAutomotor) {
 
 		boolean validador = true;
@@ -510,6 +557,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 		return validador;
 	}
 	
+	@ActionLayout(hidden=Where.EVERYWHERE)
 	public boolean validarModificarFechaVencimiento(Vehiculo vehiculo, Date fechaVencimiento, PolizaAutomotor riesgoAutomotor) {
 
 		boolean validador = true;
@@ -575,6 +623,9 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 
     @Inject
     PolizaAutomotoresRepository riesgoAutomotoresRepository;
+    
+    @Inject
+    DetalleTipoPagoMenu detalleTipoPagoMenu;
     
     //endregion
 

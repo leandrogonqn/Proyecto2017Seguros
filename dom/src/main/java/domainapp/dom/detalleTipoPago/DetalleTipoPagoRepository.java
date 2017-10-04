@@ -15,6 +15,7 @@ import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
 import domainapp.dom.banco.Banco;
+import domainapp.dom.cliente.Cliente;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
@@ -47,6 +48,7 @@ public class DetalleTipoPagoRepository {
                         "buscarPorTitular",
                         "tipoPagoTitular", tipoPagoTitular.toLowerCase()));
     }
+    
     
     @javax.inject.Inject
     RepositoryService repositoryService;

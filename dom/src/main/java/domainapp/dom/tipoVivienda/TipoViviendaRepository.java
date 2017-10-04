@@ -39,8 +39,8 @@ public class TipoViviendaRepository {
                               "listarInactivos"));
          }
     
-    public TipoVivienda crear(final String tipoViviendaNombre, final String tipoViviendaDescripcion) {
-        final TipoVivienda object = new TipoVivienda(tipoViviendaNombre,tipoViviendaDescripcion);
+    public TipoVivienda crear(final String tipoViviendaNombre) {
+        final TipoVivienda object = new TipoVivienda(tipoViviendaNombre);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;

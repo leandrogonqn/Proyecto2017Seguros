@@ -3,6 +3,7 @@ package domainapp.dom.polizaConvenioMercantil;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Discriminator;
@@ -17,6 +18,8 @@ import org.apache.isis.applib.annotation.Auditing;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.InvokeOn;
+import org.apache.isis.applib.annotation.Optionality;
+import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
@@ -34,12 +37,12 @@ import domainapp.dom.cliente.ClienteRepository;
 import domainapp.dom.compania.CompaniaRepository;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
+import domainapp.dom.detalleTipoPago.DetalleTipoPagoMenu;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagoRepository;
+import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.estado.Estado;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.poliza.PolizaRepository;
-import domainapp.dom.polizaRC.RiesgoRC;
-import domainapp.dom.polizaRC.RiesgoRCRepository;
 import domainapp.dom.tiposDeCoberturas.TipoDeCoberturaRepository;
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -57,14 +60,14 @@ public class PolizaConvenioMercantil extends Poliza implements Comparable<Poliza
 	
 	 //region > title
 	   public TranslatableString title() {
-	       return TranslatableString.tr("{name}", "name","Poliza RC N°: " + getPolizaNumero());
+	       return TranslatableString.tr("{name}", "name","Poliza Convenio Mercantil N°: " + getPolizaNumero());
 	   }
 	   //endregion
 
 		// Constructor
 		public PolizaConvenioMercantil(String polizaNumero, Cliente polizaCliente, Compania polizaCompania,
 				Date polizaFechaEmision, Date polizaFechaVigencia,
-				Date polizaFechaVencimiento, DetalleTipoPago polizaPago,
+				Date polizaFechaVencimiento, TipoPago polizaTipoDePago, DetalleTipoPago polizaPago,
 				double polizaImporteTotal, float riesgoConvenioMercantilMonto) {
 			setPolizaNumero(polizaNumero);
 			setPolizasCliente(polizaCliente);
@@ -72,6 +75,7 @@ public class PolizaConvenioMercantil extends Poliza implements Comparable<Poliza
 			setPolizaFechaEmision(polizaFechaEmision);
 			setPolizaFechaVigencia(polizaFechaVigencia);
 			setPolizaFechaVencimiento(polizaFechaVencimiento);
+			setPolizaTipoDePago(polizaTipoDePago);
 			setPolizaPago(polizaPago);
 			setPolizaImporteTotal(polizaImporteTotal);
 			setRiesgoConvenioMercantilMonto(riesgoConvenioMercantilMonto);
@@ -82,9 +86,9 @@ public class PolizaConvenioMercantil extends Poliza implements Comparable<Poliza
 		public PolizaConvenioMercantil(
 				String polizaNumero, Cliente polizaCliente, Compania polizaCompania,
 				Date polizaFechaEmision, Date polizaFechaVigencia,
-				Date polizaFechaVencimiento, DetalleTipoPago polizaPago,
+				Date polizaFechaVencimiento, TipoPago polizaTipoDePago, DetalleTipoPago polizaPago,
 				double polizaImporteTotal, 
-				Poliza riesgoRC,
+				Poliza riesgoConvenioMercantil,
 				float riesgoConvenioMercantilMonto) {
 			setPolizaNumero(polizaNumero);
 			setPolizasCliente(polizaCliente);
@@ -92,11 +96,12 @@ public class PolizaConvenioMercantil extends Poliza implements Comparable<Poliza
 			setPolizaFechaEmision(polizaFechaEmision);
 			setPolizaFechaVigencia(polizaFechaVigencia);
 			setPolizaFechaVencimiento(polizaFechaVencimiento);
+			setPolizaTipoDePago(polizaTipoDePago);
 			setPolizaPago(polizaPago);
 			setPolizaImporteTotal(polizaImporteTotal);
 			setRiesgoConvenioMercantilMonto(riesgoConvenioMercantilMonto);
 			setPolizaEstado(Estado.previgente);
-			riesgoRC.setPolizaRenovacion(this);
+			riesgoConvenioMercantil.setPolizaRenovacion(this);
 			polizaEstado.actualizarEstado(this);
 		}
 		
@@ -172,12 +177,19 @@ public class PolizaConvenioMercantil extends Poliza implements Comparable<Poliza
 		public PolizaConvenioMercantil actualizarPolizaFechaVigencia(@ParameterLayout(named="Fecha de Vigencia") final Date polizaFechaVigencia){
 			setPolizaFechaVigencia(polizaFechaVigencia);
 			polizaEstado.actualizarEstado(this);
-			JOptionPane.showMessageDialog(null, getPolizaEstado().toString());
 			return this;
 		}
 
 		public Date default0ActualizarPolizaFechaVigencia(){
 			return getPolizaFechaVigencia();
+		}
+		
+		public String validateActualizarPolizaFechaVigencia(final Date polizaFechaVigencia) {
+
+			if (polizaFechaVigencia.after(this.getPolizaFechaVencimiento())) {
+				return "La fecha de vigencia es mayor a la de vencimiento";
+			}
+			return "";
 		}
 		
 	   //polizaFechaVencimiento
@@ -191,19 +203,35 @@ public class PolizaConvenioMercantil extends Poliza implements Comparable<Poliza
 			return getPolizaFechaVencimiento();
 		}
 		
-	   //polizaPago
-	   public PolizaConvenioMercantil actualizarPolizaPago(@ParameterLayout(named="Pago") final DetalleTipoPago polizaPago) {
-	       setPolizaPago(polizaPago);
-	       return this;
-	   }
-	   
-	   public List<DetalleTipoPago> choices0ActualizarPolizaPago(){
-	   	return detalleTipoPagosRepository.listarActivos();
-	   }
-	     
-	   public DetalleTipoPago default0ActualizarPolizaPago() {
-	   	return getPolizaPago();
-	   }
+		public String validateActualizarPolizaFechaVencimiento(final Date polizaFechaVencimiento){
+			if (this.getPolizaFechaVigencia().after(polizaFechaVencimiento)){
+				return "La fecha de vencimiento es menor a la de vigencia";
+			}
+			return "";
+		}
+		
+	    //polizaPago
+	    public PolizaConvenioMercantil actualizarPolizaPago(
+	    		@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
+				@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago) {
+	        setPolizaTipoDePago(polizaTipoDePago);
+	    	setPolizaPago(polizaPago);
+	        return this;
+	    }
+	    
+	    public List<DetalleTipoPago> choices1ActualizarPolizaPago(			
+	 			final TipoPago polizaTipoDePago,
+	 			final DetalleTipoPago polizaPago) {
+	 		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
+	    }
+	    
+	    public TipoPago default0ActualizarPolizaPago() {
+	    	return getPolizaTipoDePago();
+	    }
+	      
+	    public DetalleTipoPago default1ActualizarPolizaPago() {
+	    	return getPolizaPago();
+	    }
 	   
 	   //polizaFechaBaja
 		public PolizaConvenioMercantil actualizarPolizaFechaBaja(@ParameterLayout(named="Fecha de Baja") final Date polizaFechaBaja){
@@ -236,13 +264,13 @@ public class PolizaConvenioMercantil extends Poliza implements Comparable<Poliza
 		}    
 		
 		// riesgoARTMonto
-		public PolizaConvenioMercantil actualizarRiesgoRCMonto(
+		public PolizaConvenioMercantil actualizarRiesgoConvenioMercantilMonto(
 				@ParameterLayout(named = "Monto asegurado") final float riesgoConvenioMercantilMonto) {
 			setRiesgoConvenioMercantilMonto(riesgoConvenioMercantilMonto);
 			return this;
 		}
 
-		public float default0ActualizarRiesgoRCMonto() {
+		public float default0ActualizarRiesgoConvenioMercantilMonto() {
 			return getRiesgoConvenioMercantilMonto();
 		}
 
@@ -281,7 +309,8 @@ public class PolizaConvenioMercantil extends Poliza implements Comparable<Poliza
 				@ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
 				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
 				@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
-				@ParameterLayout(named="Pago") final DetalleTipoPago polizaPago,
+				@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
+				@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago,
 				@ParameterLayout(named="Precio Total") final double polizaImporteTotal,
 				@ParameterLayout(named="Monto") final float riesgoConvenioMercantilMonto){
 	       return riesgosConvenioMercantilRepository.renovacion(
@@ -291,6 +320,7 @@ public class PolizaConvenioMercantil extends Poliza implements Comparable<Poliza
 	       		polizaFechaEmision,
 	       		polizaFechaVigencia, 
 	       		polizaFechaVencimiento,
+	       		polizaTipoDePago,
 	       		polizaPago,
 	       		polizaImporteTotal,
 	       		riesgoConvenioMercantilMonto,this);
@@ -304,9 +334,20 @@ public class PolizaConvenioMercantil extends Poliza implements Comparable<Poliza
 	   	return companiaRepository.listarActivos();
 	   }	    
 	   
-	   public List<DetalleTipoPago> choices6Renovacion(){
-	   	return detalleTipoPagosRepository.listarActivos();
+	   public List<DetalleTipoPago> choices7Renovacion(			
+				final String polizaNumero,
+				final Cliente polizaCliente,
+				final Compania polizaCompania,
+				final Date polizaFechaEmision,
+				final Date polizaFechaVigencia,
+				final Date polizaFechaVencimiento,
+				final TipoPago polizaTipoDePago,
+				final DetalleTipoPago polizaPago,
+				final double polizaImporteTotal,
+				final float riesgoARTMonto) {
+			return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
 	   }
+	   
 	   
 	   public Cliente default1Renovacion() {
 	   	return getPolizaCliente();
@@ -316,9 +357,9 @@ public class PolizaConvenioMercantil extends Poliza implements Comparable<Poliza
 	   	return getPolizaCompania();
 	   }
 	   
-	   public DetalleTipoPago default6Renovacion(){
-	   	return getPolizaPago();
-	   }
+	   public DetalleTipoPago default7Renovacion(){
+		   	return getPolizaPago();
+		   }
 	   
 	   //region > toString, compareTo
 	   @Override
@@ -348,6 +389,9 @@ public class PolizaConvenioMercantil extends Poliza implements Comparable<Poliza
 
 	   @Inject
 	   DetalleTipoPagoRepository detalleTipoPagosRepository;
+	   
+	   @Inject
+	   DetalleTipoPagoMenu detalleTipoPagoMenu;
 	   
 	   @Inject
 	   CompaniaRepository companiaRepository;

@@ -55,7 +55,7 @@ public class TipoTitularMenu {
     public static class CreateDomainEvent extends ActionDomainEvent<TipoTitular> {}
     @Action(domainEvent = CreateDomainEvent.class)
     @MemberOrder(sequence = "1.2")
-    @ActionLayout(named="Crear Tipo de Titulare")
+    @ActionLayout(named="Crear Tipo de Titular")
     public TipoTitular crear(@ParameterLayout(named="Nombre",labelPosition=LabelPosition.TOP)@Parameter(optionality=Optionality.OPTIONAL) final String tipoTitularNombre){
         return TipoTitularesRepository.crear(tipoTitularNombre);
     }

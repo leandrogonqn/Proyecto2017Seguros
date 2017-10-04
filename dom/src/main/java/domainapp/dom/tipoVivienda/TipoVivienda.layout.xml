@@ -35,9 +35,6 @@
                                 <c:property id="tipoViviendaNombre" namedEscaped="true">
                                 <c:action id="actualizarNombre" position="RIGHT"></c:action>
                                 </c:property>
-                                <c:property id="tipoViviendaDescripcion" namedEscaped="true">
-                                <c:action id="actualizarDescripcion" position="RIGHT"></c:action>
-                                </c:property>
                                 <c:property id="tipoViviendaActivo" namedEscaped="true">
                                 </c:property>                                
                             </c:fieldSet>

@@ -9,6 +9,7 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
+import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.localidad.Localidad;
 import domainapp.dom.ocupacion.Ocupacion;
 import domainapp.dom.poliza.Poliza;
@@ -35,7 +36,7 @@ public class PolizaCombinadoFamiliarRepository {
 			final TipoVivienda riesgoCombinadosFamiliaresTipoVivienda,
 			final TipoTitular riesgoCombinadosFamiliaresTipoTitular, final Date polizaFechaEmision,
 			final Date polizaFechaVigencia, final Date polizaFechaVencimiento, 
-			final DetalleTipoPago polizaPago, 
+			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, 
 			final double polizaImporteTotal) {
 		final PolizaCombinadoFamiliar object = new PolizaCombinadoFamiliar(polizaNumero, polizaCliente,
 				polizaCompania,
@@ -47,6 +48,7 @@ public class PolizaCombinadoFamiliarRepository {
         		polizaFechaEmision,
         		polizaFechaVigencia, 
         		polizaFechaVencimiento,
+        		polizaTipoDePago,
         		polizaPago,
         		polizaImporteTotal);
         serviceRegistry.injectServicesInto(object);
@@ -66,6 +68,7 @@ public class PolizaCombinadoFamiliarRepository {
     		final Date polizaFechaEmision, 
     		final Date polizaFechaVigencia, 
     		final Date polizaFechaVencimiento,
+    		final TipoPago polizaTipoDePago,
     		final DetalleTipoPago polizaPago, 
     		final double polizaImporteTotal,
     		Poliza riesgoCombinadosFamiliares) {
@@ -81,6 +84,7 @@ public class PolizaCombinadoFamiliarRepository {
         		polizaFechaEmision,
         		polizaFechaVigencia, 
         		polizaFechaVencimiento,
+        		polizaTipoDePago,
         		polizaPago,
         		polizaImporteTotal,
         		riesgoCombinadosFamiliares);
