@@ -92,7 +92,6 @@ public class RecreateOcupacion extends FixtureScript {
         for (int i = 0; i < number; i++) {
             final OcupacionCreate fs = new OcupacionCreate();
             fs.setName(NAMES.get(i));
-            fs.setDescripcion(descripcion.get(i));
             ec.executeChild(this, fs.getName(), fs);
             simpleObjects.add(fs.getSimpleObject());
         }
