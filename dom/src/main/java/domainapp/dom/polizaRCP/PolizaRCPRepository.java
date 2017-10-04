@@ -12,6 +12,7 @@ import domainapp.dom.cliente.Cliente;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.detalleTipoPago.TipoPago;
+import domainapp.dom.persona.Persona;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.polizaRC.RiesgoRC;
 
@@ -25,7 +26,7 @@ public class PolizaRCPRepository {
 	        return repositoryService.allInstances(PolizaRCP.class);
 	    }
 
-		public PolizaRCP crear(final String polizaNumero, final Cliente polizaCliente, final Compania polizaCompania,
+		public PolizaRCP crear(final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
 				final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
 				final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoRCPMonto) {
 			final PolizaRCP object = new PolizaRCP(polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
@@ -36,7 +37,7 @@ public class PolizaRCPRepository {
 	    }
 	    
 	    public PolizaRCP renovacion(
-	    		final String polizaNumero, final Cliente polizaCliente, final Compania polizaCompania,
+	    		final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
 				final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
 				final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoRCPMonto,
 	    		Poliza riesgoRC) {

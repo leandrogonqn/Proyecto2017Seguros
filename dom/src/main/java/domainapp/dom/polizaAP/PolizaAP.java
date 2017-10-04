@@ -41,6 +41,8 @@ import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.estado.Estado;
 import domainapp.dom.ocupacion.Ocupacion;
 import domainapp.dom.ocupacion.OcupacionRepository;
+import domainapp.dom.persona.Persona;
+import domainapp.dom.persona.PersonaRepository;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.poliza.PolizaRepository;
 import domainapp.dom.polizaART.PolizaART;
@@ -72,7 +74,7 @@ public class PolizaAP extends Poliza implements Comparable<PolizaAP> {
    //endregion
 
 	// Constructor
-	public PolizaAP(String polizaNumero, Cliente polizaCliente, Compania polizaCompania,
+	public PolizaAP(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
 			Date polizaFechaEmision, Date polizaFechaVigencia,
 			Date polizaFechaVencimiento, TipoPago polizaTipoDePago, DetalleTipoPago polizaPago,
 			double polizaImporteTotal, float riesgoAPMuerte,
@@ -94,7 +96,7 @@ public class PolizaAP extends Poliza implements Comparable<PolizaAP> {
 	}
 	
 	public PolizaAP(
-			String polizaNumero, Cliente polizaCliente, Compania polizaCompania,
+			String polizaNumero, Persona polizaCliente, Compania polizaCompania,
 			Date polizaFechaEmision, Date polizaFechaVigencia,
 			Date polizaFechaVencimiento, TipoPago polizaTipoDePago, DetalleTipoPago polizaPago,
 			double polizaImporteTotal, 
@@ -176,16 +178,16 @@ public class PolizaAP extends Poliza implements Comparable<PolizaAP> {
 	}
    
 	//Actualizar Poliza Cliente
-   public PolizaAP actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Cliente polizaCliente) {
+   public PolizaAP actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Persona polizaCliente) {
        setPolizasCliente(polizaCliente);
        return this;
    }
    
-   public List<Cliente> choices0ActualizarPolizaCliente(){
-   	return clientesRepository.listarActivos();
+   public List<Persona> choices0ActualizarPolizaCliente(){
+   	return personasRepository.listarActivos();
    }
      
-   public Cliente default0ActualizarPolizaCliente() {
+   public Persona default0ActualizarPolizaCliente() {
    	return getPolizaCliente();
    }
    
@@ -367,7 +369,7 @@ public class PolizaAP extends Poliza implements Comparable<PolizaAP> {
 	@ActionLayout(named="Emitir Renovacion")
 	public PolizaAP renovacion(
 			@ParameterLayout(named="Número") final String polizaNumero,
-			@ParameterLayout(named="Cliente") final Cliente polizaCliente,
+			@ParameterLayout(named="Cliente") final Persona polizaCliente,
 			@ParameterLayout(named="Compañia") final Compania polizaCompania,
 			@ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
 			@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
@@ -393,8 +395,8 @@ public class PolizaAP extends Poliza implements Comparable<PolizaAP> {
        		riesgoAPAMF, this);
 	}
 	
-   public List<Cliente> choices1Renovacion(){
-   	return clientesRepository.listarActivos();
+   public List<Persona> choices1Renovacion(){
+   	return personasRepository.listarActivos();
    }
    
    public List<Compania> choices2Renovacion(){
@@ -403,7 +405,7 @@ public class PolizaAP extends Poliza implements Comparable<PolizaAP> {
    
    public List<DetalleTipoPago> choices7Renovacion(			
 			final String polizaNumero,
-			final Cliente polizaCliente,
+			final Persona polizaCliente,
 			final Compania polizaCompania,
 			final Date polizaFechaEmision,
 			final Date polizaFechaVigencia,
@@ -417,7 +419,7 @@ public class PolizaAP extends Poliza implements Comparable<PolizaAP> {
 		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
    }
    
-   public Cliente default1Renovacion() {
+   public Persona default1Renovacion() {
    	return getPolizaCliente();
    }
 
@@ -469,7 +471,7 @@ public class PolizaAP extends Poliza implements Comparable<PolizaAP> {
    MessageService messageService;
    
    @Inject
-   ClienteRepository clientesRepository;
+   PersonaRepository personasRepository;
 
    @Inject
    DetalleTipoPagoRepository detalleTipoPagosRepository;

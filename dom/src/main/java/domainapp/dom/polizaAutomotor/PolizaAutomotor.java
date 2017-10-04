@@ -50,6 +50,8 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPagoMenu;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagoRepository;
 import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.estado.Estado;
+import domainapp.dom.persona.Persona;
+import domainapp.dom.persona.PersonaRepository;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.poliza.PolizaRepository;
 import domainapp.dom.tiposDeCoberturas.TipoDeCobertura;
@@ -87,7 +89,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 	// Constructor
 	public PolizaAutomotor(
 			String polizaNumero, 
-			Cliente polizaCliente,
+			Persona polizaCliente,
 			Compania polizaCompania,
 			List<Vehiculo> riesgoAutomotorListaVehiculos,
 			TipoDeCobertura riesgoAutomotorTiposDeCoberturas,
@@ -114,7 +116,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 	
 	public PolizaAutomotor(
 			String polizaNumero, 
-			Cliente polizaCliente,
+			Persona polizaCliente,
 			Compania polizaCompania,
 			List<Vehiculo> riesgoAutomotorListaVehiculos,
 			TipoDeCobertura riesgoAutomotorTiposDeCoberturas,
@@ -193,16 +195,16 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 	}
     
 	//Actualizar Poliza Cliente
-    public PolizaAutomotor actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Cliente polizaCliente) {
+    public PolizaAutomotor actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Persona polizaCliente) {
         setPolizasCliente(polizaCliente);
         return this;
     }
     
-    public List<Cliente> choices0ActualizarPolizaCliente(){
-    	return clientesRepository.listarActivos();
+    public List<Persona> choices0ActualizarPolizaCliente(){
+    	return personaRepository.listarActivos();
     }
       
-    public Cliente default0ActualizarPolizaCliente() {
+    public Persona default0ActualizarPolizaCliente() {
     	return getPolizaCliente();
     }
     
@@ -375,7 +377,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 	@ActionLayout(named="Emitir Renovacion")
 	public PolizaAutomotor renovacion(
 			@ParameterLayout(named="Número") final String polizaNumero,
-            @ParameterLayout(named="Cliente") final Cliente polizaCliente,
+            @ParameterLayout(named="Cliente") final Persona polizaCliente,
             @ParameterLayout(named="Compañia") final Compania polizaCompania,
             @ParameterLayout(named="Tipo de Cobertura") final TipoDeCobertura riesgoAutomotorTiposDeCoberturas,
     		@ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
@@ -402,7 +404,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 	
 	public String validateRenovacion(
 			final String polizaNumero,
-			final Cliente polizaCliente,
+			final Persona polizaCliente,
 			final Compania polizaCompania,
 			final TipoDeCobertura riesgoAutomotorTiposDeCoberturas,
 			final Date polizaFechaEmision,
@@ -422,8 +424,8 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 		return "";
 	}
 	
-    public List<Cliente> choices1Renovacion(){
-    	return clientesRepository.listarActivos();
+    public List<Persona> choices1Renovacion(){
+    	return personaRepository.listarActivos();
     }
     
     public List<Compania> choices2Renovacion(){
@@ -436,7 +438,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
     
     public List<DetalleTipoPago> choices8Renovacion(			
 			final String polizaNumero,
-			final Cliente polizaCliente,
+			final Persona polizaCliente,
 			final Compania polizaCompania,
 			final TipoDeCobertura riesgoAutomotorTiposDeCoberturas,
 			final Date polizaFechaEmision,
@@ -449,7 +451,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
     }
     
     
-    public Cliente default1Renovacion() {
+    public Persona default1Renovacion() {
     	return getPolizaCliente();
     }
     
@@ -604,7 +606,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
     MessageService messageService;
     
     @Inject
-    ClienteRepository clientesRepository;
+    PersonaRepository personaRepository;
 
     @Inject
     VehiculoRepository vehiculosRepository;

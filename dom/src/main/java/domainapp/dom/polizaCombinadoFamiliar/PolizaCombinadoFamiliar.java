@@ -43,6 +43,8 @@ import domainapp.dom.localidad.Localidad;
 import domainapp.dom.localidad.LocalidadRepository;
 import domainapp.dom.ocupacion.Ocupacion;
 import domainapp.dom.ocupacion.OcupacionRepository;
+import domainapp.dom.persona.Persona;
+import domainapp.dom.persona.PersonaRepository;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.poliza.PolizaRepository;
 import domainapp.dom.polizaART.PolizaART;
@@ -73,7 +75,7 @@ public class PolizaCombinadoFamiliar extends Poliza implements Comparable<Poliza
    //endregion
 
 	// Constructor
-	public PolizaCombinadoFamiliar(String polizaNumero, Cliente polizaCliente, Compania polizaCompania,
+	public PolizaCombinadoFamiliar(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
 			String riesgoCombinadosFamiliaresDomicilio, Localidad riesgoCombinadosFamiliaresLocalidad, Ocupacion riesgoCombinadosFamiliaresOcupacion,
 			TipoVivienda riesgoCombinadosFamiliaresTipoVivienda, TipoTitular riesgoCombinadosFamiliaresTipoTitular,
 			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
@@ -99,7 +101,7 @@ public class PolizaCombinadoFamiliar extends Poliza implements Comparable<Poliza
 	
 	public PolizaCombinadoFamiliar(
 			String polizaNumero,
-			Cliente polizaCliente,
+			Persona polizaCliente,
 			Compania polizaCompania,
 			String riesgoCombinadosFamiliaresDomicilio,
 			Localidad riesgoCombinadosFamiliaresLocalidad, 
@@ -218,16 +220,16 @@ public class PolizaCombinadoFamiliar extends Poliza implements Comparable<Poliza
 	}
    
 	//Actualizar Poliza Cliente
-   public PolizaCombinadoFamiliar actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Cliente polizaCliente) {
+   public PolizaCombinadoFamiliar actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Persona polizaCliente) {
        setPolizasCliente(polizaCliente);
        return this;
    }
    
-   public List<Cliente> choices0ActualizarPolizaCliente(){
-   	return clientesRepository.listarActivos();
+   public List<Persona> choices0ActualizarPolizaCliente(){
+   	return personaRepository.listarActivos();
    }
      
-   public Cliente default0ActualizarPolizaCliente() {
+   public Persona default0ActualizarPolizaCliente() {
    	return getPolizaCliente();
    }
    
@@ -437,7 +439,7 @@ public class PolizaCombinadoFamiliar extends Poliza implements Comparable<Poliza
 	@ActionLayout(named="Emitir Renovacion")
 	public PolizaCombinadoFamiliar renovacion(
 			/*0*/	            @ParameterLayout(named="Número") final String polizaNumero,
-			/*1*/	            @ParameterLayout(named="Cliente") final Cliente polizaCliente,
+			/*1*/	            @ParameterLayout(named="Cliente") final Persona polizaCliente,
 			/*2*/	            @ParameterLayout(named="Compañia") final Compania polizaCompania,
 			/*3*/	    		@ParameterLayout(named="Domicilio") final String riesgoCombinadosFamiliaresDomicilio,
 			/*4*/				@ParameterLayout(named="Localidad") final Localidad riesgoCombinadoFamiliarLocalidad,
@@ -467,8 +469,8 @@ public class PolizaCombinadoFamiliar extends Poliza implements Comparable<Poliza
        		polizaImporteTotal,this);
 	}
 	
-   public List<Cliente> choices1Renovacion(){
-   	return clientesRepository.listarActivos();
+   public List<Persona> choices1Renovacion(){
+   	return personaRepository.listarActivos();
    }
    
    public List<Compania> choices2Renovacion(){
@@ -492,7 +494,7 @@ public class PolizaCombinadoFamiliar extends Poliza implements Comparable<Poliza
    
    public List<DetalleTipoPago> choices12Renovacion(			
 			final String polizaNumero,
-			final Cliente polizaCliente,
+			final Persona polizaCliente,
 			final Compania polizaCompania,
 			final String riesgoCombinadosFamiliaresDomicilio,
 			final Localidad riesgoCombinadoFamiliarLocalidad,
@@ -508,7 +510,7 @@ public class PolizaCombinadoFamiliar extends Poliza implements Comparable<Poliza
 		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
    }
    
-   public Cliente default1Renovacion() {
+   public Persona default1Renovacion() {
    	return getPolizaCliente();
    }
    public String default3Renovacion() {
@@ -566,7 +568,7 @@ public class PolizaCombinadoFamiliar extends Poliza implements Comparable<Poliza
    MessageService messageService;
    
    @Inject
-   ClienteRepository clientesRepository;
+   PersonaRepository personaRepository;
 
    @Inject
    TipoViviendaRepository tiposViviendaRepository;

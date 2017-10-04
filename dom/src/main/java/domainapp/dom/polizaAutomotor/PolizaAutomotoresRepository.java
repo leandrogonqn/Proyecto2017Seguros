@@ -15,6 +15,7 @@ import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.estado.Estado;
+import domainapp.dom.persona.Persona;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.tiposDeCoberturas.TipoDeCobertura;
 import domainapp.dom.vehiculo.Vehiculo;
@@ -32,7 +33,7 @@ public class PolizaAutomotoresRepository {
 
     public PolizaAutomotor crear(
     		final String polizaNumero, 
-    		final Cliente polizaCliente, 
+    		final Persona polizaCliente, 
     		final Compania polizaCompanias,
 			final List<Vehiculo> riesgoAutomotorListaVehiculos,
     		final TipoDeCobertura riesgoAutomotorTiposDeCoberturas,
@@ -56,7 +57,7 @@ public class PolizaAutomotoresRepository {
 		return object;
 	}
 
-	public PolizaAutomotor renovacion(final String polizaNumero, final Cliente polizaCliente,
+	public PolizaAutomotor renovacion(final String polizaNumero, final Persona polizaCliente,
 			final Compania polizaCompanias, final List<Vehiculo> riesgoAutomotorListaVehiculos,
 			final TipoDeCobertura riesgoAutomotorTiposDeCoberturas, final Date polizaFechaEmision,
 			final Date polizaFechaVigencia, final Date polizaFechaVencimiento, 

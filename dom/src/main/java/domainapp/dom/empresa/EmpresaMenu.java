@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.dom.cliente;
+package domainapp.dom.empresa;
 
 import java.util.Date;
 import java.util.List;
@@ -48,83 +48,48 @@ import domainapp.dom.tiposDeCoberturas.TipoDeCobertura;
 
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
-        repositoryFor = Cliente.class
+        repositoryFor = Empresa.class
 )
 @DomainServiceLayout(
         named = "Clientes",
         menuOrder = "1.2"
 )
-public class ClienteMenu {
+public class EmpresaMenu {
 
 
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, 
     	cssClassFa="fa-search", 
-    	named="Buscar Por Nombre")
+    	named="Buscar Por RazonSocial")
     @MemberOrder(sequence = "5")
-    public List<Cliente> buscarPorNombre(
-            @ParameterLayout(named="Nombre")
-            final String clienteNombre
+    public List<Empresa> buscarPorRazonSocial(
+            @ParameterLayout(named="RazonSocial")
+            final String empresaRazonSocial
     ) {
-        return clientesRepository.buscarPorNombre(clienteNombre);
+        return empresasRepository.buscarPorRazonSocial(empresaRazonSocial);
     }
     
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, 
-    	cssClassFa="fa-search",
-    	named="Buscar Por DNI")
-    @MemberOrder(sequence = "6")
-    public List<Cliente> buscarPorDNI(
-            @ParameterLayout(named="DNI")
-            final int clienteDni
-    ) {
-        return clientesRepository.buscarPorDNI(clienteDni);
-    }
-    
-    public List<Localidad> choices5Crear(){
+    public List<Localidad> choices2Crear(){
     	return localidadesRepository.listarActivos();
     }
 
 
-    public static class CreateDomainEvent extends ActionDomainEvent<ClienteMenu> {}
+    public static class CreateDomainEvent extends ActionDomainEvent<EmpresaMenu> {}
     @Action(domainEvent = CreateDomainEvent.class)
-    @ActionLayout(named="Crear Cliente")
+    @ActionLayout(named="Crear Empresa")
     @MemberOrder(sequence = "1")
-    public Cliente crear(
-            @ParameterLayout(named="Nombre") final String clienteNombre, 
-            @ParameterLayout(named="Apellido") final String clienteApellido,
-            @ParameterLayout(named="Tipo de Documento") final TipoDocumento clienteTipoDocumento,
-    		@ParameterLayout(named="Numero de Documento") final int clienteDni,
-    		@ParameterLayout(named="Sexo") final Sexo clienteSexo,
+    public Empresa crear(
+            @ParameterLayout(named="RazonSocial") final String empresaRazonSocial, 
+            @ParameterLayout(named="Cuit") final String personaCuitCuil, 
     		@ParameterLayout(named="Localidad") final Localidad personaLocalidad,
-            @ParameterLayout(named="Dirección") final String personaDireccion, 
+            @ParameterLayout(named="Dirección") final String personaDireccion,
             @Nullable @ParameterLayout(named="Teléfono") @Parameter(optionality =Optionality.OPTIONAL)  final String personaTelefono,
-            @Nullable @ParameterLayout(named="E-Mail") @Parameter(optionality =Optionality.OPTIONAL)  final String personaMail,
-            @Nullable @ParameterLayout(named="Fecha de Nacimiento") @Parameter(optionality =Optionality.OPTIONAL)  final Date clienteFechaNacimiento, 
-            @ParameterLayout(named="Notif. Cumpleaños") final boolean clienteNotificacionCumpleanios) {
-        return clientesRepository.crear(clienteNombre, clienteApellido, clienteSexo,clienteTipoDocumento, personaLocalidad, clienteDni, personaDireccion, personaTelefono, personaMail, clienteFechaNacimiento, clienteNotificacionCumpleanios);
+            @Nullable @ParameterLayout(named="E-Mail") @Parameter(optionality =Optionality.OPTIONAL)  final String personaMail){
+        return empresasRepository.crear(empresaRazonSocial, personaCuitCuil, personaLocalidad, personaDireccion, personaTelefono, personaMail);
     }
     
-	public String validateCrear(
-            final String clienteNombre, 
-            final String clienteApellido,
-            final TipoDocumento clienteTipoDocumento,
-    		final int clienteDni,
-    		final Sexo clienteSexo,
-    		final Localidad personaLocalidad,
-            final String personaDireccion, 
-            final String personaTelefono,
-            final String personaMail,
-            final Date clienteFechaNacimiento, 
-            final boolean clienteNotificacionCumpleanios){
-		if ((clienteFechaNacimiento == null)&(clienteNotificacionCumpleanios == true)){
-			return "Se necesita cargar fecha de nacimiento para poder cargar el cumpleaños";
-		}
-		return "";
-	}
-
     @javax.inject.Inject
-    ClienteRepository clientesRepository;
+    EmpresaRepository empresasRepository;
     
     @javax.inject.Inject
     LocalidadRepository localidadesRepository;

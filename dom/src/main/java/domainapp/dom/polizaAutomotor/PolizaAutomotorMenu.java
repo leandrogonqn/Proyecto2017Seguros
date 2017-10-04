@@ -32,6 +32,8 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagoMenu;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagoRepository;
 import domainapp.dom.detalleTipoPago.TipoPago;
+import domainapp.dom.persona.Persona;
+import domainapp.dom.persona.PersonaRepository;
 import domainapp.dom.tarjetaDeCredito.TarjetaDeCreditoRepository;
 import domainapp.dom.tiposDeCoberturas.TipoDeCobertura;
 import domainapp.dom.tiposDeCoberturas.TipoDeCoberturaRepository;
@@ -60,7 +62,7 @@ public class PolizaAutomotorMenu {
 	@MemberOrder(sequence = "1")
 	public PolizaAutomotor crear(
 			@ParameterLayout(named = "Número") final String polizaNumero,
-			@ParameterLayout(named = "Cliente") final Cliente polizaCliente,
+			@ParameterLayout(named = "Cliente") final Persona polizaCliente,
 			@ParameterLayout(named = "Compañia") final Compania polizaCompania,
 			@ParameterLayout(named = "Vehiculo") final Vehiculo riesgoAutomotorVehiculo,
 			@ParameterLayout(named = "Tipo de Cobertura") final TipoDeCobertura riesgoAutomotorTiposDeCoberturas,
@@ -77,8 +79,8 @@ public class PolizaAutomotorMenu {
 				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal);
 	}
 	
-	public List<Cliente> choices1Crear() {
-		return clientesRepository.listarActivos();
+	public List<Persona> choices1Crear() {
+		return personaRepository.listarActivos();
 	}
 
 	public List<Compania> choices2Crear() {
@@ -95,7 +97,7 @@ public class PolizaAutomotorMenu {
 	
 	public List<DetalleTipoPago> choices9Crear(			
 			final String polizaNumero,
-			final Cliente polizaCliente,
+			final Persona polizaCliente,
 			final Compania polizaCompania,
 			final Vehiculo riesgoAutomotorVehiculo,
 			final TipoDeCobertura riesgoAutomotorTiposDeCoberturas,
@@ -110,7 +112,7 @@ public class PolizaAutomotorMenu {
 
 	public String validateCrear(
 			final String polizaNumero,
-			final Cliente polizaCliente,
+			final Persona polizaCliente,
 			final Compania polizaCompania,
 			final Vehiculo riesgoAutomotorVehiculo,
 			final TipoDeCobertura riesgoAutomotorTiposDeCoberturas,
@@ -130,7 +132,7 @@ public class PolizaAutomotorMenu {
 	}
 
 	@javax.inject.Inject
-	ClienteRepository clientesRepository;
+	PersonaRepository personaRepository;
 	@Inject
 	VehiculoRepository vehiculosRepository;
 	@Inject

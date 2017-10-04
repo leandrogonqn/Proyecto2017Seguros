@@ -10,6 +10,7 @@ import domainapp.dom.cliente.Cliente;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.detalleTipoPago.TipoPago;
+import domainapp.dom.persona.Persona;
 import domainapp.dom.poliza.Poliza;
 
 @DomainService(
@@ -22,7 +23,7 @@ public class PolizaConvenioMercantilRepository {
 	        return repositoryService.allInstances(PolizaConvenioMercantil.class);
 	    }
 
-		public PolizaConvenioMercantil crear(final String polizaNumero, final Cliente polizaCliente, final Compania polizaCompania,
+		public PolizaConvenioMercantil crear(final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
 				final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
 				final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoConvenioMercantilMonto) {
 			final PolizaConvenioMercantil object = new PolizaConvenioMercantil(polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
@@ -33,7 +34,7 @@ public class PolizaConvenioMercantilRepository {
 	    }
 	    
 	    public PolizaConvenioMercantil renovacion(
-	    		final String polizaNumero, final Cliente polizaCliente, final Compania polizaCompania,
+	    		final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
 				final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
 				final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoConvenioMercantilMonto,
 	    		Poliza riesgoConvenioMercantil) {

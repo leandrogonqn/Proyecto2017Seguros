@@ -16,7 +16,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package domainapp.dom.cliente;
+package domainapp.dom.empresa;
 
 import java.util.Date;
 import java.util.List;
@@ -32,20 +32,20 @@ import domainapp.dom.localidad.Localidad;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
-        repositoryFor = Cliente.class
+        repositoryFor = Empresa.class
 )
-public class ClienteRepository {
+public class EmpresaRepository {
 
-    public List<Cliente> listar() {
-        return repositoryService.allInstances(Cliente.class);
+    public List<Empresa> listar() {
+        return repositoryService.allInstances(Empresa.class);
     }
 
-    public List<Cliente> buscarPorNombre(final String clienteNombre) {
+    public List<Empresa> buscarPorRazonSocial(final String empresaRazonSocial) {
         return repositoryService.allMatches(
                 new QueryDefault<>(
-                        Cliente.class,
-                        "buscarPorNombre",
-                        "clienteNombre", clienteNombre.toLowerCase()));
+                        Empresa.class,
+                        "buscarPorRazonSocial",
+                        "empresaRazonSocial", empresaRazonSocial.toLowerCase()));
     }
     
 //    public List<Cliente> listarActivos(){
@@ -62,16 +62,9 @@ public class ClienteRepository {
 //                           "listarInactivos"));
 //      }
 //    
-    public List<Cliente> buscarPorDNI(final int clienteDni) {
-        return repositoryService.allMatches(
-                new QueryDefault<>(
-                        Cliente.class,
-                        "buscarPorDNI",
-                        "clienteDni", clienteDni));
-    }
 
-    public Cliente crear(final String clienteNombre, final String clienteApellido, Sexo clienteSexo, TipoDocumento clienteTipoDocumento, Localidad personaLocalidad, final int clienteDni, final String personaDireccion, final String personaTelefono, final String personaMail, final Date clienteFechaNacimiento, final boolean clienteNotificacionCumpleanios) {
-        final Cliente object = new Cliente(clienteNombre, clienteApellido, clienteSexo,clienteTipoDocumento, personaLocalidad, clienteDni, personaDireccion, personaTelefono, personaMail, clienteFechaNacimiento, clienteNotificacionCumpleanios);
+    public Empresa crear(final String empresaRazonSocial, String personaCuitCuil, Localidad personaLocalidad, final String personaDireccion, final String personaTelefono, final String personaMail) {
+        final Empresa object = new Empresa(empresaRazonSocial, personaCuitCuil, personaLocalidad, personaDireccion, personaTelefono, personaMail);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;

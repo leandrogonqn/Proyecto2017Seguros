@@ -28,6 +28,7 @@ import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.estado.Estado;
+import domainapp.dom.persona.Persona;
 import domainapp.dom.polizaAutomotor.PolizaAutomotor;
 import domainapp.dom.polizaAutomotor.PolizaAutomotoresRepository;
 import domainapp.dom.tiposDeCoberturas.TipoDeCobertura;
@@ -124,13 +125,13 @@ public abstract class Poliza{
             editing = Editing.DISABLED
     )
     @PropertyLayout(named="Cliente")
-	private Cliente polizaCliente;
+	private Persona polizaCliente;
 
-	public Cliente getPolizaCliente() {
+	public Persona getPolizaCliente() {
 		return polizaCliente;
 	}
 
-	public void setPolizasCliente(Cliente polizaCliente) {
+	public void setPolizasCliente(Persona polizaCliente) {
 		this.polizaCliente = polizaCliente;
 	}
 	

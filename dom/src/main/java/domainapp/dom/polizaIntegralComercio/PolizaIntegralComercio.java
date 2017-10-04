@@ -43,6 +43,8 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPagoRepository;
 import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.estado.Estado;
 import domainapp.dom.marca.Marca;
+import domainapp.dom.persona.Persona;
+import domainapp.dom.persona.PersonaRepository;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.poliza.PolizaRepository;
 import domainapp.dom.polizaART.PolizaART;
@@ -64,7 +66,7 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 	// endregion
 
 	// Constructor
-	public PolizaIntegralComercio(String polizaNumero, Cliente polizaCliente, Compania polizaCompania,
+	public PolizaIntegralComercio(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
 			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
 			TipoPago polizaTipoDePago, DetalleTipoPago polizaPago, 
 			double polizaImporteTotal, float riesgoIntegralComercioRobo, float riesgoIntegralComercioCristales,
@@ -94,7 +96,7 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 		polizaEstado.actualizarEstado(this);
 	}
 
-	public PolizaIntegralComercio(String polizaNumero, Cliente polizaCliente, Compania polizaCompania,
+	public PolizaIntegralComercio(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
 			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
 			TipoPago polizaTipoDePago, DetalleTipoPago polizaPago,
 			double polizaImporteTotal, float riesgoIntegralComercioRobo, float riesgoIntegralComercioCristales,
@@ -366,16 +368,16 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 
 	// Actualizar Poliza Cliente
 	public PolizaIntegralComercio actualizarPolizaCliente(
-			@ParameterLayout(named = "Cliente") final Cliente polizaCliente) {
+			@ParameterLayout(named = "Cliente") final Persona polizaCliente) {
 		setPolizasCliente(polizaCliente);
 		return this;
 	}
 
-	public List<Cliente> choices0ActualizarPolizaCliente() {
-		return clientesRepository.listarActivos();
+	public List<Persona> choices0ActualizarPolizaCliente() {
+		return personaRepository.listarActivos();
 	}
 
-	public Cliente default0ActualizarPolizaCliente() {
+	public Persona default0ActualizarPolizaCliente() {
 		return getPolizaCliente();
 	}
 
@@ -554,7 +556,7 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 	@ActionLayout(named = "Emitir Renovacion")
 	public PolizaIntegralComercio renovacion(
 /*0*/			@ParameterLayout(named = "Número") final String polizaNumero,
-/*1*/			@ParameterLayout(named = "Cliente") final Cliente polizaCliente,
+/*1*/			@ParameterLayout(named = "Cliente") final Persona polizaCliente,
 /*2*/		@ParameterLayout(named = "Compañia") final Compania polizaCompania,
 /*3*/			@ParameterLayout(named = "Fecha Emision") final Date polizaFechaEmision,
 /*4*/			@ParameterLayout(named = "Fecha Vigencia") final Date polizaFechaVigencia,
@@ -580,8 +582,8 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 				riesgoIntegralComercioOtrosMonto,this);
 	}
 
-	public List<Cliente> choices1Renovacion() {
-		return clientesRepository.listarActivos();
+	public List<Persona> choices1Renovacion() {
+		return personaRepository.listarActivos();
 	}
 
 	public List<Compania> choices2Renovacion() {
@@ -590,7 +592,7 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 
 	public List<DetalleTipoPago> choices7Renovacion(
 			/*0*/			final String polizaNumero,
-			/*1*/			final Cliente polizaCliente,
+			/*1*/			final Persona polizaCliente,
 			/*2*/			final Compania polizaCompania,
 			/*3*/			final Date polizaFechaEmision,
 			/*4*/			final Date polizaFechaVigencia,
@@ -611,7 +613,7 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
 	}
 
-	public Cliente default1Renovacion() {
+	public Persona default1Renovacion() {
 		return getPolizaCliente();
 	}
 
@@ -693,7 +695,7 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 	MessageService messageService;
 
 	@Inject
-	ClienteRepository clientesRepository;
+	PersonaRepository personaRepository;
 
 	@Inject
 	VehiculoRepository vehiculosRepository;

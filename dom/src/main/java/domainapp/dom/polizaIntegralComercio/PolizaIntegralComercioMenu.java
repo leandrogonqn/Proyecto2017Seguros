@@ -28,6 +28,8 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagoMenu;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagoRepository;
 import domainapp.dom.detalleTipoPago.TipoPago;
+import domainapp.dom.persona.Persona;
+import domainapp.dom.persona.PersonaRepository;
 import domainapp.dom.tiposDeCoberturas.TipoDeCoberturaRepository;
 import domainapp.dom.vehiculo.VehiculoRepository;
 
@@ -58,7 +60,7 @@ public class PolizaIntegralComercioMenu {
 	    @MemberOrder(sequence = "1")
 	    public PolizaIntegralComercio crear(
 	            @ParameterLayout(named="Número") final String polizaNumero,
-	            @ParameterLayout(named="Cliente") final Cliente polizaCliente,
+	            @ParameterLayout(named="Cliente") final Persona polizaCliente,
 	            @ParameterLayout(named="Compañia") final Compania polizaCompania,
 	    		@ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
 				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
@@ -99,8 +101,8 @@ public class PolizaIntegralComercioMenu {
 	        		riesgoIntegralComercioOtrosMonto);
 	    }
 	    
-	    public List<Cliente> choices1Crear(){
-	    	return clientesRepository.listarActivos();
+	    public List<Persona> choices1Crear(){
+	    	return personaRepository.listarActivos();
 	    }
 	    
 	    public List<Compania> choices2Crear(){
@@ -109,7 +111,7 @@ public class PolizaIntegralComercioMenu {
 	    
 	    public List<DetalleTipoPago> choices7Crear(			
 				final String polizaNumero,
-				final Cliente polizaCliente,
+				final Persona polizaCliente,
 				final Compania polizaCompania,
 				final Date polizaFechaEmision,
 				final Date polizaFechaVigencia,
@@ -136,7 +138,7 @@ public class PolizaIntegralComercioMenu {
 	    
 		public String validateCrear(			
 				final String polizaNumero,
-				final Cliente polizaCliente,
+				final Persona polizaCliente,
 				final Compania polizaCompania,
 				final Date polizaFechaEmision,
 				final Date polizaFechaVigencia,
@@ -163,7 +165,7 @@ public class PolizaIntegralComercioMenu {
 	    @javax.inject.Inject
 	    PolizaIntegralComercioRepository polizasRepository;
 	    @javax.inject.Inject
-	    ClienteRepository clientesRepository;
+	    PersonaRepository personaRepository;
 	    @Inject
 	    VehiculoRepository vehiculosRepository;
 	    @Inject

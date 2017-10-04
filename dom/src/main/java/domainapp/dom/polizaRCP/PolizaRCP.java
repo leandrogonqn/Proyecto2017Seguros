@@ -39,6 +39,8 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPagoMenu;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagoRepository;
 import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.estado.Estado;
+import domainapp.dom.persona.Persona;
+import domainapp.dom.persona.PersonaRepository;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.poliza.PolizaRepository;
 import domainapp.dom.polizaART.PolizaART;
@@ -64,7 +66,7 @@ public class PolizaRCP extends Poliza implements Comparable<PolizaRCP> {
 	   //endregion
 
 		// Constructor
-		public PolizaRCP(String polizaNumero, Cliente polizaCliente, Compania polizaCompania,
+		public PolizaRCP(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
 				Date polizaFechaEmision, Date polizaFechaVigencia,
 				Date polizaFechaVencimiento, TipoPago polizaTipoDePago, DetalleTipoPago polizaPago,
 				double polizaImporteTotal, float riesgoRCPMonto) {
@@ -83,7 +85,7 @@ public class PolizaRCP extends Poliza implements Comparable<PolizaRCP> {
 		}
 		
 		public PolizaRCP(
-				String polizaNumero, Cliente polizaCliente, Compania polizaCompania,
+				String polizaNumero, Persona polizaCliente, Compania polizaCompania,
 				Date polizaFechaEmision, Date polizaFechaVigencia,
 				Date polizaFechaVencimiento, TipoPago polizaTipoDePago, DetalleTipoPago polizaPago,
 				double polizaImporteTotal, 
@@ -134,16 +136,16 @@ public class PolizaRCP extends Poliza implements Comparable<PolizaRCP> {
 		}
 	   
 		//Actualizar Poliza Cliente
-	   public PolizaRCP actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Cliente polizaCliente) {
+	   public PolizaRCP actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Persona polizaCliente) {
 	       setPolizasCliente(polizaCliente);
 	       return this;
 	   }
 	   
-	   public List<Cliente> choices0ActualizarPolizaCliente(){
-	   	return clientesRepository.listarActivos();
+	   public List<Persona> choices0ActualizarPolizaCliente(){
+	   	return personaRepository.listarActivos();
 	   }
 	     
-	   public Cliente default0ActualizarPolizaCliente() {
+	   public Persona default0ActualizarPolizaCliente() {
 	   	return getPolizaCliente();
 	   }
 	   
@@ -304,7 +306,7 @@ public class PolizaRCP extends Poliza implements Comparable<PolizaRCP> {
 		@ActionLayout(named="Emitir Renovacion")
 		public PolizaRCP renovacion(
 				@ParameterLayout(named="Número") final String polizaNumero,
-				@ParameterLayout(named="Cliente") final Cliente polizaCliente,
+				@ParameterLayout(named="Cliente") final Persona polizaCliente,
 				@ParameterLayout(named="Compañia") final Compania polizaCompania,
 				@ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
 				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
@@ -326,8 +328,8 @@ public class PolizaRCP extends Poliza implements Comparable<PolizaRCP> {
 	       		riesgoRCPMonto,this);
 		}
 		
-	   public List<Cliente> choices1Renovacion(){
-	   	return clientesRepository.listarActivos();
+	   public List<Persona> choices1Renovacion(){
+	   	return personaRepository.listarActivos();
 	   }
 	   
 	   public List<Compania> choices2Renovacion(){
@@ -336,7 +338,7 @@ public class PolizaRCP extends Poliza implements Comparable<PolizaRCP> {
 	   
 	   public List<DetalleTipoPago> choices7Renovacion(			
 				final String polizaNumero,
-				final Cliente polizaCliente,
+				final Persona polizaCliente,
 				final Compania polizaCompania,
 				final Date polizaFechaEmision,
 				final Date polizaFechaVigencia,
@@ -348,7 +350,7 @@ public class PolizaRCP extends Poliza implements Comparable<PolizaRCP> {
 			return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
 	   }
 	   
-	   public Cliente default1Renovacion() {
+	   public Persona default1Renovacion() {
 	   	return getPolizaCliente();
 	   }
 
@@ -388,7 +390,7 @@ public class PolizaRCP extends Poliza implements Comparable<PolizaRCP> {
 	   MessageService messageService;
 	   
 	   @Inject
-	   ClienteRepository clientesRepository;
+	   PersonaRepository personaRepository;
 	   
 	   @Inject
 	   DetalleTipoPagoMenu detalleTipoPagoMenu;

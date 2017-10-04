@@ -25,6 +25,9 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Inheritance;
+import javax.jdo.annotations.InheritanceStrategy;
+
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
@@ -51,6 +54,7 @@ import org.apache.isis.applib.util.ObjectContracts;
 
 import domainapp.dom.localidad.Localidad;
 import domainapp.dom.localidad.LocalidadRepository;
+import domainapp.dom.persona.Persona;
 import domainapp.dom.provincia.Provincia;
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -62,37 +66,27 @@ import domainapp.dom.provincia.Provincia;
         strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
          column="clienteId")
 @javax.jdo.annotations.Queries({
-        @javax.jdo.annotations.Query(
-                name = "buscarPorNombre", language = "JDOQL",
-                value = "SELECT "
-                        + "FROM domainapp.dom.simple.Clientes "
-                        + "WHERE clienteNombre.toLowerCase().indexOf(:clienteNombre) >= 0 "),
-        @javax.jdo.annotations.Query(
-                name = "listarActivos", language = "JDOQL",
-                value = "SELECT "
-                        + "FROM domainapp.dom.simple.Clientes "
-                        + "WHERE clienteActivo == true "),
-        @javax.jdo.annotations.Query(
-                name = "listarInactivos", language = "JDOQL",
-                value = "SELECT "
-                        + "FROM domainapp.dom.simple.Clientes "
-                        + "WHERE clienteActivo == false "),
+		@javax.jdo.annotations.Query(
+		        name = "buscarPorNombre", language = "JDOQL",
+		        value = "SELECT "
+		                + "FROM domainapp.dom.simple.Clientes "
+		                + "WHERE clienteNombre.toLowerCase().indexOf(:clienteNombre) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "buscarPorDNI", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Clientes "
                         + "WHERE clienteDni == :clienteDni"),
 })
-@javax.jdo.annotations.Unique(name="Clientes_clienteCuitCuil_UNQ", members = {"clienteCuitCuil"})
 @DomainObject(
         publishing = Publishing.ENABLED,
         auditing = Auditing.ENABLED
 )
-public class Cliente implements Comparable<Cliente> {
+@Inheritance(strategy=InheritanceStrategy.NEW_TABLE)
+public class Cliente extends Persona implements Comparable<Cliente> {
 
     //region > title
     public TranslatableString title() {
-        return TranslatableString.tr("Cliente: {clienteNombre}", "clienteNombre", getClienteNombre()+" "+getClienteApellido()+" Cuit/Cuil: "+getClienteCuitCuil());
+        return TranslatableString.tr("Cliente: {clienteNombre}", "clienteNombre", getClienteNombre()+" "+getClienteApellido()+" Cuit/Cuil: "+getPersonaCuitCuil());
     }
     //endregion
     
@@ -100,31 +94,27 @@ public class Cliente implements Comparable<Cliente> {
     	return (getClienteSexo()==Sexo.Femenino)? "Femenino":"Masculino";
     }
     
-    public String cssClass(){
-    	return (getClienteActivo()==true)? "activo":"inactivo";
-    }
-
     //region > constructor
     public Cliente(final String clienteNombre) {
         setClienteNombre(clienteNombre);
     }
     
-    public Cliente(String clienteNombre, String clienteApellido, Sexo clienteSexo, TipoDocumento clienteTipoDocumento, Localidad clienteLocalidad, int clienteDni, String clienteDireccion, String clienteTelefono, String clienteMail,
+    public Cliente(String clienteNombre, String clienteApellido, Sexo clienteSexo, TipoDocumento clienteTipoDocumento, Localidad personaLocalidad, int clienteDni, String personaDireccion, String personaTelefono, String personaMail,
 			Date clienteFechaNacimiento, boolean clienteNotificacionCumpleanios) {
 		super();
-		this.clienteNombre = clienteNombre;
-		this.clienteApellido = clienteApellido;
-		this.clienteSexo = clienteSexo;
-		this.clienteTipoDocumento = clienteTipoDocumento;
-		this.clienteLocalidad = clienteLocalidad;
-		this.clienteDni = clienteDni;
-		this.clienteDireccion = clienteDireccion;
-		this.clienteTelefono = clienteTelefono;
-		this.clienteMail = clienteMail;
-		this.clienteCuitCuil = GenerarCuit.generar(clienteSexo, clienteDni);
-		this.clienteFechaNacimiento = clienteFechaNacimiento;
-		this.clienteNotificacionCumpleanios = clienteNotificacionCumpleanios;
-		this.clienteActivo = true;
+		setClienteNombre(clienteNombre);
+		setClienteApellido(clienteApellido);
+		setClienteSexo(clienteSexo);
+		setClienteTipoDocumento(clienteTipoDocumento);
+		setPersonaLocalidad(personaLocalidad);
+		setClienteDni(clienteDni);
+		setPersonaDireccion(personaDireccion);
+		setPersonaTelefono(personaTelefono);
+		setPersonaMail(personaMail);
+		setPersonaCuitCuil(GenerarCuit.generar(clienteSexo, clienteDni));
+		setClienteFechaNacimiento(clienteFechaNacimiento);
+		setClienteNotificacionCumpleanios(clienteNotificacionCumpleanios);
+		setPersonaActivo(true);
 	}
 
 
@@ -192,23 +182,6 @@ public class Cliente implements Comparable<Cliente> {
 	}
 
 
-	@javax.jdo.annotations.Column(allowsNull = "false", name="localidadId")
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Localidad")
-    private Localidad clienteLocalidad;
-
-
-	public Localidad getClienteLocalidad() {
-		return clienteLocalidad;
-	}
-
-	public void setClienteLocalidad(Localidad clienteLocalidad) {
-		this.clienteLocalidad = clienteLocalidad;
-	}
-
-
 	@javax.jdo.annotations.Column(allowsNull = "false")
     @Property(
             editing = Editing.DISABLED
@@ -222,61 +195,6 @@ public class Cliente implements Comparable<Cliente> {
 	public void setClienteDni(int clienteDni) {
 		this.clienteDni = clienteDni;
 	}
-	
-    @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Direccion")
-    private String clienteDireccion;
-
-    public String getClienteDireccion() {
-		return clienteDireccion;
-	}
-	public void setClienteDireccion(String clienteDireccion) {
-		this.clienteDireccion = clienteDireccion;
-	}	
-
-    @javax.jdo.annotations.Column(allowsNull = "true", length = NAME_LENGTH)
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Telefono")
-    private String clienteTelefono;
-
-    public String getClienteTelefono() {
-		return clienteTelefono;
-	}
-	public void setClienteTelefono(String clienteTelefono) {
-		this.clienteTelefono = clienteTelefono;
-	}	
-
-    @javax.jdo.annotations.Column(allowsNull = "true", length = NAME_LENGTH)
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Mail")
-    private String clienteMail;
-
-    public String getClienteMail() {
-		return clienteMail;
-	}
-	public void setClienteMail(String clienteMail) {
-		this.clienteMail = clienteMail;
-	}	
-
-    @javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Cuit/Cuil")
-    private String clienteCuitCuil;
-    public String getClienteCuitCuil() {
-		return clienteCuitCuil;
-	}
-	public void setClienteCuitCuil(String clienteCuitCuil) {
-		this.clienteCuitCuil = clienteCuitCuil;
-	}	
 	
     @javax.jdo.annotations.Column(allowsNull = "true", length = NAME_LENGTH)
     @Property(
@@ -306,20 +224,6 @@ public class Cliente implements Comparable<Cliente> {
 		this.clienteNotificacionCumpleanios = clienteNotificacionCumpleanios;
 	}	
 	
-    @javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Activo")
-    private boolean clienteActivo;
- 
-    public boolean getClienteActivo() {
-		return clienteActivo;
-	}
-	public void setClienteActivo(boolean clienteActivo) {
-		this.clienteActivo = clienteActivo;
-	}	
-	
     //endregion
 	
 	public List<Localidad> choices0ActualizarLocalidad(){
@@ -327,22 +231,22 @@ public class Cliente implements Comparable<Cliente> {
     }
       
     public Localidad default0ActualizarLocalidad() {
-    	return getClienteLocalidad();
+    	return getPersonaLocalidad();
     }
     
     public Cliente actualizarLocalidad(@ParameterLayout(named="Localidades") final Localidad name) {
-        setClienteLocalidad(name);
+        setPersonaLocalidad(name);
         return this;
     }
 	
 	public Cliente actualizarSexo(@ParameterLayout(named="Sexo") final Sexo clienteSexo){
-		setClienteCuitCuil(GenerarCuit.generar(clienteSexo, getClienteDni()));
+		setPersonaCuitCuil(GenerarCuit.generar(clienteSexo, getClienteDni()));
 		setClienteSexo(clienteSexo);
         return this;
 	}
 	
 	public Cliente actualizarDni(@ParameterLayout(named="Numero de Documento") final int clienteDni){
-		setClienteCuitCuil(GenerarCuit.generar(getClienteSexo(), clienteDni));
+		setPersonaCuitCuil(GenerarCuit.generar(getClienteSexo(), clienteDni));
 		setClienteDni(clienteDni);
         return this;
 	}
@@ -383,31 +287,31 @@ public class Cliente implements Comparable<Cliente> {
 		return getClienteTipoDocumento();
 	}
 	
-	public Cliente actualizarDireccion(@ParameterLayout(named="Direccion") final String clienteDireccion){
-		setClienteDireccion(clienteDireccion);
+	public Cliente actualizarDireccion(@ParameterLayout(named="Direccion") final String personaDireccion){
+		setPersonaDireccion(personaDireccion);
 		return this;
 	}
 	
 	public String default0ActualizarDireccion(){
-		return getClienteDireccion();
+		return getPersonaDireccion();
 	}
 	
-	public Cliente actualizarTelefono(@ParameterLayout(named="Telefono") final String clienteTelefono){
-		setClienteTelefono(clienteTelefono);
+	public Cliente actualizarTelefono(@ParameterLayout(named="Telefono") final String personaTelefono){
+		setPersonaTelefono(personaTelefono);
 		return this;
 	}	
 	
 	public String default0ActualizarTelefono(){
-		return getClienteTelefono();
+		return getPersonaTelefono();
 	}
 	
-	public Cliente actualizarMail(@ParameterLayout(named="Mail") final String clienteMail){
-		setClienteMail(clienteMail);
+	public Cliente actualizarMail(@ParameterLayout(named="Mail") final String personaMail){
+		setPersonaMail(personaMail);
 		return this;
 	}	
 	
 	public String default0ActualizarMail(){
-		return getClienteMail();
+		return getPersonaMail();
 	}
 	
 	public Cliente actualizarFechaNacimiento(@Nullable @ParameterLayout(named="Fecha de Nacimiento") @Parameter(optionality = Optionality.OPTIONAL) final Date clienteFechaNacimiento){
@@ -440,13 +344,13 @@ public class Cliente implements Comparable<Cliente> {
 		return getClienteNotificacionCumpleanios();
 	}
 	
-	public Cliente actualizarActivo(@ParameterLayout(named="Activo") final boolean clienteActivo){
-		setClienteActivo(clienteActivo);
+	public Cliente actualizarActivo(@ParameterLayout(named="Activo") final boolean personaActivo){
+		setPersonaActivo(personaActivo);
 		return this;
 	}
 
 	public boolean default0ActualizarActivo(){
-		return getClienteActivo();
+		return getPersonaActivo();
 	}
 	
     //region > delete (action)
@@ -456,7 +360,7 @@ public class Cliente implements Comparable<Cliente> {
     public void borrarCliente() {
         final String title = titleService.titleOf(this);
         messageService.informUser(String.format("'%s' deleted", title));
-        setClienteActivo(false);
+        setPersonaActivo(false);
     }
    
     //endregion
@@ -481,19 +385,19 @@ public class Cliente implements Comparable<Cliente> {
         return clientesRepository.listar();
     }
     
-    @ActionLayout(named="Listar Clientes Activos")
-    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
-    @MemberOrder(sequence = "3")
-    public List<Cliente> listarActivos() {
-        return clientesRepository.listarActivos();
-    }
-    
-    @ActionLayout(named="Listar Clientes Inactivos")
-    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
-    @MemberOrder(sequence = "4")
-    public List<Cliente> listarInactivos() {
-        return clientesRepository.listarInactivos();
-    }
+//    @ActionLayout(named="Listar Clientes Activos")
+//    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+//    @MemberOrder(sequence = "3")
+//    public List<Cliente> listarActivos() {
+//        return clientesRepository.listarActivos();
+//    }
+//    
+//    @ActionLayout(named="Listar Clientes Inactivos")
+//    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+//    @MemberOrder(sequence = "4")
+//    public List<Cliente> listarInactivos() {
+//        return clientesRepository.listarInactivos();
+//    }
     
     //region > injected dependencies
 
