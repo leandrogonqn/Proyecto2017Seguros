@@ -15,6 +15,7 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
+import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.estado.Estado;
 import domainapp.dom.marca.Marca;
 import domainapp.dom.poliza.Poliza;
@@ -39,6 +40,7 @@ public class PolizaIntegralComercioRepository {
     		final Date polizaFechaEmision, 
     		final Date polizaFechaVigencia, 
     		final Date polizaFechaVencimiento,
+    		final TipoPago polizaTipoDePago,
     		final DetalleTipoPago polizaPago, 
     		final double polizaImporteTotal, 
     		float riesgoIntegralComercioRobo, 
@@ -50,7 +52,7 @@ public class PolizaIntegralComercioRepository {
     		float riesgoIntegralComercioDanioPorAgua,
     		float riesgoIntegralComercioRCC,
     		final String riesgoIntegralComercioOtrosNombre,
-    		final float riesgoIntegralComercioOtrosMonto) {
+    		final double riesgoIntegralComercioOtrosMonto) {
         final PolizaIntegralComercio object = new PolizaIntegralComercio(
         		polizaNumero,
         		polizaCliente,
@@ -58,6 +60,7 @@ public class PolizaIntegralComercioRepository {
         		polizaFechaEmision,
         		polizaFechaVigencia, 
         		polizaFechaVencimiento,
+        		polizaTipoDePago,
         		polizaPago,
         		polizaImporteTotal,
         		riesgoIntegralComercioRobo,
@@ -82,6 +85,7 @@ public class PolizaIntegralComercioRepository {
     		final Date polizaFechaEmision, 
     		final Date polizaFechaVigencia, 
     		final Date polizaFechaVencimiento,
+    		final TipoPago polizaTipoDePago,
     		final DetalleTipoPago polizaPago, 
     		final double polizaImporteTotal, 
     		float riesgoIntegralComercioRobo, 
@@ -93,7 +97,7 @@ public class PolizaIntegralComercioRepository {
     		float riesgoIntegralComercioDanioPorAgua,
     		float riesgoIntegralComercioRCC,
     		final String riesgoIntegralComercioOtrosNombre,
-    		final float riesgoIntegralComercioOtrosMonto, 
+    		final double riesgoIntegralComercioOtrosMonto, 
     		final Poliza riesgoAutomotor) {
         final PolizaIntegralComercio object = new PolizaIntegralComercio(
         		polizaNumero,
@@ -102,6 +106,7 @@ public class PolizaIntegralComercioRepository {
         		polizaFechaEmision,
         		polizaFechaVigencia, 
         		polizaFechaVencimiento,
+        		polizaTipoDePago,
         		polizaPago,
         		polizaImporteTotal,
         		riesgoIntegralComercioRobo,

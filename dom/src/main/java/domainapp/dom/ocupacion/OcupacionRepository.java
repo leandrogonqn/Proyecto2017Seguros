@@ -39,8 +39,8 @@ public class OcupacionRepository {
                               "listarInactivos"));
          }
     
-    public Ocupacion crear(final String ocupacionNombre, final String ocupacionDescripcion) {
-        final Ocupacion object = new Ocupacion(ocupacionNombre,ocupacionDescripcion);
+    public Ocupacion crear(final String ocupacionNombre) {
+        final Ocupacion object = new Ocupacion(ocupacionNombre);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;

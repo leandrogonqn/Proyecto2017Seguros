@@ -55,14 +55,16 @@
                                 <c:property id="polizaMotivoBaja" namedEscaped="true">
                                 <c:action id="actualizarPolizaMotivoBaja" position="RIGHT"/>
                                 </c:property> 		
-                                <c:property id="polizaPago" namedEscaped="true">
+                                <c:property id="polizaTipoDePago" namedEscaped="true">
                                 <c:action id="actualizarPolizaPago" position="RIGHT"/>
+                                </c:property>                                
+                                <c:property id="polizaPago" namedEscaped="true">
                                 </c:property>
                                 <c:property id="polizaImporteTotal" namedEscaped="true">
                                 <c:action id="actualizarPolizaImporteTotal" position="RIGHT"/>
                                 </c:property>
-                                <c:property id="riesgoCaucionMonto">
-                                <c:action id="actualizarRiesgoCaucionMonto" position="RIGHT">
+                                <c:property id="riesgoConvenioMercantilMonto">
+                                <c:action id="actualizarRiesgoConvenioMercantilMonto" position="RIGHT">
                                 </c:action>
                                 </c:property>
                                 <c:property id="polizaRenovacion" namedEscaped="true">

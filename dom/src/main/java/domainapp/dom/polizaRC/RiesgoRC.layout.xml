@@ -55,8 +55,10 @@
                                 <c:property id="polizaMotivoBaja" namedEscaped="true">
                                 <c:action id="actualizarPolizaMotivoBaja" position="RIGHT"/>
                                 </c:property> 		
-                                <c:property id="polizaPago" namedEscaped="true">
+                                <c:property id="polizaTipoDePago" namedEscaped="true">
                                 <c:action id="actualizarPolizaPago" position="RIGHT"/>
+                                </c:property>                                
+                                <c:property id="polizaPago" namedEscaped="true">
                                 </c:property>
                                 <c:property id="polizaImporteTotal" namedEscaped="true">
                                 <c:action id="actualizarPolizaImporteTotal" position="RIGHT"/>

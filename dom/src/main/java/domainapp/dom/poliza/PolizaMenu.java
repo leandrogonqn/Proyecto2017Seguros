@@ -1,6 +1,5 @@
 package domainapp.dom.poliza;
 
-import java.util.Date;
 import java.util.List;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
@@ -11,7 +10,6 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.cliente.ClienteRepository;

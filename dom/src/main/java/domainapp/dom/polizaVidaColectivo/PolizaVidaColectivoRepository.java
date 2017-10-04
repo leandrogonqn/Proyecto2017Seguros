@@ -9,6 +9,7 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
+import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.ocupacion.Ocupacion;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.polizaAutomotor.PolizaAutomotor;
@@ -29,9 +30,9 @@ public class PolizaVidaColectivoRepository {
 
 	public PolizaVidaColectivo crear(final String polizaNumero, final Cliente polizaCliente, final Compania polizaCompania,
 			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
-			final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoVidaColectivoMonto) {
+			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoVidaColectivoMonto) {
 		final PolizaVidaColectivo object = new PolizaVidaColectivo(polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
-				polizaFechaVigencia, polizaFechaVencimiento, polizaPago, polizaImporteTotal, riesgoVidaColectivoMonto);
+				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, riesgoVidaColectivoMonto);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;
@@ -40,11 +41,11 @@ public class PolizaVidaColectivoRepository {
     public PolizaVidaColectivo renovacion(
     		final String polizaNumero, final Cliente polizaCliente, final Compania polizaCompania,
 			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
-			final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoVidaColectivoMonto,
+			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoVidaColectivoMonto,
     		Poliza riesgoVidaColectivo) {
         final PolizaVidaColectivo object = new PolizaVidaColectivo(
         		polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
-				polizaFechaVigencia, polizaFechaVencimiento, polizaPago, polizaImporteTotal, 
+				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, 
 				riesgoVidaColectivo, riesgoVidaColectivoMonto);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);

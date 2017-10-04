@@ -3,6 +3,7 @@ package domainapp.dom.polizaIntegralComercio;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 import org.apache.isis.applib.annotation.Action;
@@ -13,6 +14,8 @@ import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.InvokeOn;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
+import org.apache.isis.applib.annotation.Optionality;
+import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
@@ -22,13 +25,10 @@ import domainapp.dom.cliente.ClienteRepository;
 import domainapp.dom.compania.CompaniaRepository;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
+import domainapp.dom.detalleTipoPago.DetalleTipoPagoMenu;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagoRepository;
-import domainapp.dom.estado.Estado;
-import domainapp.dom.pagoEfectivo.PagoEfectivoMenu;
-import domainapp.dom.poliza.Poliza;
-import domainapp.dom.tiposDeCoberturas.TipoDeCobertura;
+import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.tiposDeCoberturas.TipoDeCoberturaRepository;
-import domainapp.dom.vehiculo.Vehiculo;
 import domainapp.dom.vehiculo.VehiculoRepository;
 
 @DomainService(
@@ -52,18 +52,6 @@ public class PolizaIntegralComercioMenu {
 		      return listaPolizasRiesgoIntegralComercio;
 	    }
 	  
-	    public List<Cliente> choices1Crear(){
-	    	return clientesRepository.listarActivos();
-	    }
-	    
-	    public List<Compania> choices2Crear(){
-	    	return companiaRepository.listarActivos();
-	    }	    
-	    
-	    public List<DetalleTipoPago> choices6Crear(){
-	    	return detalleTipoPagosRepository.listarActivos();
-	    }
-
 	    public static class CreateDomainEvent extends ActionDomainEvent<PolizaIntegralComercioMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class, invokeOn=InvokeOn.OBJECT_ONLY)
 	    @ActionLayout(named="Crear Poliza Riesgo Integral Comercio")
@@ -75,7 +63,8 @@ public class PolizaIntegralComercioMenu {
 	    		@ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
 				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
 				@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
-				@ParameterLayout(named="Pago") final DetalleTipoPago polizaPago,
+				@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
+				@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago,
 				@ParameterLayout(named="Precio Total") final double polizaImporteTotal,
 	    		@ParameterLayout(named="Incendio Edificio") final float riesgoIntegralComercioIncendioEdificio,
 	    		@ParameterLayout(named="Incendio Contenido") final float riesgoIntegralComercioIncendioContenido,
@@ -85,8 +74,8 @@ public class PolizaIntegralComercioMenu {
 	    		@ParameterLayout(named="RCL") final float riesgoIntegralComercioRcl,
 	    		@ParameterLayout(named="Daño por Agua") final float riesgoIntegralComercioDanioPorAgua,
 	    		@ParameterLayout(named = "RCC") float riesgoIntegralComercioRCC,
-	    		@ParameterLayout(named="Otros Nombre") final String riesgoIntegralComercioOtrosNombre,
-	    		@ParameterLayout(named="Otros Monto") final float riesgoIntegralComercioOtrosMonto)
+	    		@Nullable @ParameterLayout(named="Otros Nombre") @Parameter(optionality=Optionality.OPTIONAL) final String riesgoIntegralComercioOtrosNombre,
+	    		@Nullable @ParameterLayout(named="Otros Monto") @Parameter(optionality=Optionality.OPTIONAL) final double riesgoIntegralComercioOtrosMonto)
 	    {
 	        return polizasRepository.crear(
 	        		polizaNumero, 
@@ -95,6 +84,7 @@ public class PolizaIntegralComercioMenu {
 	        		polizaFechaEmision, 
 	        		polizaFechaVigencia, 
 	        		polizaFechaVencimiento, 
+	        		polizaTipoDePago,
 	        		polizaPago, 
 	        		polizaImporteTotal,
 	        		riesgoIntegralComercioRobo,
@@ -108,7 +98,67 @@ public class PolizaIntegralComercioMenu {
 	        		riesgoIntegralComercioOtrosNombre,
 	        		riesgoIntegralComercioOtrosMonto);
 	    }
-
+	    
+	    public List<Cliente> choices1Crear(){
+	    	return clientesRepository.listarActivos();
+	    }
+	    
+	    public List<Compania> choices2Crear(){
+	    	return companiaRepository.listarActivos();
+	    }	    
+	    
+	    public List<DetalleTipoPago> choices7Crear(			
+				final String polizaNumero,
+				final Cliente polizaCliente,
+				final Compania polizaCompania,
+				final Date polizaFechaEmision,
+				final Date polizaFechaVigencia,
+				final Date polizaFechaVencimiento,
+				final TipoPago polizaTipoDePago,
+				final DetalleTipoPago polizaPago,
+				final double polizaImporteTotal,
+				final float riesgoIntegralComercioRobo,
+				final float riesgoIntegralComercioCristales,
+				final float riesgoIntegralComercioIncendioEdificio,
+				final float riesgoIntegralComercioIncendioContenido,
+				final float riesgoIntegralComercioRc,
+				final float riesgoIntegralComercioRcl,
+				final float riesgoIntegralComercioDanioPorAgua,
+				final float riesgoIntegralComercioRCC,
+				final String riesgoIntegralComercioOtrosNombre,
+				final double riesgoIntegralComercioOtrosMonto) {
+			return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
+	    }
+	    
+		public double default18Crear() {
+			return 0;
+		}
+	    
+		public String validateCrear(			
+				final String polizaNumero,
+				final Cliente polizaCliente,
+				final Compania polizaCompania,
+				final Date polizaFechaEmision,
+				final Date polizaFechaVigencia,
+				final Date polizaFechaVencimiento,
+				final TipoPago polizaTipoDePago,
+				final DetalleTipoPago polizaPago,
+				final double polizaImporteTotal,
+				final float riesgoIntegralComercioRobo,
+				final float riesgoIntegralComercioCristales,
+				final float riesgoIntegralComercioIncendioEdificio,
+				final float riesgoIntegralComercioIncendioContenido,
+				final float riesgoIntegralComercioRc,
+				final float riesgoIntegralComercioRcl,
+				final float riesgoIntegralComercioDanioPorAgua,
+				final float riesgoIntegralComercioRCC,
+				final String riesgoIntegralComercioOtrosNombre,
+				final double riesgoIntegralComercioOtrosMonto){
+			if (polizaFechaVigencia.after(polizaFechaVencimiento)){
+				return "La fecha de vigencia es mayor a la de vencimiento";
+			}
+			return "";
+		}
 
 	    @javax.inject.Inject
 	    PolizaIntegralComercioRepository polizasRepository;
@@ -117,7 +167,7 @@ public class PolizaIntegralComercioMenu {
 	    @Inject
 	    VehiculoRepository vehiculosRepository;
 	    @Inject
-	    DetalleTipoPagoRepository detalleTipoPagosRepository;
+	    DetalleTipoPagoMenu detalleTipoPagoMenu;
 	    @Inject
 	    CompaniaRepository companiaRepository;
 	    @Inject

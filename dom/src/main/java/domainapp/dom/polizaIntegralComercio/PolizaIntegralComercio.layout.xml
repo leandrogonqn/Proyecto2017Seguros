@@ -51,19 +51,11 @@
 								<c:action id="actualizarPolizaFechaVencimiento"
 									position="RIGHT" />
 							</c:property>
-							<c:property id="polizaFechaVencimientoPago"
-								namedEscaped="true">
-								<c:action id="actualizarPolizaFechaVencimientoPago"
-									position="RIGHT" />
-							</c:property>
-							<c:property id="polizaPago" namedEscaped="true">
-								<c:action id="actualizarPolizaPago" position="RIGHT" />
-							</c:property>
-							<c:property id="polizaAlertaVencimientoPago"
-								namedEscaped="true">
-								<c:action id="actualizarPolizaAlertaVencimientoPago"
-									position="RIGHT" />
-							</c:property>
+                                <c:property id="polizaTipoDePago" namedEscaped="true">
+                                <c:action id="actualizarPolizaPago" position="RIGHT"/>
+                                </c:property>                                
+                                <c:property id="polizaPago" namedEscaped="true">
+                                </c:property>
 							<c:property id="polizaFechaBaja" namedEscaped="true">
 								<c:action id="actualizarPolizaFechaBaja" position="RIGHT" />
 							</c:property>

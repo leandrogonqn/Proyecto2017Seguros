@@ -4,11 +4,10 @@ import java.math.BigInteger;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.jdo.annotations.Column;
-import javax.jdo.annotations.Discriminator;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
+
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.Auditing;
 import org.apache.isis.applib.annotation.DomainObject;
@@ -18,7 +17,6 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
@@ -28,19 +26,31 @@ import org.apache.isis.applib.util.ObjectContracts;
 import domainapp.dom.banco.Banco;
 import domainapp.dom.banco.BancoRepository;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
-import domainapp.dom.tarjetaDeCredito.TarjetaDeCredito;
 
+@javax.jdo.annotations.Queries({
+    @javax.jdo.annotations.Query(
+            name = "listarActivos", language = "JDOQL",
+            value = "SELECT "
+                    + "FROM domainapp.dom.simple.DebitoAutomatico "
+                    + "WHERE tipoPagoActivo == true "),
+    @javax.jdo.annotations.Query(
+            name = "listarInactivos", language = "JDOQL",
+            value = "SELECT "
+                    + "FROM domainapp.dom.simple.DebitoAutomatico "
+                    + "WHERE tipoPagoActivo == false ")})
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
         schema = "simple",
-        table = "DetalleTipoPagos"
+        table = "DebitoAutomatico"
 )
+@javax.jdo.annotations.DatastoreIdentity(
+        strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
+         column="debitoAutomaticoId")
 @DomainObject(
         publishing = Publishing.ENABLED,
         auditing = Auditing.ENABLED
 )
-@Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
-@Discriminator(value="Debito Automatico")
+@Inheritance(strategy=InheritanceStrategy.NEW_TABLE)
 public class DebitoAutomatico extends DetalleTipoPago implements Comparable<DebitoAutomatico> {
 	 //region > title
     public TranslatableString title() {
@@ -50,20 +60,14 @@ public class DebitoAutomatico extends DetalleTipoPago implements Comparable<Debi
 
     public static final int NAME_LENGTH = 200;
     // Constructor
-    public DebitoAutomatico() {
-    	this.tipoPagoNombre = "Debito Automatico";
-		this.tipoPagoActivo = true;
-	}
-    
     public DebitoAutomatico(
     		String tipoPagoTitular,
     		Banco tipoPagoBanco, 
     		BigInteger debitoAutomaticoCbu) {
-    	this.tipoPagoNombre = "Debito Automatico";
     	setTipoPagoTitular(tipoPagoTitular);
     	setTipoPagoBanco(tipoPagoBanco); 
     	setDebitoAutomaticoCbu(debitoAutomaticoCbu);
-		this.tipoPagoActivo = true;
+    	this.tipoPagoActivo = true;
 	}
 
 	@javax.jdo.annotations.Column
@@ -83,9 +87,7 @@ public class DebitoAutomatico extends DetalleTipoPago implements Comparable<Debi
     //endregion
 	
     //region > delete (action)
-    public static class DeleteDomainEvent extends ActionDomainEvent<DebitoAutomatico> {}
     @Action(
-            domainEvent = DeleteDomainEvent.class,
             semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
     )
     public void borrarDebitoAutomatico() {

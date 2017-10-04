@@ -36,17 +36,30 @@ import domainapp.dom.marca.Marca;
 import domainapp.dom.tipoTarjeta.TipoTarjeta;
 import domainapp.dom.tipoTarjeta.TipoTarjetaRepository;
 
+@javax.jdo.annotations.Queries({
+    @javax.jdo.annotations.Query(
+            name = "listarActivos", language = "JDOQL",
+            value = "SELECT "
+                    + "FROM domainapp.dom.simple.TarjetaDeCredito "
+                    + "WHERE tipoPagoActivo == true "),
+    @javax.jdo.annotations.Query(
+            name = "listarInactivos", language = "JDOQL",
+            value = "SELECT "
+                    + "FROM domainapp.dom.simple.TarjetaDeCredito "
+                    + "WHERE tipoPagoActivo == false ")})
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
         schema = "simple",
-        table = "DetalleTipoPagos"
+        table = "TarjetaDeCredito"
 )
 @DomainObject(
         publishing = Publishing.ENABLED,
         auditing = Auditing.ENABLED
 )
-@Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
-@Discriminator(value="Tarjeta de Credito")
+@javax.jdo.annotations.DatastoreIdentity(
+        strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
+         column="tarjetaDeCreditoId")
+@Inheritance(strategy=InheritanceStrategy.NEW_TABLE)
 public class TarjetaDeCredito extends DetalleTipoPago implements Comparable<TarjetaDeCredito> {
 	 //region > title
     public TranslatableString title() {
@@ -56,10 +69,6 @@ public class TarjetaDeCredito extends DetalleTipoPago implements Comparable<Tarj
 
     public static final int NAME_LENGTH = 200;
     // Constructor
-    public TarjetaDeCredito(){
-    	this.tipoPagoNombre = "Tarjeta de Credito";
-    	this.tipoPagoActivo = true;
-    }
     
     public TarjetaDeCredito(
     		String tipoPagoTitular,
@@ -68,14 +77,13 @@ public class TarjetaDeCredito extends DetalleTipoPago implements Comparable<Tarj
     		long tarjetaDeCreditoNumero, 
     		int tarjetaDeCreditoMesVencimiento, 
     		int tarjetaDeCreditoAnioVencimiento) {
-    	this.tipoPagoNombre = "Tarjeta";
     	setTipoPagoTitular(tipoPagoTitular);
     	setTarjetaDeCreditoTipoTarjeta(tarjetaDeCreditoTipoTarjeta);
     	setTipoPagoBanco(tipoPagoBanco);
     	setTarjetaDeCreditoNumero(tarjetaDeCreditoNumero);
     	setTarjetaDeCreditoMesVencimiento(tarjetaDeCreditoMesVencimiento);
     	setTarjetaDeCreditoAnioVencimiento(tarjetaDeCreditoAnioVencimiento);
-		this.tipoPagoActivo = true;
+    	this.tipoPagoActivo = true;
 	}
     
     @Column(name="tipoTarjetaId")
@@ -137,9 +145,7 @@ public class TarjetaDeCredito extends DetalleTipoPago implements Comparable<Tarj
     //endregion
     
     //region > delete (action)
-    public static class DeleteDomainEvent extends ActionDomainEvent<TarjetaDeCredito> {}
     @Action(
-            domainEvent = DeleteDomainEvent.class,
             semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
     )
     public void borrarTarjetaDeCredito() {
@@ -244,11 +250,11 @@ public class TarjetaDeCredito extends DetalleTipoPago implements Comparable<Tarj
     //region > toString, compareTo
     @Override
     public String toString() {
-        return ObjectContracts.toString(this, "tipoPagoNombre");
+        return ObjectContracts.toString(this, "tarjetaDeCreditoNumero");
     }
     @Override
     public int compareTo(final TarjetaDeCredito other) {
-        return ObjectContracts.compare(this, other, "tipoPagoNombre");
+        return ObjectContracts.compare(this, other, "tarjetaDeCreditoNumero");
     }
 
     //endregion

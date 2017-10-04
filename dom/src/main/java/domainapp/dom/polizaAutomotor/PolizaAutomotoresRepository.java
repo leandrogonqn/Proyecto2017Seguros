@@ -13,6 +13,7 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
+import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.estado.Estado;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.tiposDeCoberturas.TipoDeCobertura;
@@ -38,6 +39,7 @@ public class PolizaAutomotoresRepository {
     		final Date polizaFechaEmision, 
     		final Date polizaFechaVigencia, 
     		final Date polizaFechaVencimiento,
+    		final TipoPago polizaTipoDePago,
     		final DetalleTipoPago polizaPago, 
     		final double polizaImporteTotal) {
         final PolizaAutomotor object = new PolizaAutomotor(
@@ -46,7 +48,9 @@ public class PolizaAutomotoresRepository {
         		polizaCompanias,
         		riesgoAutomotorListaVehiculos,
         		riesgoAutomotorTiposDeCoberturas,
-				polizaFechaEmision, polizaFechaVigencia, polizaFechaVencimiento, polizaPago, polizaImporteTotal);
+				polizaFechaEmision, polizaFechaVigencia, polizaFechaVencimiento, 
+				polizaTipoDePago,
+				polizaPago, polizaImporteTotal);
 		serviceRegistry.injectServicesInto(object);
 		repositoryService.persist(object);
 		return object;
@@ -55,11 +59,12 @@ public class PolizaAutomotoresRepository {
 	public PolizaAutomotor renovacion(final String polizaNumero, final Cliente polizaCliente,
 			final Compania polizaCompanias, final List<Vehiculo> riesgoAutomotorListaVehiculos,
 			final TipoDeCobertura riesgoAutomotorTiposDeCoberturas, final Date polizaFechaEmision,
-			final Date polizaFechaVigencia, final Date polizaFechaVencimiento, final DetalleTipoPago polizaPago,
+			final Date polizaFechaVigencia, final Date polizaFechaVencimiento, 
+			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago,
 			final double polizaImporteTotal, final Poliza riesgoAutomotor) {
 		final PolizaAutomotor object = new PolizaAutomotor(polizaNumero, polizaCliente, polizaCompanias,
 				riesgoAutomotorListaVehiculos, riesgoAutomotorTiposDeCoberturas, polizaFechaEmision,
-				polizaFechaVigencia, polizaFechaVencimiento, polizaPago, polizaImporteTotal, riesgoAutomotor);
+				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, riesgoAutomotor);
 		serviceRegistry.injectServicesInto(object);
 		repositoryService.persist(object);
 		return object;

@@ -9,6 +9,7 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
+import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.poliza.Poliza;
 
 
@@ -24,9 +25,9 @@ public class RiesgoRCRepository {
 
 	public RiesgoRC crear(final String polizaNumero, final Cliente polizaCliente, final Compania polizaCompania,
 			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
-			final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoRCMonto) {
+			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoRCMonto) {
 		final RiesgoRC object = new RiesgoRC(polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
-				polizaFechaVigencia, polizaFechaVencimiento, polizaPago, polizaImporteTotal, riesgoRCMonto);
+				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, riesgoRCMonto);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;
@@ -35,11 +36,11 @@ public class RiesgoRCRepository {
     public RiesgoRC renovacion(
     		final String polizaNumero, final Cliente polizaCliente, final Compania polizaCompania,
 			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
-			final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoRCMonto,
+			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoRCMonto,
     		Poliza riesgoRC) {
         final RiesgoRC object = new RiesgoRC(
         		polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
-				polizaFechaVigencia, polizaFechaVencimiento, polizaPago, polizaImporteTotal, 
+				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, 
 				riesgoRC, riesgoRCMonto);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);

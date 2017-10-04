@@ -2,6 +2,8 @@ package domainapp.dom.polizaLCT;
 
 import java.util.Date;
 import java.util.List;
+
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
@@ -11,6 +13,8 @@ import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.InvokeOn;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
+import org.apache.isis.applib.annotation.Optionality;
+import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
@@ -19,7 +23,9 @@ import domainapp.dom.cliente.ClienteRepository;
 import domainapp.dom.compania.CompaniaRepository;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
+import domainapp.dom.detalleTipoPago.DetalleTipoPagoMenu;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagoRepository;
+import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.ocupacion.Ocupacion;
 import domainapp.dom.ocupacion.OcupacionRepository;
 import domainapp.dom.tipoTitular.TipoTitular;
@@ -50,18 +56,6 @@ public class PolizaLCTMenu {
 		      return listaPolizaRiesgoLCT;
 	    }
 	  
-	    public List<Cliente> choices1Crear(){
-	    	return clientesRepository.listarActivos();
-	    }
-	    
-	    public List<Compania> choices2Crear(){
-	    	return companiaRepository.listarActivos();
-	    }	    
-	    
-	    public List<DetalleTipoPago> choices6Crear(){
-	    	return detalleTipoPagosRepository.listarActivos();
-	    }
-
 	    public static class CreateDomainEvent extends ActionDomainEvent<PolizaLCTMenu> {}
 	    @Action(domainEvent = CreateDomainEvent.class, invokeOn=InvokeOn.OBJECT_ONLY)
 	    @ActionLayout(named="Crear Poliza LCT")
@@ -73,7 +67,8 @@ public class PolizaLCTMenu {
 /*7*/	            @ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
 /*8*/				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
 /*9*/				@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
-/*11*/				@ParameterLayout(named="Pago") final DetalleTipoPago polizaPago,
+					@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
+					@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago,
 /*13*/				@ParameterLayout(named="Precio Total") final double polizaImporteTotal,
 	    			@ParameterLayout(named="Monto") final float riesgoLCTMonto)
 	    {
@@ -84,10 +79,50 @@ public class PolizaLCTMenu {
 	        		polizaFechaEmision,
 	        		polizaFechaVigencia, 
 	        		polizaFechaVencimiento,
+	        		polizaTipoDePago,
 	        		polizaPago,
 	        		polizaImporteTotal,
 	        		riesgoLCTMonto);
 	    }
+	    
+	    public List<Cliente> choices1Crear(){
+	    	return clientesRepository.listarActivos();
+	    }
+	    
+	    public List<Compania> choices2Crear(){
+	    	return companiaRepository.listarActivos();
+	    }	    
+	    
+	    public List<DetalleTipoPago> choices7Crear(				
+	    		final String polizaNumero,
+				final Cliente polizaCliente,
+				final Compania polizaCompania,
+				final Date polizaFechaEmision,
+				final Date polizaFechaVigencia,
+				final Date polizaFechaVencimiento,
+				final TipoPago polizaTipoDePago,
+				final DetalleTipoPago polizaPago,
+				final double polizaImporteTotal,
+				final float riesgoConvenioMercantilMonto) {
+			return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
+	    }
+	    
+		public String validateCrear(			
+				final String polizaNumero,
+				final Cliente polizaCliente,
+				final Compania polizaCompania,
+				final Date polizaFechaEmision,
+				final Date polizaFechaVigencia,
+				final Date polizaFechaVencimiento,
+				final TipoPago polizaTipoDePago,
+				final DetalleTipoPago polizaPago,
+				final double polizaImporteTotal,
+				final float riesgoLCTMonto){
+			if (polizaFechaVigencia.after(polizaFechaVencimiento)){
+				return "La fecha de vigencia es mayor a la de vencimiento";
+			}
+			return "";
+		}
 
 
 	    @javax.inject.Inject
@@ -95,7 +130,7 @@ public class PolizaLCTMenu {
 	    @javax.inject.Inject
 	    ClienteRepository clientesRepository;
 	    @Inject
-	    DetalleTipoPagoRepository detalleTipoPagosRepository;
+	    DetalleTipoPagoMenu detalleTipoPagoMenu;
 	    @Inject
 	    CompaniaRepository companiaRepository;
 	    @Inject

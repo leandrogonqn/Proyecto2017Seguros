@@ -48,8 +48,8 @@ public class TipoViviendaMenu {
     @Action(domainEvent = CreateDomainEvent.class)
     @ActionLayout(named="Crear Tipo de Vivienda")
     @MemberOrder(sequence = "1.2")
-    public TipoVivienda crear(@ParameterLayout(named="Nombre",labelPosition=LabelPosition.TOP)final String tipoViviendaNombre,@ParameterLayout(named="Descripción",labelPosition=LabelPosition.TOP)final String tipoViviendaDescripcion) {
-        return tipoViviendasRepository.crear(tipoViviendaNombre,tipoViviendaDescripcion);
+    public TipoVivienda crear(@ParameterLayout(named="Nombre",labelPosition=LabelPosition.TOP)final String tipoViviendaNombre) {
+        return tipoViviendasRepository.crear(tipoViviendaNombre);
     }
 
 

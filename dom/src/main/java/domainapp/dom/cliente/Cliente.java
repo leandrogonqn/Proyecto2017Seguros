@@ -21,6 +21,7 @@ package domainapp.dom.cliente;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
@@ -34,6 +35,7 @@ import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.InvokeOn;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.Optionality;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
@@ -235,7 +237,7 @@ public class Cliente implements Comparable<Cliente> {
 		this.clienteDireccion = clienteDireccion;
 	}	
 
-    @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
+    @javax.jdo.annotations.Column(allowsNull = "true", length = NAME_LENGTH)
     @Property(
             editing = Editing.DISABLED
     )
@@ -249,7 +251,7 @@ public class Cliente implements Comparable<Cliente> {
 		this.clienteTelefono = clienteTelefono;
 	}	
 
-    @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
+    @javax.jdo.annotations.Column(allowsNull = "true", length = NAME_LENGTH)
     @Property(
             editing = Editing.DISABLED
     )
@@ -276,7 +278,7 @@ public class Cliente implements Comparable<Cliente> {
 		this.clienteCuitCuil = clienteCuitCuil;
 	}	
 	
-    @javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
+    @javax.jdo.annotations.Column(allowsNull = "true", length = NAME_LENGTH)
     @Property(
             editing = Editing.DISABLED
     )
@@ -310,9 +312,7 @@ public class Cliente implements Comparable<Cliente> {
     )
     @PropertyLayout(named="Activo")
     private boolean clienteActivo;
-//    @Property(
-//            editing = Editing.DISABLED
-//    )
+ 
     public boolean getClienteActivo() {
 		return clienteActivo;
 	}
@@ -341,7 +341,7 @@ public class Cliente implements Comparable<Cliente> {
         return this;
 	}
 	
-	public Cliente actualizarDni(@ParameterLayout(named="Dni") final int clienteDni){
+	public Cliente actualizarDni(@ParameterLayout(named="Numero de Documento") final int clienteDni){
 		setClienteCuitCuil(GenerarCuit.generar(getClienteSexo(), clienteDni));
 		setClienteDni(clienteDni);
         return this;
@@ -374,7 +374,7 @@ public class Cliente implements Comparable<Cliente> {
 	}
 	
 	
-	public Cliente actualizarTipoDocumento(@ParameterLayout(named="Tipo Documento") final TipoDocumento clienteTipoDocumento){
+	public Cliente actualizarTipoDocumento(@ParameterLayout(named="Tipo de Documento") final TipoDocumento clienteTipoDocumento){
 		setClienteTipoDocumento(clienteTipoDocumento);
 		return this;
 	}
@@ -410,7 +410,10 @@ public class Cliente implements Comparable<Cliente> {
 		return getClienteMail();
 	}
 	
-	public Cliente actualizarFechaNacimiento(@ParameterLayout(named="Fecha de Nacimiento") final Date clienteFechaNacimiento){
+	public Cliente actualizarFechaNacimiento(@Nullable @ParameterLayout(named="Fecha de Nacimiento") @Parameter(optionality = Optionality.OPTIONAL) final Date clienteFechaNacimiento){
+		if ((clienteFechaNacimiento == null)){
+					setClienteNotificacionCumpleanios(false);
+		}
 		setClienteFechaNacimiento(clienteFechaNacimiento);
 		return this;
 	}
@@ -422,6 +425,15 @@ public class Cliente implements Comparable<Cliente> {
 	public Cliente actualizarNotificacionCumpleanios(@ParameterLayout(named="Notificacion Cumpleaños") final boolean clienteNotificacionCumpleanios){
 		setClienteNotificacionCumpleanios(clienteNotificacionCumpleanios);
 		return this;
+	}
+	
+	
+	
+	public String validateActualizarNotificacionCumpleanios(final boolean clienteNotificacionCumpleanios){
+		if ((clienteFechaNacimiento == null)&(clienteNotificacionCumpleanios == true)){
+			return "Se necesita cargar fecha de nacimiento para poder cargar el cumpleaños";
+		}
+		return "";
 	}
 	
 	public boolean default0ActualizarNotificacionCumpleanios(){

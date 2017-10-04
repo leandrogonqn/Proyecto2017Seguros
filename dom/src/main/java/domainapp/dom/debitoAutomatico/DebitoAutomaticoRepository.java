@@ -12,6 +12,7 @@ import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
 import domainapp.dom.banco.Banco;
+import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.tarjetaDeCredito.TarjetaDeCredito;
 
 @DomainService(
@@ -31,6 +32,20 @@ public class DebitoAutomaticoRepository {
         return repositoryService.allInstances(DebitoAutomatico.class);
     }
 
+	public List<DebitoAutomatico> listarActivos(){
+		 return repositoryService.allMatches(
+	          new QueryDefault<>(
+	        		  DebitoAutomatico.class,
+	                  "listarActivos"));
+	  }
+	
+	public List<DebitoAutomatico> listarInactivos(){
+		 return repositoryService.allMatches(
+	          new QueryDefault<>(
+	        		  DebitoAutomatico.class,
+	                  "listarInactivos"));
+	  }
+    
     @javax.inject.Inject
     RepositoryService repositoryService;
     @javax.inject.Inject

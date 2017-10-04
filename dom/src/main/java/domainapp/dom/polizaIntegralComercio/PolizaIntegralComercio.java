@@ -3,6 +3,7 @@ package domainapp.dom.polizaIntegralComercio;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Discriminator;
@@ -18,6 +19,7 @@ import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.InvokeOn;
 import org.apache.isis.applib.annotation.Optionality;
+import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
@@ -36,11 +38,14 @@ import domainapp.dom.cliente.ClienteRepository;
 import domainapp.dom.compania.CompaniaRepository;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
+import domainapp.dom.detalleTipoPago.DetalleTipoPagoMenu;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagoRepository;
+import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.estado.Estado;
 import domainapp.dom.marca.Marca;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.poliza.PolizaRepository;
+import domainapp.dom.polizaART.PolizaART;
 import domainapp.dom.tiposDeCoberturas.TipoDeCobertura;
 import domainapp.dom.tiposDeCoberturas.TipoDeCoberturaRepository;
 import domainapp.dom.vehiculo.Vehiculo;
@@ -61,17 +66,18 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 	// Constructor
 	public PolizaIntegralComercio(String polizaNumero, Cliente polizaCliente, Compania polizaCompania,
 			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
-			 DetalleTipoPago polizaPago, 
+			TipoPago polizaTipoDePago, DetalleTipoPago polizaPago, 
 			double polizaImporteTotal, float riesgoIntegralComercioRobo, float riesgoIntegralComercioCristales,
 			float riesgoIntegralComercioIncendioEdificio, float riesgoIntegralComercioIncendioContenido,
 			float riesgoIntegralComercioRc, float riesgoIntegralComercioRcl, float riesgoIntegralComercioDanioPorAgua,
-			float riesgoIntegralComercioRCC, final String riesgoIntegralComercioOtrosNombre, final float riesgoIntegralComercioOtrosMonto) {
+			float riesgoIntegralComercioRCC, final String riesgoIntegralComercioOtrosNombre, final double riesgoIntegralComercioOtrosMonto) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
 		setPolizasCompania(polizaCompania);
 		setPolizaFechaEmision(polizaFechaEmision);
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
+		setPolizaTipoDePago(polizaTipoDePago);
 		setPolizaPago(polizaPago);
 		setPolizaImporteTotal(polizaImporteTotal);
 		setRiesgoIntegralComercioCristales(riesgoIntegralComercioCristales);
@@ -90,11 +96,11 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 
 	public PolizaIntegralComercio(String polizaNumero, Cliente polizaCliente, Compania polizaCompania,
 			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
-			 DetalleTipoPago polizaPago,
+			TipoPago polizaTipoDePago, DetalleTipoPago polizaPago,
 			double polizaImporteTotal, float riesgoIntegralComercioRobo, float riesgoIntegralComercioCristales,
 			float riesgoIntegralComercioIncendioEdificio, float riesgoIntegralComercioIncendioContenido,
 			float riesgoIntegralComercioRc, float riesgoIntegralComercioRcl, float riesgoIntegralComercioDanioPorAgua,
-			float riesgoIntegralComercioRCC, final String riesgoIntegralComercioOtrosNombre, final float riesgoIntegralComercioOtrosMonto,
+			float riesgoIntegralComercioRCC, final String riesgoIntegralComercioOtrosNombre, final double riesgoIntegralComercioOtrosMonto,
 			Poliza riesgoIntegralComercio) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
@@ -102,6 +108,7 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 		setPolizaFechaEmision(polizaFechaEmision);
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
+		setPolizaTipoDePago(polizaTipoDePago);
 		setPolizaPago(polizaPago);
 		setPolizaImporteTotal(polizaImporteTotal);
 		setRiesgoIntegralComercioRobo(riesgoIntegralComercioRobo);
@@ -230,7 +237,7 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 	}
 
 	// RiesgoIntegralComercioOtrosNombre
-	@Column(length = NAME_LENGTH)
+	@Column(length = NAME_LENGTH, allowsNull = "true")
 	@Property(editing = Editing.DISABLED)
 	@PropertyLayout(named = "Otros Nombre")
 	private String riesgoIntegralComercioOtrosNombre;
@@ -247,13 +254,13 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 	@Column(length = NAME_LENGTH)
 	@Property(editing = Editing.DISABLED)
 	@PropertyLayout(named = "Otros Monto")
-	private float riesgoIntegralComercioOtrosMonto;
+	private double riesgoIntegralComercioOtrosMonto;
 
-	public float getRiesgoIntegralComercioOtrosMonto() {
+	public double getRiesgoIntegralComercioOtrosMonto() {
 		return riesgoIntegralComercioOtrosMonto;
 	}
 
-	public void setRiesgoIntegralComercioOtrosMonto(float riesgoIntegralComercioOtrosMonto) {
+	public void setRiesgoIntegralComercioOtrosMonto(double riesgoIntegralComercioOtrosMonto) {
 		this.riesgoIntegralComercioOtrosMonto = riesgoIntegralComercioOtrosMonto;
 	}
 	
@@ -411,6 +418,14 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 		return getPolizaFechaVigencia();
 	}
 
+	public String validateActualizarPolizaFechaVigencia(final Date polizaFechaVigencia) {
+
+		if (polizaFechaVigencia.after(this.getPolizaFechaVencimiento())) {
+			return "La fecha de vigencia es mayor a la de vencimiento";
+		}
+		return "";
+	}
+	
 	// polizaFechaVencimiento
 	public PolizaIntegralComercio actualizarPolizaFechaVencimiento(
 			@ParameterLayout(named = "Fecha de Vencimiento") final Date polizaFechaVencimiento) {
@@ -422,21 +437,36 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 	public Date default0ActualizarPolizaFechaVencimiento() {
 		return getPolizaFechaVencimiento();
 	}
-
-	// polizaPago
-	public PolizaIntegralComercio actualizarPolizaPago(
-			@ParameterLayout(named = "Pago") final DetalleTipoPago polizaPago) {
-		setPolizaPago(polizaPago);
-		return this;
+	
+	public String validateActualizarPolizaFechaVencimiento(final Date polizaFechaVencimiento){
+		if (this.getPolizaFechaVigencia().after(polizaFechaVencimiento)){
+			return "La fecha de vencimiento es menor a la de vigencia";
+		}
+		return "";
 	}
-
-	public List<DetalleTipoPago> choices0ActualizarPolizaPago() {
-		return detalleTipoPagosRepository.listarActivos();
-	}
-
-	public DetalleTipoPago default0ActualizarPolizaPago() {
-		return getPolizaPago();
-	}
+	
+    //polizaPago
+    public PolizaIntegralComercio actualizarPolizaPago(
+    		@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
+			@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago) {
+        setPolizaTipoDePago(polizaTipoDePago);
+    	setPolizaPago(polizaPago);
+        return this;
+    }
+    
+    public List<DetalleTipoPago> choices1ActualizarPolizaPago(			
+ 			final TipoPago polizaTipoDePago,
+ 			final DetalleTipoPago polizaPago) {
+ 		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
+    }
+    
+    public TipoPago default0ActualizarPolizaPago() {
+    	return getPolizaTipoDePago();
+    }
+      
+    public DetalleTipoPago default1ActualizarPolizaPago() {
+    	return getPolizaPago();
+    }
 
 	// polizaFechaBaja
 	public PolizaIntegralComercio actualizarPolizaFechaBaja(
@@ -462,12 +492,12 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 
 	// RiesgoIntegralComercioOtrosMonto
 	public PolizaIntegralComercio actualizarRiesgoIntegralComercioOtrosMonto(
-			@ParameterLayout(named = "Otros Monto") final float riesgoIntegralComercioOtrosMonto) {
+			@ParameterLayout(named = "Otros Monto") final double riesgoIntegralComercioOtrosMonto) {
 		setRiesgoIntegralComercioOtrosMonto(riesgoIntegralComercioOtrosMonto);
 		return this;
 	}
 
-	public float default0ActualizarRiesgoIntegralComercioOtrosMonto() {
+	public double default0ActualizarRiesgoIntegralComercioOtrosMonto() {
 		return getRiesgoIntegralComercioOtrosMonto();
 	}
 	
@@ -529,7 +559,8 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 /*3*/			@ParameterLayout(named = "Fecha Emision") final Date polizaFechaEmision,
 /*4*/			@ParameterLayout(named = "Fecha Vigencia") final Date polizaFechaVigencia,
 /*5*/			@ParameterLayout(named = "Fecha Vencimiento") final Date polizaFechaVencimiento,
-/*6*/			@ParameterLayout(named = "Pago") final DetalleTipoPago polizaPago,
+				@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
+				@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago,
 /*7*/			@ParameterLayout(named = "Precio Total") final double polizaImporteTotal,
 /*8*/			@ParameterLayout(named = "Robo") float riesgoIntegralComercioRobo, 
 /*9*/			@ParameterLayout(named = "Cristales") float riesgoIntegralComercioCristales,
@@ -540,9 +571,9 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 /*14*/			@ParameterLayout(named = "Daño Por Agua") float riesgoIntegralComercioDanioPorAgua,
 /*15*/			@ParameterLayout(named = "RCC") float riesgoIntegralComercioRCC,
 /*16*/			@ParameterLayout(named = "Otros Nombre") final String riesgoIntegralComercioOtrosNombre, 
-/*17*/			@ParameterLayout(named = "Otros Monto") final float riesgoIntegralComercioOtrosMonto) {
+/*17*/			@ParameterLayout(named = "Otros Monto") final double riesgoIntegralComercioOtrosMonto) {
 		return riesgoIntegralComercioRepository.renovacion(polizaNumero, polizaCliente, polizaCompania,
-				polizaFechaEmision, polizaFechaVigencia, polizaFechaVencimiento, polizaPago,
+				polizaFechaEmision, polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago,
 				 polizaImporteTotal, riesgoIntegralComercioRobo, riesgoIntegralComercioCristales,
 				riesgoIntegralComercioIncendioEdificio, riesgoIntegralComercioIncendioContenido, riesgoIntegralComercioRc, 
 				riesgoIntegralComercioRcl, riesgoIntegralComercioDanioPorAgua, riesgoIntegralComercioRCC, riesgoIntegralComercioOtrosNombre,
@@ -557,8 +588,27 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 		return companiaRepository.listarActivos();
 	}
 
-	public List<DetalleTipoPago> choices6Renovacion() {
-		return detalleTipoPagosRepository.listarActivos();
+	public List<DetalleTipoPago> choices7Renovacion(
+			/*0*/			final String polizaNumero,
+			/*1*/			final Cliente polizaCliente,
+			/*2*/			final Compania polizaCompania,
+			/*3*/			final Date polizaFechaEmision,
+			/*4*/			final Date polizaFechaVigencia,
+			/*5*/			final Date polizaFechaVencimiento,
+							final TipoPago polizaTipoDePago,
+							DetalleTipoPago polizaPago,
+			/*7*/			final double polizaImporteTotal,
+			/*8*/			float riesgoIntegralComercioRobo, 
+			/*9*/			float riesgoIntegralComercioCristales,
+			/*10*/			float riesgoIntegralComercioIncendioEdificio,
+			/*11*/			float riesgoIntegralComercioIncendioContenido,
+			/*12*/			float riesgoIntegralComercioRc, 
+			/*13*/			float riesgoIntegralComercioRcl, 
+			/*14*/			float riesgoIntegralComercioDanioPorAgua,
+			/*15*/			float riesgoIntegralComercioRCC,
+			/*16*/			final String riesgoIntegralComercioOtrosNombre, 
+							final double riesgoIntegralComercioOtrosMonto) {
+		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
 	}
 
 	public Cliente default1Renovacion() {
@@ -569,48 +619,52 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 		return getPolizaCompania();
 	}
 
-	public DetalleTipoPago default6Renovacion() {
-		return getPolizaPago();
-	}
+	   public TipoPago default6Renovacion(){
+		   	return getPolizaTipoDePago();
+		   }
+	   
+	   public DetalleTipoPago default7Renovacion(){
+	   	return getPolizaPago();
+	   }
 
 
-	public float default8Renovacion() {
+	public float default9Renovacion() {
 		return getRiesgoIntegralComercioRobo();
 	}
 
-	public float default9Renovacion() {
+	public float default10Renovacion() {
 		return getRiesgoIntegralComercioCristales();
 	}
 
-	public float default10Renovacion() {
+	public float default11Renovacion() {
 		return getRiesgoIntegralComercioIncendioEdificio();
 	}
 
-	public float default11Renovacion() {
+	public float default12Renovacion() {
 		return getRiesgoIntegralComercioIncendioContenido();
 	}
 	
-	public float default12Renovacion() {
+	public float default13Renovacion() {
 		return getRiesgoIntegralComercioRc();
 	}
 
-	public float default13Renovacion() {
+	public float default14Renovacion() {
 		return getRiesgoIntegralComercioRcl();
 	}
 
-	public float default14Renovacion() {
+	public float default15Renovacion() {
 		return getRiesgoIntegralComercioDanioPorAgua();
 	}
 
-	public float default15Renovacion() {
+	public float default16Renovacion() {
 		return getRiesgoIntegralComercioRCC();
 	}
 	
-	public String default16Renovacion() {
+	public String default17Renovacion() {
 		return getRiesgoIntegralComercioOtrosNombre();
 	}
 
-	public float default17Renovacion() {
+	public double default18Renovacion() {
 		return getRiesgoIntegralComercioOtrosMonto();
 	}
 
@@ -647,6 +701,9 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 	@Inject
 	DetalleTipoPagoRepository detalleTipoPagosRepository;
 
+	@Inject
+	DetalleTipoPagoMenu detalleTipoPagoMenu;
+	
 	@Inject
 	CompaniaRepository companiaRepository;
 

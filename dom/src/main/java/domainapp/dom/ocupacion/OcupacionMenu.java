@@ -46,8 +46,8 @@ public class OcupacionMenu {
     @Action(domainEvent = CreateDomainEvent.class)
     @ActionLayout(named="Crear Ocupacion")
     @MemberOrder(sequence = "1.2")
-    public Ocupacion crear(@ParameterLayout(named="Nombre")final String ocupacionNombre,@ParameterLayout(named="Descripcion")final String ocupacionDescripcion) {
-        return ocupacionesRepository.crear(ocupacionNombre,ocupacionDescripcion);
+    public Ocupacion crear(@ParameterLayout(named="Nombre")final String ocupacionNombre) {
+        return ocupacionesRepository.crear(ocupacionNombre);
     }
 
     @javax.inject.Inject
