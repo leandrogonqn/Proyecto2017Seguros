@@ -9,6 +9,7 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.estado.Estado;
+import domainapp.dom.persona.Persona;
 
 
 @DomainService(
@@ -37,7 +38,7 @@ public class PolizaRepository {
                         "polizaEstado", polizaEstado));
     }
     
-    public List<Poliza> buscarPorCliente(final Cliente polizaCliente) {
+    public List<Poliza> buscarPorCliente(final Persona polizaCliente) {
         return repositoryService.allMatches(
                 new QueryDefault<>(
                         Poliza.class,

@@ -29,21 +29,12 @@
                     <bs3:row>
                         <bs3:col span="6">
                             <c:fieldSet name="Nombre">
-                                <c:action id="borrarCliente"/>
-                                <c:property id="clienteNombre" namedEscaped="true">
-                              	<c:action id="actualizarNombre" position="RIGHT"></c:action>
+                                <c:action id="borrarEmpresa"/>
+                                <c:property id="empresaRazonSocial" namedEscaped="true">
+                              	<c:action id="actualizarRazonSocial" position="RIGHT"></c:action>
                                 </c:property>
-                                <c:property id="clienteApellido" namedEscaped="true">
-                                <c:action id="actualizarApellido" position="RIGHT"></c:action>
-                                </c:property>
-								<c:property id="clienteTipoDocumento" namedEscaped="true">
-                                <c:action id="actualizarTipoDocumento" position="RIGHT"></c:action>
-                                </c:property>
-                                <c:property id="clienteSexo" namedEscaped="true">
-                                <c:action id="actualizarSexo" position="RIGHT"></c:action>
-                                </c:property>
-                                <c:property id="clienteDni" namedEscaped="true">
-                                <c:action id="actualizarDni" position="RIGHT"></c:action>
+                                <c:property id="personaCuitCuil" namedEscaped="true">
+                              	<c:action id="actualizarPersonaCuitCuil" position="RIGHT"></c:action>
                                 </c:property>
                                 <c:property id="personaLocalidad" namedEscaped="true">
                                 <c:action id="actualizarLocalidad" position="RIGHT"></c:action>
@@ -56,13 +47,6 @@
                                 </c:property>
 								<c:property id="personaMail" namedEscaped="true">
 								<c:action id="actualizarMail" position="RIGHT"></c:action>
-                                </c:property>
-                                <c:property id="personaCuitCuil" namedEscaped="true"/>
-								<c:property id="clienteFechaNacimiento" namedEscaped="true">
-								<c:action id="actualizarFechaNacimiento" position="RIGHT"></c:action>
-                                </c:property>
-                                <c:property id="clienteNotificacionCumpleanios" namedEscaped="true">
-                                <c:action id="actualizarNotificacionCumpleanios" position="RIGHT"></c:action>
                                 </c:property>
                                 <c:property id="personaActivo" namedEscaped="true">
                                 <c:action id="actualizarActivo" position="RIGHT"></c:action>

@@ -12,6 +12,7 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.localidad.Localidad;
 import domainapp.dom.ocupacion.Ocupacion;
+import domainapp.dom.persona.Persona;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.polizaAutomotor.PolizaAutomotor;
 import domainapp.dom.tipoTitular.TipoTitular;
@@ -29,7 +30,7 @@ public class PolizaCombinadoFamiliarRepository {
         return repositoryService.allInstances(PolizaCombinadoFamiliar.class);
     }
 
-	public PolizaCombinadoFamiliar crear(final String polizaNumero, final Cliente polizaCliente,
+	public PolizaCombinadoFamiliar crear(final String polizaNumero, final Persona polizaCliente,
 			final Compania polizaCompania, final String riesgoCombinadosFamiliaresDomicilio,
 			final Localidad riesgoCombinadosFamiliaresLocalidad,
 			final Ocupacion riesgoCombinadosFamiliaresOcupacion,
@@ -58,7 +59,7 @@ public class PolizaCombinadoFamiliarRepository {
     
     public PolizaCombinadoFamiliar renovacion(
     		final String polizaNumero, 
-    		final Cliente polizaCliente, 
+    		final Persona polizaCliente, 
     		final Compania polizaCompania,
     		final String riesgoCombinadosFamiliaresDomicilio,
     		final Localidad riesgoCombinadosFamiliaresLocalidad,

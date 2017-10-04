@@ -30,6 +30,8 @@ import domainapp.dom.localidad.Localidad;
 import domainapp.dom.localidad.LocalidadRepository;
 import domainapp.dom.ocupacion.Ocupacion;
 import domainapp.dom.ocupacion.OcupacionRepository;
+import domainapp.dom.persona.Persona;
+import domainapp.dom.persona.PersonaRepository;
 import domainapp.dom.tipoTitular.TipoTitular;
 import domainapp.dom.tipoTitular.TipoTitularRepository;
 import domainapp.dom.tipoVivienda.TipoVivienda;
@@ -66,7 +68,7 @@ public class PolizaCombinadoFamiliarMenu {
 	    @MemberOrder(sequence = "1")
 	    public PolizaCombinadoFamiliar crear(
 /*0*/	            @ParameterLayout(named="Número") final String polizaNumero,
-/*1*/	            @ParameterLayout(named="Cliente") final Cliente polizaCliente,
+/*1*/	            @ParameterLayout(named="Cliente") final Persona polizaCliente,
 /*2*/	            @ParameterLayout(named="Compañia") final Compania polizaCompania,
 /*3*/	    		@ParameterLayout(named="Domicilio") final String riesgoCombinadosFamiliaresDomicilio,
 /*4*/				@ParameterLayout(named="Localidad") final Localidad riesgoCombinadoFamiliarLocalidad,
@@ -97,8 +99,8 @@ public class PolizaCombinadoFamiliarMenu {
 	        		polizaImporteTotal);
 	    }
 
-	    public List<Cliente> choices1Crear(){
-	    	return clientesRepository.listarActivos();
+	    public List<Persona> choices1Crear(){
+	    	return personaRepository.listarActivos();
 	    }
 	    
 	    public List<Localidad> choices4Crear(){
@@ -123,7 +125,7 @@ public class PolizaCombinadoFamiliarMenu {
 	    
 	    public List<DetalleTipoPago> choices12Crear(
 	    		final String polizaNumero,
-	    		final Cliente polizaCliente,
+	    		final Persona polizaCliente,
 	    		final Compania polizaCompania,
 	    		final String riesgoCombinadosFamiliaresDomicilio,
 	    		final Localidad riesgoCombinadoFamiliarLocalidad,
@@ -141,7 +143,7 @@ public class PolizaCombinadoFamiliarMenu {
 	    
 		public String validateCrear(
 	    		final String polizaNumero,
-	    		final Cliente polizaCliente,
+	    		final Persona polizaCliente,
 	    		final Compania polizaCompania,
 	    		final String riesgoCombinadosFamiliaresDomicilio,
 	    		final Localidad riesgoCombinadoFamiliarLocalidad,
@@ -163,7 +165,7 @@ public class PolizaCombinadoFamiliarMenu {
 	    @javax.inject.Inject
 	    PolizaCombinadoFamiliarRepository polizasRepository;
 	    @javax.inject.Inject
-	    ClienteRepository clientesRepository;
+	    PersonaRepository personaRepository;
 	    @Inject
 	    TipoViviendaRepository tiposViviendaRepository;
 	    

@@ -5,6 +5,8 @@ import org.apache.isis.applib.annotation.ViewModel;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.cliente.ClienteRepository;
+import domainapp.dom.persona.Persona;
+import domainapp.dom.persona.PersonaRepository;
 
 @ViewModel
 public class HomePageViewModel {
@@ -17,14 +19,14 @@ public class HomePageViewModel {
 
     //region > object (collection)
     @org.apache.isis.applib.annotation.HomePage
-    public List<Cliente> getObjects() {
-        return clientesRepository.listarActivos();
+    public List<Persona> getObjects() {
+        return personaRepository.listarActivos();
     }
     //endregion
 
     //region > injected services
     @javax.inject.Inject
-    ClienteRepository clientesRepository;
+    PersonaRepository personaRepository;
 
     //endregion
 }

@@ -11,6 +11,7 @@ import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.ocupacion.Ocupacion;
+import domainapp.dom.persona.Persona;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.polizaAutomotor.PolizaAutomotor;
 import domainapp.dom.tipoTitular.TipoTitular;
@@ -28,7 +29,7 @@ public class PolizaLCTRepository {
         return repositoryService.allInstances(PolizaLCT.class);
     }
 
-	public PolizaLCT crear(final String polizaNumero, final Cliente polizaCliente, final Compania polizaCompania,
+	public PolizaLCT crear(final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
 			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
 			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoLCTMonto) {
 		final PolizaLCT object = new PolizaLCT(polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
@@ -39,7 +40,7 @@ public class PolizaLCTRepository {
     }
     
     public PolizaLCT renovacion(
-    		final String polizaNumero, final Cliente polizaCliente, final Compania polizaCompania,
+    		final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
 			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
 			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoLCTMonto,
     		Poliza riesgoLCT) {

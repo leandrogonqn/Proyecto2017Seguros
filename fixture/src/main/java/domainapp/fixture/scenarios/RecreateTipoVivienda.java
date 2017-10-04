@@ -92,7 +92,6 @@ public class RecreateTipoVivienda extends FixtureScript {
         for (int i = 0; i < number; i++) {
             final TipoViviendaCreate fs = new TipoViviendaCreate();
             fs.setName(NAMES.get(i));
-            fs.setDescripcion(descripcion.get(i));
             ec.executeChild(this, fs.getName(), fs);
             simpleObjects.add(fs.getSimpleObject());
         }

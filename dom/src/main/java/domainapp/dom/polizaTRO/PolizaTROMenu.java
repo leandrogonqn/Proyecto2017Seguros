@@ -28,6 +28,8 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagoMenu;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagoRepository;
 import domainapp.dom.detalleTipoPago.TipoPago;
+import domainapp.dom.persona.Persona;
+import domainapp.dom.persona.PersonaRepository;
 import domainapp.dom.polizaRC.RiesgoRC;
 import domainapp.dom.polizaRC.RiesgoRCMenu;
 import domainapp.dom.polizaRC.RiesgoRCRepository;
@@ -60,7 +62,7 @@ public class PolizaTROMenu {
 	    @MemberOrder(sequence = "1")
 	    public PolizaTRO crear(
 /*0*/	            @ParameterLayout(named="Número") final String polizaNumero,
-/*1*/	            @ParameterLayout(named="Cliente") final Cliente polizaCliente,
+/*1*/	            @ParameterLayout(named="Cliente") final Persona polizaCliente,
 /*2*/	            @ParameterLayout(named="Compañia") final Compania polizaCompania,
 /*7*/	            @ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
 /*8*/				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
@@ -83,8 +85,8 @@ public class PolizaTROMenu {
 	        		riesgoTROMonto);
 	    }
 	    
-	    public List<Cliente> choices1Crear(){
-	    	return clientesRepository.listarActivos();
+	    public List<Persona> choices1Crear(){
+	    	return personaRepository.listarActivos();
 	    }
 	    
 	    public List<Compania> choices2Crear(){
@@ -93,7 +95,7 @@ public class PolizaTROMenu {
 	    
 	    public List<DetalleTipoPago> choices7Crear(			
 				final String polizaNumero,
-				final Cliente polizaCliente,
+				final Persona polizaCliente,
 				final Compania polizaCompania,
 				final Date polizaFechaEmision,
 				final Date polizaFechaVigencia,
@@ -107,7 +109,7 @@ public class PolizaTROMenu {
 
 		public String validateCrear(			
 				final String polizaNumero,
-				final Cliente polizaCliente,
+				final Persona polizaCliente,
 				final Compania polizaCompania,
 				final Date polizaFechaEmision,
 				final Date polizaFechaVigencia,
@@ -125,7 +127,7 @@ public class PolizaTROMenu {
 	    @javax.inject.Inject
 	    PolizaTRORepository polizasRepository;
 	    @javax.inject.Inject
-	    ClienteRepository clientesRepository;
+	    PersonaRepository personaRepository;
 	    @Inject
 	    DetalleTipoPagoMenu detalleTipoPagoMenu;
 	    @Inject

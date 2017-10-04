@@ -14,6 +14,8 @@ import org.apache.isis.applib.annotation.SemanticsOf;
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.cliente.ClienteRepository;
 import domainapp.dom.estado.Estado;
+import domainapp.dom.persona.Persona;
+import domainapp.dom.persona.PersonaRepository;
 
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
@@ -49,12 +51,12 @@ public class PolizaMenu {
 	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Buscar polizas por Clientes")
 	    @MemberOrder(sequence = "1.2")
 	    public List<Poliza> buscarPorCliente(
-	    		@ParameterLayout(named="Cliente") final Cliente polizaCliente){
+	    		@ParameterLayout(named="Cliente") final Persona polizaCliente){
 	    	return polizasRepository.buscarPorCliente(polizaCliente);
 	    }
 	    
-	    public List<Cliente> choices0BuscarPorCliente(){
-	    	return clientesRepository.listarActivos();
+	    public List<Persona> choices0BuscarPorCliente(){
+	    	return personaRepository.listarActivos();
 	    }
 	    
 	    @MemberOrder(sequence = "3")	    
@@ -66,5 +68,5 @@ public class PolizaMenu {
 	    @javax.inject.Inject
 	    PolizaRepository polizasRepository;
 	    @javax.inject.Inject
-	    ClienteRepository clientesRepository;
+	    PersonaRepository personaRepository;
 }

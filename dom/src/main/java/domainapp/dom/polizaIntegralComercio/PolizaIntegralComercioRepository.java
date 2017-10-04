@@ -18,6 +18,7 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.estado.Estado;
 import domainapp.dom.marca.Marca;
+import domainapp.dom.persona.Persona;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.tiposDeCoberturas.TipoDeCobertura;
 import domainapp.dom.vehiculo.Vehiculo;
@@ -35,7 +36,7 @@ public class PolizaIntegralComercioRepository {
 
     public PolizaIntegralComercio crear(
     		final String polizaNumero, 
-    		final Cliente polizaCliente, 
+    		final Persona polizaCliente, 
     		final Compania polizaCompanias,
     		final Date polizaFechaEmision, 
     		final Date polizaFechaVigencia, 
@@ -80,7 +81,7 @@ public class PolizaIntegralComercioRepository {
     
     public PolizaIntegralComercio renovacion(
     		final String polizaNumero, 
-    		final Cliente polizaCliente, 
+    		final Persona polizaCliente, 
     		final Compania polizaCompanias,
     		final Date polizaFechaEmision, 
     		final Date polizaFechaVigencia, 

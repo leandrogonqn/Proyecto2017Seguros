@@ -11,6 +11,7 @@ import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.ocupacion.Ocupacion;
+import domainapp.dom.persona.Persona;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.polizaAutomotor.PolizaAutomotor;
 import domainapp.dom.tipoTitular.TipoTitular;
@@ -30,7 +31,7 @@ public class PolizaARTRepository {
 
 	public PolizaART crear(
 			final String polizaNumero, 
-			final Cliente polizaCliente, 
+			final Persona polizaCliente, 
 			final Compania polizaCompania,
 			final Date polizaFechaEmision, 
 			final Date polizaFechaVigencia, 
@@ -57,7 +58,7 @@ public class PolizaARTRepository {
     
     public PolizaART renovacion(
     		final String polizaNumero, 
-    		final Cliente polizaCliente, 
+    		final Persona polizaCliente, 
     		final Compania polizaCompania,
 			final Date polizaFechaEmision, 
 			final Date polizaFechaVigencia, 

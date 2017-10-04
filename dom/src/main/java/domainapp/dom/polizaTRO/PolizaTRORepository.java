@@ -12,6 +12,7 @@ import domainapp.dom.cliente.Cliente;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.detalleTipoPago.TipoPago;
+import domainapp.dom.persona.Persona;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.polizaRC.RiesgoRC;
 
@@ -26,7 +27,7 @@ public class PolizaTRORepository {
 	        return repositoryService.allInstances(PolizaTRO.class);
 	    }
 
-		public PolizaTRO crear(final String polizaNumero, final Cliente polizaCliente, final Compania polizaCompania,
+		public PolizaTRO crear(final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
 				final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
 				final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoTROMonto) {
 			final PolizaTRO object = new PolizaTRO(polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
@@ -37,7 +38,7 @@ public class PolizaTRORepository {
 	    }
 	    
 	    public PolizaTRO renovacion(
-	    		final String polizaNumero, final Cliente polizaCliente, final Compania polizaCompania,
+	    		final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
 				final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
 				final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoTROMonto,
 	    		Poliza riesgoTRO) {
