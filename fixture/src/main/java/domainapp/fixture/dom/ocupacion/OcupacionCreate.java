@@ -41,17 +41,6 @@ public class OcupacionCreate extends FixtureScript {
         return this;
     }
     
-    private String descripcion;
-    
-    public String getDescripcion(){
-    	return descripcion;
-    }
-    
-    public OcupacionCreate setDescripcion(final String descripcion){
-    	this.descripcion = descripcion;
-    	return this;
-    }
-    
     //endregion
 
 
@@ -72,7 +61,7 @@ public class OcupacionCreate extends FixtureScript {
 
         String name = checkParam("name", ec, String.class);
 
-        this.simpleObject = wrap(simpleObjectMenu).crear(name, descripcion);
+        this.simpleObject = wrap(simpleObjectMenu).crear(name);
 
         // also make available to UI
         ec.addResult(this, simpleObject);

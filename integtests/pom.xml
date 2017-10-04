@@ -88,7 +88,7 @@
             <id>isis-swagger</id>
             <activation>
                 <property>
-                    <name>!skip.isis-swagger</name>
+                    <name>skip.isis-swagger</name>
                 </property>
             </activation>
             <build>

@@ -42,7 +42,9 @@ public class DomainAppAppManifest implements AppManifest {
         return Arrays.asList(
                 DomainAppDomainModule.class,  // domain (entities and repositories)
                 DomainAppFixtureModule.class, // fixtures
-                DomainAppAppModule.class      // home page service etc
+                DomainAppAppModule.class,      // home page service etc
+                org.isisaddons.module.security.SecurityModule.class
+
         );
     }
 
@@ -51,7 +53,10 @@ public class DomainAppAppManifest implements AppManifest {
      */
     @Override
     public List<Class<?>> getAdditionalServices() {
-        return Collections.emptyList();
+    	return Arrays.asList(
+                org.isisaddons.module.security.dom.password.PasswordEncryptionServiceUsingJBcrypt.class         
+               ,org.isisaddons.module.security.dom.permission.PermissionsEvaluationServiceAllowBeatsVeto.class  
+        );
     }
 
     /**
