@@ -22,7 +22,10 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.services.message.MessageService;
+import org.apache.isis.applib.value.Blob;
 
+import domainapp.dom.adjunto.Adjunto;
+import domainapp.dom.adjunto.AdjuntoRepository;
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.cliente.ClienteRepository;
 import domainapp.dom.compania.CompaniaRepository;
@@ -71,12 +74,16 @@ public class PolizaAutomotorMenu {
 			@ParameterLayout(named = "Fecha Vencimiento") final Date polizaFechaVencimiento,
 			@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
 			@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago,
-			@ParameterLayout(named = "Precio Total") final double polizaImporteTotal) {
+			@ParameterLayout(named = "Precio Total") final double polizaImporteTotal,
+			@ParameterLayout(named = "Adjunto") final Adjunto riesgoAutomotorAdjunto) {
 		List<Vehiculo> riesgoAutomotorListaVehiculos = new ArrayList<>();
 		riesgoAutomotorListaVehiculos.add(riesgoAutomotorVehiculo);
+		List<Adjunto> riesgoAutomotorListaAdjunto = new ArrayList<>();
+		riesgoAutomotorListaAdjunto.add(riesgoAutomotorAdjunto);
 		return riesgoAutomotorRepository.crear(polizaNumero, polizaCliente, polizaCompania,
 				riesgoAutomotorListaVehiculos, riesgoAutomotorTiposDeCoberturas, polizaFechaEmision,
-				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal);
+				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal,
+				riesgoAutomotorListaAdjunto);
 	}
 	
 	public List<Persona> choices1Crear() {
@@ -106,8 +113,13 @@ public class PolizaAutomotorMenu {
 			final Date polizaFechaVencimiento,
 			final TipoPago polizaTipoDePago,
 			final DetalleTipoPago polizaPago,
-			final double polizaImporteTotal) {
+			final double polizaImporteTotal,
+			final Adjunto riesgoAutomotorAdjunto) {
 		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
+	}
+	
+	public List<Adjunto> choices11Crear() {
+		return adjuntoRepository.listarActivos();
 	}
 
 	public String validateCrear(
@@ -121,7 +133,8 @@ public class PolizaAutomotorMenu {
 			final Date polizaFechaVencimiento,
 			final TipoPago polizaTipoDePago,
 			final DetalleTipoPago polizaPago,
-			final double polizaImporteTotal){
+			final double polizaImporteTotal,
+			final Adjunto riesgoAutomotorAdjunto){
 		if (polizaFechaVigencia.after(polizaFechaVencimiento)){
 			return "La fecha de vigencia es mayor a la de vencimiento";
 		}
@@ -149,4 +162,6 @@ public class PolizaAutomotorMenu {
 	DebitoAutomaticoRepository debitoAutomaticoRepository;
 	@Inject
 	DetalleTipoPagoMenu detalleTipoPagoMenu;
+	@Inject
+	AdjuntoRepository adjuntoRepository;
 }

@@ -116,9 +116,7 @@ public class Marca implements Comparable<Marca> {
     //endregion
     
     //region > delete (action)
-    public static class DeleteDomainEvent extends ActionDomainEvent<Marca> {}
     @Action(
-            domainEvent = DeleteDomainEvent.class,
             semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
     )
     public void borrarMarca() {

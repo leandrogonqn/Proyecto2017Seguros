@@ -13,36 +13,31 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.Join;
-import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.Queries;
-import javax.swing.JOptionPane;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
 import org.apache.isis.applib.annotation.CollectionLayout;
 import org.apache.isis.applib.annotation.DomainObject;
-import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.InvokeOn;
-import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.Optionality;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
-import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.annotation.Where;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
+import org.apache.isis.applib.value.Blob;
 
-import domainapp.dom.cliente.Cliente;
-import domainapp.dom.cliente.ClienteRepository;
+import domainapp.dom.adjunto.Adjunto;
+import domainapp.dom.adjunto.AdjuntoRepository;
 import domainapp.dom.compania.CompaniaRepository;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
@@ -98,7 +93,8 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 			Date polizaFechaVencimiento,
 			TipoPago polizaTipoDePago,
 			DetalleTipoPago polizaPago,
-			double polizaImporteTotal) {
+			double polizaImporteTotal,
+			List<Adjunto> riesgoAutomotorListaAdjunto) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
 		setPolizasCompania(polizaCompania);
@@ -110,6 +106,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 		setPolizaPago(polizaPago);
 		setPolizaTipoDePago(polizaTipoDePago);
 		setPolizaImporteTotal(polizaImporteTotal);
+		setRiesgoAutomotorAdjunto(riesgoAutomotorListaAdjunto);
 		setPolizaEstado(Estado.previgente);
 		polizaEstado.actualizarEstado(this);
 	}
@@ -126,6 +123,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 			TipoPago polizaTipoDePago,
 			DetalleTipoPago polizaPago,
 			double polizaImporteTotal,
+			List<Adjunto> riesgoAutomotorListaAdjunto,
 			Poliza riesgoAutomotores) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
@@ -138,6 +136,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 		setPolizaTipoDePago(polizaTipoDePago);
 		setPolizaPago(polizaPago);
 		setPolizaImporteTotal(polizaImporteTotal);
+		setRiesgoAutomotorAdjunto(riesgoAutomotorListaAdjunto);
 		riesgoAutomotores.setPolizaRenovacion(this);
 		setPolizaEstado(Estado.previgente);
 		polizaEstado.actualizarEstado(this);
@@ -182,6 +181,23 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 
 	public void setRiesgoAutomotorTipoDeCobertura(TipoDeCobertura riesgoAutomotorTipoDeCobertura) {
 		this.riesgoAutomotorTipoDeCobertura = riesgoAutomotorTipoDeCobertura;
+	}	
+	
+	//adjunto
+	@Join
+	@Column(allowsNull="false")
+    @Property(
+            editing = Editing.DISABLED
+    )
+	@PropertyLayout(named="Adjunto")
+	private List<Adjunto> riesgoAutomotorAdjunto; 
+	
+	public List<Adjunto> getRiesgoAutomotorAdjunto() {
+		return riesgoAutomotorAdjunto;
+	}
+
+	public void setRiesgoAutomotorAdjunto(List<Adjunto> riesgoAutomotorAdjunto) {
+		this.riesgoAutomotorAdjunto = riesgoAutomotorAdjunto;
 	}	
 	    
     //Actualizar PolizaNumero
@@ -380,7 +396,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
             @ParameterLayout(named="Cliente") final Persona polizaCliente,
             @ParameterLayout(named="Compañia") final Compania polizaCompania,
             @ParameterLayout(named="Tipo de Cobertura") final TipoDeCobertura riesgoAutomotorTiposDeCoberturas,
-    		@ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
+            @ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
 			@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
 			@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
 			@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
@@ -388,6 +404,8 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 			@ParameterLayout(named="Precio Total") final double polizaImporteTotal){
     	List<Vehiculo> riesgoAutomotorListaVehiculos = new ArrayList<>();
     	riesgoAutomotorListaVehiculos = this.getRiesgoAutomotorListaVehiculos();
+    	List<Adjunto> riesgoAutomotorListaAdjunto = new ArrayList<>();
+    	riesgoAutomotorListaAdjunto = this.getRiesgoAutomotorAdjunto();
         return riesgoAutomotoresRepository.renovacion(
         		polizaNumero, 
         		polizaCliente, 
@@ -399,7 +417,8 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
         		polizaFechaVencimiento, 
         		polizaTipoDePago,
         		polizaPago, 
-        		polizaImporteTotal, this);
+        		polizaImporteTotal, 
+        		riesgoAutomotorListaAdjunto,this);
 	}
 	
 	public String validateRenovacion(
@@ -491,7 +510,7 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 		return vehiculosRepository.listarActivos();
 	}
     
-    public PolizaAutomotor modificarCoche(
+    public PolizaAutomotor modificarVehiculo(
     		@ParameterLayout(named = "Vehiculo a añadir") Vehiculo riesgoAutomotorVehiculoNuevo,
     		@ParameterLayout(named = "Vehiculo a quitar") Vehiculo riesgoAutomotorVehiculoViejo) {
 		Iterator<Vehiculo> it = getRiesgoAutomotorListaVehiculos().iterator();
@@ -514,15 +533,15 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 		return this;
 	}
     
-	public List<Vehiculo> choices0ModificarCoche(){
+	public List<Vehiculo> choices0ModificarVehiculo(){
 		return vehiculosRepository.listarActivos();
 	}
     
-	public List<Vehiculo> choices1ModificarCoche(){
+	public List<Vehiculo> choices1ModificarVehiculo(){
 		return getRiesgoAutomotorListaVehiculos();
 	}
     
-	public PolizaAutomotor quitarCoche(@ParameterLayout(named = "Vehiculo") Vehiculo riesgoAutomotorVehiculo) {
+	public PolizaAutomotor quitarVehiculo(@ParameterLayout(named = "Vehiculo") Vehiculo riesgoAutomotorVehiculo) {
 		Iterator<Vehiculo> it = getRiesgoAutomotorListaVehiculos().iterator();
 		while (it.hasNext()) {
 			Vehiculo lista = it.next();
@@ -532,9 +551,48 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
 		return this;
 	}
 	
-	public List<Vehiculo> choices0QuitarCoche(){
+	public List<Vehiculo> choices0QuitarVehiculo(){
 		return getRiesgoAutomotorListaVehiculos();
 	}
+	
+	@ActionLayout(named="Crear y Agregar Adjunto")
+    public PolizaAutomotor crearAdjunto(
+    	@ParameterLayout(named = "Descripcion") final String riesgoAutomotorAdjuntoDescripcion,
+		@ParameterLayout(named = "Imagen") final Blob riesgoAutomorAdjunto) {
+    		this.getRiesgoAutomotorAdjunto().add(adjuntoRepository.crear(riesgoAutomotorAdjuntoDescripcion, riesgoAutomorAdjunto));
+    		this.setRiesgoAutomotorAdjunto(this.getRiesgoAutomotorAdjunto());
+    		return this;
+	}
+	
+	@ActionLayout(named="Agregar adjunto")
+	public PolizaAutomotor agregarAdjunto(
+			@ParameterLayout(named="Adjunto") final Adjunto riesgoAutomotorAdjunto){
+		if (this.getRiesgoAutomotorAdjunto().contains(riesgoAutomotorAdjunto)) {
+			messageService.warnUser("ERROR: La imagen ya está agregada en la lista");
+		} else {
+			this.getRiesgoAutomotorAdjunto().add(riesgoAutomotorAdjunto);
+			this.setRiesgoAutomotorAdjunto(this.getRiesgoAutomotorAdjunto());
+		}
+		return this;
+	}
+	
+	public List<Adjunto> choices0AgregarAdjunto() {
+		return adjuntoRepository.listarActivos();
+	}
+    
+    public PolizaAutomotor quitarAdjunto(@ParameterLayout(named="Imagen") Adjunto adjunto) {
+    	Iterator<Adjunto> it = getRiesgoAutomotorAdjunto().iterator();
+    	while (it.hasNext()) {
+    		Adjunto lista = it.next();
+    		if (lista.equals(adjunto))
+    			it.remove();
+    	}
+    	return this;
+    }
+    
+    public List<Adjunto> choices0QuitarAdjunto(){
+    	return getRiesgoAutomotorAdjunto();
+    }
 	
 	@ActionLayout(hidden=Where.EVERYWHERE)
 	public boolean validarModificarFechaVigencia(Vehiculo vehiculo, Date fechaVigencia, PolizaAutomotor riesgoAutomotor) {
@@ -628,6 +686,9 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
     
     @Inject
     DetalleTipoPagoMenu detalleTipoPagoMenu;
+    
+    @Inject
+    AdjuntoRepository adjuntoRepository;
     
     //endregion
 
