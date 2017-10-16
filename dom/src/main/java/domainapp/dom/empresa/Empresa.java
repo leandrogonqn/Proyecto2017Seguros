@@ -18,6 +18,8 @@
  */
 package domainapp.dom.empresa;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,8 +47,11 @@ import org.apache.isis.applib.util.ObjectContracts;
 
 import domainapp.dom.localidad.Localidad;
 import domainapp.dom.localidad.LocalidadRepository;
+import domainapp.dom.modules.reportes.EmpresaReporte;
+import domainapp.dom.modules.reportes.GenerarReporte;
 import domainapp.dom.persona.Persona;
 import domainapp.dom.provincia.Provincia;
+import net.sf.jasperreports.engine.JRException;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -118,6 +123,29 @@ public class Empresa extends Persona implements Comparable<Empresa> {
     
 	
     //endregion
+    
+    public String imprimirEmpresa() throws JRException, FileNotFoundException{
+    	
+		List<Object> objectsReport = new ArrayList<Object>();
+		
+		EmpresaReporte empresaReporte = new EmpresaReporte();
+		
+		empresaReporte.setEmpresaRazonSocial(getEmpresaRazonSocial());
+		empresaReporte.setPersonaLocalidad(getPersonaLocalidad().getLocalidadesNombre());
+		empresaReporte.setPersonaProvincia(getPersonaLocalidad().getLocalidadProvincia().getProvinciasNombre().toString());
+		empresaReporte.setPersonaCuitCuil(getPersonaCuitCuil());
+		empresaReporte.setPersonaDireccion(getPersonaDireccion());
+		empresaReporte.setPersonaTelefono(getPersonaTelefono());
+		
+		objectsReport.add(empresaReporte);
+		
+		String nombreArchivo ="c:/reportes/Empresa_" + String.valueOf(empresaReporte.getPersonaCuitCuil())+"_"+  String.valueOf(empresaReporte.getEmpresaRazonSocial()) ;
+		
+		GenerarReporte.generarReporte("C:/workspace/Proyecto2017Seguros/webapp/reportes/Empresa.jrxml", objectsReport, nombreArchivo);
+		
+		return "Reporte Generado.";
+    	
+    }
 	
 	public List<Localidad> choices0ActualizarLocalidad(){
     	return localidadRepository.listarActivos();

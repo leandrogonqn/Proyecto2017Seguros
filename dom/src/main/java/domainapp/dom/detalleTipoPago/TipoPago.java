@@ -1,7 +1,7 @@
 package domainapp.dom.detalleTipoPago;
 
 public enum TipoPago {
-Efectivo("Efectivo"), TarjetaDeCredito("TarjetaDeCredito"), DebitoAutomatico("DebitoAutomatico");
+Efectivo("Efectivo"), Tarjeta_De_Credito("Tarjeta De Credito"), Debito_Automatico("Debito Automatico");
 	
 	private final String nombre;
 

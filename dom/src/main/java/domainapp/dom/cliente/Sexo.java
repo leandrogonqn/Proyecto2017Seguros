@@ -1,8 +1,8 @@
 package domainapp.dom.cliente;
 
 public enum Sexo {
-Masculino("Masculinooooo"),
-Femenino("Femeninooooo");
+Masculino("Masculino"),
+Femenino("Femenino");
 	
 	private final String nombre;
 

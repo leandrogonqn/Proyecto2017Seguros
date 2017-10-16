@@ -57,11 +57,11 @@ public class DetalleTipoPagoMenu {
 	            @ParameterLayout(named="Tipo de Pago")
 	            final TipoPago polizaTipoDePago
 	    ) {
-	    	if (polizaTipoDePago == TipoPago.TarjetaDeCredito){
+	    	if (polizaTipoDePago == TipoPago.Tarjeta_De_Credito){
 	    		return tarjetaDeCreditoRepository.listar();
 	    	}else
 	    	{
-	    		if (polizaTipoDePago == TipoPago.DebitoAutomatico){
+	    		if (polizaTipoDePago == TipoPago.Debito_Automatico){
 	    			return debitoAutomaticoRepository.listar();
 	    		}else
 	    		{
@@ -81,11 +81,11 @@ public class DetalleTipoPagoMenu {
 	            @ParameterLayout(named="Tipo de Pago")
 	            final TipoPago polizaTipoDePago
 	    ) {
-	    	if (polizaTipoDePago == TipoPago.TarjetaDeCredito){
+	    	if (polizaTipoDePago == TipoPago.Tarjeta_De_Credito){
 	    		return tarjetaDeCreditoRepository.listarActivos();
 	    	}else
 	    	{
-	    		if (polizaTipoDePago == TipoPago.DebitoAutomatico){
+	    		if (polizaTipoDePago == TipoPago.Debito_Automatico){
 	    			return debitoAutomaticoRepository.listarActivos();
 	    		}
 	    	}

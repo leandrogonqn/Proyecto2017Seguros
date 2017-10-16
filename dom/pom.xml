@@ -81,6 +81,25 @@
 		    <artifactId>jbcrypt</artifactId>
 		    <version>0.3m</version>
 		</dependency>
+		
+				<!-- AGREGO PARA JASPERREPORTS-->
+		<dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports</artifactId>
+		    <version>6.3.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-email</artifactId>
+		    <version>1.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		    <version>4.5.2</version>
+		</dependency>
+				<!-- AGREGO PARA JASPERREPORTS-->
+		
 
     </dependencies>
 

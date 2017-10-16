@@ -18,6 +18,8 @@
  */
 package domainapp.dom.cliente;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,8 +56,11 @@ import org.apache.isis.applib.util.ObjectContracts;
 
 import domainapp.dom.localidad.Localidad;
 import domainapp.dom.localidad.LocalidadRepository;
+import domainapp.dom.modules.reportes.ClienteReporte;
+import domainapp.dom.modules.reportes.GenerarReporte;
 import domainapp.dom.persona.Persona;
 import domainapp.dom.provincia.Provincia;
+import net.sf.jasperreports.engine.JRException;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -119,6 +124,33 @@ public class Cliente extends Persona implements Comparable<Cliente> {
 
 
 	//endregion
+    
+    //GenerarReportePDF
+	public String imprimirCliente() throws JRException, FileNotFoundException{
+			
+			List<Object> objectsReport = new ArrayList<Object>();
+			
+			ClienteReporte clienteReporte = new ClienteReporte();
+			
+			clienteReporte.setClienteApellido(getClienteApellido());
+			clienteReporte.setClienteNombre(getClienteNombre());
+			clienteReporte.setClienteSexo(getClienteSexo().toString());
+			clienteReporte.setClienteDni(getClienteDni());
+			clienteReporte.setClienteFechaNacimiento(getClienteFechaNacimiento());
+			clienteReporte.setPersonaLocalidad(getPersonaLocalidad().getLocalidadesNombre());
+			clienteReporte.setPersonaProvincia(getPersonaLocalidad().getLocalidadProvincia().getProvinciasNombre().toString());
+			clienteReporte.setPersonaCuitCuil(getPersonaCuitCuil());
+			clienteReporte.setPersonaDireccion(getPersonaDireccion());
+			clienteReporte.setPersonaTelefono(getPersonaTelefono());
+			
+			objectsReport.add(clienteReporte);
+			
+			String nombreArchivo ="c:/reportes/Cliente_" + Integer.valueOf(clienteReporte.clienteDni)+"_"+  String.valueOf(clienteReporte.getClienteApellido() + "_" +String.valueOf(clienteReporte.getClienteNombre())) ;
+			
+			GenerarReporte.generarReporte("C:/workspace/Proyecto2017Seguros/webapp/reportes/Cliente.jrxml", objectsReport, nombreArchivo);
+			
+			return "Reporte Generado.";
+	}	
 
     //region > name (read-only property)
     public static final int NAME_LENGTH = 40;
