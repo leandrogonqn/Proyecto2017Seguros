@@ -16,30 +16,30 @@ import domainapp.dom.poliza.Poliza;
 
 @DomainService(
         nature = NatureOfService.DOMAIN,
-        repositoryFor = RiesgoRC.class
+        repositoryFor = PolizaRC.class
 )
-public class RiesgoRCRepository {
+public class PolizaRCRepository {
 
-    public List<RiesgoRC> listar() {
-        return repositoryService.allInstances(RiesgoRC.class);
+    public List<PolizaRC> listar() {
+        return repositoryService.allInstances(PolizaRC.class);
     }
 
-	public RiesgoRC crear(final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
+	public PolizaRC crear(final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
 			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
 			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoRCMonto) {
-		final RiesgoRC object = new RiesgoRC(polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
+		final PolizaRC object = new PolizaRC(polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
 				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, riesgoRCMonto);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;
     }
     
-    public RiesgoRC renovacion(
+    public PolizaRC renovacion(
     		final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
 			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
 			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoRCMonto,
     		Poliza riesgoRC) {
-        final RiesgoRC object = new RiesgoRC(
+        final PolizaRC object = new PolizaRC(
         		polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
 				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, 
 				riesgoRC, riesgoRCMonto);

@@ -33,30 +33,18 @@ import domainapp.dom.tiposDeCoberturas.TipoDeCoberturaRepository;
 
 @DomainService(
         nature = NatureOfService.VIEW_MENU_ONLY,
-        repositoryFor = RiesgoRC.class
+        repositoryFor = PolizaRC.class
 )
 @DomainServiceLayout(
-        named = "Polizas",
-        menuOrder = "1.3"
+        named = "Polizas Crear",
+        menuOrder = "20"
 )
-public class RiesgoRCMenu {
+public class PolizaRCMenu {
 
-	  @Action(semantics = SemanticsOf.SAFE)
-	  @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Polizas RC")
-	  @MemberOrder(sequence = "2")
-	  public List<RiesgoRC> listar() {
-			  List<RiesgoRC> listaPolizaRiesgosRC = polizasRepository.listar();
-			  for(int i=0; i< listaPolizaRiesgosRC.size(); i++) {
-				  listaPolizaRiesgosRC.get(i).actualizarPoliza();
-		        }
-		      return listaPolizaRiesgosRC;
-	    }
-	  
-	    public static class CreateDomainEvent extends ActionDomainEvent<RiesgoRCMenu> {}
-	    @Action(domainEvent = CreateDomainEvent.class, invokeOn=InvokeOn.OBJECT_ONLY)
+	    @Action(invokeOn=InvokeOn.OBJECT_ONLY)
 	    @ActionLayout(named="Crear Poliza RC")
-	    @MemberOrder(sequence = "1")
-	    public RiesgoRC crear(
+	    @MemberOrder(sequence = "100")
+	    public PolizaRC crear(
 /*0*/	            @ParameterLayout(named="Número") final String polizaNumero,
 /*1*/	            @ParameterLayout(named="Cliente") final Persona polizaCliente,
 /*2*/	            @ParameterLayout(named="Compañia") final Compania polizaCompania,
@@ -122,7 +110,7 @@ public class RiesgoRCMenu {
 	    
 
 	    @javax.inject.Inject
-	    RiesgoRCRepository polizasRepository;
+	    PolizaRCRepository polizasRepository;
 	    @javax.inject.Inject
 	    PersonaRepository personaRepository;
 	    @Inject

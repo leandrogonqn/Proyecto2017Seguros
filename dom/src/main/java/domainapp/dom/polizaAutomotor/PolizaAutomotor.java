@@ -1,6 +1,8 @@
 package domainapp.dom.polizaAutomotor;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -45,6 +47,8 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPagoMenu;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagoRepository;
 import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.estado.Estado;
+import domainapp.dom.modelo.Modelo;
+import domainapp.dom.modelo.ModeloRepository;
 import domainapp.dom.persona.Persona;
 import domainapp.dom.persona.PersonaRepository;
 import domainapp.dom.poliza.Poliza;
@@ -73,7 +77,7 @@ import domainapp.dom.vehiculo.VehiculoRepository;
 )
 @Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
 @Discriminator(value="RiesgoAutomotores")
-public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomotor> {
+public class PolizaAutomotor extends Poliza {
 	
 	 //region > title
     public TranslatableString title() {
@@ -489,6 +493,33 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
    public DetalleTipoPago default8Renovacion(){
    	return getPolizaPago();
    }
+   
+	@ActionLayout(named="Crear y Agregar Vehiculo")
+    public PolizaAutomotor crearVehiculo(
+            @ParameterLayout(named="Dominio") final String vehiculoDominio,
+    		@ParameterLayout(named="Año") final int vehiculoAnio,
+    		@ParameterLayout(named="Numero de Motor") final String vehiculoNumeroMotor,
+    		@ParameterLayout(named="Numero de Chasis") final String vehiculoNumeroChasis,
+    		@ParameterLayout(named="Modelo") final Modelo vehiculoModelo){
+			this.getRiesgoAutomotorListaVehiculos().add(vehiculosRepository.crear(vehiculoDominio, vehiculoAnio, vehiculoNumeroMotor, vehiculoNumeroChasis, vehiculoModelo));
+    		this.setRiesgoAutomotorListaVehiculos(this.getRiesgoAutomotorListaVehiculos());
+    		return this;
+	}
+	
+    public Collection<Integer> choices1CrearVehiculo(){
+    	ArrayList<Integer> numbers = new ArrayList<Integer>();
+    	Calendar hoy= Calendar.getInstance(); 
+    	int año= hoy.get(Calendar.YEAR); 
+    	for (int i = 1980; i <= año; i++)
+    	{
+    	   numbers.add(i);
+    	}
+    	return numbers;
+    }
+
+    public List<Modelo> choices4CrearVehiculo(){
+    	return modeloRepository.listarActivos();
+    }
     
     public PolizaAutomotor agregarVehiculo(
 			@ParameterLayout(named = "Vehiculo") final Vehiculo riesgoAutomorVehiculo) {
@@ -645,10 +676,6 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
     public String toString() {
         return ObjectContracts.toString(this, "polizaNumero");
     }
-    @Override
-    public int compareTo(final PolizaAutomotor other) {
-        return ObjectContracts.compare(this, other, "polizaNumero");
-    }
 
     //endregion
 
@@ -689,6 +716,9 @@ public class PolizaAutomotor extends Poliza implements Comparable<PolizaAutomoto
     
     @Inject
     AdjuntoRepository adjuntoRepository;
+    
+    @Inject
+    ModeloRepository modeloRepository;
     
     //endregion
 

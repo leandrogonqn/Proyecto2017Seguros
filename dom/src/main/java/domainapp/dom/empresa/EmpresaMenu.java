@@ -38,6 +38,7 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
+import domainapp.dom.banco.Banco;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.detalleTipoPago.TipoPago;
@@ -52,10 +53,17 @@ import domainapp.dom.tiposDeCoberturas.TipoDeCobertura;
 )
 @DomainServiceLayout(
         named = "Clientes",
-        menuOrder = "1.2"
+        menuOrder = "10"
 )
 public class EmpresaMenu {
 
+    @Action(semantics = SemanticsOf.SAFE)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT,
+    		named="Listar Todas las Empresas")
+    @MemberOrder(sequence = "2")
+    public List<Empresa> listar() {
+        return empresasRepository.listar();
+    }
 
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, 

@@ -20,7 +20,7 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 )
 @DomainServiceLayout(
         named = "Polizas Extras",
-        menuOrder = "1"
+        menuOrder = "40.1"
 )
 public class CompaniaMenu {
 

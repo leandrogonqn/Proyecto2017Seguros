@@ -44,25 +44,12 @@ import domainapp.dom.vehiculo.Vehiculo;
 import domainapp.dom.vehiculo.VehiculoRepository;
 
 @DomainService(nature = NatureOfService.VIEW_MENU_ONLY, repositoryFor = PolizaAutomotor.class)
-@DomainServiceLayout(named = "Polizas", menuOrder = "4")
+@DomainServiceLayout(named = "Polizas Crear", menuOrder = "19.1")
 public class PolizaAutomotorMenu {
 
-	@Action(semantics = SemanticsOf.SAFE)
-	@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named = "Listar Polizas Auto")
-	@MemberOrder(sequence = "2")
-	public List<PolizaAutomotor> listar() {
-		List<PolizaAutomotor> listaPolizasRiesgoAutomotores = riesgoAutomotorRepository.listar();
-		for (int i = 0; i < listaPolizasRiesgoAutomotores.size(); i++) {
-			listaPolizasRiesgoAutomotores.get(i).actualizarPoliza();
-		}
-		return listaPolizasRiesgoAutomotores;
-	}
-
-
-	
 	@Action(invokeOn = InvokeOn.OBJECT_ONLY)
 	@ActionLayout(named = "Crear Poliza Auto")
-	@MemberOrder(sequence = "1")
+	@MemberOrder(sequence = "10.1")
 	public PolizaAutomotor crear(
 			@ParameterLayout(named = "Número") final String polizaNumero,
 			@ParameterLayout(named = "Cliente") final Persona polizaCliente,

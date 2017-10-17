@@ -113,8 +113,8 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="12" language="java" name="domainapp.dom.polizaRC.RiesgoRC" project="Proyecto2017Seguros-dom" 
-    file="/Proyecto2017Seguros-dom/src/main/java/domainapp/dom/polizaRC/RiesgoRC.java" binary="false" 
+  <class id="12" language="java" name="domainapp.dom.polizaRC.PolizaRC" project="Proyecto2017Seguros-dom" 
+    file="/Proyecto2017Seguros-dom/src/main/java/domainapp/dom/polizaRC/PolizaRC.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="822" y="306"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -165,74 +165,75 @@
     </display>  
   </class>  
   <generalization id="17">    
-    <bendpoint x="752" y="286"/>    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <generalization id="18">    
-    <bendpoint x="555" y="278"/>    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <association id="19">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="20" name="riesgoAutomotorListaVehiculos">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="21" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="16" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="22">    
     <end type="SOURCE" refId="12"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
-  <generalization id="23">    
-    <end type="SOURCE" refId="8"/>    
+  <generalization id="18">    
+    <bendpoint x="24" y="292"/>    
+    <end type="SOURCE" refId="6"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
-  <generalization id="24">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <generalization id="25">    
-    <bendpoint x="167" y="295"/>    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <association id="26">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="27" name="polizaCliente">        
-        <position height="0" width="0" x="-165" y="155"/>      
-      </attribute>      
-      <multiplicity id="28" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-165" y="155"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="29">    
+  <association id="19">    
     <bendpoint x="461" y="109"/>    
     <bendpoint x="478" y="112"/>    
     <bendpoint x="487" y="134"/>    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="30" name="polizaRenovacion">        
+      <attribute id="20" name="polizaRenovacion">        
         <position height="16" width="96" x="481" y="109"/>      
       </attribute>      
-      <multiplicity id="31" minimum="0" maximum="1">        
+      <multiplicity id="21" minimum="0" maximum="1">        
         <position height="0" width="0" x="97" y="264"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="32">    
+  <generalization id="22">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <association id="23">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="24" name="riesgoAutomotorListaVehiculos">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="25" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="26">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="27">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="28">    
     <bendpoint x="341" y="272"/>    
     <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="29">    
+    <bendpoint x="752" y="286"/>    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="30">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="31">    
+    <bendpoint x="555" y="278"/>    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="32">    
+    <bendpoint x="167" y="295"/>    
+    <end type="SOURCE" refId="2"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
   <generalization id="33">    
@@ -240,25 +241,12 @@
     <end type="TARGET" refId="1"/>  
   </generalization>  
   <generalization id="34">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <generalization id="35">    
-    <end type="SOURCE" refId="15"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <generalization id="36">    
     <bendpoint x="891" y="281"/>    
     <end type="SOURCE" refId="13"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
-  <generalization id="37">    
-    <bendpoint x="24" y="292"/>    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <generalization id="38">    
-    <end type="SOURCE" refId="7"/>    
+  <generalization id="35">    
+    <end type="SOURCE" refId="15"/>    
     <end type="TARGET" refId="1"/>  
   </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

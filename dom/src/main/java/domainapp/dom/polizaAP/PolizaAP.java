@@ -64,7 +64,7 @@ import domainapp.dom.vehiculo.Vehiculo;
 )
 @Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
 @Discriminator(value="RiesgoCombinadosRiesgosAP")
-public class PolizaAP extends Poliza implements Comparable<PolizaAP> {
+public class PolizaAP extends Poliza {
 
 	
 	 //region > title
@@ -451,10 +451,6 @@ public class PolizaAP extends Poliza implements Comparable<PolizaAP> {
    @Override
    public String toString() {
        return ObjectContracts.toString(this, "polizaNumero");
-   }
-   @Override
-   public int compareTo(final PolizaAP other) {
-       return ObjectContracts.compare(this, other, "polizaNumero");
    }
 
    //endregion

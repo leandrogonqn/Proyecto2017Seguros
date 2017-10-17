@@ -30,7 +30,7 @@ import domainapp.dom.cliente.ClienteMenu.CreateDomainEvent;
 )
 @DomainServiceLayout(
         named = "Clientes",
-        menuOrder = "2"
+        menuOrder = "10"
 )
 public class ProvinciaMenu {
 	

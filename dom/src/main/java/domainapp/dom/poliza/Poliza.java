@@ -1,6 +1,7 @@
 package domainapp.dom.poliza;
 
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -67,7 +68,7 @@ import domainapp.dom.vehiculo.Vehiculo;
 )
 @Inheritance(strategy=InheritanceStrategy.NEW_TABLE)
 @Discriminator(strategy=DiscriminatorStrategy.VALUE_MAP, column="Polizas")
-public abstract class Poliza{
+public abstract class Poliza implements Comparable<Poliza>{
     
 	public static final int NAME_LENGTH = 200;
 	
@@ -339,7 +340,30 @@ public abstract class Poliza{
     	Date hoy = new Date();
     	return hoy;
     }
-	
+    
+    @Override
+    public int compareTo(Poliza o) {
+        if (polizaFechaVencimiento.before(o.polizaFechaVencimiento) ) {
+            return -1;
+        }
+        if (polizaFechaVencimiento.after(o.polizaFechaVencimiento)) {
+            return 1;
+        }	
+        return 0;
+    }
+//    
+//	@Override
+//	public int compare(Poliza o1, Poliza o2) {
+//		// TODO Auto-generated method stub
+//		if (o1.polizaFechaVencimiento.before(o2.polizaFechaVencimiento)) {
+//			return -1;
+//		}
+//		if (o1.polizaFechaVencimiento.after(o2.polizaFechaVencimiento)) {
+//			return 1;
+//		}
+//		return 0;
+//	}
+
 	@Inject 
 	PolizaRepository polizasRepository;
 	

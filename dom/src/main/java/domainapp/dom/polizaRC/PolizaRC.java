@@ -59,7 +59,7 @@ import domainapp.dom.tiposDeCoberturas.TipoDeCoberturaRepository;
 )
 @Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
 @Discriminator(value="RiesgoCombinadosRiesgosRC")
-public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
+public class PolizaRC extends Poliza {
 	 //region > title
 	   public TranslatableString title() {
 	       return TranslatableString.tr("{name}", "name","Poliza RC N°: " + getPolizaNumero());
@@ -67,7 +67,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 	   //endregion
 
 		// Constructor
-		public RiesgoRC(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
+		public PolizaRC(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
 				Date polizaFechaEmision, Date polizaFechaVigencia,
 				Date polizaFechaVencimiento, TipoPago polizaTipoDePago, DetalleTipoPago polizaPago,
 				double polizaImporteTotal, float riesgoRCMonto) {
@@ -85,7 +85,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 			polizaEstado.actualizarEstado(this);
 		}
 		
-		public RiesgoRC(
+		public PolizaRC(
 				String polizaNumero, Persona polizaCliente, Compania polizaCompania,
 				Date polizaFechaEmision, Date polizaFechaVigencia,
 				Date polizaFechaVencimiento, TipoPago polizaTipoDePago, DetalleTipoPago polizaPago,
@@ -127,7 +127,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 	   )
 	   
 	   //Actualizar PolizaNumero
-		public RiesgoRC actualizarPolizaNumero(@ParameterLayout(named="Numero") final String polizaNumero){
+		public PolizaRC actualizarPolizaNumero(@ParameterLayout(named="Numero") final String polizaNumero){
 			setPolizaNumero(polizaNumero);
 			return this;
 		}
@@ -137,7 +137,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 		}
 	   
 		//Actualizar Poliza Cliente
-	   public RiesgoRC actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Persona polizaCliente) {
+	   public PolizaRC actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Persona polizaCliente) {
 	       setPolizasCliente(polizaCliente);
 	       return this;
 	   }
@@ -151,7 +151,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 	   }
 	   
 	   //Actualizar polizaCompania
-	   public RiesgoRC actualizarPolizaCompania(@ParameterLayout(named="Compañia") final Compania polizaCompania) {
+	   public PolizaRC actualizarPolizaCompania(@ParameterLayout(named="Compañia") final Compania polizaCompania) {
 	       actualizarPolizaCompania(polizaCompania);
 	       return this;
 	   }
@@ -166,7 +166,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 	   
 
 	   //Actualizar polizaFechaEmision
-		public RiesgoRC actualizarPolizaFechaEmision(@ParameterLayout(named="Fecha de Emision") final Date polizaFechaEmision){
+		public PolizaRC actualizarPolizaFechaEmision(@ParameterLayout(named="Fecha de Emision") final Date polizaFechaEmision){
 			setPolizaFechaEmision(polizaFechaEmision);
 			return this;
 		}
@@ -176,7 +176,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 		}
 		
 	   //Actualizar polizaFechaVigencia
-		public RiesgoRC actualizarPolizaFechaVigencia(@ParameterLayout(named="Fecha de Vigencia") final Date polizaFechaVigencia){
+		public PolizaRC actualizarPolizaFechaVigencia(@ParameterLayout(named="Fecha de Vigencia") final Date polizaFechaVigencia){
 			setPolizaFechaVigencia(polizaFechaVigencia);
 			polizaEstado.actualizarEstado(this);
 			JOptionPane.showMessageDialog(null, getPolizaEstado().toString());
@@ -196,7 +196,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 		}
 		
 	   //polizaFechaVencimiento
-		public RiesgoRC actualizarPolizaFechaVencimiento(@ParameterLayout(named="Fecha de Vencimiento") final Date polizaFechaVencimiento){
+		public PolizaRC actualizarPolizaFechaVencimiento(@ParameterLayout(named="Fecha de Vencimiento") final Date polizaFechaVencimiento){
 			setPolizaFechaVencimiento(polizaFechaVencimiento);
 			polizaEstado.actualizarEstado(this);
 			return this;
@@ -214,7 +214,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 		}
 		
 	    //polizaPago
-	    public RiesgoRC actualizarPolizaPago(
+	    public PolizaRC actualizarPolizaPago(
 	    		@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
 				@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago) {
 	        setPolizaTipoDePago(polizaTipoDePago);
@@ -237,7 +237,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 	    }
 	   
 	   //polizaFechaBaja
-		public RiesgoRC actualizarPolizaFechaBaja(@ParameterLayout(named="Fecha de Baja") final Date polizaFechaBaja){
+		public PolizaRC actualizarPolizaFechaBaja(@ParameterLayout(named="Fecha de Baja") final Date polizaFechaBaja){
 			setPolizaFechaBaja(polizaFechaBaja);
 			return this;
 		}
@@ -247,7 +247,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 		}    
 	   
 	   //polizaMotivoBaja
-		public RiesgoRC actualizarPolizaMotivoBaja(@ParameterLayout(named="Motivo de la Baja") final String polizaMotivoBaja){
+		public PolizaRC actualizarPolizaMotivoBaja(@ParameterLayout(named="Motivo de la Baja") final String polizaMotivoBaja){
 			setPolizaMotivoBaja(polizaMotivoBaja);
 			return this;
 		}
@@ -257,7 +257,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 		}    
 	   
 	   //polizaImporteTotal
-		public RiesgoRC actualizarPolizaImporteTotal(@ParameterLayout(named="Importe Total") final double polizaImporteTotal){
+		public PolizaRC actualizarPolizaImporteTotal(@ParameterLayout(named="Importe Total") final double polizaImporteTotal){
 			setPolizaImporteTotal(polizaImporteTotal);
 			return this;
 		}
@@ -267,7 +267,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 		}    
 		
 		// riesgoARTMonto
-		public RiesgoRC actualizarRiesgoRCMonto(
+		public PolizaRC actualizarRiesgoRCMonto(
 				@ParameterLayout(named = "Monto asegurado") final float riesgoRCMonto) {
 			setRiesgoRCMonto(riesgoRCMonto);
 			return this;
@@ -279,7 +279,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 
 	   //polizaRenovacion
 		@ActionLayout(named="Actualizar Renovacion")
-	   public RiesgoRC actualizarPolizaRenovacion(@ParameterLayout(named="Renovacion") final Poliza polizaRenovacion) {
+	   public PolizaRC actualizarPolizaRenovacion(@ParameterLayout(named="Renovacion") final Poliza polizaRenovacion) {
 	       setPolizaRenovacion(polizaRenovacion);
 	       polizaEstado.actualizarEstado(this);
 	       return this;
@@ -293,7 +293,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 	   	return getPolizaRenovacion();
 	   }
 	   
-	   public RiesgoRC borrarPolizaRenovacion() {
+	   public PolizaRC borrarPolizaRenovacion() {
 			setPolizaRenovacion(null);
 			polizaEstado.actualizarEstado(this);
 	   	return this;
@@ -305,7 +305,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 
 		@Action(invokeOn=InvokeOn.OBJECT_ONLY)
 		@ActionLayout(named="Emitir Renovacion")
-		public RiesgoRC renovacion(
+		public PolizaRC renovacion(
 				@ParameterLayout(named="Número") final String polizaNumero,
 				@ParameterLayout(named="Cliente") final Persona polizaCliente,
 				@ParameterLayout(named="Compañia") final Compania polizaCompania,
@@ -368,10 +368,6 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 	   public String toString() {
 	       return ObjectContracts.toString(this, "polizaNumero");
 	   }
-	   @Override
-	   public int compareTo(final RiesgoRC other) {
-	       return ObjectContracts.compare(this, other, "polizaNumero");
-	   }
 
 	   //endregion
 
@@ -405,7 +401,7 @@ public class RiesgoRC extends Poliza implements Comparable<RiesgoRC>{
 	   PolizaRepository polizasRepository;
 
 	   @Inject
-	   RiesgoRCRepository riesgosRCRepository;
+	   PolizaRCRepository riesgosRCRepository;
 	   
 	   //endregion
 

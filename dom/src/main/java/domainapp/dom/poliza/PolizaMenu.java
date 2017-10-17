@@ -22,14 +22,14 @@ import domainapp.dom.persona.PersonaRepository;
         repositoryFor = Poliza.class
 )
 @DomainServiceLayout(
-        named = "Polizas",
-        menuOrder = "1"
+        named = "Polizas Listar",
+        menuOrder = "29"
 )
 public class PolizaMenu {
 
 	  @Action(semantics = SemanticsOf.SAFE)
 	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar todas las polizas")
-	    @MemberOrder(sequence = "2")
+	    @MemberOrder(sequence = "3")
 	    public List<Poliza> listar() {
 		  List<Poliza> listaPolizas = polizasRepository.listar();
 		  for(int i=0; i< listaPolizas.size(); i++) {
@@ -40,7 +40,7 @@ public class PolizaMenu {
 	    
 	    @Action(semantics = SemanticsOf.SAFE)
 	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Buscar polizas por Numero")
-	    @MemberOrder(sequence = "1.1")
+	    @MemberOrder(sequence = "1")
 	    public List<Poliza> buscarpolizaNumero(
 	            @ParameterLayout(named="Numero")
 	            final String polizaNumero){
@@ -49,7 +49,7 @@ public class PolizaMenu {
 	    
 	    @Action(semantics = SemanticsOf.SAFE)
 	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Buscar polizas por Clientes")
-	    @MemberOrder(sequence = "1.2")
+	    @MemberOrder(sequence = "2")
 	    public List<Poliza> buscarPorCliente(
 	    		@ParameterLayout(named="Cliente") final Persona polizaCliente){
 	    	return polizasRepository.buscarPorCliente(polizaCliente);
@@ -59,7 +59,7 @@ public class PolizaMenu {
 	    	return personaRepository.listarActivos();
 	    }
 	    
-	    @MemberOrder(sequence = "3")	    
+	    @MemberOrder(sequence = "4")	    
 	    @ActionLayout(named="Listar por Estados")
 	    public List<Poliza> listarPorEstado(final Estado estado){
 			return polizasRepository.listarPorEstado(estado);

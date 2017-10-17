@@ -45,7 +45,7 @@ import domainapp.dom.debitoAutomatico.DebitoAutomatico;
 )
 @DomainServiceLayout(
         named = "Tipo de pago",
-        menuOrder = "10.3"
+        menuOrder = "60.3"
 )
 public class TarjetaDeCreditoMenu {
 	

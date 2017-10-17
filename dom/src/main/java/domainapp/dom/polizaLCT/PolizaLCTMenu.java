@@ -42,26 +42,14 @@ import domainapp.dom.tiposDeCoberturas.TipoDeCoberturaRepository;
         repositoryFor = PolizaLCT.class
 )
 @DomainServiceLayout(
-        named = "Polizas",
-        menuOrder = "1.3"
+        named = "Polizas Crear",
+        menuOrder = "20"
 )
 public class PolizaLCTMenu {
 	
-	  @Action(semantics = SemanticsOf.SAFE)
-	  @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Polizas LCT")
-	  @MemberOrder(sequence = "2")
-	  public List<PolizaLCT> listar() {
-			  List<PolizaLCT> listaPolizaRiesgoLCT = polizasRepository.listar();
-			  for(int i=0; i< listaPolizaRiesgoLCT.size(); i++) {
-				  listaPolizaRiesgoLCT.get(i).actualizarPoliza();
-		        }
-		      return listaPolizaRiesgoLCT;
-	    }
-	  
-	    public static class CreateDomainEvent extends ActionDomainEvent<PolizaLCTMenu> {}
-	    @Action(domainEvent = CreateDomainEvent.class, invokeOn=InvokeOn.OBJECT_ONLY)
+	    @Action(invokeOn=InvokeOn.OBJECT_ONLY)
 	    @ActionLayout(named="Crear Poliza LCT")
-	    @MemberOrder(sequence = "1")
+	    @MemberOrder(sequence = "90")
 	    public PolizaLCT crear(
 /*0*/	            @ParameterLayout(named="Número") final String polizaNumero,
 /*1*/	            @ParameterLayout(named="Cliente") final Persona polizaCliente,

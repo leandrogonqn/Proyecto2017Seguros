@@ -57,7 +57,7 @@ import domainapp.dom.tiposDeCoberturas.TipoDeCoberturaRepository;
 )
 @Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
 @Discriminator(value="RiesgoCombinadosRiesgosRCP")
-public class PolizaRCP extends Poliza implements Comparable<PolizaRCP> {
+public class PolizaRCP extends Poliza {
 
 	 //region > title
 	   public TranslatableString title() {
@@ -370,10 +370,6 @@ public class PolizaRCP extends Poliza implements Comparable<PolizaRCP> {
 	   @Override
 	   public String toString() {
 	       return ObjectContracts.toString(this, "polizaNumero");
-	   }
-	   @Override
-	   public int compareTo(final PolizaRCP other) {
-	       return ObjectContracts.compare(this, other, "polizaNumero");
 	   }
 
 	   //endregion

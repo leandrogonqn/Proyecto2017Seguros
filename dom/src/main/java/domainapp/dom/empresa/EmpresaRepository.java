@@ -48,20 +48,6 @@ public class EmpresaRepository {
                         "empresaRazonSocial", empresaRazonSocial.toLowerCase()));
     }
     
-//    public List<Cliente> listarActivos(){
-//   	 return repositoryService.allMatches(
-//                new QueryDefault<>(
-//                        Cliente.class,
-//                        "listarActivos"));
-//   }
-//    
-//    public List<Cliente> listarInactivos(){
-//      	 return repositoryService.allMatches(
-//                   new QueryDefault<>(
-//                           Cliente.class,
-//                           "listarInactivos"));
-//      }
-//    
 
     public Empresa crear(final String empresaRazonSocial, String personaCuitCuil, Localidad personaLocalidad, final String personaDireccion, final String personaTelefono, final String personaMail) {
         final Empresa object = new Empresa(empresaRazonSocial, personaCuitCuil, personaLocalidad, personaDireccion, personaTelefono, personaMail);

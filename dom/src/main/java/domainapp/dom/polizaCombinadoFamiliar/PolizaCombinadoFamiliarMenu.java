@@ -1,5 +1,6 @@
 package domainapp.dom.polizaCombinadoFamiliar;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,9 @@ import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
+
+import domainapp.dom.adjunto.Adjunto;
+import domainapp.dom.adjunto.AdjuntoRepository;
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.cliente.ClienteRepository;
 import domainapp.dom.compania.CompaniaRepository;
@@ -46,26 +50,14 @@ import domainapp.dom.vehiculo.Vehiculo;
         repositoryFor = PolizaCombinadoFamiliar.class
 )
 @DomainServiceLayout(
-        named = "Polizas",
-        menuOrder = "1.3"
+        named = "Polizas Crear",
+        menuOrder = "19.2"
 )
 public class PolizaCombinadoFamiliarMenu {
 	
-	  @Action(semantics = SemanticsOf.SAFE)
-	  @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Polizas Combinados Familiares")
-	  @MemberOrder(sequence = "2")
-	  public List<PolizaCombinadoFamiliar> listar() {
-			  List<PolizaCombinadoFamiliar> listaPolizaRiesgoCombinadosFamiliares = polizasRepository.listar();
-			  for(int i=0; i< listaPolizaRiesgoCombinadosFamiliares.size(); i++) {
-				  listaPolizaRiesgoCombinadosFamiliares.get(i).actualizarPoliza();
-		        }
-		      return listaPolizaRiesgoCombinadosFamiliares;
-	    }
-	  
-	    public static class CreateDomainEvent extends ActionDomainEvent<PolizaCombinadoFamiliarMenu> {}
-	    @Action(domainEvent = CreateDomainEvent.class, invokeOn=InvokeOn.OBJECT_ONLY)
+	    @Action(invokeOn=InvokeOn.OBJECT_ONLY)
 	    @ActionLayout(named="Crear Poliza Combinado Familiar")
-	    @MemberOrder(sequence = "1")
+	    @MemberOrder(sequence = "20")
 	    public PolizaCombinadoFamiliar crear(
 /*0*/	            @ParameterLayout(named="Número") final String polizaNumero,
 /*1*/	            @ParameterLayout(named="Cliente") final Persona polizaCliente,
@@ -80,8 +72,11 @@ public class PolizaCombinadoFamiliarMenu {
 /*10*/				@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
 					@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
 					@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago,
-/*12*/				@ParameterLayout(named="Precio Total") final double polizaImporteTotal)
+/*12*/				@ParameterLayout(named="Precio Total") final double polizaImporteTotal,
+					@ParameterLayout(named = "Adjunto") final Adjunto riesgoCombinadoFamiliarAdjunto)
 	    {
+			List<Adjunto> riesgoCombinadoFamiliarListaAdjunto = new ArrayList<>();
+			riesgoCombinadoFamiliarListaAdjunto.add(riesgoCombinadoFamiliarAdjunto);
 	        return polizasRepository.crear(
 	        		polizaNumero,
 	        		polizaCliente,
@@ -96,7 +91,8 @@ public class PolizaCombinadoFamiliarMenu {
 	        		polizaFechaVencimiento,
 	        		polizaTipoDePago,
 	        		polizaPago,
-	        		polizaImporteTotal);
+	        		polizaImporteTotal,
+	        		riesgoCombinadoFamiliarListaAdjunto);
 	    }
 
 	    public List<Persona> choices1Crear(){
@@ -137,9 +133,14 @@ public class PolizaCombinadoFamiliarMenu {
 	    		final Date polizaFechaVencimiento,
 	    		final TipoPago polizaTipoDePago,
 	    		final DetalleTipoPago polizaPago,
-	    		final double polizaImporteTotal) {
+	    		final double polizaImporteTotal,
+				final Adjunto riesgoAutomotorAdjunto) {
 			return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
 	    }
+	    
+		public List<Adjunto> choices14Crear() {
+			return adjuntoRepository.listarActivos();
+		}
 	    
 		public String validateCrear(
 	    		final String polizaNumero,
@@ -155,7 +156,8 @@ public class PolizaCombinadoFamiliarMenu {
 	    		final Date polizaFechaVencimiento,
 	    		final TipoPago polizaTipoDePago,
 	    		final DetalleTipoPago polizaPago,
-	    		final double polizaImporteTotal){
+	    		final double polizaImporteTotal,
+				final Adjunto riesgoAutomotorAdjunto){
 			if (polizaFechaVigencia.after(polizaFechaVencimiento)){
 				return "La fecha de vigencia es mayor a la de vencimiento";
 			}
@@ -183,5 +185,7 @@ public class PolizaCombinadoFamiliarMenu {
 	    TipoDeCoberturaRepository tiposDeCoberturasRepository;
 	    @Inject
 	    LocalidadRepository localidadesRepository;
+	    @Inject
+	    AdjuntoRepository adjuntoRepository;
 
 }

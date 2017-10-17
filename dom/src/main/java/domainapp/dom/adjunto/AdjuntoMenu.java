@@ -19,7 +19,7 @@ import org.apache.isis.applib.value.Blob;
 )
 @DomainServiceLayout(
         named = "Polizas Extras",
-        menuOrder = "3.1"
+        menuOrder = "40.3"
 )
 public class AdjuntoMenu {
 

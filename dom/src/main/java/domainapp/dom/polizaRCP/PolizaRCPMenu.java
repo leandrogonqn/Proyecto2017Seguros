@@ -36,25 +36,14 @@ import domainapp.dom.tiposDeCoberturas.TipoDeCoberturaRepository;
         repositoryFor = PolizaRCP.class
 )
 @DomainServiceLayout(
-        named = "Polizas",
-        menuOrder = "1.3"
+        named = "Polizas Crear",
+        menuOrder = "20"
 )
 public class PolizaRCPMenu {
-	  @Action(semantics = SemanticsOf.SAFE)
-	  @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Polizas RCP")
-	  @MemberOrder(sequence = "2")
-	  public List<PolizaRCP> listar() {
-			  List<PolizaRCP> listaPolizaRiesgosRCP = polizasRepository.listar();
-			  for(int i=0; i< listaPolizaRiesgosRCP.size(); i++) {
-				  listaPolizaRiesgosRCP.get(i).actualizarPoliza();
-		        }
-		      return listaPolizaRiesgosRCP;
-	    }
 	  
-	    public static class CreateDomainEvent extends ActionDomainEvent<PolizaRCPMenu> {}
-	    @Action(domainEvent = CreateDomainEvent.class, invokeOn=InvokeOn.OBJECT_ONLY)
+	    @Action(invokeOn=InvokeOn.OBJECT_ONLY)
 	    @ActionLayout(named="Crear Poliza RCP")
-	    @MemberOrder(sequence = "1")
+	    @MemberOrder(sequence = "110")
 	    public PolizaRCP crear(
 /*0*/	            @ParameterLayout(named="Número") final String polizaNumero,
 /*1*/	            @ParameterLayout(named="Cliente") final Persona polizaCliente,

@@ -40,7 +40,7 @@ import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 )
 @DomainServiceLayout(
         named = "Tipo de pago",
-        menuOrder = "15"
+        menuOrder = "60.5"
 )
 public class TipoTarjetaMenu {
 

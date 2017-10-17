@@ -38,26 +38,14 @@ import domainapp.dom.vehiculo.VehiculoRepository;
         repositoryFor = PolizaIntegralComercio.class
 )
 @DomainServiceLayout(
-        named = "Polizas",
-        menuOrder = "4"
+        named = "Polizas Crear",
+        menuOrder = "19.3"
 )
 public class PolizaIntegralComercioMenu {
-
-	  @Action(semantics = SemanticsOf.SAFE)
-	  @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Poliza Riesgo Integral Comercio")
-	  @MemberOrder(sequence = "2")
-	  public List<PolizaIntegralComercio> listar() {
-			  List<PolizaIntegralComercio> listaPolizasRiesgoIntegralComercio = polizasRepository.listar();
-			  for(int i=0; i< listaPolizasRiesgoIntegralComercio.size(); i++) {
-				  listaPolizasRiesgoIntegralComercio.get(i).actualizarPoliza();
-		        }
-		      return listaPolizasRiesgoIntegralComercio;
-	    }
-	  
-	    public static class CreateDomainEvent extends ActionDomainEvent<PolizaIntegralComercioMenu> {}
-	    @Action(domainEvent = CreateDomainEvent.class, invokeOn=InvokeOn.OBJECT_ONLY)
-	    @ActionLayout(named="Crear Poliza Riesgo Integral Comercio")
-	    @MemberOrder(sequence = "1")
+ 
+	@Action(invokeOn=InvokeOn.OBJECT_ONLY)
+	    @ActionLayout(named="Crear Poliza Integral Comercio")
+	    @MemberOrder(sequence = "30")
 	    public PolizaIntegralComercio crear(
 	            @ParameterLayout(named="Número") final String polizaNumero,
 	            @ParameterLayout(named="Cliente") final Persona polizaCliente,

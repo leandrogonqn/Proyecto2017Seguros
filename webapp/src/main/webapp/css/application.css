@@ -32,19 +32,19 @@ tr.vigenteConRenovacion{
 	color: black;
 }
 tr.vigenteSinRenovacionConVencimientoMenor15Dias{
-	color: #ffffff;
-	background-color: #cc0000;
+	color: #cc0000;
+	font-weight: bold;
 }
 tr.vigenteSinRenovacionConVencimientoMenor30Dias{
-	color: #ffffff;
-	background-color: #204a87;
+	color: #204a87;
+	font-weight: bold;
 }
 tr.vigenteSinRenovacionConVencimientoMayor30Dias{
 	color: black;
 }
 tr.vencida{
-	color: #f57900;
+	color: #888a85;
 }
 tr.anulada{
-	color: #cc0000;
+	color: #f57900;
 }

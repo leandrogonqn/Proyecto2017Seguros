@@ -48,20 +48,6 @@ public class ClienteRepository {
                         "clienteNombre", clienteNombre.toLowerCase()));
     }
     
-//    public List<Cliente> listarActivos(){
-//   	 return repositoryService.allMatches(
-//                new QueryDefault<>(
-//                        Cliente.class,
-//                        "listarActivos"));
-//   }
-//    
-//    public List<Cliente> listarInactivos(){
-//      	 return repositoryService.allMatches(
-//                   new QueryDefault<>(
-//                           Cliente.class,
-//                           "listarInactivos"));
-//      }
-//    
     public List<Cliente> buscarPorDNI(final int clienteDni) {
         return repositoryService.allMatches(
                 new QueryDefault<>(

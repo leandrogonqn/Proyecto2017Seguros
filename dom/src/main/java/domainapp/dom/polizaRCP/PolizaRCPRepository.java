@@ -14,7 +14,7 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.persona.Persona;
 import domainapp.dom.poliza.Poliza;
-import domainapp.dom.polizaRC.RiesgoRC;
+import domainapp.dom.polizaRC.PolizaRC;
 
 
 @DomainService(

@@ -74,7 +74,7 @@ public class Adjunto{
 	}
 	
 	@Column(allowsNull="true")
-	@Property(editing=Editing.DISABLED)
+	@Property(editing=Editing.ENABLED)
 	@PropertyLayout(named="Descripcion")
 	private String adjuntoDescripcion;
 	
@@ -92,7 +92,7 @@ public class Adjunto{
 	        @javax.jdo.annotations.Column(name = "someImage_mimetype"),
 	        @javax.jdo.annotations.Column(name = "someImage_bytes", jdbcType = "BLOB", sqlType = "LONGVARBINARY")
 	})
-	@Property(editing=Editing.DISABLED)
+	@Property(editing=Editing.ENABLED)
 	@PropertyLayout(named="Imagen")
 	private Blob imagen;
 	
@@ -104,7 +104,7 @@ public class Adjunto{
 	}
 	
 	@Column(allowsNull="false")
-	@Property(editing=Editing.DISABLED)
+	@Property(editing=Editing.ENABLED)
 	@PropertyLayout(named="Activo")
 	private boolean adjuntoActivo;
 	
@@ -124,6 +124,8 @@ public class Adjunto{
     	messageService.informUser(String.format("'%s' deleted", title));
     	setAdjuntoActivo(false);
     }
+    
+    
     
     //acciones
     @Action(invokeOn=InvokeOn.COLLECTION_ONLY)

@@ -115,6 +115,9 @@
             </bs3:tabGroup>
         </bs3:col>
         <bs3:col span="6">
+            <c:action id="crearAdjunto"/>
+            <c:action id="agregarAdjunto"/>
+            <c:action id="quitarAdjunto"/>
             <bs3:tabGroup  unreferencedCollections="true">
             </bs3:tabGroup>
         </bs3:col>

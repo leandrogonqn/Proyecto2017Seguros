@@ -37,7 +37,7 @@ import domainapp.dom.marca.MarcaRepository;
 )
 @DomainServiceLayout(
         named = "Vehiculos",
-        menuOrder = "3.3"
+        menuOrder = "50.3"
 )
 public class ModeloMenu {
 	

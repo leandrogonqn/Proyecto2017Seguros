@@ -31,7 +31,7 @@ import domainapp.dom.cliente.ClienteMenu.CreateDomainEvent;
 )
 @DomainServiceLayout(
         named = "Polizas Extras",
-        menuOrder = "2"
+        menuOrder = "40.2"
 )
 public class TipoDeCoberturaMenu {
 	

@@ -33,7 +33,7 @@ import domainapp.dom.tipoVehiculo.TipoVehiculo;
 )
 @DomainServiceLayout(
         named = "Clientes",
-        menuOrder = "3"
+        menuOrder = "10"
 )
 public class LocalidadMenu {
 	

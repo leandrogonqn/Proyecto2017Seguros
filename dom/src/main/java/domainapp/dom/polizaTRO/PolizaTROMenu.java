@@ -8,7 +8,6 @@ import javax.inject.Inject;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
-import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.InvokeOn;
@@ -17,23 +16,14 @@ import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.Optionality;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
-import domainapp.dom.cliente.Cliente;
-import domainapp.dom.cliente.ClienteRepository;
 import domainapp.dom.compania.CompaniaRepository;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.detalleTipoPago.DetalleTipoPagoMenu;
-import domainapp.dom.detalleTipoPago.DetalleTipoPagoRepository;
 import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.persona.Persona;
 import domainapp.dom.persona.PersonaRepository;
-import domainapp.dom.polizaRC.RiesgoRC;
-import domainapp.dom.polizaRC.RiesgoRCMenu;
-import domainapp.dom.polizaRC.RiesgoRCRepository;
-import domainapp.dom.polizaRC.RiesgoRCMenu.CreateDomainEvent;
 import domainapp.dom.tiposDeCoberturas.TipoDeCoberturaRepository;
 
 @DomainService(
@@ -41,25 +31,14 @@ import domainapp.dom.tiposDeCoberturas.TipoDeCoberturaRepository;
         repositoryFor = PolizaTRO.class
 )
 @DomainServiceLayout(
-        named = "Polizas",
-        menuOrder = "1.3"
+        named = "Polizas Crear",
+        menuOrder = "20"
 )
 public class PolizaTROMenu {
-	  @Action(semantics = SemanticsOf.SAFE)
-	  @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Polizas TRO")
-	  @MemberOrder(sequence = "2")
-	  public List<PolizaTRO> listar() {
-			  List<PolizaTRO> listaPolizaRiesgosTRO = polizasRepository.listar();
-			  for(int i=0; i< listaPolizaRiesgosTRO.size(); i++) {
-				  listaPolizaRiesgosTRO.get(i).actualizarPoliza();
-		        }
-		      return listaPolizaRiesgosTRO;
-	    }
-	  
-	    public static class CreateDomainEvent extends ActionDomainEvent<PolizaTROMenu> {}
-	    @Action(domainEvent = CreateDomainEvent.class, invokeOn=InvokeOn.OBJECT_ONLY)
+	
+	    @Action(invokeOn=InvokeOn.OBJECT_ONLY)
 	    @ActionLayout(named="Crear Poliza TRO")
-	    @MemberOrder(sequence = "1")
+	    @MemberOrder(sequence = "120")
 	    public PolizaTRO crear(
 /*0*/	            @ParameterLayout(named="Número") final String polizaNumero,
 /*1*/	            @ParameterLayout(named="Cliente") final Persona polizaCliente,

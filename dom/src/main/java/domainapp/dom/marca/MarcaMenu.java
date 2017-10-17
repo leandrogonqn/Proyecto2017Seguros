@@ -31,7 +31,7 @@ import domainapp.dom.cliente.ClienteMenu.CreateDomainEvent;
 )
 @DomainServiceLayout(
         named = "Vehiculos",
-        menuOrder = "3.1"
+        menuOrder = "50.2"
 )
 public class MarcaMenu {
 	

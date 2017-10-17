@@ -28,7 +28,7 @@ import domainapp.dom.tarjetaDeCredito.TarjetaDeCreditoRepository;
 )
 @DomainServiceLayout(
         named = "Tipo de pago",
-        menuOrder = "10.1"
+        menuOrder = "60.1"
 )
 public class DetalleTipoPagoMenu {
 	

@@ -1,6 +1,8 @@
 package domainapp.dom.polizaCombinadoFamiliar;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -10,6 +12,7 @@ import javax.jdo.annotations.Discriminator;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
+import javax.jdo.annotations.Join;
 import javax.swing.JOptionPane;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
@@ -30,6 +33,10 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
+import org.apache.isis.applib.value.Blob;
+
+import domainapp.dom.adjunto.Adjunto;
+import domainapp.dom.adjunto.AdjuntoRepository;
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.cliente.ClienteRepository;
 import domainapp.dom.compania.CompaniaRepository;
@@ -48,6 +55,7 @@ import domainapp.dom.persona.PersonaRepository;
 import domainapp.dom.poliza.Poliza;
 import domainapp.dom.poliza.PolizaRepository;
 import domainapp.dom.polizaART.PolizaART;
+import domainapp.dom.polizaAutomotor.PolizaAutomotor;
 import domainapp.dom.tipoTitular.TipoTitular;
 import domainapp.dom.tipoTitular.TipoTitularRepository;
 import domainapp.dom.tipoVivienda.TipoVivienda;
@@ -65,7 +73,7 @@ import domainapp.dom.tiposDeCoberturas.TipoDeCoberturaRepository;
 )
 @Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
 @Discriminator(value="RiesgoCombinadosFamiliares")
-public class PolizaCombinadoFamiliar extends Poliza implements Comparable<PolizaCombinadoFamiliar> {
+public class PolizaCombinadoFamiliar extends Poliza {
 
 	
 	 //region > title
@@ -80,7 +88,7 @@ public class PolizaCombinadoFamiliar extends Poliza implements Comparable<Poliza
 			TipoVivienda riesgoCombinadosFamiliaresTipoVivienda, TipoTitular riesgoCombinadosFamiliaresTipoTitular,
 			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
 			TipoPago polizaTipoDePago, DetalleTipoPago polizaPago, 
-			double polizaImporteTotal) {
+			double polizaImporteTotal, List<Adjunto> riesgoAutomotorListaAdjunto) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
 		setPolizasCompania(polizaCompania);
@@ -95,6 +103,7 @@ public class PolizaCombinadoFamiliar extends Poliza implements Comparable<Poliza
 		setPolizaTipoDePago(polizaTipoDePago);
 		setPolizaPago(polizaPago);
 		setPolizaImporteTotal(polizaImporteTotal);
+		setRiesgoAutomotorAdjunto(riesgoAutomotorListaAdjunto);
 		setPolizaEstado(Estado.previgente);
 		polizaEstado.actualizarEstado(this);
 	}
@@ -113,6 +122,7 @@ public class PolizaCombinadoFamiliar extends Poliza implements Comparable<Poliza
 			TipoPago polizaTipoDePago,
 			DetalleTipoPago polizaPago,
 			double polizaImporteTotal,
+			List<Adjunto> riesgoAutomotorListaAdjunto,
 			Poliza riesgoCombinadoFamiliar) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
@@ -128,10 +138,28 @@ public class PolizaCombinadoFamiliar extends Poliza implements Comparable<Poliza
 		setPolizaTipoDePago(polizaTipoDePago);
 		setPolizaPago(polizaPago);
 		setPolizaImporteTotal(polizaImporteTotal);
+		setRiesgoAutomotorAdjunto(riesgoAutomotorListaAdjunto);
 		setPolizaEstado(Estado.previgente);
 		riesgoCombinadoFamiliar.setPolizaRenovacion(this);
 		polizaEstado.actualizarEstado(this);
 	}
+	
+	//adjunto
+	@Join
+	@Column(allowsNull="false")
+    @Property(
+            editing = Editing.DISABLED
+    )
+	@PropertyLayout(named="Adjunto")
+	private List<Adjunto> riesgoAutomotorAdjunto; 
+	
+	public List<Adjunto> getRiesgoAutomotorAdjunto() {
+		return riesgoAutomotorAdjunto;
+	}
+
+	public void setRiesgoAutomotorAdjunto(List<Adjunto> riesgoAutomotorAdjunto) {
+		this.riesgoAutomotorAdjunto = riesgoAutomotorAdjunto;
+	}	
 	
 	//Domicilio
    @Property(editing = Editing.DISABLED)
@@ -452,7 +480,9 @@ public class PolizaCombinadoFamiliar extends Poliza implements Comparable<Poliza
 								@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
 								@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago,
 			/*12*/				@ParameterLayout(named="Precio Total") final double polizaImporteTotal){
-       return riesgoCombinadosFamiliaresRepository.renovacion(
+    	List<Adjunto> riesgoAutomotorListaAdjunto = new ArrayList<>();
+    	riesgoAutomotorListaAdjunto = this.getRiesgoAutomotorAdjunto();
+		return riesgoCombinadosFamiliaresRepository.renovacion(
     		polizaNumero,
        		polizaCliente,
        		polizaCompania,
@@ -466,7 +496,8 @@ public class PolizaCombinadoFamiliar extends Poliza implements Comparable<Poliza
        		polizaFechaVencimiento,
        		polizaTipoDePago,
        		polizaPago,
-       		polizaImporteTotal,this);
+       		polizaImporteTotal,
+       		riesgoAutomotorListaAdjunto, this);
 	}
 	
    public List<Persona> choices1Renovacion(){
@@ -543,15 +574,50 @@ public class PolizaCombinadoFamiliar extends Poliza implements Comparable<Poliza
   public DetalleTipoPago default12Renovacion(){
   	return getPolizaPago();
   }
+  
+	@ActionLayout(named="Crear y Agregar Adjunto")
+    public PolizaCombinadoFamiliar crearAdjunto(
+    	@ParameterLayout(named = "Descripcion") final String riesgoAutomotorAdjuntoDescripcion,
+		@ParameterLayout(named = "Imagen") final Blob riesgoAutomorAdjunto) {
+    		this.getRiesgoAutomotorAdjunto().add(adjuntoRepository.crear(riesgoAutomotorAdjuntoDescripcion, riesgoAutomorAdjunto));
+    		this.setRiesgoAutomotorAdjunto(this.getRiesgoAutomotorAdjunto());
+    		return this;
+	}
+	
+	@ActionLayout(named="Agregar adjunto")
+	public PolizaCombinadoFamiliar agregarAdjunto(
+			@ParameterLayout(named="Adjunto") final Adjunto riesgoAutomotorAdjunto){
+		if (this.getRiesgoAutomotorAdjunto().contains(riesgoAutomotorAdjunto)) {
+			messageService.warnUser("ERROR: La imagen ya está agregada en la lista");
+		} else {
+			this.getRiesgoAutomotorAdjunto().add(riesgoAutomotorAdjunto);
+			this.setRiesgoAutomotorAdjunto(this.getRiesgoAutomotorAdjunto());
+		}
+		return this;
+	}
+	
+	public List<Adjunto> choices0AgregarAdjunto() {
+		return adjuntoRepository.listarActivos();
+	}
+    
+    public PolizaCombinadoFamiliar quitarAdjunto(@ParameterLayout(named="Imagen") Adjunto adjunto) {
+    	Iterator<Adjunto> it = getRiesgoAutomotorAdjunto().iterator();
+    	while (it.hasNext()) {
+    		Adjunto lista = it.next();
+    		if (lista.equals(adjunto))
+    			it.remove();
+    	}
+    	return this;
+    }
+    
+    public List<Adjunto> choices0QuitarAdjunto(){
+    	return getRiesgoAutomotorAdjunto();
+    }
    
    //region > toString, compareTo
    @Override
    public String toString() {
        return ObjectContracts.toString(this, "polizaNumero");
-   }
-   @Override
-   public int compareTo(final PolizaCombinadoFamiliar other) {
-       return ObjectContracts.compare(this, other, "polizaNumero");
    }
 
    //endregion
@@ -599,6 +665,9 @@ public class PolizaCombinadoFamiliar extends Poliza implements Comparable<Poliza
    
    @Inject
    LocalidadRepository localidadesRepository;
+   
+   @Inject
+   AdjuntoRepository adjuntoRepository;
    
    //endregion
 

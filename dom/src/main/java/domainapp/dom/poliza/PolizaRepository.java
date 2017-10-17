@@ -1,5 +1,9 @@
 package domainapp.dom.poliza;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
@@ -7,9 +11,9 @@ import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
-import domainapp.dom.cliente.Cliente;
 import domainapp.dom.estado.Estado;
 import domainapp.dom.persona.Persona;
+import domainapp.dom.vehiculo.Vehiculo;
 
 
 @DomainService(
@@ -44,6 +48,19 @@ public class PolizaRepository {
                         Poliza.class,
                         "buscarPorCliente",
                         "polizaCliente", polizaCliente));
+    }
+    
+    public List<Poliza> listarPolizasPorVencimiento(){
+    	List<Poliza> listaPolizas = listarPorEstado(Estado.vigente);
+    	Iterator<Poliza> it = listaPolizas.iterator();
+    	while (it.hasNext()) {
+			Poliza lista = it.next();
+			if (lista.polizaRenovacion != null) {
+				it.remove();
+			}
+		}
+    	Collections.sort(listaPolizas);
+    	return listaPolizas;
     }
   
     @javax.inject.Inject

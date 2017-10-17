@@ -57,7 +57,7 @@ import domainapp.dom.vehiculo.VehiculoRepository;
 @DomainObject(publishing = Publishing.ENABLED, auditing = Auditing.ENABLED)
 @Inheritance(strategy = InheritanceStrategy.SUPERCLASS_TABLE)
 @Discriminator(value = "RiesgoIntegralComercio")
-public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaIntegralComercio> {
+public class PolizaIntegralComercio extends Poliza {
 
 	// region > title
 	public TranslatableString title() {
@@ -674,11 +674,6 @@ public class PolizaIntegralComercio extends Poliza implements Comparable<PolizaI
 	@Override
 	public String toString() {
 		return ObjectContracts.toString(this, "polizaNumero");
-	}
-
-	@Override
-	public int compareTo(final PolizaIntegralComercio other) {
-		return ObjectContracts.compare(this, other, "polizaNumero");
 	}
 
 	// endregion

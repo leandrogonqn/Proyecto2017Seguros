@@ -32,7 +32,7 @@ import domainapp.dom.modelo.ModeloRepository;
 )
 @DomainServiceLayout(
         named = "Vehiculos",
-        menuOrder = "3"
+        menuOrder = "50.1"
 )
 public class VehiculoMenu {
 	
@@ -57,8 +57,7 @@ public class VehiculoMenu {
 	    	return modelosRepository.listarActivos();
 	    }
 
-	    public static class CreateDomainEvent extends ActionDomainEvent<VehiculoMenu> {}
-	    @Action(domainEvent = CreateDomainEvent.class, semantics=SemanticsOf.IDEMPOTENT)
+	    @Action(semantics=SemanticsOf.IDEMPOTENT)
 	    @MemberOrder(sequence = "1.2")
 	    @ActionLayout(named="Crear Vehiculo")
 	    public Vehiculo crear(

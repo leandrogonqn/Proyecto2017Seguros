@@ -31,7 +31,7 @@ import domainapp.dom.ocupacion.OcupacionMenu.CreateDomainEvent;
 )
 @DomainServiceLayout(
         named = "Polizas Extras",
-        menuOrder = "20"
+        menuOrder = "40.4"
 )
 public class TipoTitularMenu {
 	

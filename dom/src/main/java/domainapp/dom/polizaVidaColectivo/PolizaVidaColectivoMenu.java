@@ -42,26 +42,14 @@ import domainapp.dom.tiposDeCoberturas.TipoDeCoberturaRepository;
         repositoryFor = PolizaVidaColectivo.class
 )
 @DomainServiceLayout(
-        named = "Polizas",
-        menuOrder = "1.3"
+        named = "Polizas Crear",
+        menuOrder = "20"
 )
 public class PolizaVidaColectivoMenu {
 	
-	  @Action(semantics = SemanticsOf.SAFE)
-	  @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Polizas Vida Colectivo")
-	  @MemberOrder(sequence = "2")
-	  public List<PolizaVidaColectivo> listar() {
-			  List<PolizaVidaColectivo> listaPolizaRiesgoVidaColectivo = polizasRepository.listar();
-			  for(int i=0; i< listaPolizaRiesgoVidaColectivo.size(); i++) {
-				  listaPolizaRiesgoVidaColectivo.get(i).actualizarPoliza();
-		        }
-		      return listaPolizaRiesgoVidaColectivo;
-	    }
-	  
-	    public static class CreateDomainEvent extends ActionDomainEvent<PolizaVidaColectivoMenu> {}
-	    @Action(domainEvent = CreateDomainEvent.class, invokeOn=InvokeOn.OBJECT_ONLY)
+	    @Action(invokeOn=InvokeOn.OBJECT_ONLY)
 	    @ActionLayout(named="Crear Poliza Vida Colectivo")
-	    @MemberOrder(sequence = "1")
+	    @MemberOrder(sequence = "130")
 	    public PolizaVidaColectivo crear(
 /*0*/	            @ParameterLayout(named="Número") final String polizaNumero,
 /*1*/	            @ParameterLayout(named="Cliente") final Persona polizaCliente,

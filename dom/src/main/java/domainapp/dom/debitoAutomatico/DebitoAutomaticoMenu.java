@@ -36,7 +36,7 @@ import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 )
 @DomainServiceLayout(
         named = "Tipo de pago",
-        menuOrder = "10.3"
+        menuOrder = "60.2"
 )
 public class DebitoAutomaticoMenu {
 	
