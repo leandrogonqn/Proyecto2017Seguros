@@ -115,10 +115,30 @@
             </bs3:tabGroup>
         </bs3:col>
         <bs3:col span="6">
-            <c:action id="crearAdjunto"/>
-            <c:action id="agregarAdjunto"/>
-            <c:action id="quitarAdjunto"/>
             <bs3:tabGroup  unreferencedCollections="true">
+                            <bs3:tab name="Lista de imagenes">
+                    <bs3:row>
+                        <bs3:col span="12" size="MD">
+							<c:action id="crearAdjunto" />
+				            <c:action id="agregarAdjunto"/>
+				            <c:action id="quitarAdjunto"/>
+				        </bs3:col>
+				        <bs3:col span="12">    
+                            <c:collection defaultView="table" id="riesgoAutomotorAdjunto"/>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
+                <bs3:tab name="Siniestros">
+                    <bs3:row>
+                        <bs3:col span="12" size="MD">
+				            <c:action id="agregarSiniestro"/>
+				            <c:action id="quitarSiniestro"/>
+				        </bs3:col>
+				        <bs3:col span="12">    
+                            <c:collection defaultView="table" id="polizaSiniestro"/>
+                        </bs3:col>
+                    </bs3:row>
+                </bs3:tab>
             </bs3:tabGroup>
         </bs3:col>
     </bs3:row>

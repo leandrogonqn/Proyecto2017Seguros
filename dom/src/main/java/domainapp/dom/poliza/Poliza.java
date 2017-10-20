@@ -1,9 +1,13 @@
 package domainapp.dom.poliza;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.jdo.annotations.Column;
@@ -12,6 +16,8 @@ import javax.jdo.annotations.DiscriminatorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
+import javax.jdo.annotations.Join;
+import javax.jdo.annotations.Persistent;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
@@ -23,7 +29,12 @@ import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
+import org.apache.isis.applib.annotation.Where;
+import org.apache.isis.applib.value.Blob;
 
+import com.bea.xml.stream.samples.Parse;
+
+import domainapp.dom.adjunto.Adjunto;
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
@@ -32,6 +43,8 @@ import domainapp.dom.estado.Estado;
 import domainapp.dom.persona.Persona;
 import domainapp.dom.polizaAutomotor.PolizaAutomotor;
 import domainapp.dom.polizaAutomotor.PolizaAutomotoresRepository;
+import domainapp.dom.siniestro.Siniestro;
+import domainapp.dom.siniestro.SiniestroRepository;
 import domainapp.dom.tiposDeCoberturas.TipoDeCobertura;
 import domainapp.dom.vehiculo.Vehiculo;
 
@@ -296,6 +309,23 @@ public abstract class Poliza implements Comparable<Poliza>{
 		this.polizaRenovacion = polizaRenovacion;
 	}	
 	
+	//Siniestro
+	@Column(allowsNull = "true")
+    @Property(
+            editing = Editing.DISABLED
+    )
+	@Join  
+	@PropertyLayout(named="Siniestros")
+	protected List<Siniestro> polizaSiniestro; 
+	
+	public List<Siniestro> getPolizaSiniestro() {
+		return polizaSiniestro;
+	}
+
+	public void setPolizaSiniestro(List<Siniestro> polizaSiniestro) {
+		this.polizaSiniestro = polizaSiniestro;
+	}	
+	
 	//Estado
 	@Column
     @Property(
@@ -351,20 +381,67 @@ public abstract class Poliza implements Comparable<Poliza>{
         }	
         return 0;
     }
-//    
-//	@Override
-//	public int compare(Poliza o1, Poliza o2) {
-//		// TODO Auto-generated method stub
-//		if (o1.polizaFechaVencimiento.before(o2.polizaFechaVencimiento)) {
-//			return -1;
-//		}
-//		if (o1.polizaFechaVencimiento.after(o2.polizaFechaVencimiento)) {
-//			return 1;
-//		}
-//		return 0;
-//	}
+    
+	@ActionLayout(named="Agregar Siniestro")
+    public Poliza agregarSiniestro(
+    	@ParameterLayout(named = "Descripcion") final String siniestroDescripcion,
+    	@ParameterLayout(named = "Fecha del Siniestro") final Date siniestroFecha) {
+    		this.getPolizaSiniestro().add(siniestroRepository.crear(siniestroDescripcion, this, siniestroFecha));
+    		this.setPolizaSiniestro(this.getPolizaSiniestro());
+    		return this;
+	}
+	
+    public Poliza quitarSiniestro(@ParameterLayout(named="Siniestro") Siniestro siniestro) {
+    	Iterator<Siniestro> it = getPolizaSiniestro().iterator();
+    	while (it.hasNext()) {
+    		Siniestro lista = it.next();
+    		if (lista.equals(siniestro))
+    			it.remove();
+    	}
+    	return this;
+    }
+    
+    public List<Siniestro> choices0QuitarSiniestro(){
+    	return getPolizaSiniestro();
+    }
 
-	@Inject 
+    @ActionLayout(hidden=Where.EVERYWHERE)
+	public int cantidadDeSiniestrosPorCliente(Cliente cliente) {
+		// TODO Auto-generated method stub
+		
+		int cant = 0;
+		if (this.getPolizaCliente() == cliente){
+			cant = this.getPolizaSiniestro().size();
+		}
+		
+		return cant;
+	}
+	
+	@ActionLayout(hidden=Where.EVERYWHERE)
+	public long contarCantidadDiasHastaVencimiento(Compania compania) {
+		// TODO Auto-generated method stub
+		long cant = 0;
+		Calendar a= Calendar.getInstance();
+		Date hoy = a.getTime();
+		
+		if (this.getPolizaCompania()== compania){
+			cant = getDifferenceDays(hoy, this.getPolizaFechaVencimiento());
+		}
+		return cant;
+	}
+	
+	@ActionLayout(hidden=Where.EVERYWHERE)
+	private long getDifferenceDays(Date d1, Date d2) {
+	    long diff = d2.getTime() - d1.getTime();
+	    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+	}
+    
+    @Inject 
 	PolizaRepository polizasRepository;
+	
+	@Inject
+	SiniestroRepository siniestroRepository;
+
+
 	
 }

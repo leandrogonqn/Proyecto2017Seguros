@@ -24,6 +24,11 @@ import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import domainapp.dom.estado.Estado;
+import domainapp.dom.poliza.Poliza;
+import domainapp.dom.poliza.PolizaRepository;
+import domainapp.dom.polizaAutomotor.PolizaAutomotoresRepository;
+
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -229,6 +234,23 @@ public class Compania implements Comparable<Compania> {
 	    public List<Compania> listarInactivos() {
 	        return companiaRepository.listarInactivos();
 	    }
+	    
+	    @ActionLayout(named="Prima Total")
+	    public double calcularPrimaTotalPorCompañia(Compania compania) {
+			poliza.actualizarPoliza();
+			double suma = 0; // suma de primas
+			List<Poliza> listaPolizas = polizaRepository.listarPorEstado(Estado.vigente);
+			
+			for(Poliza p: listaPolizas){
+				
+				if (p.getPolizaCompania()==compania){
+					
+					suma=suma + p.getPolizaImporteTotal();
+				}
+			}
+			
+			return suma;
+		}
 
     //region > injected dependencies
 
@@ -243,6 +265,12 @@ public class Compania implements Comparable<Compania> {
     
     @Inject
     CompaniaRepository companiaRepository;
+    
+    @Inject
+    PolizaRepository polizaRepository;
+    
+    @Inject
+    Poliza poliza;
 
     //endregion
 }
