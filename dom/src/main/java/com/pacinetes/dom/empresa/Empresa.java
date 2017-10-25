@@ -33,7 +33,7 @@
  */
 package com.pacinetes.dom.empresa;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +59,7 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
+import org.apache.isis.applib.value.Blob;
 
 import com.pacinetes.dom.localidad.Localidad;
 import com.pacinetes.dom.localidad.LocalidadRepository;
@@ -66,6 +67,7 @@ import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.provincia.Provincia;
 import com.pacinetes.dom.reportes.EmpresaReporte;
 import com.pacinetes.dom.reportes.GenerarReporte;
+import com.pacinetes.dom.reportes.ReporteRepository;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -151,7 +153,7 @@ public class Empresa extends Persona implements Comparable<Empresa> {
 	
     //endregion
     
-    public String imprimirEmpresa() throws JRException, FileNotFoundException{
+    public Blob imprimirEmpresa() throws JRException, IOException{
     	
 		List<Object> objectsReport = new ArrayList<Object>();
 		
@@ -165,13 +167,10 @@ public class Empresa extends Persona implements Comparable<Empresa> {
 		empresaReporte.setPersonaTelefono(getPersonaTelefono());
 		
 		objectsReport.add(empresaReporte);
+		String jrxml = "Empresa.jrxml";
+		String nombreArchivo = "Empresa_"+getEmpresaRazonSocial()+"_"+getPersonaCuitCuil();
 		
-		String nombreArchivo ="c:/reportes/Empresa_" + String.valueOf(empresaReporte.getPersonaCuitCuil())+"_"+  String.valueOf(empresaReporte.getEmpresaRazonSocial()) ;
-		
-		GenerarReporte.generarReporte("C:/workspace/Proyecto2017Seguros/webapp/reportes/Empresa.jrxml", objectsReport, nombreArchivo);
-		
-		return "Reporte Generado.";
-    	
+		return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
     }
 	
 	public List<Localidad> choices0ActualizarLocalidad(){
@@ -300,6 +299,9 @@ public class Empresa extends Persona implements Comparable<Empresa> {
     
     @Inject
     EmpresaRepository empresasRepository;
+    
+    @Inject
+    ReporteRepository reporteRepository;
 
     //endregion
 

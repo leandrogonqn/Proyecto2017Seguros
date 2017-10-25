@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte100" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="468f5298-c4db-4bf9-9253-f021d1b6d5be">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="dataset1" uuid="ca2e1178-9c7e-46fc-9ff1-b067eee8e468">
+		<parameter name="empresas" class="java.util.List">
+			<defaultValueExpression><![CDATA[Arrays.asList("Juan", "Pepe","Esteban","Carlos")]]></defaultValueExpression>
+		</parameter>
+		<field name="_THIS" class="java.lang.String"/>
+	</subDataset>
+	<field name="empresaRazonSocial" class="java.lang.String"/>
+	<field name="personaCuitCuil" class="java.lang.String"/>
+	<field name="personaTelefono" class="java.lang.String"/>
+	<field name="personaMail" class="java.lang.String"/>
+	<group name="Group1"/>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#0A1BFF" uuid="423448b8-6e0b-46b5-ba31-ffc3c10efe4a"/>
+				<staticText>
+					<reportElement x="20" y="20" width="330" height="43" forecolor="#FFFFFF" uuid="f950f964-085b-4a1e-a9b7-d3e57ac63416"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Si.Ge.Se.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="200" y="70" width="180" height="20" forecolor="#FFFFFF" uuid="40328cf5-074f-4058-81fc-6e2765588d8c"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Listado Empresas Activos]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="56" splitType="Stretch">
+			<staticText>
+				<reportElement x="59" y="30" width="130" height="20" uuid="50c99a67-ebf6-418b-8f30-1ea78fa6b237">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Razón Social]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="189" y="30" width="130" height="20" uuid="0faaba12-967c-4459-8c2a-4aac92e64534">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUIT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="320" y="30" width="130" height="20" uuid="c1b6737a-00a0-4493-bb80-225fd3d49b78"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contacto]]></text>
+			</staticText>
+			<line>
+				<reportElement x="59" y="50" width="392" height="1" uuid="05c39bc7-31f2-4878-bb90-2b4c75333cd5"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="59" y="0" width="130" height="20" uuid="01ee990a-e4ca-4228-993c-aef0efd4c036"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{empresaRazonSocial}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="189" y="0" width="130" height="20" uuid="0efa39c4-5e2d-46c5-8b9a-2888046f7426"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{personaCuitCuil}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="188" y="-5" width="1" height="25" uuid="f6b9682d-efe1-439c-8dd1-bb1ab2d64a25">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="318" y="-26" width="1" height="26" uuid="b441c773-2f8f-456c-8186-051ad003e48b"/>
+			</line>
+			<line>
+				<reportElement x="188" y="-26" width="1" height="26" uuid="0bf8b028-1fd4-4361-815b-9d06b8980a83"/>
+			</line>
+			<line>
+				<reportElement x="318" y="-5" width="1" height="25" uuid="4a882d44-7c65-48fc-b56b-a587613e3dd9">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="59" y="20" width="392" height="1" uuid="6c142249-4c96-4d18-b804-b485567d6d95"/>
+				<graphicElement>
+					<pen lineColor="#E0E0E0"/>
+				</graphicElement>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="319" y="-1" width="132" height="11" uuid="12833400-c837-4262-be33-e345e161d09a"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{personaTelefono}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="318" y="9" width="133" height="9" uuid="571ce266-019c-4cb4-822b-2713f93911ad"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{personaMail}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="43">
+			<textField>
+				<reportElement x="475" y="0" width="100" height="30" uuid="c710f823-74cc-47dd-9604-14362cd74836"/>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="-3" width="555" height="1" uuid="ecbb9969-cc0e-480f-b836-b3b2a4a671c8"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="140" height="30" uuid="d3b4c99c-db17-4a4e-b5e2-eddcde152233"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Pacinetes SRL]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

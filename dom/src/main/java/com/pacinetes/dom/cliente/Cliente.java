@@ -33,7 +33,7 @@
  */
 package com.pacinetes.dom.cliente;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -72,7 +72,9 @@ import com.pacinetes.dom.localidad.LocalidadRepository;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.reportes.ClienteReporte;
 import com.pacinetes.dom.reportes.GenerarReporte;
+import com.pacinetes.dom.reportes.ReporteRepository;
 
+import org.apache.isis.applib.value.Blob;
 import net.sf.jasperreports.engine.JRException;
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -149,7 +151,7 @@ public class Cliente extends Persona implements Comparable<Cliente> {
 	//endregion
     
     //GenerarReportePDF
-	public String imprimirCliente() throws JRException, FileNotFoundException{
+	public Blob imprimirCliente() throws JRException, IOException{
 			
 			List<Object> objectsReport = new ArrayList<Object>();
 			
@@ -167,14 +169,12 @@ public class Cliente extends Persona implements Comparable<Cliente> {
 			clienteReporte.setPersonaTelefono(getPersonaTelefono());
 			
 			objectsReport.add(clienteReporte);
+			String jrxml = "Cliente.jrxml";
+			String nombreArchivo = "Cliente_"+getClienteApellido()+"_"+getClienteNombre()+"_"+getPersonaCuitCuil();
 			
-			String nombreArchivo ="c:/reportes/Cliente_" + Integer.valueOf(clienteReporte.clienteDni)+"_"+  String.valueOf(clienteReporte.getClienteApellido() + "_" +String.valueOf(clienteReporte.getClienteNombre())) ;
-			
-			GenerarReporte.generarReporte("C:/workspace/Proyecto2017Seguros/webapp/reportes/Cliente.jrxml", objectsReport, nombreArchivo);
-			
-			return "Reporte Generado.";
+			return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
 	}	
-
+	
     //region > name (read-only property)
     public static final int NAME_LENGTH = 40;
 
@@ -504,6 +504,9 @@ public class Cliente extends Persona implements Comparable<Cliente> {
     
     @Inject
     ClienteRepository clientesRepository;
+    
+    @Inject
+    ReporteRepository reporteRepository;
 
     //endregion
 
