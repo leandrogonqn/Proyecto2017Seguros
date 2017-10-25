@@ -20,11 +20,12 @@ package domainapp.dom.cliente;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
@@ -33,9 +34,6 @@ import javax.jdo.annotations.InheritanceStrategy;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
-import org.apache.isis.applib.annotation.BookmarkPolicy;
-import org.apache.isis.applib.annotation.CommandReification;
-import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.InvokeOn;
@@ -47,18 +45,22 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
+import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
 
+import domainapp.dom.compania.Compania;
+import domainapp.dom.detalleTipoPago.DetalleTipoPago;
+import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.localidad.Localidad;
 import domainapp.dom.localidad.LocalidadRepository;
 import domainapp.dom.modules.reportes.ClienteReporte;
 import domainapp.dom.modules.reportes.GenerarReporte;
 import domainapp.dom.persona.Persona;
+import domainapp.dom.poliza.Poliza;
 import domainapp.dom.provincia.Provincia;
 import net.sf.jasperreports.engine.JRException;
 
@@ -81,6 +83,16 @@ import net.sf.jasperreports.engine.JRException;
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Clientes "
                         + "WHERE clienteDni == :clienteDni"),
+        @javax.jdo.annotations.Query(
+                name = "listarActivos", language = "JDOQL",
+                value = "SELECT "
+                        + "FROM domainapp.dom.simple.Clientes "
+                        + "WHERE personaActivo == true "),
+        @javax.jdo.annotations.Query(
+                name = "listarInactivos", language = "JDOQL",
+                value = "SELECT "
+                        + "FROM domainapp.dom.simple.Clientes "
+                        + "WHERE personaActivo == false ")
 })
 @DomainObject(
         publishing = Publishing.ENABLED,
@@ -403,33 +415,67 @@ public class Cliente extends Persona implements Comparable<Cliente> {
         return ObjectContracts.toString(this, "clienteNombre");
     }
     @Override
-    public int compareTo(final Cliente other) {
-        return ObjectContracts.compare(this, other, "clienteNombre");
+    public int compareTo(Cliente o) {
+        if (clienteFechaNacimiento.before(o.getClienteFechaNacimiento()) ) {
+            return -1;
+        }
+        if (clienteFechaNacimiento.after(o.getClienteFechaNacimiento())) {
+            return 1;
+        }	
+        return 0;
     }
 
     //endregion
 
     //accion
     @ActionLayout(named="Listar todos los clientes")
-    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
     @MemberOrder(sequence = "2")
-    public List<Cliente> listar() {
+    public List<Cliente> listarClientes() {
         return clientesRepository.listar();
     }
     
-//    @ActionLayout(named="Listar Clientes Activos")
-//    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
-//    @MemberOrder(sequence = "3")
-//    public List<Cliente> listarActivos() {
-//        return clientesRepository.listarActivos();
-//    }
-//    
-//    @ActionLayout(named="Listar Clientes Inactivos")
-//    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
-//    @MemberOrder(sequence = "4")
-//    public List<Cliente> listarInactivos() {
-//        return clientesRepository.listarInactivos();
-//    }
+    @ActionLayout(named="Listar clientes activos")
+    @MemberOrder(sequence = "2")
+    public List<Cliente> listarClientesActivos() {
+        return clientesRepository.listarActivos();
+    }
+    
+    @ActionLayout(named="Listar clientes inactivos")
+    @MemberOrder(sequence = "2")
+    public List<Cliente> listarClienteInactivos() {
+        return clientesRepository.listarInactivos();
+    }
+    
+    @ActionLayout(named="Dias restantes para el cumpleaños", cssClassFa="fa-birthday-cake")
+    public long calcularDiasRestantesParaCumpleaños(){
+		
+    	Calendar hoyCal = Calendar.getInstance();
+    	Date hoyDate = hoyCal.getTime();
+    	Date cumpleaños = new Date();
+    	long cant;
+		cumpleaños.setDate(this.getClienteFechaNacimiento().getDate());
+		cumpleaños.setMonth(this.getClienteFechaNacimiento().getMonth());
+		cumpleaños.setYear(hoyDate.getYear());
+		if (cumpleaños.before(hoyDate)) {
+			cumpleaños.setYear(cumpleaños.getYear() + 1);
+		}
+		cant = getDifferenceDays(hoyDate, cumpleaños);
+		return cant;
+	}
+    
+	@ActionLayout(hidden=Where.EVERYWHERE)
+	private long getDifferenceDays(Date d1, Date d2) {
+	    long diff = d2.getTime() - d1.getTime();
+	    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+	}
+	
+	public String validateCalcularDiasRestantesParaCumpleaños(){
+		if (this.getClienteFechaNacimiento()==null){
+			return "No tiene fecha de nacimiento cargada";
+		}
+		return "";
+	}
+    
     
     //region > injected dependencies
 

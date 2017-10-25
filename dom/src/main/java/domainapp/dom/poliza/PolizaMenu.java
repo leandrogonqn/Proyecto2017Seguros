@@ -1,6 +1,9 @@
 package domainapp.dom.poliza;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
@@ -13,6 +16,8 @@ import org.apache.isis.applib.annotation.SemanticsOf;
 
 import domainapp.dom.cliente.Cliente;
 import domainapp.dom.cliente.ClienteRepository;
+import domainapp.dom.compania.Compania;
+import domainapp.dom.compania.CompaniaRepository;
 import domainapp.dom.estado.Estado;
 import domainapp.dom.persona.Persona;
 import domainapp.dom.persona.PersonaRepository;
@@ -23,18 +28,15 @@ import domainapp.dom.persona.PersonaRepository;
 )
 @DomainServiceLayout(
         named = "Polizas Listar",
-        menuOrder = "29"
+        menuOrder = "28.10"
 )
 public class PolizaMenu {
 
 	  @Action(semantics = SemanticsOf.SAFE)
 	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar todas las polizas")
-	    @MemberOrder(sequence = "3")
+	    @MemberOrder(sequence = "4")
 	    public List<Poliza> listar() {
 		  List<Poliza> listaPolizas = polizasRepository.listar();
-		  for(int i=0; i< listaPolizas.size(); i++) {
-	            listaPolizas.get(i).actualizarPoliza();
-	        }
 	      return listaPolizas;
 	    }
 	    
@@ -59,7 +61,19 @@ public class PolizaMenu {
 	    	return personaRepository.listarActivos();
 	    }
 	    
-	    @MemberOrder(sequence = "4")	    
+	    @Action(semantics = SemanticsOf.SAFE)
+	    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Buscar polizas por Companias")
+	    @MemberOrder(sequence = "3")
+	    public List<Poliza> buscarPorCompania(
+	    		@ParameterLayout(named="Compania") final Compania polizaCompania){
+	    	return polizasRepository.buscarPorCompania(polizaCompania);
+	    }
+	    
+	    public List<Compania> choices0BuscarPorCompania(){
+	    	return companiaRepository.listarActivos();
+	    }
+	    
+	    @MemberOrder(sequence = "5")	    
 	    @ActionLayout(named="Listar por Estados")
 	    public List<Poliza> listarPorEstado(final Estado estado){
 			return polizasRepository.listarPorEstado(estado);
@@ -69,4 +83,6 @@ public class PolizaMenu {
 	    PolizaRepository polizasRepository;
 	    @javax.inject.Inject
 	    PersonaRepository personaRepository;
+	    @Inject
+	    CompaniaRepository companiaRepository;
 }

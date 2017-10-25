@@ -18,15 +18,12 @@
  */
 package domainapp.dom.empresa;
 
-import java.util.Date;
 import java.util.List;
-
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
-
 import domainapp.dom.localidad.Localidad;
 
 
@@ -36,9 +33,17 @@ import domainapp.dom.localidad.Localidad;
 )
 public class EmpresaRepository {
 
-    public List<Empresa> listar() {
-        return repositoryService.allInstances(Empresa.class);
-    }
+	public List<Empresa> listar() {
+		return repositoryService.allInstances(Empresa.class);
+	}
+
+	public List<Empresa> listarActivos() {
+		return repositoryService.allMatches(new QueryDefault<>(Empresa.class, "listarActivos"));
+	}
+
+	public List<Empresa> listarInactivos() {
+		return repositoryService.allMatches(new QueryDefault<>(Empresa.class, "listarInactivos"));
+	}
 
     public List<Empresa> buscarPorRazonSocial(final String empresaRazonSocial) {
         return repositoryService.allMatches(

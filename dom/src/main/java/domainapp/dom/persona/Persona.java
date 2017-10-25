@@ -132,27 +132,6 @@ public abstract class Persona {
 		this.personaActivo = personaActivo;
 	}	
 	
-	@Action(invokeOn = InvokeOn.COLLECTION_ONLY)
-	@ActionLayout(named = "Listar Todos los clientes")
-	@MemberOrder(sequence = "2")
-	public List<Persona> listarPagos() {
-		return personaRepository.listar();
-	}
-
-	@MemberOrder(sequence = "1.2")
-	@Action(invokeOn = InvokeOn.COLLECTION_ONLY)
-	@ActionLayout(named = "Listar clientes Activos")
-	public List<Persona> listarActivos() {
-		return personaRepository.listarActivos();
-	}
-
-	@MemberOrder(sequence = "1.2")
-	@Action(invokeOn = InvokeOn.COLLECTION_ONLY)
-	@ActionLayout(named = "Listar clientes Inactivos")
-	public List<Persona> listarInactivos() {
-		return personaRepository.listarInactivos();
-	}
-	
 	@Inject
 	PersonaRepository personaRepository;
 

@@ -41,14 +41,14 @@
         <bs3:col span="6" unreferencedCollections="true">
             <bs3:row>
                 <bs3:col span="12">
-                    <collection id="clientes" defaultView="table"/>
+                    <collection id="facturacion" defaultView="table"/>
                 </bs3:col>
             </bs3:row>
         </bs3:col>
         <bs3:col span="6" unreferencedCollections="true">
             <bs3:row>
                 <bs3:col span="12">
-                    <collection id="empresas" defaultView="table"/>
+                    <collection id="clientes" defaultView="table"/>
                 </bs3:col>
             </bs3:row>
         </bs3:col>

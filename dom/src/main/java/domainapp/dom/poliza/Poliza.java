@@ -1,9 +1,6 @@
 package domainapp.dom.poliza;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -17,7 +14,6 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.Join;
-import javax.jdo.annotations.Persistent;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
@@ -30,23 +26,13 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.Where;
-import org.apache.isis.applib.value.Blob;
-
-import com.bea.xml.stream.samples.Parse;
-
-import domainapp.dom.adjunto.Adjunto;
-import domainapp.dom.cliente.Cliente;
 import domainapp.dom.compania.Compania;
 import domainapp.dom.detalleTipoPago.DetalleTipoPago;
 import domainapp.dom.detalleTipoPago.TipoPago;
 import domainapp.dom.estado.Estado;
 import domainapp.dom.persona.Persona;
-import domainapp.dom.polizaAutomotor.PolizaAutomotor;
-import domainapp.dom.polizaAutomotor.PolizaAutomotoresRepository;
 import domainapp.dom.siniestro.Siniestro;
 import domainapp.dom.siniestro.SiniestroRepository;
-import domainapp.dom.tiposDeCoberturas.TipoDeCobertura;
-import domainapp.dom.vehiculo.Vehiculo;
 
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -72,9 +58,13 @@ import domainapp.dom.vehiculo.Vehiculo;
                 name = "buscarPorCliente", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Polizas "
-                        + "WHERE polizaCliente == :polizaCliente")
+                        + "WHERE polizaCliente == :polizaCliente"),
+        @javax.jdo.annotations.Query(
+                name = "buscarPorCompania", language = "JDOQL",
+                value = "SELECT "
+                        + "FROM domainapp.dom.simple.Polizas "
+                        + "WHERE polizaCompania == :polizaCompania")
 })
-@javax.jdo.annotations.Unique(name="Polizas_polizaNumero_UNQ", members = {"polizaNumero"})
 @DomainObject(
         publishing = Publishing.ENABLED,
         auditing = Auditing.ENABLED
@@ -345,11 +335,8 @@ public abstract class Poliza implements Comparable<Poliza>{
     //endregion
 
 	//acciones
-	
-	@Action(
-			invokeOn=InvokeOn.OBJECT_AND_COLLECTION
-			)
-	@ActionLayout(named="Actualizar Estado de las Polizas")
+
+	@ActionLayout(named="Actualizar Estado de las Poliza",hidden=Where.EVERYWHERE)
 	public Poliza actualizarPoliza(){
 		polizaEstado.actualizarEstado(this);
 		return this;
@@ -406,11 +393,11 @@ public abstract class Poliza implements Comparable<Poliza>{
     }
 
     @ActionLayout(hidden=Where.EVERYWHERE)
-	public int cantidadDeSiniestrosPorCliente(Cliente cliente) {
+	public int cantidadDeSiniestrosPorCliente(Persona persona) {
 		// TODO Auto-generated method stub
 		
 		int cant = 0;
-		if (this.getPolizaCliente() == cliente){
+		if (this.getPolizaCliente() == persona){
 			cant = this.getPolizaSiniestro().size();
 		}
 		
@@ -427,6 +414,17 @@ public abstract class Poliza implements Comparable<Poliza>{
 		if (this.getPolizaCompania()== compania){
 			cant = getDifferenceDays(hoy, this.getPolizaFechaVencimiento());
 		}
+		return cant;
+	}
+	
+	@ActionLayout(hidden=Where.EVERYWHERE)
+	public long contarCantidadDiasHastaVencimiento() {
+		long cant = 0;
+		Calendar a= Calendar.getInstance();
+		Date hoy = a.getTime();
+		
+		cant = getDifferenceDays(hoy, this.getPolizaFechaVencimiento());
+		
 		return cant;
 	}
 	

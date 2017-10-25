@@ -18,12 +18,19 @@
  */
 package domainapp.app.services.homepage;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.HomePage;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.registry.ServiceRegistry;
+
+import domainapp.dom.poliza.Poliza;
+import domainapp.dom.poliza.PolizaRepository;
 
 @DomainService(
         nature = NatureOfService.VIEW_CONTRIBUTIONS_ONLY // trick to suppress the actions from the top-level menu
@@ -35,8 +42,12 @@ public class HomePageService {
     @Action(
             semantics = SemanticsOf.SAFE
     )
-    @HomePage
-    public HomePageViewModel homePage() {
+	@HomePage
+	public HomePageViewModel homePage() {
+		List<Poliza> listPolizas = polizaRepository.listar();
+		for (int i = 0; i < listPolizas.size(); i++) {
+			listPolizas.get(i).actualizarPoliza();
+		}
         return serviceRegistry.injectServicesInto(new HomePageViewModel());
     }
 
@@ -46,6 +57,9 @@ public class HomePageService {
 
     @javax.inject.Inject
     ServiceRegistry serviceRegistry;
+    
+    @Inject
+    PolizaRepository polizaRepository;
 
     //endregion
 }
