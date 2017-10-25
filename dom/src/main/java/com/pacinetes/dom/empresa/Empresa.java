@@ -31,7 +31,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package com.pacinetes.dom.empresas;
+package com.pacinetes.dom.empresa;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -81,17 +81,17 @@ import net.sf.jasperreports.engine.JRException;
 		@javax.jdo.annotations.Query(
 		        name = "buscarPorRazonSocial", language = "JDOQL",
 		        value = "SELECT "
-		                + "FROM domainapp.dom.simple.Empresas "
+		                + "FROM com.pacinetes.dom.simple.Empresas "
 		                + "WHERE empresaRazonSocial.toLowerCase().indexOf(:empresaRazonSocial) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Empresas "
+                        + "FROM com.pacinetes.dom.simple.Empresas "
                         + "WHERE personaActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Empresas "
+                        + "FROM com.pacinetes.dom.simple.Empresas "
                         + "WHERE personaActivo == false ")
 		})
 @DomainObject(

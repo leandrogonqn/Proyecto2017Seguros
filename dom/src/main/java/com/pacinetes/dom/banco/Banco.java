@@ -73,17 +73,17 @@ import com.pacinetes.dom.marca.Marca;
         @javax.jdo.annotations.Query(
                 name = "findByName", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.banco "
+                        + "FROM com.pacinetes.dom.simple.banco "
                         + "WHERE bancoNombre.toLowerCase().indexOf(:bancoNombre) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.banco "
+                        + "FROM com.pacinetes.dom.simple.banco "
                         + "WHERE bancoActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.banco "
+                        + "FROM com.pacinetes.dom.simple.banco "
                         + "WHERE bancoActivo == false ") 
 })
 @javax.jdo.annotations.Unique(name="banco_bancoNombre_UNQ", members = {"bancoNombre"})

@@ -53,17 +53,17 @@ import org.datanucleus.enhancer.methods.GetTransactionalObjectId;
         @javax.jdo.annotations.Query(
                 name = "findByName", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.ocupacion "
+                        + "FROM com.pacinetes.dom.simple.ocupacion "
                         + "WHERE ocupacionNombre.toLowerCase().indexOf(:ocupacionNombre) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.ocupacion "
+                        + "FROM com.pacinetes.dom.simple.ocupacion "
                         + "WHERE ocupacionActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.ocupacion "
+                        + "FROM com.pacinetes.dom.simple.ocupacion "
                         + "WHERE ocupacionActivo == false ") 
 })
 @javax.jdo.annotations.Unique(name="ocupaciones_ocupacionNombre_UNQ", members = {"ocupacionNombre"})

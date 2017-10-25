@@ -58,18 +58,18 @@ import com.pacinetes.dom.tipovehiculo.TipoVehiculo;
         @javax.jdo.annotations.Query(
                 name = "buscarPorNombre", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Localidades "
+                        + "FROM com.pacinetes.dom.simple.Localidades "
                         + "WHERE localidadesNombre.toLowerCase().indexOf(:localidadesNombre) >= 0 "),
 
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Localidades "
+                        + "FROM com.pacinetes.dom.simple.Localidades "
                         + "WHERE localidadActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Localidades "
+                        + "FROM com.pacinetes.dom.simple.Localidades "
                         + "WHERE localidadActivo == false ") 
 })
 @javax.jdo.annotations.Unique(name="Localidades_localidadesNombre_UNQ", members = {"localidadesNombre"})

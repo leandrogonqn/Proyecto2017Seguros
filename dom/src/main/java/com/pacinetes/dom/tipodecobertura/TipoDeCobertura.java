@@ -55,18 +55,18 @@ import com.pacinetes.dom.tipovehiculo.TipoVehiculo;
         @javax.jdo.annotations.Query(
                 name = "buscarPorNombre", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.TiposDeCoberturas "
+                        + "FROM com.pacinetes.dom.simple.TiposDeCoberturas "
                         + "WHERE tipoDeCoberturaNombre.toLowerCase().indexOf(:tipoDeCoberturaNombre) >= 0 "),
 
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.TiposDeCoberturas "
+                        + "FROM com.pacinetes.dom.simple.TiposDeCoberturas "
                         + "WHERE tipoDeCoberturaActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.TiposDeCoberturas "
+                        + "FROM com.pacinetes.dom.simple.TiposDeCoberturas "
                         + "WHERE tipoDeCoberturaActivo == false ") 
 })
 @javax.jdo.annotations.Unique(name="TiposDeCoberturas_tipoDeCoberturaNombre_UNQ", members = {"tipoDeCoberturaNombre"})

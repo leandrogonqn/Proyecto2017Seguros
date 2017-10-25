@@ -32,12 +32,12 @@ import com.pacinetes.dom.poliza.Poliza;
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.siniestro "
+                        + "FROM com.pacinetes.dom.simple.siniestro "
                         + "WHERE siniestroActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.siniestro "
+                        + "FROM com.pacinetes.dom.simple.siniestro "
                         + "WHERE siniestroActivo == false ") 
 })
 @DomainObject(

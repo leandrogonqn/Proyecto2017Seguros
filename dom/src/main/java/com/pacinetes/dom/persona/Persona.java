@@ -29,12 +29,12 @@ import com.pacinetes.dom.localidad.Localidad;
 	@javax.jdo.annotations.Query(
 	        name = "listarActivos", language = "JDOQL",
 	        value = "SELECT "
-	                + "FROM domainapp.dom.simple.Clientes "
+	                + "FROM com.pacinetes.dom.simple.Clientes "
 	                + "WHERE personaActivo == true "),
 	@javax.jdo.annotations.Query(
 	        name = "listarInactivos", language = "JDOQL",
 	        value = "SELECT "
-	                + "FROM domainapp.dom.simple.Clientes "
+	                + "FROM com.pacinetes.dom.simple.Clientes "
 	                + "WHERE personaActivo == false ")
 })
 @javax.jdo.annotations.DatastoreIdentity(

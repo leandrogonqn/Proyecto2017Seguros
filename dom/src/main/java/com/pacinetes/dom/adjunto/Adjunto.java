@@ -53,17 +53,17 @@ import com.pacinetes.dom.poliza.Poliza;
     @javax.jdo.annotations.Query(
             name = "listarActivos", language = "JDOQL",
             value = "SELECT "
-                    + "FROM domainapp.dom.simple.Adjunto "
+                    + "FROM com.pacinetes.dom.simple.Adjunto "
                     + "WHERE adjuntoActivo == true "),
     @javax.jdo.annotations.Query(
             name = "listarInactivos", language = "JDOQL",
             value = "SELECT "
-                    + "FROM domainapp.dom.simple.Adjunto "
+                    + "FROM com.pacinetes.dom.simple.Adjunto "
                     + "WHERE adjuntoActivo == false "),
     @javax.jdo.annotations.Query(
             name = "buscarPorDescripcion", language = "JDOQL",
             value = "SELECT "
-                    + "FROM domainapp.dom.simple.Adjunto "
+                    + "FROM com.pacinetes.dom.simple.Adjunto "
                     + "WHERE adjuntoDescripcion.toLowerCase().indexOf(:adjuntoDescripcion) >= 0 ")
 })
 @javax.jdo.annotations.Unique(name="Adjunto_adjuntoDescripcion_UNQ", members = {"adjuntoDescripcion"})

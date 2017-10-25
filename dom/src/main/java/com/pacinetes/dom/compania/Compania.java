@@ -16,20 +16,12 @@
 package com.pacinetes.dom.compania;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-
 import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
-import javax.swing.JOptionPane;
-
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
-import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.InvokeOn;
@@ -39,7 +31,6 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
@@ -63,17 +54,17 @@ import com.pacinetes.dom.poliza.PolizaRepository;
         @javax.jdo.annotations.Query(
                 name = "buscarPorNombre", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Companias "
+                        + "FROM com.pacinetes.dom.simple.Companias "
                         + "WHERE companiaNombre.toLowerCase().indexOf(:companiaNombre) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Companias "
+                        + "FROM com.pacinetes.dom.simple.Companias "
                         + "WHERE companiaActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Companias "
+                        + "FROM com.pacinetes.dom.simple.Companias "
                         + "WHERE companiaActivo == false ") 
 })
 @javax.jdo.annotations.Unique(name="Companias_companiaNombre_UNQ", members = {"companiaNombre"})

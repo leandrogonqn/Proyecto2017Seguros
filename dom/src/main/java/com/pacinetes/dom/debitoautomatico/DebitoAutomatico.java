@@ -46,12 +46,12 @@ import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
     @javax.jdo.annotations.Query(
             name = "listarActivos", language = "JDOQL",
             value = "SELECT "
-                    + "FROM domainapp.dom.simple.DebitoAutomatico "
+                    + "FROM com.pacinetes.dom.simple.DebitoAutomatico "
                     + "WHERE tipoPagoActivo == true "),
     @javax.jdo.annotations.Query(
             name = "listarInactivos", language = "JDOQL",
             value = "SELECT "
-                    + "FROM domainapp.dom.simple.DebitoAutomatico "
+                    + "FROM com.pacinetes.dom.simple.DebitoAutomatico "
                     + "WHERE tipoPagoActivo == false ")})
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,

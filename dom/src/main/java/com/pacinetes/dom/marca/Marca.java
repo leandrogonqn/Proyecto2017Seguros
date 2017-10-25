@@ -55,18 +55,18 @@ import com.pacinetes.dom.tipovehiculo.TipoVehiculo;
         @javax.jdo.annotations.Query(
                 name = "buscarPorNombre", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Marcas "
+                        + "FROM com.pacinetes.dom.simple.Marcas "
                         + "WHERE marcasNombre.toLowerCase().indexOf(:marcasNombre) >= 0 "),
 
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Marcas "
+                        + "FROM com.pacinetes.dom.simple.Marcas "
                         + "WHERE marcaActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Marcas "
+                        + "FROM com.pacinetes.dom.simple.Marcas "
                         + "WHERE marcaActivo == false ") 
 })
 @javax.jdo.annotations.Unique(name="Marcas_marcasNombre_UNQ", members = {"marcasNombre"})

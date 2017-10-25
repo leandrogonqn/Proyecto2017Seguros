@@ -37,17 +37,17 @@ import com.pacinetes.dom.banco.Banco;
     @javax.jdo.annotations.Query(
             name = "buscarPorTitular", language = "JDOQL",
             value = "SELECT "
-                    + "FROM domainapp.dom.simple.DetalleTipoPago "
+                    + "FROM com.pacinetes.dom.simple.DetalleTipoPago "
                     + "WHERE tipoPagoTitular.toLowerCase().indexOf(:tipoPagoTitular) >= 0 "),
     @javax.jdo.annotations.Query(
             name = "listarActivos", language = "JDOQL",
             value = "SELECT "
-                    + "FROM domainapp.dom.simple.DetalleTipoPagos "
+                    + "FROM com.pacinetes.dom.simple.DetalleTipoPagos "
                     + "WHERE tipoPagoActivo == true "),
     @javax.jdo.annotations.Query(
             name = "listarInactivos", language = "JDOQL",
             value = "SELECT "
-                    + "FROM domainapp.dom.simple.DetalleTipoPagos "
+                    + "FROM com.pacinetes.dom.simple.DetalleTipoPagos "
                     + "WHERE tipoPagoActivo == false ")})
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,

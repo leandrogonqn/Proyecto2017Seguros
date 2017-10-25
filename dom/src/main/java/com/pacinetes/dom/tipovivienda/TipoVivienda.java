@@ -51,17 +51,17 @@ import org.apache.isis.applib.util.ObjectContracts;
         @javax.jdo.annotations.Query(
                 name = "findByName", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.tipoVivienda "
+                        + "FROM com.pacinetes.dom.simple.tipoVivienda "
                         + "WHERE tipoViviendaNombre.toLowerCase().indexOf(:tipoViviendaNombre) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.tipoVivienda "
+                        + "FROM com.pacinetes.dom.simple.tipoVivienda "
                         + "WHERE tipoViviendaActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.tipoVivienda "
+                        + "FROM com.pacinetes.dom.simple.tipoVivienda "
                         + "WHERE tipoViviendaActivo == false ") 
 })
 @javax.jdo.annotations.Unique(name="tiposVivienda_tipoViviendaNombre_UNQ", members = {"tipoViviendaNombre"})

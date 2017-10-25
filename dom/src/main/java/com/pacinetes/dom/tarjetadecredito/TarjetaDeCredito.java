@@ -55,12 +55,12 @@ import com.pacinetes.dom.tipotarjeta.TipoTarjetaRepository;
     @javax.jdo.annotations.Query(
             name = "listarActivos", language = "JDOQL",
             value = "SELECT "
-                    + "FROM domainapp.dom.simple.TarjetaDeCredito "
+                    + "FROM com.pacinetes.dom.simple.TarjetaDeCredito "
                     + "WHERE tipoPagoActivo == true "),
     @javax.jdo.annotations.Query(
             name = "listarInactivos", language = "JDOQL",
             value = "SELECT "
-                    + "FROM domainapp.dom.simple.TarjetaDeCredito "
+                    + "FROM com.pacinetes.dom.simple.TarjetaDeCredito "
                     + "WHERE tipoPagoActivo == false ")})
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,

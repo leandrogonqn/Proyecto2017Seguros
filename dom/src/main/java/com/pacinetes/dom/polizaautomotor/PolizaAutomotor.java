@@ -83,7 +83,7 @@ import com.pacinetes.dom.vehiculo.VehiculoRepository;
     @javax.jdo.annotations.Query(
             name = "listarPorEstado", language = "JDOQL",
             value = "SELECT "
-                    + "FROM domainapp.dom.simple.Polizas "
+                    + "FROM com.pacinetes.dom.simple.Polizas "
                     + "WHERE polizaEstado == :polizaEstado")
 })
 @DomainObject(

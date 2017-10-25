@@ -50,18 +50,18 @@ import org.apache.isis.applib.util.ObjectContracts;
         @javax.jdo.annotations.Query(
                 name = "buscarPorNombre", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Provincias "
+                        + "FROM com.pacinetes.dom.simple.Provincias "
                         + "WHERE provinciasNombre.toLowerCase().indexOf(:provinciasNombre) >= 0 "),
 
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Provincias "
+                        + "FROM com.pacinetes.dom.simple.Provincias "
                         + "WHERE provinciaActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Provincias "
+                        + "FROM com.pacinetes.dom.simple.Provincias "
                         + "WHERE provinciaActivo == false ") 
 })
 @javax.jdo.annotations.Unique(name="Provincias_provinciasNombre_UNQ", members = {"provinciasNombre"})

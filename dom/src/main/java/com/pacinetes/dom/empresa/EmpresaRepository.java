@@ -31,7 +31,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package com.pacinetes.dom.empresas;
+package com.pacinetes.dom.empresa;
 
 import java.util.List;
 import org.apache.isis.applib.annotation.DomainService;

@@ -61,17 +61,17 @@ import com.pacinetes.dom.tipovehiculo.TipoVehiculoRepository;
         @javax.jdo.annotations.Query(
                 name = "buscarPorNombre", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Modelos "
+                        + "FROM com.pacinetes.dom.simple.Modelos "
                         + "WHERE modeloNombre.toLowerCase().indexOf(:modeloNombre) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Modelos "
+                        + "FROM com.pacinetes.dom.simple.Modelos "
                         + "WHERE modeloActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Modelos "
+                        + "FROM com.pacinetes.dom.simple.Modelos "
                         + "WHERE modeloActivo == false ") 
 })
 @javax.jdo.annotations.Unique(name="Modelos_modeloNombre_UNQ", members = {"modeloNombre","modeloMarcas"})

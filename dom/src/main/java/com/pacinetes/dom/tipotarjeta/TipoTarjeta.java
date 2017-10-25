@@ -73,17 +73,17 @@ import com.pacinetes.dom.marca.Marca;
         @javax.jdo.annotations.Query(
                 name = "findByName", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.tipoTarjeta "
+                        + "FROM com.pacinetes.dom.simple.tipoTarjeta "
                         + "WHERE tipoTarjetaNombre.toLowerCase().indexOf(:tipoTarjetaNombre) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarActivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.tipoTarjeta "
+                        + "FROM com.pacinetes.dom.simple.tipoTarjeta "
                         + "WHERE tipoTarjetaActivo == true "),
         @javax.jdo.annotations.Query(
                 name = "listarInactivos", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.tipoTarjeta "
+                        + "FROM com.pacinetes.dom.simple.tipoTarjeta "
                         + "WHERE tipoTarjetaActivo == false ") 
 })
 @javax.jdo.annotations.Unique(name="tipoTarjeta_tipoTarjetaNombre_UNQ", members = {"tipoTarjetaNombre"})

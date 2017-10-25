@@ -68,22 +68,22 @@ import com.pacinetes.dom.vehiculo.Vehiculo;
         @javax.jdo.annotations.Query(
                 name = "buscarPorNumeroPoliza", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Polizas "
+                        + "FROM com.pacinetes.dom.simple.Polizas "
                         + "WHERE polizaNumero.toLowerCase().indexOf(:polizaNumero) >= 0 "),
         @javax.jdo.annotations.Query(
                 name = "listarPorEstado", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Polizas "
+                        + "FROM com.pacinetes.dom.simple.Polizas "
                         + "WHERE polizaEstado == :polizaEstado"),
         @javax.jdo.annotations.Query(
                 name = "buscarPorCliente", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Polizas "
+                        + "FROM com.pacinetes.dom.simple.Polizas "
                         + "WHERE polizaCliente == :polizaCliente"),
         @javax.jdo.annotations.Query(
                 name = "buscarPorCompania", language = "JDOQL",
                 value = "SELECT "
-                        + "FROM domainapp.dom.simple.Polizas "
+                        + "FROM com.pacinetes.dom.simple.Polizas "
                         + "WHERE polizaCompania == :polizaCompania")
 })
 @DomainObject(
