@@ -41,7 +41,6 @@ import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
-
 import com.pacinetes.dom.localidad.Localidad;
 
 
@@ -51,9 +50,17 @@ import com.pacinetes.dom.localidad.Localidad;
 )
 public class ClienteRepository {
 
-    public List<Cliente> listar() {
-        return repositoryService.allInstances(Cliente.class);
-    }
+	public List<Cliente> listar() {
+		return repositoryService.allInstances(Cliente.class);
+	}
+
+	public List<Cliente> listarActivos() {
+		return repositoryService.allMatches(new QueryDefault<>(Cliente.class, "listarActivos"));
+	}
+
+	public List<Cliente> listarInactivos() {
+		return repositoryService.allMatches(new QueryDefault<>(Cliente.class, "listarInactivos"));
+	}
 
     public List<Cliente> buscarPorNombre(final String clienteNombre) {
         return repositoryService.allMatches(

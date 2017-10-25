@@ -82,7 +82,18 @@ import net.sf.jasperreports.engine.JRException;
 		        name = "buscarPorRazonSocial", language = "JDOQL",
 		        value = "SELECT "
 		                + "FROM domainapp.dom.simple.Empresas "
-		                + "WHERE empresaRazonSocial.toLowerCase().indexOf(:empresaRazonSocial) >= 0 ")})
+		                + "WHERE empresaRazonSocial.toLowerCase().indexOf(:empresaRazonSocial) >= 0 "),
+        @javax.jdo.annotations.Query(
+                name = "listarActivos", language = "JDOQL",
+                value = "SELECT "
+                        + "FROM domainapp.dom.simple.Empresas "
+                        + "WHERE personaActivo == true "),
+        @javax.jdo.annotations.Query(
+                name = "listarInactivos", language = "JDOQL",
+                value = "SELECT "
+                        + "FROM domainapp.dom.simple.Empresas "
+                        + "WHERE personaActivo == false ")
+		})
 @DomainObject(
         publishing = Publishing.ENABLED,
         auditing = Auditing.ENABLED
@@ -256,25 +267,22 @@ public class Empresa extends Persona implements Comparable<Empresa> {
 
     //accion
     @ActionLayout(named="Listar todos los empresas")
-    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
     @MemberOrder(sequence = "2")
     public List<Empresa> listar() {
         return empresasRepository.listar();
     }
     
-//    @ActionLayout(named="Listar Clientes Activos")
-//    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
-//    @MemberOrder(sequence = "3")
-//    public List<Cliente> listarActivos() {
-//        return clientesRepository.listarActivos();
-//    }
-//    
-//    @ActionLayout(named="Listar Clientes Inactivos")
-//    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
-//    @MemberOrder(sequence = "4")
-//    public List<Cliente> listarInactivos() {
-//        return clientesRepository.listarInactivos();
-//    }
+    @ActionLayout(named="Listar Clientes Activos")
+    @MemberOrder(sequence = "3")
+    public List<Empresa> listarEmpresaActivos() {
+        return empresasRepository.listarActivos();
+    }
+    
+    @ActionLayout(named="Listar Clientes Inactivos")
+    @MemberOrder(sequence = "4")
+    public List<Empresa> listarEmpresaInactivos() {
+        return empresasRepository.listarInactivos();
+    }
     
     //region > injected dependencies
 

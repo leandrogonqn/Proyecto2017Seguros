@@ -168,21 +168,18 @@ public class Provincia implements Comparable<Provincia> {
     //endregion
     
     //acciones
-    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
     @ActionLayout(named="Listar todas las Provincias")
     @MemberOrder(sequence = "2")
     public List<Provincia> listar() {
         return provinciasRepository.listar();
     }
     
-    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
     @ActionLayout(named="Listar Provincia Activas")
     @MemberOrder(sequence = "3")
     public List<Provincia> listarActivos() {
         return provinciasRepository.listarActivos();
     }
     
-    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
     @ActionLayout(named="Listar Provincias Inactivas")
     @MemberOrder(sequence = "4")
     public List<Provincia> listarInactivos() {

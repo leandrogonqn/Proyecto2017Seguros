@@ -1,7 +1,5 @@
 package com.pacinetes.app.services.homepage;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,16 +7,13 @@ import javax.inject.Inject;
 import org.apache.isis.applib.annotation.CollectionLayout;
 import org.apache.isis.applib.annotation.HomePage;
 import org.apache.isis.applib.annotation.ViewModel;
-import org.apache.isis.applib.services.i18n.TranslatableString;
 
-import com.pacinetes.dom.cliente.Cliente;
-import com.pacinetes.dom.cliente.ClienteRepository;
-import com.pacinetes.dom.empresas.Empresa;
-import com.pacinetes.dom.empresas.EmpresaRepository;
-import com.pacinetes.dom.persona.Persona;
-import com.pacinetes.dom.persona.PersonaRepository;
-import com.pacinetes.dom.poliza.Poliza;
-import com.pacinetes.dom.poliza.PolizaRepository;
+import com.pacinetes.app.viewmodel.ClientesCumpleañosViewModel;
+import com.pacinetes.app.viewmodel.ClientesPorCumpleaños;
+import com.pacinetes.app.viewmodel.FacturacionAnualPorCompania;
+import com.pacinetes.app.viewmodel.FacturacionCompaniasViewModel;
+import com.pacinetes.app.viewmodel.VencimientoPolizasGeneral;
+import com.pacinetes.app.viewmodel.VencimientosPolizaCompaniaViewModel;
 
 @ViewModel
 public class HomePageViewModel {
@@ -31,33 +26,33 @@ public class HomePageViewModel {
 
     //region > object (collection)
     @HomePage
-    @CollectionLayout(named="Clientes")
-    public List<Cliente> getClientes() {
-        return clienteRepository.listar();
+    @CollectionLayout(named="Lista de Clientes por cumpleaños")
+    public List<ClientesCumpleañosViewModel> getClientes() {
+        return clientesPorCumpleaños.cumpleaños();
     }
     
     @HomePage
-    @CollectionLayout(named="Empresas")
-    public List<Empresa> getEmpresas(){
-    	return empresaRepository.listar();
+    @CollectionLayout(named="Facturacion Anual Por Compania")
+    public List<FacturacionCompaniasViewModel> getFacturacion(){
+    	return facturacionAnualPorComania.facturacion();
     }
     
     @HomePage
-    @CollectionLayout(named="Polizas")
-    public List<Poliza> getPolizas(){
-    	return polizaRepository.listarPolizasPorVencimiento();
+    @CollectionLayout(named="Polizas que se estan por vencer y aun no tienen renovacion")
+    public List<VencimientosPolizaCompaniaViewModel> getPolizas(){
+    	return vencimientoPolizasGeneral.vencimiento();
     }
     //endregion
 
     //region > injected services
-    @javax.inject.Inject
-    ClienteRepository clienteRepository;
+    @Inject
+    ClientesPorCumpleaños clientesPorCumpleaños;
     
     @Inject
-    EmpresaRepository empresaRepository;
+    FacturacionAnualPorCompania facturacionAnualPorComania;
     
     @Inject
-    PolizaRepository polizaRepository;
+    VencimientoPolizasGeneral vencimientoPolizasGeneral;
 
     //endregion
 }

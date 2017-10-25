@@ -16,9 +16,10 @@
 package com.pacinetes.dom.poliza;
 
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.jdo.annotations.Column;
@@ -27,6 +28,7 @@ import javax.jdo.annotations.DiscriminatorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
+import javax.jdo.annotations.Join;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
@@ -38,6 +40,7 @@ import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
+import org.apache.isis.applib.annotation.Where;
 
 import com.pacinetes.dom.cliente.Cliente;
 import com.pacinetes.dom.compania.Compania;
@@ -47,6 +50,8 @@ import com.pacinetes.dom.estado.Estado;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.polizaautomotor.PolizaAutomotor;
 import com.pacinetes.dom.polizaautomotor.PolizaAutomotoresRepository;
+import com.pacinetes.dom.siniestro.Siniestro;
+import com.pacinetes.dom.siniestro.SiniestroRepository;
 import com.pacinetes.dom.tipodecobertura.TipoDeCobertura;
 import com.pacinetes.dom.vehiculo.Vehiculo;
 
@@ -74,9 +79,13 @@ import com.pacinetes.dom.vehiculo.Vehiculo;
                 name = "buscarPorCliente", language = "JDOQL",
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Polizas "
-                        + "WHERE polizaCliente == :polizaCliente")
+                        + "WHERE polizaCliente == :polizaCliente"),
+        @javax.jdo.annotations.Query(
+                name = "buscarPorCompania", language = "JDOQL",
+                value = "SELECT "
+                        + "FROM domainapp.dom.simple.Polizas "
+                        + "WHERE polizaCompania == :polizaCompania")
 })
-@javax.jdo.annotations.Unique(name="Polizas_polizaNumero_UNQ", members = {"polizaNumero"})
 @DomainObject(
         publishing = Publishing.ENABLED,
         auditing = Auditing.ENABLED
@@ -311,6 +320,23 @@ public abstract class Poliza implements Comparable<Poliza>{
 		this.polizaRenovacion = polizaRenovacion;
 	}	
 	
+	//Siniestro
+	@Column(allowsNull = "true")
+    @Property(
+            editing = Editing.DISABLED
+    )
+	@Join  
+	@PropertyLayout(named="Siniestros")
+	protected List<Siniestro> polizaSiniestro; 
+	
+	public List<Siniestro> getPolizaSiniestro() {
+		return polizaSiniestro;
+	}
+
+	public void setPolizaSiniestro(List<Siniestro> polizaSiniestro) {
+		this.polizaSiniestro = polizaSiniestro;
+	}	
+	
 	//Estado
 	@Column
     @Property(
@@ -330,11 +356,8 @@ public abstract class Poliza implements Comparable<Poliza>{
     //endregion
 
 	//acciones
-	
-	@Action(
-			invokeOn=InvokeOn.OBJECT_AND_COLLECTION
-			)
-	@ActionLayout(named="Actualizar Estado de las Polizas")
+
+	@ActionLayout(named="Actualizar Estado de las Poliza",hidden=Where.EVERYWHERE)
 	public Poliza actualizarPoliza(){
 		polizaEstado.actualizarEstado(this);
 		return this;
@@ -366,20 +389,75 @@ public abstract class Poliza implements Comparable<Poliza>{
         }	
         return 0;
     }
-//    
-//	@Override
-//	public int compare(Poliza o1, Poliza o2) {
-//		// TODO Auto-generated method stub
-//		if (o1.polizaFechaVencimiento.before(o2.polizaFechaVencimiento)) {
-//			return -1;
-//		}
-//		if (o1.polizaFechaVencimiento.after(o2.polizaFechaVencimiento)) {
-//			return 1;
-//		}
-//		return 0;
-//	}
+    
+	@ActionLayout(named="Agregar Siniestro")
+    public Poliza agregarSiniestro(
+    	@ParameterLayout(named = "Descripcion") final String siniestroDescripcion,
+    	@ParameterLayout(named = "Fecha del Siniestro") final Date siniestroFecha) {
+    		this.getPolizaSiniestro().add(siniestroRepository.crear(siniestroDescripcion, this, siniestroFecha));
+    		this.setPolizaSiniestro(this.getPolizaSiniestro());
+    		return this;
+	}
+	
+    public Poliza quitarSiniestro(@ParameterLayout(named="Siniestro") Siniestro siniestro) {
+    	Iterator<Siniestro> it = getPolizaSiniestro().iterator();
+    	while (it.hasNext()) {
+    		Siniestro lista = it.next();
+    		if (lista.equals(siniestro))
+    			it.remove();
+    	}
+    	return this;
+    }
+    
+    public List<Siniestro> choices0QuitarSiniestro(){
+    	return getPolizaSiniestro();
+    }
 
-	@Inject 
+    @ActionLayout(hidden=Where.EVERYWHERE)
+	public int cantidadDeSiniestrosPorCliente(Persona persona) {
+		// TODO Auto-generated method stub
+		
+		int cant = 0;
+		if (this.getPolizaCliente() == persona){
+			cant = this.getPolizaSiniestro().size();
+		}
+		
+		return cant;
+	}
+	
+	@ActionLayout(hidden=Where.EVERYWHERE)
+	public long contarCantidadDiasHastaVencimiento(Compania compania) {
+		// TODO Auto-generated method stub
+		long cant = 0;
+		Calendar a= Calendar.getInstance();
+		Date hoy = a.getTime();
+		
+		if (this.getPolizaCompania()== compania){
+			cant = getDifferenceDays(hoy, this.getPolizaFechaVencimiento());
+		}
+		return cant;
+	}
+	
+	@ActionLayout(hidden=Where.EVERYWHERE)
+	public long contarCantidadDiasHastaVencimiento() {
+		long cant = 0;
+		Calendar a= Calendar.getInstance();
+		Date hoy = a.getTime();
+		
+		cant = getDifferenceDays(hoy, this.getPolizaFechaVencimiento());
+		
+		return cant;
+	}
+	
+	@ActionLayout(hidden=Where.EVERYWHERE)
+	private long getDifferenceDays(Date d1, Date d2) {
+	    long diff = d2.getTime() - d1.getTime();
+	    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+	}
+    
+    @Inject 
 	PolizaRepository polizasRepository;
 	
+	@Inject
+	SiniestroRepository siniestroRepository;
 }

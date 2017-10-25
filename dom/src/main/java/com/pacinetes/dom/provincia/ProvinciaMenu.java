@@ -45,7 +45,7 @@ import com.pacinetes.dom.cliente.ClienteMenu.CreateDomainEvent;
 )
 @DomainServiceLayout(
         named = "Clientes",
-        menuOrder = "10"
+        menuOrder = "10.5"
 )
 public class ProvinciaMenu {
 	

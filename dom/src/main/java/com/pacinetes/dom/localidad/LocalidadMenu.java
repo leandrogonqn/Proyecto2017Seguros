@@ -15,7 +15,6 @@
  ******************************************************************************/
 package com.pacinetes.dom.localidad;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.isis.applib.annotation.Action;
@@ -23,23 +22,13 @@ import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.Editing;
-import org.apache.isis.applib.annotation.DomainServiceLayout.MenuBar;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
-
-import com.pacinetes.dom.cliente.Cliente;
-import com.pacinetes.dom.cliente.ClienteMenu;
-import com.pacinetes.dom.cliente.ClienteRepository;
-import com.pacinetes.dom.cliente.Sexo;
-import com.pacinetes.dom.cliente.ClienteMenu.CreateDomainEvent;
 import com.pacinetes.dom.provincia.Provincia;
 import com.pacinetes.dom.provincia.ProvinciaRepository;
-import com.pacinetes.dom.tipovehiculo.TipoVehiculo;
 
 
 @DomainService(
@@ -48,7 +37,7 @@ import com.pacinetes.dom.tipovehiculo.TipoVehiculo;
 )
 @DomainServiceLayout(
         named = "Clientes",
-        menuOrder = "10"
+        menuOrder = "10.4"
 )
 public class LocalidadMenu {
 	

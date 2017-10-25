@@ -15,22 +15,14 @@
  ******************************************************************************/
 package com.pacinetes.dom.persona;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 
-import org.apache.isis.applib.annotation.Action;
-import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Editing;
-import org.apache.isis.applib.annotation.InvokeOn;
-import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
-
-import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
 import com.pacinetes.dom.localidad.Localidad;
 
 @javax.jdo.annotations.Queries({
@@ -146,27 +138,6 @@ public abstract class Persona {
 	public void setPersonaActivo(boolean personaActivo) {
 		this.personaActivo = personaActivo;
 	}	
-	
-	@Action(invokeOn = InvokeOn.COLLECTION_ONLY)
-	@ActionLayout(named = "Listar Todos los clientes")
-	@MemberOrder(sequence = "2")
-	public List<Persona> listarPagos() {
-		return personaRepository.listar();
-	}
-
-	@MemberOrder(sequence = "1.2")
-	@Action(invokeOn = InvokeOn.COLLECTION_ONLY)
-	@ActionLayout(named = "Listar clientes Activos")
-	public List<Persona> listarActivos() {
-		return personaRepository.listarActivos();
-	}
-
-	@MemberOrder(sequence = "1.2")
-	@Action(invokeOn = InvokeOn.COLLECTION_ONLY)
-	@ActionLayout(named = "Listar clientes Inactivos")
-	public List<Persona> listarInactivos() {
-		return personaRepository.listarInactivos();
-	}
 	
 	@Inject
 	PersonaRepository personaRepository;

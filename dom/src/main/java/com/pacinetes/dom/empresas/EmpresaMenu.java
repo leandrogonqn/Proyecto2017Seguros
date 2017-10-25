@@ -68,7 +68,7 @@ import com.pacinetes.dom.tipodecobertura.TipoDeCobertura;
 )
 @DomainServiceLayout(
         named = "Clientes",
-        menuOrder = "10"
+        menuOrder = "10.3"
 )
 public class EmpresaMenu {
 

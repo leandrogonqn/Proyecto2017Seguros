@@ -556,6 +556,7 @@ public class PolizaAutomotor extends Poliza {
 		return vehiculosRepository.listarActivos();
 	}
     
+	@ActionLayout(cssClassFa="fa-car")
     public PolizaAutomotor modificarVehiculo(
     		@ParameterLayout(named = "Vehiculo a añadir") Vehiculo riesgoAutomotorVehiculoNuevo,
     		@ParameterLayout(named = "Vehiculo a quitar") Vehiculo riesgoAutomotorVehiculoViejo) {

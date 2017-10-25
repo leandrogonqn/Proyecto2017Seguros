@@ -15,10 +15,17 @@
  ******************************************************************************/
 package com.pacinetes.dom.compania;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
+import javax.swing.JOptionPane;
+
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
@@ -38,6 +45,10 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
+
+import com.pacinetes.dom.estado.Estado;
+import com.pacinetes.dom.poliza.Poliza;
+import com.pacinetes.dom.poliza.PolizaRepository;
 
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -162,9 +173,7 @@ public class Compania implements Comparable<Compania> {
     //endregion
     
     //region > delete (action)
-    public static class DeleteDomainEvent extends ActionDomainEvent<Compania> {}
     @Action(
-            domainEvent = DeleteDomainEvent.class,
             semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
     )
     public void borrarCompania() {
@@ -244,7 +253,23 @@ public class Compania implements Comparable<Compania> {
 	    public List<Compania> listarInactivos() {
 	        return companiaRepository.listarInactivos();
 	    }
-
+	    
+	    @ActionLayout(named="Prima Total", cssClassFa="fa-usd")
+	    public BigDecimal calcularPrimaTotalPorCompañia() {
+			List<Poliza> listaPolizas = polizaRepository.listarPorEstado(Estado.vigente);
+			double suma = 0; // suma de primas
+//			List<Poliza> listaPolizas = polizaRepository.buscarPorCompania(this);
+			for(Poliza p: listaPolizas){
+				if (p.getPolizaCompania()==this){
+					suma=suma + p.getPolizaImporteTotal();
+				}
+			}
+			
+			BigDecimal var = new BigDecimal(suma);
+			
+			return var;
+		}
+	    
     //region > injected dependencies
 
     @javax.inject.Inject
@@ -258,6 +283,12 @@ public class Compania implements Comparable<Compania> {
     
     @Inject
     CompaniaRepository companiaRepository;
+    
+    @Inject
+    PolizaRepository polizaRepository;
+    
+    @Inject
+    Poliza poliza;
 
     //endregion
 }

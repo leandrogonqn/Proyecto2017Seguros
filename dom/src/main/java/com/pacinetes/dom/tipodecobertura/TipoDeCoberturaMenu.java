@@ -46,7 +46,7 @@ import com.pacinetes.dom.cliente.ClienteMenu.CreateDomainEvent;
 )
 @DomainServiceLayout(
         named = "Polizas Extras",
-        menuOrder = "40.2"
+        menuOrder = "40.20"
 )
 public class TipoDeCoberturaMenu {
 	
