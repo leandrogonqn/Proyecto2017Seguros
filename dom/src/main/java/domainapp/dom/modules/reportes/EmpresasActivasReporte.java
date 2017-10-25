@@ -15,11 +15,11 @@
  ******************************************************************************/
 package domainapp.dom.modules.reportes;
 
-import java.util.Date;
+import domainapp.dom.persona.Persona;
 
-public class EmpresaReporte {
+public class EmpresasActivasReporte extends Persona {
 	
-	private String empresaRazonSocial;
+private String empresaRazonSocial;
     
     public String getEmpresaRazonSocial() {
         return empresaRazonSocial;
@@ -38,35 +38,6 @@ public class EmpresaReporte {
 		this.personaCuitCuil = personaCuitCuil;
 	}
 
-    private String personaLocalidad;
-
-	public void setPersonaLocalidad(String personaLocalidad) {
-		this.personaLocalidad = personaLocalidad;
-	}
-
-	public String getPersonaLocalidad() {
-		return personaLocalidad;
-	}
-	
-	private String personaProvincia;
-
-	public String getPersonaProvincia() {
-		return personaProvincia;
-	}
-
-	public void setPersonaProvincia(String personaProvincia) {
-		this.personaProvincia = personaProvincia;
-	}
-	
-	private String personaDireccion;
-
-    public String getPersonaDireccion() {
-		return personaDireccion;
-	}
-	public void setPersonaDireccion(String personaDireccion) {
-		this.personaDireccion = personaDireccion;
-	}	
-
     private String personaTelefono;
 
     public String getPersonaTelefono() {
@@ -74,15 +45,6 @@ public class EmpresaReporte {
 	}
 	public void setPersonaTelefono(String personaTelefono) {
 		this.personaTelefono = personaTelefono;
-	}	
-	
-    private Date clienteFechaNacimiento;
-
-    public Date getClienteFechaNacimiento() {
-		return clienteFechaNacimiento;
-	}
-	public void setClienteFechaNacimiento(Date clienteFechaNacimiento) {
-		this.clienteFechaNacimiento = clienteFechaNacimiento;
 	}	
 	
     private String personaMail;
@@ -93,5 +55,4 @@ public class EmpresaReporte {
 	public void setPersonaMail(String personaMail) {
 		this.personaMail = personaMail;
 	}
-
 }

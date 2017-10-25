@@ -33,13 +33,11 @@
  */
 package domainapp.dom.cliente;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
@@ -48,9 +46,6 @@ import javax.jdo.annotations.InheritanceStrategy;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
-import org.apache.isis.applib.annotation.BookmarkPolicy;
-import org.apache.isis.applib.annotation.CommandReification;
-import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.InvokeOn;
@@ -62,19 +57,17 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
-
+import org.apache.isis.applib.value.Blob;
 import domainapp.dom.localidad.Localidad;
 import domainapp.dom.localidad.LocalidadRepository;
 import domainapp.dom.modules.reportes.ClienteReporte;
-import domainapp.dom.modules.reportes.GenerarReporte;
+import domainapp.dom.modules.reportes.ReporteRepository;
 import domainapp.dom.persona.Persona;
-import domainapp.dom.provincia.Provincia;
 import net.sf.jasperreports.engine.JRException;
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -96,6 +89,11 @@ import net.sf.jasperreports.engine.JRException;
                 value = "SELECT "
                         + "FROM domainapp.dom.simple.Clientes "
                         + "WHERE clienteDni == :clienteDni"),
+        @javax.jdo.annotations.Query(
+                name = "listarActivos", language = "JDOQL",
+                value = "SELECT "
+                        + "FROM domainapp.dom.simple.Clientes "
+                        + "WHERE personaActivo == true "),
 })
 @DomainObject(
         publishing = Publishing.ENABLED,
@@ -141,7 +139,7 @@ public class Cliente extends Persona implements Comparable<Cliente> {
 	//endregion
     
     //GenerarReportePDF
-	public String imprimirCliente() throws JRException, FileNotFoundException{
+	public Blob imprimirCliente() throws JRException, IOException{
 			
 			List<Object> objectsReport = new ArrayList<Object>();
 			
@@ -159,14 +157,12 @@ public class Cliente extends Persona implements Comparable<Cliente> {
 			clienteReporte.setPersonaTelefono(getPersonaTelefono());
 			
 			objectsReport.add(clienteReporte);
+			String jrxml = "Cliente.jrxml";
+			String nombreArchivo = "Cliente_"+getClienteApellido()+"_"+getClienteNombre()+"_"+getPersonaCuitCuil();
 			
-			String nombreArchivo ="c:/reportes/Cliente_" + Integer.valueOf(clienteReporte.clienteDni)+"_"+  String.valueOf(clienteReporte.getClienteApellido() + "_" +String.valueOf(clienteReporte.getClienteNombre())) ;
-			
-			GenerarReporte.generarReporte("C:/workspace/Proyecto2017Seguros/webapp/reportes/Cliente.jrxml", objectsReport, nombreArchivo);
-			
-			return "Reporte Generado.";
+			return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
 	}	
-
+	
     //region > name (read-only property)
     public static final int NAME_LENGTH = 40;
 
@@ -462,6 +458,9 @@ public class Cliente extends Persona implements Comparable<Cliente> {
     
     @Inject
     ClienteRepository clientesRepository;
+    
+    @Inject
+    ReporteRepository reporteRepository;
 
     //endregion
 

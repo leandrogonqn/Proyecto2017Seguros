@@ -43,6 +43,7 @@ import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
 import domainapp.dom.localidad.Localidad;
+import domainapp.dom.marca.Marca;
 
 
 @DomainService(
@@ -54,6 +55,13 @@ public class ClienteRepository {
     public List<Cliente> listar() {
         return repositoryService.allInstances(Cliente.class);
     }
+    
+    public List<Cliente> listarActivos(){
+      	 return repositoryService.allMatches(
+                   new QueryDefault<>(
+                           Cliente.class,
+                           "listarActivos"));
+      }
 
     public List<Cliente> buscarPorNombre(final String clienteNombre) {
         return repositoryService.allMatches(

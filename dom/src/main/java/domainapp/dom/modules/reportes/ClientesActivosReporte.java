@@ -15,9 +15,9 @@
  ******************************************************************************/
 package domainapp.dom.modules.reportes;
 
-import java.util.Date;
+import domainapp.dom.persona.Persona;
 
-public class ClienteReporte {
+public class ClientesActivosReporte extends Persona {
 	
 	private String clienteNombre;
 
@@ -39,26 +39,6 @@ public class ClienteReporte {
 		this.clienteApellido = clienteApellido;
 	}
 	
-	private String clienteSexo;
-	
-	public String getClienteSexo() {
-		return clienteSexo;
-	}
-
-	public void setClienteSexo(String clienteSexo) {
-		this.clienteSexo = clienteSexo;
-	}
-	
-	private String personaCuitCuil;
-	
-	public String getPersonaCuitCuil() {
-		return personaCuitCuil;
-	}
-
-	public void setPersonaCuitCuil(String personaCuitCuil) {
-		this.personaCuitCuil = personaCuitCuil;
-	}
-
 	public int clienteDni;
 
 	public int getClienteDni() {
@@ -69,35 +49,16 @@ public class ClienteReporte {
 		this.clienteDni = clienteDni;
 	}
 	
-    private String personaLocalidad;
-
-	public void setPersonaLocalidad(String personaLocalidad) {
-		this.personaLocalidad = personaLocalidad;
+	private String clienteTipoDocumento;
+	
+	public String getClienteTipoDocumento() {
+		return clienteTipoDocumento;
 	}
 
-	public String getPersonaLocalidad() {
-		return personaLocalidad;
+	public void setClienteTipoDocumento(String clienteTipoDocumento) {
+		this.clienteTipoDocumento = clienteTipoDocumento;
 	}
 	
-	private String personaProvincia;
-
-	public String getPersonaProvincia() {
-		return personaProvincia;
-	}
-
-	public void setPersonaProvincia(String personaProvincia) {
-		this.personaProvincia = personaProvincia;
-	}
-	
-	private String personaDireccion;
-
-    public String getPersonaDireccion() {
-		return personaDireccion;
-	}
-	public void setPersonaDireccion(String personaDireccion) {
-		this.personaDireccion = personaDireccion;
-	}	
-
     private String personaTelefono;
 
     public String getPersonaTelefono() {
@@ -106,15 +67,4 @@ public class ClienteReporte {
 	public void setPersonaTelefono(String personaTelefono) {
 		this.personaTelefono = personaTelefono;
 	}	
-	
-    private Date clienteFechaNacimiento;
-
-    public Date getClienteFechaNacimiento() {
-		return clienteFechaNacimiento;
-	}
-	public void setClienteFechaNacimiento(Date clienteFechaNacimiento) {
-		this.clienteFechaNacimiento = clienteFechaNacimiento;
-	}	
-	
-
 }
