@@ -174,7 +174,7 @@ public class PolizaIncendio extends Poliza {
    
    //Actualizar polizaCompania
    public PolizaIncendio actualizarPolizaCompania(@ParameterLayout(named="Compañia") final Compania polizaCompania) {
-       actualizarPolizaCompania(polizaCompania);
+	   setPolizasCompania(polizaCompania);
        return this;
    }
    

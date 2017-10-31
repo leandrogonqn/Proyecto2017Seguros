@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte100" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="468f5298-c4db-4bf9-9253-f021d1b6d5be">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="dataset1" uuid="ca2e1178-9c7e-46fc-9ff1-b067eee8e468">
+		<parameter name="empresas" class="java.util.List">
+			<defaultValueExpression><![CDATA[Arrays.asList("Juan", "Pepe","Esteban","Carlos")]]></defaultValueExpression>
+		</parameter>
+		<field name="_THIS" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="compania" class="java.lang.String"/>
+	<field name="polizaNumero" class="java.lang.String"/>
+	<field name="polizaCliente" class="java.lang.String"/>
+	<field name="polizaImporteTotal" class="java.lang.Double"/>
+	<field name="polizaFechaVencimiento" class="java.util.Date"/>
+	<field name="polizaFechaVigencia" class="java.util.Date"/>
+	<field name="polizaFechaEmision" class="java.util.Date"/>
+	<group name="Group1"/>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#0A1BFF" uuid="423448b8-6e0b-46b5-ba31-ffc3c10efe4a"/>
+				<staticText>
+					<reportElement x="20" y="20" width="330" height="43" forecolor="#FFFFFF" uuid="f950f964-085b-4a1e-a9b7-d3e57ac63416"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Si.Ge.Se.]]></text>
+				</staticText>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement x="200" y="70" width="270" height="20" forecolor="#FFFFFF" uuid="40328cf5-074f-4058-81fc-6e2765588d8c"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Listado Polizas por Compañia: "+$P{compania}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="56" splitType="Stretch">
+			<staticText>
+				<reportElement x="-9" y="30" width="99" height="20" uuid="50c99a67-ebf6-418b-8f30-1ea78fa6b237">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Numero poliza]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="91" y="30" width="99" height="20" uuid="0faaba12-967c-4459-8c2a-4aac92e64534">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="191" y="30" width="99" height="20" uuid="c1b6737a-00a0-4493-bb80-225fd3d49b78">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importe]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-9" y="50" width="569" height="1" uuid="05c39bc7-31f2-4878-bb90-2b4c75333cd5"/>
+			</line>
+			<staticText>
+				<reportElement x="291" y="30" width="92" height="20" uuid="102280e4-60bd-46c9-8a73-78d4f6f67cf4"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Vigencia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="384" y="30" width="92" height="20" uuid="d46364fe-1507-4f92-a535-9445eb914b16"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Vencimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="476" y="30" width="84" height="20" uuid="8c5c260c-b9c4-40a4-add7-ab3293625ce5"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Emision]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="-9" y="0" width="99" height="20" uuid="01ee990a-e4ca-4228-993c-aef0efd4c036"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{polizaNumero}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="91" y="0" width="99" height="20" uuid="0efa39c4-5e2d-46c5-8b9a-2888046f7426">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{polizaCliente}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="90" y="-5" width="1" height="25" uuid="f6b9682d-efe1-439c-8dd1-bb1ab2d64a25">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="190" y="-26" width="1" height="26" uuid="b441c773-2f8f-456c-8186-051ad003e48b"/>
+			</line>
+			<line>
+				<reportElement x="90" y="-26" width="1" height="26" uuid="0bf8b028-1fd4-4361-815b-9d06b8980a83"/>
+			</line>
+			<line>
+				<reportElement x="190" y="-5" width="1" height="25" uuid="4a882d44-7c65-48fc-b56b-a587613e3dd9">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-9" y="20" width="569" height="1" uuid="6c142249-4c96-4d18-b804-b485567d6d95"/>
+				<graphicElement>
+					<pen lineColor="#E0E0E0"/>
+				</graphicElement>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="191" y="0" width="99" height="20" uuid="11bb88c0-a76f-4ed2-af1a-ef5e61c59bcc"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{polizaImporteTotal}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="290" y="-26" width="1" height="26" uuid="cde3c143-7da2-4809-9075-fb45d35699ed"/>
+			</line>
+			<line>
+				<reportElement x="290" y="-5" width="1" height="25" uuid="0b8711fe-ab26-4c82-a299-2ac315de2d45">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="291" y="0" width="92" height="20" uuid="d50a3685-3365-428e-90b1-b4879d63b691">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{polizaFechaVigencia})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="384" y="0" width="92" height="20" uuid="e31a61c0-12bf-4e6a-8f6d-92bb43a265d9">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{polizaFechaVencimiento})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="383" y="-26" width="1" height="26" uuid="c0728280-4a9d-4f08-971e-548e7a956420"/>
+			</line>
+			<line>
+				<reportElement x="383" y="-5" width="1" height="25" uuid="937eb7a1-1077-4a4b-a51a-bca9edd05022">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="476" y="-26" width="1" height="26" uuid="90e5aedd-3247-46de-bbec-76b766bddf18"/>
+			</line>
+			<line>
+				<reportElement x="476" y="-5" width="1" height="25" uuid="7abb247b-97a0-4d6d-bcea-fcd0bc0eb9cb">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="476" y="0" width="84" height="20" uuid="d097379d-0928-4ddf-aad6-52784d71938a">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{polizaFechaEmision})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="43">
+			<textField>
+				<reportElement x="475" y="0" width="100" height="30" uuid="c710f823-74cc-47dd-9604-14362cd74836"/>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="-3" width="555" height="1" uuid="ecbb9969-cc0e-480f-b836-b3b2a4a671c8"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="140" height="30" uuid="d3b4c99c-db17-4a4e-b5e2-eddcde152233"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Pacinetes SRL]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

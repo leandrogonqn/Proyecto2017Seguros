@@ -175,7 +175,7 @@ public class PolizaLCT extends Poliza {
    
    //Actualizar polizaCompania
    public PolizaLCT actualizarPolizaCompania(@ParameterLayout(named="Compañia") final Compania polizaCompania) {
-       actualizarPolizaCompania(polizaCompania);
+	   setPolizasCompania(polizaCompania);
        return this;
    }
    

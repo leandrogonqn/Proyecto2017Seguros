@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte100" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="468f5298-c4db-4bf9-9253-f021d1b6d5be">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="dataset1" uuid="ca2e1178-9c7e-46fc-9ff1-b067eee8e468">
+		<parameter name="clientes" class="java.util.List">
+			<defaultValueExpression><![CDATA[Arrays.asList("Juan", "Pepe","Esteban","Carlos")]]></defaultValueExpression>
+		</parameter>
+		<field name="_THIS" class="java.lang.String"/>
+	</subDataset>
+	<field name="compania" class="java.lang.String"/>
+	<field name="primaTotal" class="java.math.BigDecimal"/>
+	<group name="Group1"/>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#0A1BFF" uuid="423448b8-6e0b-46b5-ba31-ffc3c10efe4a"/>
+				<staticText>
+					<reportElement x="20" y="20" width="330" height="43" forecolor="#FFFFFF" uuid="f950f964-085b-4a1e-a9b7-d3e57ac63416"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Si.Ge.Se.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="200" y="70" width="180" height="20" forecolor="#FFFFFF" uuid="40328cf5-074f-4058-81fc-6e2765588d8c"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Listado primas por compañia]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="56" splitType="Stretch">
+			<staticText>
+				<reportElement x="137" y="30" width="130" height="20" uuid="38c8be38-446a-4585-8ed1-491e467ea192"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Compania]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="267" y="30" width="130" height="20" uuid="50c99a67-ebf6-418b-8f30-1ea78fa6b237">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prima]]></text>
+			</staticText>
+			<line>
+				<reportElement x="136" y="50" width="261" height="1" uuid="05c39bc7-31f2-4878-bb90-2b4c75333cd5"/>
+			</line>
+			<line>
+				<reportElement x="266" y="30" width="1" height="20" uuid="988b3dad-421a-4576-8061-d4a4fe61d6f0"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField pattern="#,##0.###;#,##0.###-" isBlankWhenNull="true">
+				<reportElement x="267" y="0" width="130" height="20" uuid="01ee990a-e4ca-4228-993c-aef0efd4c036"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{primaTotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="137" y="0" width="130" height="20" uuid="c64af16e-8d99-4a46-a7fc-6b7b1ba18c7c"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{compania}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="266" y="-5" width="1" height="25" uuid="7accd832-fb95-481b-8981-7421cff113d6"/>
+			</line>
+			<line>
+				<reportElement x="136" y="20" width="261" height="1" uuid="6c142249-4c96-4d18-b804-b485567d6d95"/>
+				<graphicElement>
+					<pen lineColor="#E0E0E0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="43">
+			<textField>
+				<reportElement x="475" y="0" width="100" height="30" uuid="c710f823-74cc-47dd-9604-14362cd74836"/>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="-3" width="555" height="1" uuid="ecbb9969-cc0e-480f-b836-b3b2a4a671c8"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="140" height="30" uuid="d3b4c99c-db17-4a4e-b5e2-eddcde152233"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Pacinetes SRL]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

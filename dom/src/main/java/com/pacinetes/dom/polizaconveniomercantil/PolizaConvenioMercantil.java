@@ -167,7 +167,7 @@ public class PolizaConvenioMercantil extends Poliza {
 	   
 	   //Actualizar polizaCompania
 	   public PolizaConvenioMercantil actualizarPolizaCompania(@ParameterLayout(named="Compañia") final Compania polizaCompania) {
-	       actualizarPolizaCompania(polizaCompania);
+		   setPolizasCompania(polizaCompania);
 	       return this;
 	   }
 	   

@@ -66,7 +66,6 @@ import com.pacinetes.dom.localidad.LocalidadRepository;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.provincia.Provincia;
 import com.pacinetes.dom.reportes.EmpresaReporte;
-import com.pacinetes.dom.reportes.GenerarReporte;
 import com.pacinetes.dom.reportes.ReporteRepository;
 
 import net.sf.jasperreports.engine.JRException;
@@ -253,9 +252,14 @@ public class Empresa extends Persona implements Comparable<Empresa> {
     //endregion
     
     //region > toString, compareTo
+//    @Override
+//    public String toString() {
+//        return ObjectContracts.toString(this, "empresaRazonSocial");
+//    }
+    
     @Override
     public String toString() {
-        return ObjectContracts.toString(this, "empresaRazonSocial");
+        return getEmpresaRazonSocial();
     }
     @Override
     public int compareTo(final Empresa other) {

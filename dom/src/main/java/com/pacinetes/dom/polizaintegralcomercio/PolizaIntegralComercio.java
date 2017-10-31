@@ -397,9 +397,8 @@ public class PolizaIntegralComercio extends Poliza {
 	}
 
 	// Actualizar polizaCompania
-	public PolizaIntegralComercio actualizarPolizaCompania(
-			@ParameterLayout(named = "Compañia") final Compania polizaCompania) {
-		actualizarPolizaCompania(polizaCompania);
+	public PolizaIntegralComercio actualizarPolizaCompania(@ParameterLayout(named = "Compañia") final Compania polizaCompania) {
+		setPolizasCompania(polizaCompania);
 		return this;
 	}
 

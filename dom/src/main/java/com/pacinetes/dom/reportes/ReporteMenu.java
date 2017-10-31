@@ -35,10 +35,17 @@ import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.value.Blob;
 
+import com.pacinetes.app.viewmodel.FacturacionAnualPorCompania;
+import com.pacinetes.app.viewmodel.FacturacionCompaniasViewModel;
 import com.pacinetes.dom.cliente.Cliente;
 import com.pacinetes.dom.cliente.ClienteRepository;
+import com.pacinetes.dom.compania.Compania;
+import com.pacinetes.dom.compania.CompaniaRepository;
 import com.pacinetes.dom.empresa.Empresa;
 import com.pacinetes.dom.empresa.EmpresaRepository;
+import com.pacinetes.dom.poliza.Poliza;
+import com.pacinetes.dom.poliza.PolizaRepository;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -144,7 +151,7 @@ public class ReporteMenu {
     
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    @MemberOrder(sequence = "3")
+    @MemberOrder(sequence = "4")
 	public Blob imprimirEmpresasActivas() throws JRException, IOException {
 		
 		EmpresasActivasDataSource datasource = new EmpresasActivasDataSource();
@@ -173,6 +180,73 @@ public class ReporteMenu {
 		return reporteRepository.imprimirReporteLista(jasperPrint, jrxml, nombreArchivo);
 		
 	}
+    
+    @Action(semantics = SemanticsOf.SAFE)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @MemberOrder(sequence = "5")
+	public Blob imprimirFacturacionAnualPorCompania() throws JRException, IOException {
+    	
+    	FacturacionDataSource datasource = new FacturacionDataSource();
+		
+		for (FacturacionCompaniasViewModel fac : facturacionRepository.facturacion()){
+		
+			FacturacionReporte facturacionCompania =new FacturacionReporte();
+			
+			facturacionCompania.setCompania(fac.getCompania().getCompaniaNombre().toString());
+			facturacionCompania.setPrimaTotal(fac.getPrimaTotal());
+			
+			datasource.addParticipante(facturacionCompania);
+		}
+		String jrxml = "FacturacionCompanias.jrxml";
+		String nombreArchivo = "Facturacion companias ";
+		
+		InputStream input = ReporteRepository.class.getResourceAsStream(jrxml);
+		JasperDesign jd = JRXmlLoader.load(input);
+		
+		JasperReport reporte = JasperCompileManager.compileReport(jd);
+		Map<String, Object> parametros = new HashMap<String, Object>();
+		JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, datasource);
+		
+		return reporteRepository.imprimirReporteLista(jasperPrint, jrxml, nombreArchivo);
+    	
+    }
+    
+    @Action(semantics = SemanticsOf.SAFE)
+    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
+    @MemberOrder(sequence = "6")
+	public Blob imprimirPolizasPorCompania(
+            @ParameterLayout(named="Compania: ") final Compania companiaSeleccionada) throws JRException, IOException {
+    	
+    	PolizaPorCompaniaDataSource datasource = new PolizaPorCompaniaDataSource();
+		
+		for (Poliza pol : polizaRepository.buscarPorCompania(companiaSeleccionada)){
+		
+			PolizaPorCompaniaReporte reportePolizaPorCompania =new PolizaPorCompaniaReporte();
+			
+			reportePolizaPorCompania.setPolizasCliente(pol.getPolizaCliente().toString());
+			reportePolizaPorCompania.setPolizasCompania(pol.getPolizaCompania().getCompaniaNombre());
+			reportePolizaPorCompania.setPolizaNumero(pol.getPolizaNumero());
+			reportePolizaPorCompania.setPolizaFechaVigencia(pol.getPolizaFechaVigencia());
+			reportePolizaPorCompania.setPolizaFechaVencimiento(pol.getPolizaFechaVencimiento());
+			reportePolizaPorCompania.setPolizaFechaEmision(pol.getPolizaFechaEmision());
+			reportePolizaPorCompania.setPolizaImporteTotal(pol.getPolizaImporteTotal());
+			
+			
+			datasource.addParticipante(reportePolizaPorCompania);
+		}
+		String jrxml = "PolizasPorCompania.jrxml";
+		String nombreArchivo = "Listado de polizas por compania"+" "+companiaSeleccionada.getCompaniaNombre()+" ";
+		
+		InputStream input = ReporteRepository.class.getResourceAsStream(jrxml);
+		JasperDesign jd = JRXmlLoader.load(input);
+		
+		JasperReport reporte = JasperCompileManager.compileReport(jd);
+		Map<String, Object> parametros = new HashMap<String, Object>();
+		parametros.put("compania", companiaSeleccionada.getCompaniaNombre());
+		JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, datasource);
+		
+		return reporteRepository.imprimirReporteLista(jasperPrint, jrxml, nombreArchivo);
+    }
 	
     
 	public List<Cliente> choices0ImprimirCliente(){
@@ -183,6 +257,13 @@ public class ReporteMenu {
 		return empresaRepository.listar();
 	}
 	
+	public List<Compania> choices0ImprimirPolizasPorCompania(){
+		return companiaRepository.listarActivos();
+	}
+	
+	@Inject
+	FacturacionAnualPorCompania facturacionRepository;
+	
 	@Inject
 	ClienteRepository clientesRepository;
 	
@@ -191,4 +272,10 @@ public class ReporteMenu {
 	
 	@Inject
 	ReporteRepository reporteRepository;
+	
+	@Inject
+	CompaniaRepository companiaRepository;
+	
+	@Inject
+	PolizaRepository polizaRepository;
 }

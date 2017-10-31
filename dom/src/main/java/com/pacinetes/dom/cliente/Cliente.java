@@ -71,7 +71,6 @@ import com.pacinetes.dom.localidad.Localidad;
 import com.pacinetes.dom.localidad.LocalidadRepository;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.reportes.ClienteReporte;
-import com.pacinetes.dom.reportes.GenerarReporte;
 import com.pacinetes.dom.reportes.ReporteRepository;
 
 import org.apache.isis.applib.value.Blob;
@@ -421,9 +420,19 @@ public class Cliente extends Persona implements Comparable<Cliente> {
     //endregion
     
     //region > toString, compareTo
+//    @Override
+//    public String toString() {
+//        return ObjectContracts.toString(this, "ClienteNombre()");
+//    }
+    
     @Override
     public String toString() {
-        return ObjectContracts.toString(this, "clienteNombre");
+    	String cliente = getClienteNombre()+" "+getClienteApellido();
+        return cliente;
+    }
+    
+    public String toTitulo(){
+    	return getClienteNombre();
     }
     @Override
     public int compareTo(Cliente o) {
