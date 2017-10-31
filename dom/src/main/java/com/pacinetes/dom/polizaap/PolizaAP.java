@@ -55,6 +55,7 @@ import com.pacinetes.dom.detalletipopago.DetalleTipoPagoMenu;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPagoRepository;
 import com.pacinetes.dom.detalletipopago.TipoPago;
 import com.pacinetes.dom.estado.Estado;
+import com.pacinetes.dom.mail.Mail;
 import com.pacinetes.dom.ocupacion.Ocupacion;
 import com.pacinetes.dom.ocupacion.OcupacionRepository;
 import com.pacinetes.dom.persona.Persona;
@@ -396,6 +397,7 @@ public class PolizaAP extends Poliza {
 			@ParameterLayout(named="Muerte") final float riesgoAPMuerte,	    			
 			@ParameterLayout(named="Invalidez") final float riesgoAPInvalidez,
 			@ParameterLayout(named="AMF")final float riesgoAPAMF){
+		Mail.enviarMailPoliza(polizaCliente);
        return riesgosAPRepository.renovacion(
     		polizaNumero,
        		polizaCliente,

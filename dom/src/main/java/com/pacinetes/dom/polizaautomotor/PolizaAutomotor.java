@@ -62,6 +62,7 @@ import com.pacinetes.dom.detalletipopago.DetalleTipoPagoMenu;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPagoRepository;
 import com.pacinetes.dom.detalletipopago.TipoPago;
 import com.pacinetes.dom.estado.Estado;
+import com.pacinetes.dom.mail.Mail;
 import com.pacinetes.dom.modelo.Modelo;
 import com.pacinetes.dom.modelo.ModeloRepository;
 import com.pacinetes.dom.persona.Persona;
@@ -425,6 +426,7 @@ public class PolizaAutomotor extends Poliza {
     	riesgoAutomotorListaVehiculos = this.getRiesgoAutomotorListaVehiculos();
     	List<Adjunto> riesgoAutomotorListaAdjunto = new ArrayList<>();
     	riesgoAutomotorListaAdjunto = this.getRiesgoAutomotorAdjunto();
+    	Mail.enviarMailPoliza(polizaCliente);
         return riesgoAutomotoresRepository.renovacion(
         		polizaNumero, 
         		polizaCliente, 

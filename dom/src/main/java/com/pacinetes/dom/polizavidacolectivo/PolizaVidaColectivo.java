@@ -55,6 +55,7 @@ import com.pacinetes.dom.detalletipopago.DetalleTipoPagoMenu;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPagoRepository;
 import com.pacinetes.dom.detalletipopago.TipoPago;
 import com.pacinetes.dom.estado.Estado;
+import com.pacinetes.dom.mail.Mail;
 import com.pacinetes.dom.ocupacion.Ocupacion;
 import com.pacinetes.dom.ocupacion.OcupacionRepository;
 import com.pacinetes.dom.persona.Persona;
@@ -338,6 +339,7 @@ public class PolizaVidaColectivo extends Poliza {
 			@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago,
 			@ParameterLayout(named="Precio Total") final double polizaImporteTotal,
 			@ParameterLayout(named="Monto") final float riesgoVidaColectivoMonto){
+		Mail.enviarMailPoliza(polizaCliente);
        return riesgosVidaColectivoRepository.renovacion(
     		polizaNumero,
        		polizaCliente,

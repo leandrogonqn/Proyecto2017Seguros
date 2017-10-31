@@ -47,6 +47,7 @@ import com.pacinetes.dom.detalletipopago.DetalleTipoPagoRepository;
 import com.pacinetes.dom.detalletipopago.TipoPago;
 import com.pacinetes.dom.localidad.Localidad;
 import com.pacinetes.dom.localidad.LocalidadRepository;
+import com.pacinetes.dom.mail.Mail;
 import com.pacinetes.dom.ocupacion.Ocupacion;
 import com.pacinetes.dom.ocupacion.OcupacionRepository;
 import com.pacinetes.dom.persona.Persona;
@@ -92,6 +93,7 @@ public class PolizaCombinadoFamiliarMenu {
 	    {
 			List<Adjunto> riesgoCombinadoFamiliarListaAdjunto = new ArrayList<>();
 			riesgoCombinadoFamiliarListaAdjunto.add(riesgoCombinadoFamiliarAdjunto);
+			Mail.enviarMailPoliza(polizaCliente);
 	        return polizasRepository.crear(
 	        		polizaNumero,
 	        		polizaCliente,
@@ -202,5 +204,4 @@ public class PolizaCombinadoFamiliarMenu {
 	    LocalidadRepository localidadesRepository;
 	    @Inject
 	    AdjuntoRepository adjuntoRepository;
-
 }

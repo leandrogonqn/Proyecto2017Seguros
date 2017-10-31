@@ -63,6 +63,7 @@ import com.pacinetes.dom.detalletipopago.TipoPago;
 import com.pacinetes.dom.estado.Estado;
 import com.pacinetes.dom.localidad.Localidad;
 import com.pacinetes.dom.localidad.LocalidadRepository;
+import com.pacinetes.dom.mail.Mail;
 import com.pacinetes.dom.ocupacion.Ocupacion;
 import com.pacinetes.dom.ocupacion.OcupacionRepository;
 import com.pacinetes.dom.persona.Persona;
@@ -497,6 +498,7 @@ public class PolizaCombinadoFamiliar extends Poliza {
 			/*12*/				@ParameterLayout(named="Precio Total") final double polizaImporteTotal){
     	List<Adjunto> riesgoAutomotorListaAdjunto = new ArrayList<>();
     	riesgoAutomotorListaAdjunto = this.getRiesgoAutomotorAdjunto();
+    	Mail.enviarMailPoliza(polizaCliente);
 		return riesgoCombinadosFamiliaresRepository.renovacion(
     		polizaNumero,
        		polizaCliente,

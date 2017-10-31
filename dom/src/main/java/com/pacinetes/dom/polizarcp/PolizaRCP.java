@@ -55,6 +55,7 @@ import com.pacinetes.dom.detalletipopago.DetalleTipoPagoMenu;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPagoRepository;
 import com.pacinetes.dom.detalletipopago.TipoPago;
 import com.pacinetes.dom.estado.Estado;
+import com.pacinetes.dom.mail.Mail;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.persona.PersonaRepository;
 import com.pacinetes.dom.poliza.Poliza;
@@ -331,6 +332,7 @@ public class PolizaRCP extends Poliza {
 				@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago,
 				@ParameterLayout(named="Precio Total") final double polizaImporteTotal,
 				@ParameterLayout(named="Monto") final float riesgoRCPMonto){
+			Mail.enviarMailPoliza(polizaCliente);
 	       return riesgosRCPRepository.renovacion(
 	    		polizaNumero,
 	       		polizaCliente,

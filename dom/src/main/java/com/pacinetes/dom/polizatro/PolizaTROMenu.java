@@ -37,6 +37,7 @@ import com.pacinetes.dom.compania.CompaniaRepository;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPagoMenu;
 import com.pacinetes.dom.detalletipopago.TipoPago;
+import com.pacinetes.dom.mail.Mail;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.persona.PersonaRepository;
 import com.pacinetes.dom.tipodecobertura.TipoDeCoberturaRepository;
@@ -66,7 +67,8 @@ public class PolizaTROMenu {
 /*13*/				@ParameterLayout(named="Precio Total") final double polizaImporteTotal,
 	    			@ParameterLayout(named="Monto") final float riesgoTROMonto)
 	    {
-	        return polizasRepository.crear(
+	    	Mail.enviarMailPoliza(polizaCliente);
+	    	return polizasRepository.crear(
 	        		polizaNumero,
 	        		polizaCliente,
 	        		polizaCompania,

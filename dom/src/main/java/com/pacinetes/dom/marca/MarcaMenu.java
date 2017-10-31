@@ -67,8 +67,6 @@ public class MarcaMenu {
 
 	    }
 	    
-	    public static class CreateDomainEvent extends ActionDomainEvent<MarcaMenu> {}
-	    @Action(domainEvent = CreateDomainEvent.class)
 	    @ActionLayout(named="Crear Marca")
 	    @MemberOrder(sequence = "1.2")
 	    public Marca crear(

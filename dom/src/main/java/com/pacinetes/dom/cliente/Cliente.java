@@ -69,6 +69,7 @@ import org.apache.isis.applib.util.ObjectContracts;
 
 import com.pacinetes.dom.localidad.Localidad;
 import com.pacinetes.dom.localidad.LocalidadRepository;
+import com.pacinetes.dom.mail.Mail;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.reportes.ClienteReporte;
 import com.pacinetes.dom.reportes.ReporteRepository;
@@ -419,21 +420,12 @@ public class Cliente extends Persona implements Comparable<Cliente> {
    
     //endregion
     
-    //region > toString, compareTo
-//    @Override
-//    public String toString() {
-//        return ObjectContracts.toString(this, "ClienteNombre()");
-//    }
-    
     @Override
     public String toString() {
     	String cliente = getClienteNombre()+" "+getClienteApellido();
         return cliente;
     }
     
-    public String toTitulo(){
-    	return getClienteNombre();
-    }
     @Override
     public int compareTo(Cliente o) {
         if (clienteFechaNacimiento.before(o.getClienteFechaNacimiento()) ) {
@@ -495,8 +487,7 @@ public class Cliente extends Persona implements Comparable<Cliente> {
 		}
 		return "";
 	}
-    
-    
+	
     //region > injected dependencies
 
     @javax.inject.Inject
@@ -516,7 +507,7 @@ public class Cliente extends Persona implements Comparable<Cliente> {
     
     @Inject
     ReporteRepository reporteRepository;
-
+    
     //endregion
 
 }
