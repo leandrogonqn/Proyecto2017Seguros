@@ -50,6 +50,7 @@ import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPagoMenu;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPagoRepository;
 import com.pacinetes.dom.detalletipopago.TipoPago;
+import com.pacinetes.dom.mail.Mail;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.persona.PersonaRepository;
 import com.pacinetes.dom.tarjetadecredito.TarjetaDeCreditoRepository;
@@ -82,6 +83,7 @@ public class PolizaAutomotorMenu {
 		riesgoAutomotorListaVehiculos.add(riesgoAutomotorVehiculo);
 		List<Adjunto> riesgoAutomotorListaAdjunto = new ArrayList<>();
 		riesgoAutomotorListaAdjunto.add(riesgoAutomotorAdjunto);
+		Mail.enviarMailPoliza(polizaCliente);
 		return riesgoAutomotorRepository.crear(polizaNumero, polizaCliente, polizaCompania,
 				riesgoAutomotorListaVehiculos, riesgoAutomotorTiposDeCoberturas, polizaFechaEmision,
 				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal,

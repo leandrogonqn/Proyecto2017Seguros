@@ -19,10 +19,14 @@ import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
+import javax.swing.JOptionPane;
 
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
+
+import com.pacinetes.dom.cliente.Cliente;
+import com.pacinetes.dom.empresa.Empresa;
 import com.pacinetes.dom.localidad.Localidad;
 
 @javax.jdo.annotations.Queries({

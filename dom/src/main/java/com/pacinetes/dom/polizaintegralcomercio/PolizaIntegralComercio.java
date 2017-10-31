@@ -57,6 +57,7 @@ import com.pacinetes.dom.detalletipopago.DetalleTipoPagoMenu;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPagoRepository;
 import com.pacinetes.dom.detalletipopago.TipoPago;
 import com.pacinetes.dom.estado.Estado;
+import com.pacinetes.dom.mail.Mail;
 import com.pacinetes.dom.marca.Marca;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.persona.PersonaRepository;
@@ -589,6 +590,7 @@ public class PolizaIntegralComercio extends Poliza {
 /*15*/			@ParameterLayout(named = "RCC") float riesgoIntegralComercioRCC,
 /*16*/			@ParameterLayout(named = "Otros Nombre") final String riesgoIntegralComercioOtrosNombre, 
 /*17*/			@ParameterLayout(named = "Otros Monto") final double riesgoIntegralComercioOtrosMonto) {
+		Mail.enviarMailPoliza(polizaCliente);
 		return riesgoIntegralComercioRepository.renovacion(polizaNumero, polizaCliente, polizaCompania,
 				polizaFechaEmision, polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago,
 				 polizaImporteTotal, riesgoIntegralComercioRobo, riesgoIntegralComercioCristales,

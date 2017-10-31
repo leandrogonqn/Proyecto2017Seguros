@@ -42,6 +42,7 @@ import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPagoMenu;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPagoRepository;
 import com.pacinetes.dom.detalletipopago.TipoPago;
+import com.pacinetes.dom.mail.Mail;
 import com.pacinetes.dom.ocupacion.Ocupacion;
 import com.pacinetes.dom.ocupacion.OcupacionRepository;
 import com.pacinetes.dom.persona.Persona;
@@ -78,6 +79,7 @@ public class PolizaLCTMenu {
 /*13*/				@ParameterLayout(named="Precio Total") final double polizaImporteTotal,
 	    			@ParameterLayout(named="Monto") final float riesgoLCTMonto)
 	    {
+	    	Mail.enviarMailPoliza(polizaCliente);
 	        return polizasRepository.crear(
 	        		polizaNumero,
 	        		polizaCliente,
@@ -141,5 +143,4 @@ public class PolizaLCTMenu {
 	    CompaniaRepository companiaRepository;
 	    @Inject
 	    TipoDeCoberturaRepository tiposDeCoberturasRepository;
-
 }

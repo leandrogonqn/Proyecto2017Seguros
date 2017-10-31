@@ -15,12 +15,21 @@
  ******************************************************************************/
 package com.pacinetes.app.services.homepage;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.HomePage;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.registry.ServiceRegistry;
+
+import com.pacinetes.dom.mail.Mail;
+import com.pacinetes.dom.mail.MailRepository;
+import com.pacinetes.dom.poliza.Poliza;
+import com.pacinetes.dom.poliza.PolizaRepository;
 
 @DomainService(
         nature = NatureOfService.VIEW_CONTRIBUTIONS_ONLY // trick to suppress the actions from the top-level menu
@@ -34,6 +43,11 @@ public class HomePageService {
     )
     @HomePage
     public HomePageViewModel homePage() {
+		List<Poliza> listPolizas = polizaRepository.listar();
+		for (int i = 0; i < listPolizas.size(); i++) {
+			listPolizas.get(i).actualizarPoliza();
+		}
+		List<Mail> mail = mailRepository.listar();
         return serviceRegistry.injectServicesInto(new HomePageViewModel());
     }
 
@@ -43,6 +57,12 @@ public class HomePageService {
 
     @javax.inject.Inject
     ServiceRegistry serviceRegistry;
+    
+    @Inject
+    PolizaRepository polizaRepository;
+    
+    @Inject
+    MailRepository mailRepository;
 
     //endregion
 }

@@ -255,7 +255,7 @@ public class Empresa extends Persona implements Comparable<Empresa> {
     //region > toString, compareTo
     @Override
     public String toString() {
-        return ObjectContracts.toString(this, "empresaRazonSocial");
+    	return getEmpresaRazonSocial();
     }
     @Override
     public int compareTo(final Empresa other) {

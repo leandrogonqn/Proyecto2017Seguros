@@ -43,6 +43,7 @@ import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPagoMenu;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPagoRepository;
 import com.pacinetes.dom.detalletipopago.TipoPago;
+import com.pacinetes.dom.mail.Mail;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.persona.PersonaRepository;
 import com.pacinetes.dom.tipodecobertura.TipoDeCoberturaRepository;
@@ -82,6 +83,7 @@ public class PolizaIntegralComercioMenu {
 	    		@Nullable @ParameterLayout(named="Otros Nombre") @Parameter(optionality=Optionality.OPTIONAL) final String riesgoIntegralComercioOtrosNombre,
 	    		@Nullable @ParameterLayout(named="Otros Monto") @Parameter(optionality=Optionality.OPTIONAL) final double riesgoIntegralComercioOtrosMonto)
 	    {
+			Mail.enviarMailPoliza(polizaCliente);
 	        return polizasRepository.crear(
 	        		polizaNumero, 
 	        		polizaCliente, 
