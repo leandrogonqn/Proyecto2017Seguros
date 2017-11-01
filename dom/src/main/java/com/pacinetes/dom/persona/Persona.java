@@ -19,15 +19,14 @@ import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
-import javax.swing.JOptionPane;
 
+import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Editing;
+import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
-
-import com.pacinetes.dom.cliente.Cliente;
-import com.pacinetes.dom.empresa.Empresa;
 import com.pacinetes.dom.localidad.Localidad;
+import com.pacinetes.dom.mail.Mail;
 
 @javax.jdo.annotations.Queries({
 	@javax.jdo.annotations.Query(
@@ -142,6 +141,14 @@ public abstract class Persona {
 	public void setPersonaActivo(boolean personaActivo) {
 		this.personaActivo = personaActivo;
 	}	
+	
+	@ActionLayout(named="Enviar Mail", cssClassFa="fa-envelope")
+	public Persona enviarMail(
+			@ParameterLayout(named="Asunto") final String asunto,
+			@ParameterLayout(named="Mensaje", multiLine=10) final String mensaje){
+		Mail.enviarMail(this, asunto, mensaje);
+		return this;
+	}
 	
 	@Inject
 	PersonaRepository personaRepository;

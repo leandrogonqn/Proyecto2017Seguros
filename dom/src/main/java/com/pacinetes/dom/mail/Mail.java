@@ -1,5 +1,6 @@
 package com.pacinetes.dom.mail;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Properties;
 
@@ -46,11 +47,12 @@ public class Mail {
     
     public Mail() {}
     
-    public Mail(boolean mailAuth, boolean starttlsEnable, String smtphost, int smtpPort, String mail, String contraseña) {
+    public Mail(boolean mailAuth, boolean starttlsEnable, String smtphost, int smtpPort, String nombre, String mail, String contraseña) {
     	setMailAuth(mailAuth);
     	setStarttlsEnable(starttlsEnable);
     	setSmtphost(smtphost);
     	setSmtpPort(smtpPort);
+    	setNombre(nombre);
     	setMail(mail);
     	setContraseña(contraseña);
     }
@@ -109,6 +111,20 @@ public class Mail {
 	}
 	public void setSmtpPort(int smtpPort) {
 		this.smtpPort = smtpPort;
+	}	
+	
+	@javax.jdo.annotations.Column(allowsNull = "false")
+    @Property(
+            editing = Editing.ENABLED
+    )
+    @PropertyLayout(named="Nombre del remitente", describedAs="Ingrese el nombre del remitente")
+	private String nombre;
+
+    public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}	
 	
 	@javax.jdo.annotations.Column(allowsNull = "false")
@@ -189,9 +205,9 @@ public class Mail {
 				MimeMessage message = new MimeMessage(session);
 
 				// Se rellena el From
-				InternetAddress emisor = new InternetAddress();
-				emisor.setAddress(mail.getMail());
+				InternetAddress emisor = new InternetAddress(mail.getNombre()+" <"+mail.getMail()+">");
 				message.setFrom(emisor);
+				
 
 				// Se rellenan los destinatarios
 				InternetAddress receptor = new InternetAddress();
@@ -209,6 +225,47 @@ public class Mail {
 			} catch (MessagingException e) {
 				throw new RuntimeException(e);
 			}
+		}
+	}
+	
+	public static void enviarMail(Persona cliente, String asunto, String mensaje){
+		if (cliente.getPersonaMail() != null) {
+			Mail mail = obtenerMailEmisor();
+			Properties props = conectarse(mail);
+			Session session = autentificar(mail, props);
+
+			try {
+				BodyPart texto = new MimeBodyPart();
+
+				// Texto del mensaje
+				texto.setText(mensaje);
+
+				MimeMultipart multiParte = new MimeMultipart();
+				multiParte.addBodyPart(texto);
+
+				MimeMessage message = new MimeMessage(session);
+
+				// Se rellena el From
+				InternetAddress emisor = new InternetAddress(mail.getNombre()+" <"+mail.getMail()+">");
+				message.setFrom(emisor);
+				
+				// Se rellenan los destinatarios
+				InternetAddress receptor = new InternetAddress();
+				receptor.setAddress(cliente.getPersonaMail());
+				message.addRecipient(Message.RecipientType.TO, receptor);
+
+				// Se rellena el subject
+				message.setSubject(asunto);
+
+				// Se mete el texto y la foto adjunta.
+				message.setContent(multiParte);
+
+				Transport.send(message);
+
+			} catch (MessagingException e) {
+				throw new RuntimeException(e);
+			}
+			
 		}
 	}
 	

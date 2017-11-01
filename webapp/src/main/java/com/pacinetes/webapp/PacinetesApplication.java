@@ -77,15 +77,11 @@ public class PacinetesApplication extends IsisWicketApplication {
                 bind(String.class).annotatedWith(Names.named("applicationName")).toInstance("SiGeSe");
                 bind(String.class).annotatedWith(Names.named("applicationCss")).toInstance("css/application.css");
                 bind(String.class).annotatedWith(Names.named("applicationJs")).toInstance("scripts/application.js");
-//                bind(String.class).annotatedWith(Names.named("brandLogoHeader")).toInstance("/about/images/header.png");
-                bind(String.class).annotatedWith(Names.named("brandLogoSignin")).toInstance("/about/images/login.png");
-                bind(String.class).annotatedWith(Names.named("welcomeMessage")).toInstance(readLines(getClass(), "welcome.html"));
-                bind(String.class).annotatedWith(Names.named("aboutMessage")).toInstance("SiGeSe");
-                bind(InputStream.class).annotatedWith(Names.named("metaInfManifest")).toProvider(
-                        Providers.of(getServletContext().getResourceAsStream("/META-INF/MANIFEST.MF")));
-                // if uncommented, then overrides isis.appManifest in config file.
-                // bind(AppManifest.class).toInstance(new DomainAppAppManifest());
-            }
+				bind(String.class).annotatedWith(Names.named("brandLogoSignin")).toInstance("/about/images/login.png");
+				bind(String.class).annotatedWith(Names.named("welcomeMessage")).toInstance(readLines(getClass(), "welcome.html"));
+				bind(String.class).annotatedWith(Names.named("aboutMessage")).toInstance("SiGeSe");
+				bind(InputStream.class).annotatedWith(Names.named("metaInfManifest")).toProvider(Providers.of(getServletContext().getResourceAsStream("/META-INF/MANIFEST.MF")));
+			}
         };
 
         return Modules.override(isisDefaults).with(overrides);

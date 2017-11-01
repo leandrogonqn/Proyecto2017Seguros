@@ -35,8 +35,8 @@ public class MailRepository {
         return repositoryService.allInstances(Mail.class);
     }
 
-    public Mail crear(boolean mailAuth, boolean starttlsEnable, String smtphost, int smtpPort, String mail, String contraseña) {
-        final Mail object = new Mail(mailAuth, starttlsEnable, smtphost, smtpPort, mail, contraseña);
+    public Mail crear(boolean mailAuth, boolean starttlsEnable, String smtphost, int smtpPort, String nombre, String mail, String contraseña) {
+        final Mail object = new Mail(mailAuth, starttlsEnable, smtphost, smtpPort, nombre, mail, contraseña);
         serviceRegistry.injectServicesInto(object);
         repositoryService.persist(object);
         return object;

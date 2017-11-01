@@ -63,13 +63,14 @@ public class MailMenu {
 			@ParameterLayout(named = "Starttls Enable", describedAs="Dejar true para conectar de manera segura al servidor SMTP") boolean starttlsEnable,
 			@ParameterLayout(named = "Smtp Host", describedAs="Servidor SMTP que vas a usar") String smtphost, 
 			@ParameterLayout(named = "Smtp Port", describedAs="Puerto SMTP que vas a usar") int smtpPort,
+			@ParameterLayout(named = "Nombre", describedAs="Ingrese el nombre del remitente") String nombre,
 			@ParameterLayout(named = "Mail", describedAs="Ingrese su direccion de mail") String mail, 
 			@ParameterLayout(named = "Contraseña", describedAs="Ingrese la contraseña de su mail") String contraseña) {
-		return mailRepository.crear(mailAuth, starttlsEnable, smtphost, smtpPort, mail, contraseña);
+		return mailRepository.crear(mailAuth, starttlsEnable, smtphost, smtpPort, nombre, mail, contraseña);
 	}
 
-	public String validateCrear(boolean mailAuth, boolean starttlsEnable, String smtphost, int smtpPort, String mail,
-			String contraseña) {
+	public String validateCrear(boolean mailAuth, boolean starttlsEnable, String smtphost, int smtpPort, String nombre, 
+			String mail, String contraseña) {
 		List<Mail> listaMail = mailRepository.listar();
 		if (listaMail.size() != 0) {
 			return "Ya hay creado un mail, si quiere modificarlo ingrese por Ver Mail";
