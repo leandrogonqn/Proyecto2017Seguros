@@ -145,6 +145,7 @@ public class Cliente extends Persona implements Comparable<Cliente> {
 		setClienteFechaNacimiento(clienteFechaNacimiento);
 		setClienteNotificacionCumpleanios(clienteNotificacionCumpleanios);
 		setPersonaActivo(true);
+		setClienteAviso(false);
 	}
 
 
@@ -277,6 +278,21 @@ public class Cliente extends Persona implements Comparable<Cliente> {
 	}
 	public void setClienteNotificacionCumpleanios(boolean clienteNotificacionCumpleanios) {
 		this.clienteNotificacionCumpleanios = clienteNotificacionCumpleanios;
+	}	
+	
+    @javax.jdo.annotations.Column(allowsNull = "false")
+    @Property(
+            editing = Editing.DISABLED,
+            hidden=Where.EVERYWHERE
+    )
+    @PropertyLayout(named="Aviso")
+    private boolean clienteAviso;
+
+    public boolean getClienteAviso() {
+		return clienteAviso;
+	}
+	public void setClienteAviso(boolean clienteAviso) {
+		this.clienteAviso = clienteAviso;
 	}	
 	
     //endregion

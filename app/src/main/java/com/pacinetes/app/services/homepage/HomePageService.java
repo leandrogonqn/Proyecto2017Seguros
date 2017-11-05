@@ -26,6 +26,7 @@ import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.services.registry.ServiceRegistry;
 
+import com.pacinetes.app.viewmodel.ClientesPorCumpleaños;
 import com.pacinetes.dom.mail.Mail;
 import com.pacinetes.dom.mail.MailRepository;
 import com.pacinetes.dom.poliza.Poliza;
@@ -48,6 +49,7 @@ public class HomePageService {
 			listPolizas.get(i).actualizarPoliza();
 		}
 		List<Mail> mail = mailRepository.listar();
+		clientesPorCumpleaños.enviarMailCumpleaños();
         return serviceRegistry.injectServicesInto(new HomePageViewModel());
     }
 
@@ -63,6 +65,9 @@ public class HomePageService {
     
     @Inject
     MailRepository mailRepository;
+    
+    @Inject
+    ClientesPorCumpleaños clientesPorCumpleaños;
 
     //endregion
 }

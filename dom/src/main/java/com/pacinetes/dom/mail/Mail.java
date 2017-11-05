@@ -25,6 +25,7 @@ import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 
+import com.pacinetes.dom.cliente.Cliente;
 import com.pacinetes.dom.persona.Persona;
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -234,6 +235,53 @@ public class Mail {
 			Properties props = conectarse(mail);
 			Session session = autentificar(mail, props);
 
+			try {
+				BodyPart texto = new MimeBodyPart();
+
+				// Texto del mensaje
+				texto.setText(mensaje);
+
+				MimeMultipart multiParte = new MimeMultipart();
+				multiParte.addBodyPart(texto);
+
+				MimeMessage message = new MimeMessage(session);
+
+				// Se rellena el From
+				InternetAddress emisor = new InternetAddress(mail.getNombre()+" <"+mail.getMail()+">");
+				message.setFrom(emisor);
+				
+				// Se rellenan los destinatarios
+				InternetAddress receptor = new InternetAddress();
+				receptor.setAddress(cliente.getPersonaMail());
+				message.addRecipient(Message.RecipientType.TO, receptor);
+
+				// Se rellena el subject
+				message.setSubject(asunto);
+
+				// Se mete el texto y la foto adjunta.
+				message.setContent(multiParte);
+
+				Transport.send(message);
+
+			} catch (MessagingException e) {
+				throw new RuntimeException(e);
+			}
+			
+		}
+	}
+	
+	public static void enviarMailCumpleaños(Cliente cliente){
+		if (cliente.getPersonaMail() != null) {
+			Mail mail = obtenerMailEmisor();
+			Properties props = conectarse(mail);
+			Session session = autentificar(mail, props);
+
+			String asunto = "Feliz Cumpleaños "+cliente.getClienteNombre()+"!!!";
+
+			String mensaje = "Queremos saludarlo en el mes de su cumpleaños, "
+					+ "espero que tenga una gran celebración y un día maravilloso.\r\n\r\nFeliz cumpleaños "+cliente.getClienteNombre()
+					+ ".\r\nDe parte del equipo de Pacinetes S.R.L.";
+			
 			try {
 				BodyPart texto = new MimeBodyPart();
 
