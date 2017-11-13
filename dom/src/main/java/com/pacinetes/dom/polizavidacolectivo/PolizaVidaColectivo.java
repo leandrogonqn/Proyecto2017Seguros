@@ -15,6 +15,8 @@
  ******************************************************************************/
 package com.pacinetes.dom.polizavidacolectivo;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,15 +41,13 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
+import org.apache.isis.applib.value.Blob;
 
-import com.pacinetes.dom.cliente.Cliente;
-import com.pacinetes.dom.cliente.ClienteRepository;
 import com.pacinetes.dom.compania.Compania;
 import com.pacinetes.dom.compania.CompaniaRepository;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
@@ -56,18 +56,14 @@ import com.pacinetes.dom.detalletipopago.DetalleTipoPagoRepository;
 import com.pacinetes.dom.detalletipopago.TipoPago;
 import com.pacinetes.dom.estado.Estado;
 import com.pacinetes.dom.mail.Mail;
-import com.pacinetes.dom.ocupacion.Ocupacion;
-import com.pacinetes.dom.ocupacion.OcupacionRepository;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.persona.PersonaRepository;
 import com.pacinetes.dom.poliza.Poliza;
 import com.pacinetes.dom.poliza.PolizaRepository;
-import com.pacinetes.dom.polizaart.PolizaART;
+import com.pacinetes.dom.reportes.PolizaVidaColectivoReporte;
+import com.pacinetes.dom.reportes.ReporteRepository;
 import com.pacinetes.dom.tipodecobertura.TipoDeCoberturaRepository;
-import com.pacinetes.dom.tipotitular.TipoTitular;
-import com.pacinetes.dom.tipotitular.TipoTitularRepository;
-import com.pacinetes.dom.tipovivienda.TipoVivienda;
-import com.pacinetes.dom.tipovivienda.TipoViviendaRepository;
+import net.sf.jasperreports.engine.JRException;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -390,6 +386,28 @@ public class PolizaVidaColectivo extends Poliza {
   public DetalleTipoPago default7Renovacion(){
   	return getPolizaPago();
   }
+  
+  public Blob imprimirPoliza() throws JRException, IOException{
+		
+		List<Object> objectsReport = new ArrayList<Object>();
+		
+		PolizaVidaColectivoReporte polizaVidaColectivoReporte = new PolizaVidaColectivoReporte();
+		polizaVidaColectivoReporte.setPolizaCliente(getPolizaCliente().toString());
+		polizaVidaColectivoReporte.setPolizaNumero(getPolizaNumero());
+		polizaVidaColectivoReporte.setPolizaCompania(getPolizaCompania().getCompaniaNombre());
+		polizaVidaColectivoReporte.setPolizaFechaEmision(getPolizaFechaEmision());
+		polizaVidaColectivoReporte.setPolizaFechaVigencia(getPolizaFechaVigencia());
+		polizaVidaColectivoReporte.setPolizaFechaVencimiento(getPolizaFechaVencimiento());
+		polizaVidaColectivoReporte.setRiesgoVidaColectivoMonto(getRiesgoVidaColectivoMonto());
+		polizaVidaColectivoReporte.setPolizaImporteTotal(getPolizaImporteTotal());
+		polizaVidaColectivoReporte.setPolizaEstado(getPolizaEstado().toString());
+		
+		objectsReport.add(polizaVidaColectivoReporte);
+		String jrxml = "PolizaVidaColectivo.jrxml";
+		String nombreArchivo = "PolizaVidaColectivo_"+getPolizaCliente().toString().replaceAll("\\s","_")+"_"+getPolizaNumero();
+		
+		return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
+  }	
    
    //region > toString, compareTo
    @Override
@@ -430,6 +448,9 @@ public class PolizaVidaColectivo extends Poliza {
 
    @Inject
    PolizaVidaColectivoRepository riesgosVidaColectivoRepository;
+   
+   @Inject
+   ReporteRepository reporteRepository;
    
    //endregion
 

@@ -15,6 +15,7 @@
  ******************************************************************************/
 package com.pacinetes.dom.polizacombinadofamiliar;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -72,11 +73,16 @@ import com.pacinetes.dom.poliza.Poliza;
 import com.pacinetes.dom.poliza.PolizaRepository;
 import com.pacinetes.dom.polizaart.PolizaART;
 import com.pacinetes.dom.polizaautomotor.PolizaAutomotor;
+import com.pacinetes.dom.reportes.PolizaCaucionReporte;
+import com.pacinetes.dom.reportes.PolizaCombinadoFamiliarReporte;
+import com.pacinetes.dom.reportes.ReporteRepository;
 import com.pacinetes.dom.tipodecobertura.TipoDeCoberturaRepository;
 import com.pacinetes.dom.tipotitular.TipoTitular;
 import com.pacinetes.dom.tipotitular.TipoTitularRepository;
 import com.pacinetes.dom.tipovivienda.TipoVivienda;
 import com.pacinetes.dom.tipovivienda.TipoViviendaRepository;
+
+import net.sf.jasperreports.engine.JRException;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -631,6 +637,32 @@ public class PolizaCombinadoFamiliar extends Poliza {
     	return getRiesgoAutomotorAdjunto();
     }
    
+	public Blob imprimirPoliza() throws JRException, IOException{
+			
+			List<Object> objectsReport = new ArrayList<Object>();
+			
+			PolizaCombinadoFamiliarReporte polizaCombinadoFamiliarReporte = new PolizaCombinadoFamiliarReporte();
+			polizaCombinadoFamiliarReporte.setPolizaCliente(getPolizaCliente().toString());
+			polizaCombinadoFamiliarReporte.setPolizaNumero(getPolizaNumero());
+			polizaCombinadoFamiliarReporte.setPolizaCompania(getPolizaCompania().getCompaniaNombre());
+			polizaCombinadoFamiliarReporte.setPolizaFechaEmision(getPolizaFechaEmision());
+			polizaCombinadoFamiliarReporte.setPolizaFechaVigencia(getPolizaFechaVigencia());
+			polizaCombinadoFamiliarReporte.setPolizaFechaVencimiento(getPolizaFechaVencimiento());
+			polizaCombinadoFamiliarReporte.setRiesgoCombinadosFamiliaresDomicilio(getRiesgoCombinadosFamiliaresDomicilio());
+			polizaCombinadoFamiliarReporte.setRiesgoCombinadosFamiliaresLocalidad(getRiesgoCombinadosFamiliaresLocalidad().getLocalidadesNombre());
+			polizaCombinadoFamiliarReporte.setRiesgoCombinadosFamiliaresOcupacion(getRiesgoCombinadosFamiliaresOcupacion().getOcupacionNombre());
+			polizaCombinadoFamiliarReporte.setRiesgoCombinadosFamiliaresTipoTitular(getRiesgoCombinadosFamiliaresTipoTitular().getTipoTitularNombre());
+			polizaCombinadoFamiliarReporte.setRiesgoCombinadosFamiliaresTipoVivienda(getRiesgoCombinadosFamiliaresTipoVivienda().getTipoViviendaNombre());
+			polizaCombinadoFamiliarReporte.setPolizaImporteTotal(getPolizaImporteTotal());
+			polizaCombinadoFamiliarReporte.setPolizaEstado(getPolizaEstado().toString());
+			
+			objectsReport.add(polizaCombinadoFamiliarReporte);
+			String jrxml = "PolizaCombinadoFamiliar.jrxml";
+			String nombreArchivo = "PolizaCombinadoFamiliar_"+getPolizaCliente().toString().replaceAll("\\s","_")+"_"+getPolizaNumero();
+			
+			return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
+	  }	
+    
    //region > toString, compareTo
    @Override
    public String toString() {
@@ -685,6 +717,9 @@ public class PolizaCombinadoFamiliar extends Poliza {
    
    @Inject
    AdjuntoRepository adjuntoRepository;
+   
+   @Inject
+   ReporteRepository reporteRepository;
    
    //endregion
 

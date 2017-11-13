@@ -15,6 +15,8 @@
  ******************************************************************************/
 package com.pacinetes.dom.polizalct;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +47,7 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
+import org.apache.isis.applib.value.Blob;
 
 import com.pacinetes.dom.cliente.Cliente;
 import com.pacinetes.dom.cliente.ClienteRepository;
@@ -63,11 +66,16 @@ import com.pacinetes.dom.persona.PersonaRepository;
 import com.pacinetes.dom.poliza.Poliza;
 import com.pacinetes.dom.poliza.PolizaRepository;
 import com.pacinetes.dom.polizaart.PolizaART;
+import com.pacinetes.dom.reportes.PolizaAPReporte;
+import com.pacinetes.dom.reportes.PolizaLCTReporte;
+import com.pacinetes.dom.reportes.ReporteRepository;
 import com.pacinetes.dom.tipodecobertura.TipoDeCoberturaRepository;
 import com.pacinetes.dom.tipotitular.TipoTitular;
 import com.pacinetes.dom.tipotitular.TipoTitularRepository;
 import com.pacinetes.dom.tipovivienda.TipoVivienda;
 import com.pacinetes.dom.tipovivienda.TipoViviendaRepository;
+
+import net.sf.jasperreports.engine.JRException;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -390,6 +398,28 @@ public class PolizaLCT extends Poliza {
   public DetalleTipoPago default7Renovacion(){
   	return getPolizaPago();
   }
+  
+  public Blob imprimirPoliza() throws JRException, IOException{
+		
+		List<Object> objectsReport = new ArrayList<Object>();
+		
+		PolizaLCTReporte polizaLCTReporte = new PolizaLCTReporte();
+		polizaLCTReporte.setPolizaCliente(getPolizaCliente().toString());
+		polizaLCTReporte.setPolizaNumero(getPolizaNumero());
+		polizaLCTReporte.setPolizaCompania(getPolizaCompania().getCompaniaNombre());
+		polizaLCTReporte.setPolizaFechaEmision(getPolizaFechaEmision());
+		polizaLCTReporte.setPolizaFechaVigencia(getPolizaFechaVigencia());
+		polizaLCTReporte.setPolizaFechaVencimiento(getPolizaFechaVencimiento());
+		polizaLCTReporte.setRiesgoLCTMonto(getRiesgoLCTMonto());
+		polizaLCTReporte.setPolizaImporteTotal(getPolizaImporteTotal());
+		polizaLCTReporte.setPolizaEstado(getPolizaEstado().toString());
+		
+		objectsReport.add(polizaLCTReporte);
+		String jrxml = "PolizaLCT.jrxml";
+		String nombreArchivo = "PolizaLCT_"+getPolizaCliente().toString().replaceAll("\\s","_")+"_"+getPolizaNumero();
+		
+		return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
+  }	
    
    //region > toString, compareTo
    @Override
@@ -430,6 +460,9 @@ public class PolizaLCT extends Poliza {
 
    @Inject
    PolizaLCTRepository riesgosLCTRepository;
+   
+   @Inject
+   ReporteRepository reporteRepository;
    
    //endregion
 

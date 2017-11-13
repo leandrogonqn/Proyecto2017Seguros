@@ -15,6 +15,8 @@
  ******************************************************************************/
 package com.pacinetes.dom.polizaconveniomercantil;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +48,7 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
+import org.apache.isis.applib.value.Blob;
 
 import com.pacinetes.dom.cliente.Cliente;
 import com.pacinetes.dom.cliente.ClienteRepository;
@@ -61,7 +64,12 @@ import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.persona.PersonaRepository;
 import com.pacinetes.dom.poliza.Poliza;
 import com.pacinetes.dom.poliza.PolizaRepository;
+import com.pacinetes.dom.reportes.PolizaAPReporte;
+import com.pacinetes.dom.reportes.PolizaConvenioMercantilReporte;
+import com.pacinetes.dom.reportes.ReporteRepository;
 import com.pacinetes.dom.tipodecobertura.TipoDeCoberturaRepository;
+
+import net.sf.jasperreports.engine.JRException;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -380,6 +388,28 @@ public class PolizaConvenioMercantil extends Poliza {
 		   	return getPolizaPago();
 		   }
 	   
+	   public Blob imprimirPoliza() throws JRException, IOException{
+			
+			List<Object> objectsReport = new ArrayList<Object>();
+			
+			PolizaConvenioMercantilReporte polizaConvenioMercantilReporte = new PolizaConvenioMercantilReporte();
+			polizaConvenioMercantilReporte.setPolizaCliente(getPolizaCliente().toString());
+			polizaConvenioMercantilReporte.setPolizaNumero(getPolizaNumero());
+			polizaConvenioMercantilReporte.setPolizaCompania(getPolizaCompania().getCompaniaNombre());
+			polizaConvenioMercantilReporte.setPolizaFechaEmision(getPolizaFechaEmision());
+			polizaConvenioMercantilReporte.setPolizaFechaVigencia(getPolizaFechaVigencia());
+			polizaConvenioMercantilReporte.setPolizaFechaVencimiento(getPolizaFechaVencimiento());
+			polizaConvenioMercantilReporte.setRiesgoConvenioMercantilMonto(getRiesgoConvenioMercantilMonto());
+			polizaConvenioMercantilReporte.setPolizaImporteTotal(getPolizaImporteTotal());
+			polizaConvenioMercantilReporte.setPolizaEstado(getPolizaEstado().toString());
+			
+			objectsReport.add(polizaConvenioMercantilReporte);
+			String jrxml = "PolizaConvenioMercantil.jrxml";
+			String nombreArchivo = "PolizaConvenioMercantil_"+getPolizaCliente().toString().replaceAll("\\s","_")+"_"+getPolizaNumero();
+			
+			return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
+	   }	
+	   
 	   //region > toString, compareTo
 	   @Override
 	   public String toString() {
@@ -419,6 +449,9 @@ public class PolizaConvenioMercantil extends Poliza {
 
 	   @Inject
 	   PolizaConvenioMercantilRepository riesgosConvenioMercantilRepository;
+	   
+	   @Inject
+	   ReporteRepository reporteRepository;
 	   
 	   //endregion
 

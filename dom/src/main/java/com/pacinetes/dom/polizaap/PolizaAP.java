@@ -15,6 +15,8 @@
  ******************************************************************************/
 package com.pacinetes.dom.polizaap;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +47,7 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
+import org.apache.isis.applib.value.Blob;
 
 import com.pacinetes.dom.cliente.Cliente;
 import com.pacinetes.dom.cliente.ClienteRepository;
@@ -63,12 +66,17 @@ import com.pacinetes.dom.persona.PersonaRepository;
 import com.pacinetes.dom.poliza.Poliza;
 import com.pacinetes.dom.poliza.PolizaRepository;
 import com.pacinetes.dom.polizaart.PolizaART;
+import com.pacinetes.dom.reportes.ClienteReporte;
+import com.pacinetes.dom.reportes.PolizaAPReporte;
+import com.pacinetes.dom.reportes.ReporteRepository;
 import com.pacinetes.dom.tipodecobertura.TipoDeCoberturaRepository;
 import com.pacinetes.dom.tipotitular.TipoTitular;
 import com.pacinetes.dom.tipotitular.TipoTitularRepository;
 import com.pacinetes.dom.tipovivienda.TipoVivienda;
 import com.pacinetes.dom.tipovivienda.TipoViviendaRepository;
 import com.pacinetes.dom.vehiculo.Vehiculo;
+
+import net.sf.jasperreports.engine.JRException;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -464,6 +472,30 @@ public class PolizaAP extends Poliza {
 	public float default11Renovacion() {
 		return getRiesgoAPAMF();
 	}   
+	
+   public Blob imprimirPoliza() throws JRException, IOException{
+		
+		List<Object> objectsReport = new ArrayList<Object>();
+		
+		PolizaAPReporte polizaAPReporte = new PolizaAPReporte();
+		polizaAPReporte.setPolizaCliente(getPolizaCliente().toString());
+		polizaAPReporte.setPolizaNumero(getPolizaNumero());
+		polizaAPReporte.setPolizaCompania(getPolizaCompania().getCompaniaNombre());
+		polizaAPReporte.setPolizaFechaEmision(getPolizaFechaEmision());
+		polizaAPReporte.setPolizaFechaVigencia(getPolizaFechaVigencia());
+		polizaAPReporte.setPolizaFechaVencimiento(getPolizaFechaVencimiento());
+		polizaAPReporte.setRiesgoAPAMF(getRiesgoAPAMF());
+		polizaAPReporte.setRiesgoAPInvalidez(getRiesgoAPInvalidez());
+		polizaAPReporte.setRiesgoAPMuerte(getRiesgoAPMuerte());
+		polizaAPReporte.setPolizaImporteTotal(getPolizaImporteTotal());
+		polizaAPReporte.setPolizaEstado(getPolizaEstado().toString());
+		
+		objectsReport.add(polizaAPReporte);
+		String jrxml = "PolizaAP.jrxml";
+		String nombreArchivo = "PolizaAP_"+getPolizaCliente().toString().replaceAll("\\s","_")+"_"+getPolizaNumero();
+		
+		return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
+   }	
    
    //region > toString, compareTo
    @Override
@@ -472,7 +504,7 @@ public class PolizaAP extends Poliza {
    }
 
    //endregion
-
+   
    //region > injected dependencies
 
    @Inject
@@ -504,6 +536,9 @@ public class PolizaAP extends Poliza {
 
    @Inject
    PolizaAPRepository riesgosAPRepository;
+   
+   @Inject
+   ReporteRepository reporteRepository;
    
    //endregion
 }

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cliente" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a26af333-4478-4d0a-b18f-d3fad6a49896">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<field name="polizaNumero" class="java.lang.String"/>
+	<field name="polizaCliente" class="java.lang.String"/>
+	<field name="polizaEstado" class="java.lang.String"/>
+	<field name="polizaCompania" class="java.lang.String"/>
+	<field name="polizaImporteTotal" class="java.lang.Double"/>
+	<field name="polizaFechaVencimiento" class="java.util.Date"/>
+	<field name="polizaFechaVigencia" class="java.util.Date"/>
+	<field name="polizaFechaEmision" class="java.util.Date"/>
+	<field name="riesgoAutomotorTipoDeCobertura" class="java.lang.String"/>
+	<group name="Group1"/>
+	<group name="Group2">
+		<groupHeader>
+			<band height="241">
+				<staticText>
+					<reportElement x="80" y="22" width="150" height="22" forecolor="#666666" uuid="3568db78-b2c0-4fef-acc1-fc5b9a2bbef8"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Poliza Número:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="280" y="22" width="130" height="22" uuid="3f02992e-13dc-415b-bdeb-6c578b259e98"/>
+					<textElement>
+						<font fontName="Arial" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{polizaNumero}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="240" width="555" height="1" uuid="3bf4ceb8-6ae1-4927-aa90-099ac8fd3384"/>
+				</line>
+				<staticText>
+					<reportElement x="80" y="0" width="150" height="22" forecolor="#666666" uuid="83af0a21-2896-4163-959b-2c4411da704b"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Poliza Cliente:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="280" y="0" width="130" height="22" uuid="26b38c49-3c8e-4309-90a4-034f8447950e"/>
+					<textElement>
+						<font fontName="Arial" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{polizaCliente}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="80" y="44" width="150" height="22" forecolor="#666666" uuid="216fefb7-e7d5-41c8-b1eb-06c021bcb804"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Poliza Compania:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="280" y="44" width="130" height="22" uuid="d2562db4-01a3-4b98-a7b6-ea03c94737ed"/>
+					<textElement>
+						<font fontName="Arial" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{polizaCompania}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="280" y="88" width="130" height="22" uuid="b525d060-8a8c-41a7-ac41-44714751e24e"/>
+					<textElement>
+						<font fontName="Arial" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{polizaFechaVigencia})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="80" y="88" width="150" height="22" forecolor="#666666" uuid="742dc4ea-1d08-4594-8fd0-1af23dd7697a"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Poliza Fecha Vigencia:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="80" y="66" width="150" height="22" forecolor="#666666" uuid="8011968e-4000-424a-a9b6-9510db49a251"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Poliza Fecha Emisión:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="280" y="66" width="130" height="22" uuid="44e1f545-fd61-4c20-83cd-cfc4f1072a4f"/>
+					<textElement>
+						<font fontName="Arial" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{polizaFechaEmision})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="80" y="110" width="170" height="22" forecolor="#666666" uuid="5da91327-740a-43a7-8c71-04f3c15df5dc"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Poliza Fecha Vencimiento:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="280" y="110" width="130" height="22" uuid="dd785b8f-b852-4714-9283-7784abfcc680"/>
+					<textElement>
+						<font fontName="Arial" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{polizaFechaVencimiento})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="280" y="132" width="130" height="22" uuid="9c2575d9-4ea3-4103-94a6-488659635e68"/>
+					<textElement>
+						<font fontName="Arial" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{riesgoAutomotorTipoDeCobertura}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="80" y="132" width="150" height="22" forecolor="#666666" uuid="a94767d9-16f9-49c0-a671-99ee1bee52b1"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tipo cobertura:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="80" y="154" width="150" height="22" forecolor="#666666" uuid="24905730-6fb0-4f2f-8ba8-5302e8e925e5"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Poliza Importe Total:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="280" y="154" width="130" height="22" uuid="a382ab02-3672-4094-b800-29af89147a2f"/>
+					<textElement>
+						<font fontName="Arial" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{polizaImporteTotal}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Group3"/>
+	<group name="Group4">
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#0A1BFF" uuid="423448b8-6e0b-46b5-ba31-ffc3c10efe4a"/>
+				<staticText>
+					<reportElement x="20" y="20" width="330" height="43" forecolor="#FFFFFF" uuid="f950f964-085b-4a1e-a9b7-d3e57ac63416"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Si.Ge.Se.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="200" y="70" width="180" height="20" forecolor="#FFFFFF" uuid="40328cf5-074f-4058-81fc-6e2765588d8c"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Datos de la poliza]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="46">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="28" width="555" height="1" uuid="dbcee06a-9591-4bf4-b89c-63f2a9ebd42d"/>
+			</line>
+			<textField>
+				<reportElement x="425" y="6" width="130" height="22" uuid="374a3535-151f-4606-bda3-4f1c7893e08c"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{polizaEstado}.toUpperCase()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<pageFooter>
+		<band height="31">
+			<textField>
+				<reportElement x="475" y="0" width="100" height="30" uuid="c710f823-74cc-47dd-9604-14362cd74836"/>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

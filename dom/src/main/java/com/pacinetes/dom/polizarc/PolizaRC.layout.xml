@@ -64,8 +64,8 @@
                                 <c:action id="actualizarPolizaRenovacion" position="RIGHT"/>
 								<c:action id="borrarPolizaRenovacion" position="RIGHT" />
                                 </c:property>
-                                <c:property id="riesgoARTMonto" namedEscaped="true">
-                                <c:action id="actualizarRiesgoARTMonto" position="RIGHT"/>
+                                <c:property id="riesgoRCMonto" namedEscaped="true">
+                                <c:action id="actualizarRiesgoRCMonto" position="RIGHT"/>
                                 </c:property>
                                 <c:property id="polizaEstado" namedEscaped="true">
                                 <c:action id="actualizarPolizaEstado" position="RIGHT"/>

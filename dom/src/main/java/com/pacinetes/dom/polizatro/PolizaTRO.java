@@ -15,6 +15,8 @@
  ******************************************************************************/
 package com.pacinetes.dom.polizatro;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +47,7 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
+import org.apache.isis.applib.value.Blob;
 
 import com.pacinetes.dom.cliente.Cliente;
 import com.pacinetes.dom.cliente.ClienteRepository;
@@ -61,7 +64,12 @@ import com.pacinetes.dom.persona.PersonaRepository;
 import com.pacinetes.dom.poliza.Poliza;
 import com.pacinetes.dom.poliza.PolizaRepository;
 import com.pacinetes.dom.polizaart.PolizaART;
+import com.pacinetes.dom.reportes.PolizaAPReporte;
+import com.pacinetes.dom.reportes.PolizaTROReporte;
+import com.pacinetes.dom.reportes.ReporteRepository;
 import com.pacinetes.dom.tipodecobertura.TipoDeCoberturaRepository;
+
+import net.sf.jasperreports.engine.JRException;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -384,6 +392,28 @@ public class PolizaTRO extends Poliza {
 	   	return getPolizaPago();
 	   }
 	   
+	   public Blob imprimirPoliza() throws JRException, IOException{
+			
+			List<Object> objectsReport = new ArrayList<Object>();
+			
+			PolizaTROReporte polizaTROeporte = new PolizaTROReporte();
+			polizaTROeporte.setPolizaCliente(getPolizaCliente().toString());
+			polizaTROeporte.setPolizaNumero(getPolizaNumero());
+			polizaTROeporte.setPolizaCompania(getPolizaCompania().getCompaniaNombre());
+			polizaTROeporte.setPolizaFechaEmision(getPolizaFechaEmision());
+			polizaTROeporte.setPolizaFechaVigencia(getPolizaFechaVigencia());
+			polizaTROeporte.setPolizaFechaVencimiento(getPolizaFechaVencimiento());
+			polizaTROeporte.setRiesgoTROMonto(getRiesgoTROMonto());
+			polizaTROeporte.setPolizaImporteTotal(getPolizaImporteTotal());
+			polizaTROeporte.setPolizaEstado(getPolizaEstado().toString());
+			
+			objectsReport.add(polizaTROeporte);
+			String jrxml = "PolizaTRO.jrxml";
+			String nombreArchivo = "PolizaTRO_"+getPolizaCliente().toString().replaceAll("\\s","_")+"_"+getPolizaNumero();
+			
+			return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
+	   }	
+	   
 	   //region > toString, compareTo
 	   @Override
 	   public String toString() {
@@ -423,6 +453,9 @@ public class PolizaTRO extends Poliza {
 
 	   @Inject
 	   PolizaTRORepository riesgosTRORepository;
+	   
+	   @Inject
+	   ReporteRepository reporteRepository;
 
 	   //endregion
 

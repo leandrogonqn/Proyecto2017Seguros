@@ -15,6 +15,8 @@
  ******************************************************************************/
 package com.pacinetes.dom.polizaincendio;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +47,7 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
+import org.apache.isis.applib.value.Blob;
 
 import com.pacinetes.dom.cliente.Cliente;
 import com.pacinetes.dom.cliente.ClienteRepository;
@@ -63,11 +66,15 @@ import com.pacinetes.dom.persona.PersonaRepository;
 import com.pacinetes.dom.poliza.Poliza;
 import com.pacinetes.dom.poliza.PolizaRepository;
 import com.pacinetes.dom.polizaart.PolizaART;
+import com.pacinetes.dom.reportes.PolizaIncendioReporte;
+import com.pacinetes.dom.reportes.ReporteRepository;
 import com.pacinetes.dom.tipodecobertura.TipoDeCoberturaRepository;
 import com.pacinetes.dom.tipotitular.TipoTitular;
 import com.pacinetes.dom.tipotitular.TipoTitularRepository;
 import com.pacinetes.dom.tipovivienda.TipoVivienda;
 import com.pacinetes.dom.tipovivienda.TipoViviendaRepository;
+
+import net.sf.jasperreports.engine.JRException;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -389,6 +396,28 @@ public class PolizaIncendio extends Poliza {
   public DetalleTipoPago default7Renovacion(){
   	return getPolizaPago();
   }
+  
+  public Blob imprimirPoliza() throws JRException, IOException{
+		
+		List<Object> objectsReport = new ArrayList<Object>();
+		
+		PolizaIncendioReporte polizaIncendioReporte = new PolizaIncendioReporte();
+		polizaIncendioReporte.setPolizaCliente(getPolizaCliente().toString());
+		polizaIncendioReporte.setPolizaNumero(getPolizaNumero());
+		polizaIncendioReporte.setPolizaCompania(getPolizaCompania().getCompaniaNombre());
+		polizaIncendioReporte.setPolizaFechaEmision(getPolizaFechaEmision());
+		polizaIncendioReporte.setPolizaFechaVigencia(getPolizaFechaVigencia());
+		polizaIncendioReporte.setPolizaFechaVencimiento(getPolizaFechaVencimiento());
+		polizaIncendioReporte.setRiesgoIncendioMonto(getRiesgoIncendioMonto());
+		polizaIncendioReporte.setPolizaImporteTotal(getPolizaImporteTotal());
+		polizaIncendioReporte.setPolizaEstado(getPolizaEstado().toString());
+		
+		objectsReport.add(polizaIncendioReporte);
+		String jrxml = "PolizaIncendio.jrxml";
+		String nombreArchivo = "PolizaIncendio_"+getPolizaCliente().toString().replaceAll("\\s","_")+"_"+getPolizaNumero();
+		
+		return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
+  }	
    
    //region > toString, compareTo
    @Override
@@ -429,6 +458,9 @@ public class PolizaIncendio extends Poliza {
 
    @Inject
    PolizaIncendioRepository riesgosIncendioRepository;
+   
+   @Inject
+   ReporteRepository reporteRepository;
    
    //endregion
 

@@ -15,6 +15,7 @@
  ******************************************************************************/
 package com.pacinetes.dom.polizaautomotor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -69,10 +70,15 @@ import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.persona.PersonaRepository;
 import com.pacinetes.dom.poliza.Poliza;
 import com.pacinetes.dom.poliza.PolizaRepository;
+import com.pacinetes.dom.reportes.PolizaARTReporte;
+import com.pacinetes.dom.reportes.PolizaAutomotorReporte;
+import com.pacinetes.dom.reportes.ReporteRepository;
 import com.pacinetes.dom.tipodecobertura.TipoDeCobertura;
 import com.pacinetes.dom.tipodecobertura.TipoDeCoberturaRepository;
 import com.pacinetes.dom.vehiculo.Vehiculo;
 import com.pacinetes.dom.vehiculo.VehiculoRepository;
+
+import net.sf.jasperreports.engine.JRException;
 
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -689,6 +695,28 @@ public class PolizaAutomotor extends Poliza {
 		return validador;
 	}
 	
+	public Blob imprimirPoliza() throws JRException, IOException{
+			
+			List<Object> objectsReport = new ArrayList<Object>();
+			
+			PolizaAutomotorReporte polizaAutomotorReporte = new PolizaAutomotorReporte();
+			polizaAutomotorReporte.setPolizaCliente(getPolizaCliente().toString());
+			polizaAutomotorReporte.setPolizaNumero(getPolizaNumero());
+			polizaAutomotorReporte.setPolizaCompania(getPolizaCompania().getCompaniaNombre());
+			polizaAutomotorReporte.setPolizaFechaEmision(getPolizaFechaEmision());
+			polizaAutomotorReporte.setPolizaFechaVigencia(getPolizaFechaVigencia());
+			polizaAutomotorReporte.setPolizaFechaVencimiento(getPolizaFechaVencimiento());
+			polizaAutomotorReporte.setRiesgoAutomotorTipoDeCobertura(getRiesgoAutomotorTipoDeCobertura().getTipoDeCoberturaNombre());
+			polizaAutomotorReporte.setPolizaImporteTotal(getPolizaImporteTotal());
+			polizaAutomotorReporte.setPolizaEstado(getPolizaEstado().toString());
+			
+			objectsReport.add(polizaAutomotorReporte);
+			String jrxml = "PolizaAutomotor.jrxml";
+			String nombreArchivo = "PolizaAutomotor_"+getPolizaCliente().toString().replaceAll("\\s","_")+"_"+getPolizaNumero();
+			
+			return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
+	  }	
+	
     //region > toString, compareTo
     @Override
     public String toString() {
@@ -737,6 +765,9 @@ public class PolizaAutomotor extends Poliza {
     
     @Inject
     ModeloRepository modeloRepository;
+    
+    @Inject
+    ReporteRepository reporteRepository;
     
     //endregion
 

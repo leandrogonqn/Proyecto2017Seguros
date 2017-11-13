@@ -15,6 +15,8 @@
  ******************************************************************************/
 package com.pacinetes.dom.polizarc;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,15 +42,13 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
+import org.apache.isis.applib.value.Blob;
 
-import com.pacinetes.dom.cliente.Cliente;
-import com.pacinetes.dom.cliente.ClienteRepository;
 import com.pacinetes.dom.compania.Compania;
 import com.pacinetes.dom.compania.CompaniaRepository;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
@@ -61,8 +61,11 @@ import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.persona.PersonaRepository;
 import com.pacinetes.dom.poliza.Poliza;
 import com.pacinetes.dom.poliza.PolizaRepository;
-import com.pacinetes.dom.polizaart.PolizaART;
+import com.pacinetes.dom.reportes.PolizaRCReporte;
+import com.pacinetes.dom.reportes.ReporteRepository;
 import com.pacinetes.dom.tipodecobertura.TipoDeCoberturaRepository;
+
+import net.sf.jasperreports.engine.JRException;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -380,6 +383,28 @@ public class PolizaRC extends Poliza {
 	   	return getPolizaPago();
 	   }
 	   
+	   public Blob imprimirPoliza() throws JRException, IOException{
+			
+			List<Object> objectsReport = new ArrayList<Object>();
+			
+			PolizaRCReporte polizaRCReporte = new PolizaRCReporte();
+			polizaRCReporte.setPolizaCliente(getPolizaCliente().toString());
+			polizaRCReporte.setPolizaNumero(getPolizaNumero());
+			polizaRCReporte.setPolizaCompania(getPolizaCompania().getCompaniaNombre());
+			polizaRCReporte.setPolizaFechaEmision(getPolizaFechaEmision());
+			polizaRCReporte.setPolizaFechaVigencia(getPolizaFechaVigencia());
+			polizaRCReporte.setPolizaFechaVencimiento(getPolizaFechaVencimiento());
+			polizaRCReporte.setRiesgoRCMonto(getRiesgoRCMonto());
+			polizaRCReporte.setPolizaImporteTotal(getPolizaImporteTotal());
+			polizaRCReporte.setPolizaEstado(getPolizaEstado().toString());
+			
+			objectsReport.add(polizaRCReporte);
+			String jrxml = "PolizaRC.jrxml";
+			String nombreArchivo = "PolizaRC_"+getPolizaCliente().toString().replaceAll("\\s","_")+"_"+getPolizaNumero();
+			
+			return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
+	   }
+	   
 	   //region > toString, compareTo
 	   @Override
 	   public String toString() {
@@ -419,6 +444,9 @@ public class PolizaRC extends Poliza {
 
 	   @Inject
 	   PolizaRCRepository riesgosRCRepository;
+	   
+	   @Inject
+	   ReporteRepository reporteRepository;
 	   
 	   //endregion
 

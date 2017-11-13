@@ -15,6 +15,8 @@
  ******************************************************************************/
 package com.pacinetes.dom.polizaintegralcomercio;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,6 +49,7 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
+import org.apache.isis.applib.value.Blob;
 
 import com.pacinetes.dom.cliente.Cliente;
 import com.pacinetes.dom.cliente.ClienteRepository;
@@ -64,10 +67,15 @@ import com.pacinetes.dom.persona.PersonaRepository;
 import com.pacinetes.dom.poliza.Poliza;
 import com.pacinetes.dom.poliza.PolizaRepository;
 import com.pacinetes.dom.polizaart.PolizaART;
+import com.pacinetes.dom.reportes.PolizaAPReporte;
+import com.pacinetes.dom.reportes.PolizaIntegralComercioReporte;
+import com.pacinetes.dom.reportes.ReporteRepository;
 import com.pacinetes.dom.tipodecobertura.TipoDeCobertura;
 import com.pacinetes.dom.tipodecobertura.TipoDeCoberturaRepository;
 import com.pacinetes.dom.vehiculo.Vehiculo;
 import com.pacinetes.dom.vehiculo.VehiculoRepository;
+
+import net.sf.jasperreports.engine.JRException;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE, schema = "simple", table = "Polizas")
 @DomainObject(publishing = Publishing.ENABLED, auditing = Auditing.ENABLED)
@@ -685,6 +693,38 @@ public class PolizaIntegralComercio extends Poliza {
 	public double default18Renovacion() {
 		return getRiesgoIntegralComercioOtrosMonto();
 	}
+	
+	   public Blob imprimirPoliza() throws JRException, IOException{
+			
+			List<Object> objectsReport = new ArrayList<Object>();
+			
+			PolizaIntegralComercioReporte polizaIntegralComercioReporte = new PolizaIntegralComercioReporte();
+			polizaIntegralComercioReporte.setPolizaCliente(getPolizaCliente().toString());
+			polizaIntegralComercioReporte.setPolizaNumero(getPolizaNumero());
+			polizaIntegralComercioReporte.setPolizaCompania(getPolizaCompania().getCompaniaNombre());
+			polizaIntegralComercioReporte.setPolizaFechaEmision(getPolizaFechaEmision());
+			polizaIntegralComercioReporte.setPolizaFechaVigencia(getPolizaFechaVigencia());
+			polizaIntegralComercioReporte.setPolizaFechaVencimiento(getPolizaFechaVencimiento());
+			polizaIntegralComercioReporte.setRiesgoIntegralComercioCristales(getRiesgoIntegralComercioCristales());
+			polizaIntegralComercioReporte.setRiesgoIntegralComercioDanioPorAgua(getRiesgoIntegralComercioDanioPorAgua());
+			polizaIntegralComercioReporte.setRiesgoIntegralComercioIncendioContenido(getRiesgoIntegralComercioIncendioContenido());
+			polizaIntegralComercioReporte.setRiesgoIntegralComercioIncendioEdificio(getRiesgoIntegralComercioIncendioEdificio());
+			polizaIntegralComercioReporte.setRiesgoIntegralComercioOtrosMonto(getRiesgoIntegralComercioOtrosMonto());
+			polizaIntegralComercioReporte.setRiesgoIntegralComercioOtrosNombre(getRiesgoIntegralComercioOtrosNombre());
+			polizaIntegralComercioReporte.setRiesgoIntegralComercioRc(getRiesgoIntegralComercioRc());
+			polizaIntegralComercioReporte.setRiesgoIntegralComercioRCC(getRiesgoIntegralComercioRCC());
+			polizaIntegralComercioReporte.setRiesgoIntegralComercioRcl(getRiesgoIntegralComercioRcl());
+			polizaIntegralComercioReporte.setRiesgoIntegralComercioRobo(getRiesgoIntegralComercioRobo());
+
+			polizaIntegralComercioReporte.setPolizaImporteTotal(getPolizaImporteTotal());
+			polizaIntegralComercioReporte.setPolizaEstado(getPolizaEstado().toString());
+			
+			objectsReport.add(polizaIntegralComercioReporte);
+			String jrxml = "PolizaIntegralComercio.jrxml";
+			String nombreArchivo = "PolizaIntegralComercio_"+getPolizaCliente().toString().replaceAll("\\s","_")+"_"+getPolizaNumero();
+			
+			return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
+	   }	
 
 	// region > toString, compareTo
 	@Override
@@ -728,6 +768,9 @@ public class PolizaIntegralComercio extends Poliza {
 
 	@Inject
 	PolizaIntegralComercioRepository riesgoIntegralComercioRepository;
+	
+	@Inject
+	ReporteRepository reporteRepository;
 
 	// endregion
 

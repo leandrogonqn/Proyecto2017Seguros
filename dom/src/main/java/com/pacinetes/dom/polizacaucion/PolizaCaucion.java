@@ -15,6 +15,8 @@
  ******************************************************************************/
 package com.pacinetes.dom.polizacaucion;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +47,7 @@ import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
 import org.apache.isis.applib.util.ObjectContracts;
+import org.apache.isis.applib.value.Blob;
 
 import com.pacinetes.dom.cliente.Cliente;
 import com.pacinetes.dom.cliente.ClienteRepository;
@@ -63,11 +66,16 @@ import com.pacinetes.dom.persona.PersonaRepository;
 import com.pacinetes.dom.poliza.Poliza;
 import com.pacinetes.dom.poliza.PolizaRepository;
 import com.pacinetes.dom.polizaart.PolizaART;
+import com.pacinetes.dom.reportes.PolizaAutomotorReporte;
+import com.pacinetes.dom.reportes.PolizaCaucionReporte;
+import com.pacinetes.dom.reportes.ReporteRepository;
 import com.pacinetes.dom.tipodecobertura.TipoDeCoberturaRepository;
 import com.pacinetes.dom.tipotitular.TipoTitular;
 import com.pacinetes.dom.tipotitular.TipoTitularRepository;
 import com.pacinetes.dom.tipovivienda.TipoVivienda;
 import com.pacinetes.dom.tipovivienda.TipoViviendaRepository;
+
+import net.sf.jasperreports.engine.JRException;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -389,6 +397,28 @@ public class PolizaCaucion extends Poliza {
   public DetalleTipoPago default7Renovacion(){
   	return getPolizaPago();
   }
+  
+	public Blob imprimirPoliza() throws JRException, IOException{
+		
+		List<Object> objectsReport = new ArrayList<Object>();
+		
+		PolizaCaucionReporte polizaCaucionReporte = new PolizaCaucionReporte();
+		polizaCaucionReporte.setPolizaCliente(getPolizaCliente().toString());
+		polizaCaucionReporte.setPolizaNumero(getPolizaNumero());
+		polizaCaucionReporte.setPolizaCompania(getPolizaCompania().getCompaniaNombre());
+		polizaCaucionReporte.setPolizaFechaEmision(getPolizaFechaEmision());
+		polizaCaucionReporte.setPolizaFechaVigencia(getPolizaFechaVigencia());
+		polizaCaucionReporte.setPolizaFechaVencimiento(getPolizaFechaVencimiento());
+		polizaCaucionReporte.setRiesgoCaucionMonto(getRiesgoCaucionMonto());
+		polizaCaucionReporte.setPolizaImporteTotal(getPolizaImporteTotal());
+		polizaCaucionReporte.setPolizaEstado(getPolizaEstado().toString());
+		
+		objectsReport.add(polizaCaucionReporte);
+		String jrxml = "PolizaCaucion.jrxml";
+		String nombreArchivo = "PolizaCaucion_"+getPolizaCliente().toString().replaceAll("\\s","_")+"_"+getPolizaNumero();
+		
+		return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
+  }	
    
    //region > toString, compareTo
    @Override
@@ -430,6 +460,8 @@ public class PolizaCaucion extends Poliza {
    @Inject
    PolizaCaucionRepository riesgosCaucionRepository;
    
+   @Inject
+   ReporteRepository reporteRepository;
    //endregion
 
 	
