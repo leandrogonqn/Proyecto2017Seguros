@@ -33,6 +33,7 @@
                                 <c:action id="actualizarNombre" position="RIGHT"></c:action>
                                 </c:property>
                                 <c:property id="tipoViviendaActivo" namedEscaped="true">
+                                <c:action id="actualizarActivo" position="RIGHT"></c:action>
                                 </c:property>                                
                             </c:fieldSet>
                         </bs3:col>

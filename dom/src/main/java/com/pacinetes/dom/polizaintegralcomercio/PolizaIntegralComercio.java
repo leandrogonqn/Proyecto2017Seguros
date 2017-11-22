@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.jdo.annotations.Column;
@@ -27,8 +26,6 @@ import javax.jdo.annotations.Discriminator;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
-import javax.swing.JOptionPane;
-
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
@@ -41,18 +38,11 @@ import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
-import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.query.QueryDefault;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
-import org.apache.isis.applib.util.ObjectContracts;
 import org.apache.isis.applib.value.Blob;
-
-import com.pacinetes.dom.cliente.Cliente;
-import com.pacinetes.dom.cliente.ClienteRepository;
 import com.pacinetes.dom.compania.Compania;
 import com.pacinetes.dom.compania.CompaniaRepository;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
@@ -61,18 +51,13 @@ import com.pacinetes.dom.detalletipopago.DetalleTipoPagoRepository;
 import com.pacinetes.dom.detalletipopago.TipoPago;
 import com.pacinetes.dom.estado.Estado;
 import com.pacinetes.dom.mail.Mail;
-import com.pacinetes.dom.marca.Marca;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.persona.PersonaRepository;
 import com.pacinetes.dom.poliza.Poliza;
 import com.pacinetes.dom.poliza.PolizaRepository;
-import com.pacinetes.dom.polizaart.PolizaART;
-import com.pacinetes.dom.reportes.PolizaAPReporte;
 import com.pacinetes.dom.reportes.PolizaIntegralComercioReporte;
 import com.pacinetes.dom.reportes.ReporteRepository;
-import com.pacinetes.dom.tipodecobertura.TipoDeCobertura;
 import com.pacinetes.dom.tipodecobertura.TipoDeCoberturaRepository;
-import com.pacinetes.dom.vehiculo.Vehiculo;
 import com.pacinetes.dom.vehiculo.VehiculoRepository;
 
 import net.sf.jasperreports.engine.JRException;
@@ -91,12 +76,12 @@ public class PolizaIntegralComercio extends Poliza {
 
 	// Constructor
 	public PolizaIntegralComercio(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
-			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
-			TipoPago polizaTipoDePago, DetalleTipoPago polizaPago, 
-			double polizaImporteTotal, float riesgoIntegralComercioRobo, float riesgoIntegralComercioCristales,
-			float riesgoIntegralComercioIncendioEdificio, float riesgoIntegralComercioIncendioContenido,
-			float riesgoIntegralComercioRc, float riesgoIntegralComercioRcl, float riesgoIntegralComercioDanioPorAgua,
-			float riesgoIntegralComercioRCC, final String riesgoIntegralComercioOtrosNombre, final double riesgoIntegralComercioOtrosMonto) {
+			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento, TipoPago polizaTipoDePago,
+			DetalleTipoPago polizaPago, double polizaImporteTotal, float riesgoIntegralComercioRobo,
+			float riesgoIntegralComercioCristales, float riesgoIntegralComercioIncendioEdificio,
+			float riesgoIntegralComercioIncendioContenido, float riesgoIntegralComercioRc,
+			float riesgoIntegralComercioRcl, float riesgoIntegralComercioDanioPorAgua, float riesgoIntegralComercioRCC,
+			final String riesgoIntegralComercioOtrosNombre, final double riesgoIntegralComercioOtrosMonto) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
 		setPolizasCompania(polizaCompania);
@@ -121,12 +106,12 @@ public class PolizaIntegralComercio extends Poliza {
 	}
 
 	public PolizaIntegralComercio(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
-			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
-			TipoPago polizaTipoDePago, DetalleTipoPago polizaPago,
-			double polizaImporteTotal, float riesgoIntegralComercioRobo, float riesgoIntegralComercioCristales,
-			float riesgoIntegralComercioIncendioEdificio, float riesgoIntegralComercioIncendioContenido,
-			float riesgoIntegralComercioRc, float riesgoIntegralComercioRcl, float riesgoIntegralComercioDanioPorAgua,
-			float riesgoIntegralComercioRCC, final String riesgoIntegralComercioOtrosNombre, final double riesgoIntegralComercioOtrosMonto,
+			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento, TipoPago polizaTipoDePago,
+			DetalleTipoPago polizaPago, double polizaImporteTotal, float riesgoIntegralComercioRobo,
+			float riesgoIntegralComercioCristales, float riesgoIntegralComercioIncendioEdificio,
+			float riesgoIntegralComercioIncendioContenido, float riesgoIntegralComercioRc,
+			float riesgoIntegralComercioRcl, float riesgoIntegralComercioDanioPorAgua, float riesgoIntegralComercioRCC,
+			final String riesgoIntegralComercioOtrosNombre, final double riesgoIntegralComercioOtrosMonto,
 			Poliza riesgoIntegralComercio) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
@@ -247,7 +232,7 @@ public class PolizaIntegralComercio extends Poliza {
 	public void setRiesgoIntegralComercioDanioPorAgua(float riesgoIntegralComercioDanioPorAgua) {
 		this.riesgoIntegralComercioDanioPorAgua = riesgoIntegralComercioDanioPorAgua;
 	}
-	
+
 	// RiesgoIntegralComercioRCC
 	@javax.jdo.annotations.Column(length = NAME_LENGTH)
 	@Property(editing = Editing.DISABLED)
@@ -289,8 +274,6 @@ public class PolizaIntegralComercio extends Poliza {
 	public void setRiesgoIntegralComercioOtrosMonto(double riesgoIntegralComercioOtrosMonto) {
 		this.riesgoIntegralComercioOtrosMonto = riesgoIntegralComercioOtrosMonto;
 	}
-	
-	// region > delete (action)
 
 	// Actualizar Incendio Contenido
 	public PolizaIntegralComercio actualizarRiesgoIntegralComercioIncendioContenido(
@@ -368,7 +351,7 @@ public class PolizaIntegralComercio extends Poliza {
 	public float default0ActualizarRiesgoIntegralComercioDanioPorAgua() {
 		return getRiesgoIntegralComercioDanioPorAgua();
 	}
-	
+
 	// Actualizar RCC
 	public PolizaIntegralComercio actualizarRiesgoIntegralComercioRCC(
 			@ParameterLayout(named = "RCC") final float riesgoIntegralComercioRCC) {
@@ -406,7 +389,8 @@ public class PolizaIntegralComercio extends Poliza {
 	}
 
 	// Actualizar polizaCompania
-	public PolizaIntegralComercio actualizarPolizaCompania(@ParameterLayout(named = "Compañia") final Compania polizaCompania) {
+	public PolizaIntegralComercio actualizarPolizaCompania(
+			@ParameterLayout(named = "Compañia") final Compania polizaCompania) {
 		setPolizasCompania(polizaCompania);
 		return this;
 	}
@@ -435,7 +419,6 @@ public class PolizaIntegralComercio extends Poliza {
 			@ParameterLayout(named = "Fecha de Vigencia") final Date polizaFechaVigencia) {
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		polizaEstado.actualizarEstado(this);
-		JOptionPane.showMessageDialog(null, getPolizaEstado().toString());
 		return this;
 	}
 
@@ -450,7 +433,7 @@ public class PolizaIntegralComercio extends Poliza {
 		}
 		return "";
 	}
-	
+
 	// polizaFechaVencimiento
 	public PolizaIntegralComercio actualizarPolizaFechaVencimiento(
 			@ParameterLayout(named = "Fecha de Vencimiento") final Date polizaFechaVencimiento) {
@@ -462,36 +445,36 @@ public class PolizaIntegralComercio extends Poliza {
 	public Date default0ActualizarPolizaFechaVencimiento() {
 		return getPolizaFechaVencimiento();
 	}
-	
-	public String validateActualizarPolizaFechaVencimiento(final Date polizaFechaVencimiento){
-		if (this.getPolizaFechaVigencia().after(polizaFechaVencimiento)){
+
+	public String validateActualizarPolizaFechaVencimiento(final Date polizaFechaVencimiento) {
+		if (this.getPolizaFechaVigencia().after(polizaFechaVencimiento)) {
 			return "La fecha de vencimiento es menor a la de vigencia";
 		}
 		return "";
 	}
-	
-    //polizaPago
-    public PolizaIntegralComercio actualizarPolizaPago(
-    		@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
-			@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago) {
-        setPolizaTipoDePago(polizaTipoDePago);
-    	setPolizaPago(polizaPago);
-        return this;
-    }
-    
-    public List<DetalleTipoPago> choices1ActualizarPolizaPago(			
- 			final TipoPago polizaTipoDePago,
- 			final DetalleTipoPago polizaPago) {
- 		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
-    }
-    
-    public TipoPago default0ActualizarPolizaPago() {
-    	return getPolizaTipoDePago();
-    }
-      
-    public DetalleTipoPago default1ActualizarPolizaPago() {
-    	return getPolizaPago();
-    }
+
+	// polizaPago
+	public PolizaIntegralComercio actualizarPolizaPago(
+			@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
+			@Nullable @ParameterLayout(named = "Detalle del Pago") @Parameter(optionality = Optionality.OPTIONAL) final DetalleTipoPago polizaPago) {
+		setPolizaTipoDePago(polizaTipoDePago);
+		setPolizaPago(polizaPago);
+		return this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<DetalleTipoPago> choices1ActualizarPolizaPago(final TipoPago polizaTipoDePago,
+			final DetalleTipoPago polizaPago) {
+		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
+	}
+
+	public TipoPago default0ActualizarPolizaPago() {
+		return getPolizaTipoDePago();
+	}
+
+	public DetalleTipoPago default1ActualizarPolizaPago() {
+		return getPolizaPago();
+	}
 
 	// polizaFechaBaja
 	public PolizaIntegralComercio actualizarPolizaFechaBaja(
@@ -525,7 +508,7 @@ public class PolizaIntegralComercio extends Poliza {
 	public double default0ActualizarRiesgoIntegralComercioOtrosMonto() {
 		return getRiesgoIntegralComercioOtrosMonto();
 	}
-	
+
 	// riesgoIntegralComercioOtrosNombre
 	public PolizaIntegralComercio actualizarRiesgoIntegralComercioOtrosNombre(
 			@ParameterLayout(named = "Otros Nombre") final String riesgoIntegralComercioOtrosNombre) {
@@ -536,7 +519,7 @@ public class PolizaIntegralComercio extends Poliza {
 	public String default0ActualizarRiesgoIntegralComercioOtrosNombre() {
 		return getRiesgoIntegralComercioOtrosNombre();
 	}
-	
+
 	// polizaImporteTotal
 	public PolizaIntegralComercio actualizarPolizaImporteTotal(
 			@ParameterLayout(named = "Importe Total") final double polizaImporteTotal) {
@@ -571,39 +554,36 @@ public class PolizaIntegralComercio extends Poliza {
 		return this;
 	}
 
-	// endregion
-
 	// acciones
 
 	@Action(invokeOn = InvokeOn.OBJECT_ONLY)
 	@ActionLayout(named = "Emitir Renovacion")
-	public PolizaIntegralComercio renovacion(
-/*0*/			@ParameterLayout(named = "Número") final String polizaNumero,
-/*1*/			@ParameterLayout(named = "Cliente") final Persona polizaCliente,
-/*2*/		@ParameterLayout(named = "Compañia") final Compania polizaCompania,
-/*3*/			@ParameterLayout(named = "Fecha Emision") final Date polizaFechaEmision,
-/*4*/			@ParameterLayout(named = "Fecha Vigencia") final Date polizaFechaVigencia,
-/*5*/			@ParameterLayout(named = "Fecha Vencimiento") final Date polizaFechaVencimiento,
-				@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
-				@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago,
-/*7*/			@ParameterLayout(named = "Precio Total") final double polizaImporteTotal,
-/*8*/			@ParameterLayout(named = "Robo") float riesgoIntegralComercioRobo, 
-/*9*/			@ParameterLayout(named = "Cristales") float riesgoIntegralComercioCristales,
-/*10*/			@ParameterLayout(named = "Incendio Edificio") float riesgoIntegralComercioIncendioEdificio,
-/*11*/			@ParameterLayout(named = "Incendio Contenido") float riesgoIntegralComercioIncendioContenido,
-/*12*/			@ParameterLayout(named = "RC") float riesgoIntegralComercioRc, 
-/*13*/			@ParameterLayout(named = "RCL") float riesgoIntegralComercioRcl, 
-/*14*/			@ParameterLayout(named = "Daño Por Agua") float riesgoIntegralComercioDanioPorAgua,
-/*15*/			@ParameterLayout(named = "RCC") float riesgoIntegralComercioRCC,
-/*16*/			@ParameterLayout(named = "Otros Nombre") final String riesgoIntegralComercioOtrosNombre, 
-/*17*/			@ParameterLayout(named = "Otros Monto") final double riesgoIntegralComercioOtrosMonto) {
+	public PolizaIntegralComercio renovacion(/* 0 */ @ParameterLayout(named = "Número") final String polizaNumero,
+			@ParameterLayout(named = "Cliente") final Persona polizaCliente,
+			@ParameterLayout(named = "Compañia") final Compania polizaCompania,
+			@ParameterLayout(named = "Fecha Emision") final Date polizaFechaEmision,
+			@ParameterLayout(named = "Fecha Vigencia") final Date polizaFechaVigencia,
+			@ParameterLayout(named = "Fecha Vencimiento") final Date polizaFechaVencimiento,
+			@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
+			@Nullable @ParameterLayout(named = "Detalle del Pago") @Parameter(optionality = Optionality.OPTIONAL) final DetalleTipoPago polizaPago,
+			@ParameterLayout(named = "Precio Total") final double polizaImporteTotal,
+			@ParameterLayout(named = "Robo") float riesgoIntegralComercioRobo,
+			@ParameterLayout(named = "Cristales") float riesgoIntegralComercioCristales,
+			@ParameterLayout(named = "Incendio Edificio") float riesgoIntegralComercioIncendioEdificio,
+			@ParameterLayout(named = "Incendio Contenido") float riesgoIntegralComercioIncendioContenido,
+			@ParameterLayout(named = "RC") float riesgoIntegralComercioRc,
+			@ParameterLayout(named = "RCL") float riesgoIntegralComercioRcl,
+			@ParameterLayout(named = "Daño Por Agua") float riesgoIntegralComercioDanioPorAgua,
+			@ParameterLayout(named = "RCC") float riesgoIntegralComercioRCC,
+			@ParameterLayout(named = "Otros Nombre") final String riesgoIntegralComercioOtrosNombre,
+			@ParameterLayout(named = "Otros Monto") final double riesgoIntegralComercioOtrosMonto) {
 		Mail.enviarMailPoliza(polizaCliente);
 		return riesgoIntegralComercioRepository.renovacion(polizaNumero, polizaCliente, polizaCompania,
 				polizaFechaEmision, polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago,
-				 polizaImporteTotal, riesgoIntegralComercioRobo, riesgoIntegralComercioCristales,
-				riesgoIntegralComercioIncendioEdificio, riesgoIntegralComercioIncendioContenido, riesgoIntegralComercioRc, 
-				riesgoIntegralComercioRcl, riesgoIntegralComercioDanioPorAgua, riesgoIntegralComercioRCC, riesgoIntegralComercioOtrosNombre,
-				riesgoIntegralComercioOtrosMonto,this);
+				polizaImporteTotal, riesgoIntegralComercioRobo, riesgoIntegralComercioCristales,
+				riesgoIntegralComercioIncendioEdificio, riesgoIntegralComercioIncendioContenido,
+				riesgoIntegralComercioRc, riesgoIntegralComercioRcl, riesgoIntegralComercioDanioPorAgua,
+				riesgoIntegralComercioRCC, riesgoIntegralComercioOtrosNombre, riesgoIntegralComercioOtrosMonto, this);
 	}
 
 	public List<Persona> choices1Renovacion() {
@@ -614,26 +594,15 @@ public class PolizaIntegralComercio extends Poliza {
 		return companiaRepository.listarActivos();
 	}
 
-	public List<DetalleTipoPago> choices7Renovacion(
-			/*0*/			final String polizaNumero,
-			/*1*/			final Persona polizaCliente,
-			/*2*/			final Compania polizaCompania,
-			/*3*/			final Date polizaFechaEmision,
-			/*4*/			final Date polizaFechaVigencia,
-			/*5*/			final Date polizaFechaVencimiento,
-							final TipoPago polizaTipoDePago,
-							DetalleTipoPago polizaPago,
-			/*7*/			final double polizaImporteTotal,
-			/*8*/			float riesgoIntegralComercioRobo, 
-			/*9*/			float riesgoIntegralComercioCristales,
-			/*10*/			float riesgoIntegralComercioIncendioEdificio,
-			/*11*/			float riesgoIntegralComercioIncendioContenido,
-			/*12*/			float riesgoIntegralComercioRc, 
-			/*13*/			float riesgoIntegralComercioRcl, 
-			/*14*/			float riesgoIntegralComercioDanioPorAgua,
-			/*15*/			float riesgoIntegralComercioRCC,
-			/*16*/			final String riesgoIntegralComercioOtrosNombre, 
-							final double riesgoIntegralComercioOtrosMonto) {
+	@SuppressWarnings("unchecked")
+	public List<DetalleTipoPago> choices7Renovacion(final String polizaNumero, final Persona polizaCliente,
+			final Compania polizaCompania, final Date polizaFechaEmision, final Date polizaFechaVigencia,
+			final Date polizaFechaVencimiento, final TipoPago polizaTipoDePago, DetalleTipoPago polizaPago,
+			final double polizaImporteTotal, float riesgoIntegralComercioRobo, float riesgoIntegralComercioCristales,
+			float riesgoIntegralComercioIncendioEdificio, float riesgoIntegralComercioIncendioContenido,
+			float riesgoIntegralComercioRc, float riesgoIntegralComercioRcl, float riesgoIntegralComercioDanioPorAgua,
+			float riesgoIntegralComercioRCC, final String riesgoIntegralComercioOtrosNombre,
+			final double riesgoIntegralComercioOtrosMonto) {
 		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
 	}
 
@@ -645,14 +614,13 @@ public class PolizaIntegralComercio extends Poliza {
 		return getPolizaCompania();
 	}
 
-	   public TipoPago default6Renovacion(){
-		   	return getPolizaTipoDePago();
-		   }
-	   
-	   public DetalleTipoPago default7Renovacion(){
-	   	return getPolizaPago();
-	   }
+	public TipoPago default6Renovacion() {
+		return getPolizaTipoDePago();
+	}
 
+	public DetalleTipoPago default7Renovacion() {
+		return getPolizaPago();
+	}
 
 	public float default9Renovacion() {
 		return getRiesgoIntegralComercioRobo();
@@ -669,7 +637,7 @@ public class PolizaIntegralComercio extends Poliza {
 	public float default12Renovacion() {
 		return getRiesgoIntegralComercioIncendioContenido();
 	}
-	
+
 	public float default13Renovacion() {
 		return getRiesgoIntegralComercioRc();
 	}
@@ -685,7 +653,7 @@ public class PolizaIntegralComercio extends Poliza {
 	public float default16Renovacion() {
 		return getRiesgoIntegralComercioRCC();
 	}
-	
+
 	public String default17Renovacion() {
 		return getRiesgoIntegralComercioOtrosNombre();
 	}
@@ -693,43 +661,46 @@ public class PolizaIntegralComercio extends Poliza {
 	public double default18Renovacion() {
 		return getRiesgoIntegralComercioOtrosMonto();
 	}
-	
-	   public Blob imprimirPoliza() throws JRException, IOException{
-			
-			List<Object> objectsReport = new ArrayList<Object>();
-			
-			PolizaIntegralComercioReporte polizaIntegralComercioReporte = new PolizaIntegralComercioReporte();
-			polizaIntegralComercioReporte.setPolizaCliente(getPolizaCliente().toString());
-			polizaIntegralComercioReporte.setPolizaNumero(getPolizaNumero());
-			polizaIntegralComercioReporte.setPolizaCompania(getPolizaCompania().getCompaniaNombre());
-			polizaIntegralComercioReporte.setPolizaFechaEmision(getPolizaFechaEmision());
-			polizaIntegralComercioReporte.setPolizaFechaVigencia(getPolizaFechaVigencia());
-			polizaIntegralComercioReporte.setPolizaFechaVencimiento(getPolizaFechaVencimiento());
-			polizaIntegralComercioReporte.setRiesgoIntegralComercioCristales(getRiesgoIntegralComercioCristales());
-			polizaIntegralComercioReporte.setRiesgoIntegralComercioDanioPorAgua(getRiesgoIntegralComercioDanioPorAgua());
-			polizaIntegralComercioReporte.setRiesgoIntegralComercioIncendioContenido(getRiesgoIntegralComercioIncendioContenido());
-			polizaIntegralComercioReporte.setRiesgoIntegralComercioIncendioEdificio(getRiesgoIntegralComercioIncendioEdificio());
-			polizaIntegralComercioReporte.setRiesgoIntegralComercioOtrosMonto(getRiesgoIntegralComercioOtrosMonto());
-			polizaIntegralComercioReporte.setRiesgoIntegralComercioOtrosNombre(getRiesgoIntegralComercioOtrosNombre());
-			polizaIntegralComercioReporte.setRiesgoIntegralComercioRc(getRiesgoIntegralComercioRc());
-			polizaIntegralComercioReporte.setRiesgoIntegralComercioRCC(getRiesgoIntegralComercioRCC());
-			polizaIntegralComercioReporte.setRiesgoIntegralComercioRcl(getRiesgoIntegralComercioRcl());
-			polizaIntegralComercioReporte.setRiesgoIntegralComercioRobo(getRiesgoIntegralComercioRobo());
 
-			polizaIntegralComercioReporte.setPolizaImporteTotal(getPolizaImporteTotal());
-			polizaIntegralComercioReporte.setPolizaEstado(getPolizaEstado().toString());
-			
-			objectsReport.add(polizaIntegralComercioReporte);
-			String jrxml = "PolizaIntegralComercio.jrxml";
-			String nombreArchivo = "PolizaIntegralComercio_"+getPolizaCliente().toString().replaceAll("\\s","_")+"_"+getPolizaNumero();
-			
-			return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
-	   }	
+	public Blob imprimirPoliza() throws JRException, IOException {
+
+		List<Object> objectsReport = new ArrayList<Object>();
+
+		PolizaIntegralComercioReporte polizaIntegralComercioReporte = new PolizaIntegralComercioReporte();
+		polizaIntegralComercioReporte.setPolizaCliente(getPolizaCliente().toString());
+		polizaIntegralComercioReporte.setPolizaNumero(getPolizaNumero());
+		polizaIntegralComercioReporte.setPolizaCompania(getPolizaCompania().getCompaniaNombre());
+		polizaIntegralComercioReporte.setPolizaFechaEmision(getPolizaFechaEmision());
+		polizaIntegralComercioReporte.setPolizaFechaVigencia(getPolizaFechaVigencia());
+		polizaIntegralComercioReporte.setPolizaFechaVencimiento(getPolizaFechaVencimiento());
+		polizaIntegralComercioReporte.setRiesgoIntegralComercioCristales(getRiesgoIntegralComercioCristales());
+		polizaIntegralComercioReporte.setRiesgoIntegralComercioDanioPorAgua(getRiesgoIntegralComercioDanioPorAgua());
+		polizaIntegralComercioReporte
+				.setRiesgoIntegralComercioIncendioContenido(getRiesgoIntegralComercioIncendioContenido());
+		polizaIntegralComercioReporte
+				.setRiesgoIntegralComercioIncendioEdificio(getRiesgoIntegralComercioIncendioEdificio());
+		polizaIntegralComercioReporte.setRiesgoIntegralComercioOtrosMonto(getRiesgoIntegralComercioOtrosMonto());
+		polizaIntegralComercioReporte.setRiesgoIntegralComercioOtrosNombre(getRiesgoIntegralComercioOtrosNombre());
+		polizaIntegralComercioReporte.setRiesgoIntegralComercioRc(getRiesgoIntegralComercioRc());
+		polizaIntegralComercioReporte.setRiesgoIntegralComercioRCC(getRiesgoIntegralComercioRCC());
+		polizaIntegralComercioReporte.setRiesgoIntegralComercioRcl(getRiesgoIntegralComercioRcl());
+		polizaIntegralComercioReporte.setRiesgoIntegralComercioRobo(getRiesgoIntegralComercioRobo());
+
+		polizaIntegralComercioReporte.setPolizaImporteTotal(getPolizaImporteTotal());
+		polizaIntegralComercioReporte.setPolizaEstado(getPolizaEstado().toString());
+
+		objectsReport.add(polizaIntegralComercioReporte);
+		String jrxml = "PolizaIntegralComercio.jrxml";
+		String nombreArchivo = "PolizaIntegralComercio_" + getPolizaCliente().toString().replaceAll("\\s", "_") + "_"
+				+ getPolizaNumero();
+
+		return ReporteRepository.imprimirReporteIndividual(objectsReport, jrxml, nombreArchivo);
+	}
 
 	// region > toString, compareTo
 	@Override
 	public String toString() {
-		return ObjectContracts.toString(this, "polizaNumero");
+		return "Poliza Integral Comercio Numero: " + getPolizaNumero();
 	}
 
 	// endregion
@@ -756,7 +727,7 @@ public class PolizaIntegralComercio extends Poliza {
 
 	@Inject
 	DetalleTipoPagoMenu detalleTipoPagoMenu;
-	
+
 	@Inject
 	CompaniaRepository companiaRepository;
 
@@ -768,9 +739,6 @@ public class PolizaIntegralComercio extends Poliza {
 
 	@Inject
 	PolizaIntegralComercioRepository riesgoIntegralComercioRepository;
-	
-	@Inject
-	ReporteRepository reporteRepository;
 
 	// endregion
 

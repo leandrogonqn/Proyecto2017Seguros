@@ -16,9 +16,7 @@
 package com.pacinetes.dom.polizaautomotor;
 
 import java.util.List;
-
 import javax.inject.Inject;
-
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
@@ -42,7 +40,6 @@ public class PolizaAutomotorListarMenu {
 		}
 		return listaPolizasRiesgoAutomotores;
 	}
-
 
 	@Inject
 	PolizaAutomotoresRepository riesgoAutomotorRepository;

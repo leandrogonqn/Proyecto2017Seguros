@@ -21,57 +21,45 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
-
-import com.pacinetes.dom.cliente.Cliente;
 import com.pacinetes.dom.compania.Compania;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
 import com.pacinetes.dom.detalletipopago.TipoPago;
-import com.pacinetes.dom.ocupacion.Ocupacion;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.poliza.Poliza;
-import com.pacinetes.dom.polizaautomotor.PolizaAutomotor;
-import com.pacinetes.dom.tipodecobertura.TipoDeCobertura;
-import com.pacinetes.dom.tipotitular.TipoTitular;
-import com.pacinetes.dom.tipovivienda.TipoVivienda;
-import com.pacinetes.dom.vehiculo.Vehiculo;
 
-@DomainService(
-        nature = NatureOfService.DOMAIN,
-        repositoryFor = PolizaVidaColectivo.class
-)
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = PolizaVidaColectivo.class)
 public class PolizaVidaColectivoRepository {
 
-    public List<PolizaVidaColectivo> listar() {
-        return repositoryService.allInstances(PolizaVidaColectivo.class);
-    }
+	public List<PolizaVidaColectivo> listar() {
+		return repositoryService.allInstances(PolizaVidaColectivo.class);
+	}
 
-	public PolizaVidaColectivo crear(final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
-			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
-			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoVidaColectivoMonto) {
-		final PolizaVidaColectivo object = new PolizaVidaColectivo(polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
-				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, riesgoVidaColectivoMonto);
-        serviceRegistry.injectServicesInto(object);
-        repositoryService.persist(object);
-        return object;
-    }
-    
-    public PolizaVidaColectivo renovacion(
-    		final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
-			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
-			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoVidaColectivoMonto,
-    		Poliza riesgoVidaColectivo) {
-        final PolizaVidaColectivo object = new PolizaVidaColectivo(
-        		polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
-				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, 
-				riesgoVidaColectivo, riesgoVidaColectivoMonto);
-        serviceRegistry.injectServicesInto(object);
-        repositoryService.persist(object);
-        return object;
-    }
-    
-    @javax.inject.Inject
-    RepositoryService repositoryService;
-    @javax.inject.Inject
-    ServiceRegistry2 serviceRegistry;
+	public PolizaVidaColectivo crear(final String polizaNumero, final Persona polizaCliente,
+			final Compania polizaCompania, final Date polizaFechaEmision, final Date polizaFechaVigencia,
+			final Date polizaFechaVencimiento, final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago,
+			final double polizaImporteTotal, final float riesgoVidaColectivoMonto) {
+		final PolizaVidaColectivo object = new PolizaVidaColectivo(polizaNumero, polizaCliente, polizaCompania,
+				polizaFechaEmision, polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago,
+				polizaImporteTotal, riesgoVidaColectivoMonto);
+		serviceRegistry.injectServicesInto(object);
+		repositoryService.persist(object);
+		return object;
+	}
+
+	public PolizaVidaColectivo renovacion(final String polizaNumero, final Persona polizaCliente,
+			final Compania polizaCompania, final Date polizaFechaEmision, final Date polizaFechaVigencia,
+			final Date polizaFechaVencimiento, final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago,
+			final double polizaImporteTotal, final float riesgoVidaColectivoMonto, Poliza riesgoVidaColectivo) {
+		final PolizaVidaColectivo object = new PolizaVidaColectivo(polizaNumero, polizaCliente, polizaCompania,
+				polizaFechaEmision, polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago,
+				polizaImporteTotal, riesgoVidaColectivo, riesgoVidaColectivoMonto);
+		serviceRegistry.injectServicesInto(object);
+		repositoryService.persist(object);
+		return object;
+	}
+
+	@javax.inject.Inject
+	RepositoryService repositoryService;
+	@javax.inject.Inject
+	ServiceRegistry2 serviceRegistry;
 }
-

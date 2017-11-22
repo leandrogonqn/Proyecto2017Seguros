@@ -15,23 +15,6 @@
  ******************************************************************************/
 package com.pacinetes.dom.reportes;
 
-import java.util.List;
-
-import javax.jdo.annotations.Column;
-import javax.jdo.annotations.Join;
-
-import org.apache.isis.applib.annotation.Editing;
-import org.apache.isis.applib.annotation.Property;
-import org.apache.isis.applib.annotation.PropertyLayout;
-
-import com.pacinetes.dom.compania.Compania;
-import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
-import com.pacinetes.dom.detalletipopago.TipoPago;
-import com.pacinetes.dom.estado.Estado;
-import com.pacinetes.dom.persona.Persona;
-import com.pacinetes.dom.poliza.Poliza;
-import com.pacinetes.dom.siniestro.Siniestro;
-
 public class PolizaConvenioMercantilReporte extends PolizaReporte{
 	
 	private float riesgoConvenioMercantilMonto; 

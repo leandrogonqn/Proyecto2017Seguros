@@ -34,63 +34,41 @@
 package com.pacinetes.dom.tipotarjeta;
 
 import java.util.List;
-
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
-
-@DomainService(
-        nature = NatureOfService.VIEW_MENU_ONLY,
-        repositoryFor = TipoTarjeta.class
-)
-@DomainServiceLayout(
-        named = "Tipo de pago",
-        menuOrder = "60.5"
-)
+@DomainService(nature = NatureOfService.VIEW_MENU_ONLY, repositoryFor = TipoTarjeta.class)
+@DomainServiceLayout(named = "Tipo de pago", menuOrder = "60.5")
 public class TipoTarjetaMenu {
 
+	@Action(semantics = SemanticsOf.SAFE)
+	@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named = "Listar Todos los Tipos Tarjetas")
+	@MemberOrder(sequence = "2")
+	public List<TipoTarjeta> listar() {
+		return tipoTarjetaRepository.listar();
+	}
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Todos los Tipos Tarjetas")
-    @MemberOrder(sequence = "2")
-    public List<TipoTarjeta> listar() {
-        return tipoTarjetaRepository.listar();
-    }
-    
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT,
-    	cssClassFa="fa-search",
-    	named="Buscar Tipo Tarjeta")
-    @MemberOrder(sequence = "5")
-    public List<TipoTarjeta> buscarPorNombre(
-            @ParameterLayout(named="Nombre")
-            final String tipoTarjetaNombre
-    ) {
-        return tipoTarjetaRepository.buscarPorNombre(tipoTarjetaNombre);
-    }
+	@Action(semantics = SemanticsOf.SAFE)
+	@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa = "fa-search", named = "Buscar Tipo Tarjeta")
+	@MemberOrder(sequence = "5")
+	public List<TipoTarjeta> buscarPorNombre(@ParameterLayout(named = "Nombre") final String tipoTarjetaNombre) {
+		return tipoTarjetaRepository.buscarPorNombre(tipoTarjetaNombre);
+	}
 
-    public static class CreateDomainEvent extends ActionDomainEvent<TipoTarjetaMenu> {}
-    @Action(domainEvent = CreateDomainEvent.class)
-    @MemberOrder(sequence = "1.2")
-    @ActionLayout(named="Crear Tipo Tarjeta")
-    public TipoTarjeta crear(
-            @ParameterLayout(named="Nombre")
-            final String tipoTarjetaNombre) {
-        return tipoTarjetaRepository.crear(tipoTarjetaNombre);
-    }
+	@MemberOrder(sequence = "1.2")
+	@ActionLayout(named = "Crear Tipo Tarjeta")
+	public TipoTarjeta crear(@ParameterLayout(named = "Nombre") final String tipoTarjetaNombre) {
+		return tipoTarjetaRepository.crear(tipoTarjetaNombre);
+	}
 
-
-    @javax.inject.Inject
-    TipoTarjetaRepository tipoTarjetaRepository;
+	@javax.inject.Inject
+	TipoTarjetaRepository tipoTarjetaRepository;
 
 }

@@ -29,7 +29,6 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.Join;
-import javax.swing.JOptionPane;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
@@ -43,18 +42,14 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
-import org.apache.isis.applib.util.ObjectContracts;
 import org.apache.isis.applib.value.Blob;
 
 import com.pacinetes.dom.adjunto.Adjunto;
 import com.pacinetes.dom.adjunto.AdjuntoRepository;
-import com.pacinetes.dom.cliente.Cliente;
-import com.pacinetes.dom.cliente.ClienteRepository;
 import com.pacinetes.dom.compania.Compania;
 import com.pacinetes.dom.compania.CompaniaRepository;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
@@ -71,9 +66,6 @@ import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.persona.PersonaRepository;
 import com.pacinetes.dom.poliza.Poliza;
 import com.pacinetes.dom.poliza.PolizaRepository;
-import com.pacinetes.dom.polizaart.PolizaART;
-import com.pacinetes.dom.polizaautomotor.PolizaAutomotor;
-import com.pacinetes.dom.reportes.PolizaCaucionReporte;
 import com.pacinetes.dom.reportes.PolizaCombinadoFamiliarReporte;
 import com.pacinetes.dom.reportes.ReporteRepository;
 import com.pacinetes.dom.tipodecobertura.TipoDeCoberturaRepository;
@@ -84,33 +76,25 @@ import com.pacinetes.dom.tipovivienda.TipoViviendaRepository;
 
 import net.sf.jasperreports.engine.JRException;
 
-@javax.jdo.annotations.PersistenceCapable(
-        identityType=IdentityType.DATASTORE,
-        schema = "simple",
-        table = "Polizas"
-)
-@DomainObject(
-        publishing = Publishing.ENABLED,
-        auditing = Auditing.ENABLED
-)
-@Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
-@Discriminator(value="RiesgoCombinadosFamiliares")
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE, schema = "simple", table = "Polizas")
+@DomainObject(publishing = Publishing.ENABLED, auditing = Auditing.ENABLED)
+@Inheritance(strategy = InheritanceStrategy.SUPERCLASS_TABLE)
+@Discriminator(value = "RiesgoCombinadosFamiliares")
 public class PolizaCombinadoFamiliar extends Poliza {
 
-	
-	 //region > title
-   public TranslatableString title() {
-       return TranslatableString.tr("{name}", "name","Poliza Combinado Familiar N°: " + getPolizaNumero());
-   }
-   //endregion
+	// region > title
+	public TranslatableString title() {
+		return TranslatableString.tr("{name}", "name", "Poliza Combinado Familiar N°: " + getPolizaNumero());
+	}
+	// endregion
 
 	// Constructor
 	public PolizaCombinadoFamiliar(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
-			String riesgoCombinadosFamiliaresDomicilio, Localidad riesgoCombinadosFamiliaresLocalidad, Ocupacion riesgoCombinadosFamiliaresOcupacion,
-			TipoVivienda riesgoCombinadosFamiliaresTipoVivienda, TipoTitular riesgoCombinadosFamiliaresTipoTitular,
-			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento,
-			TipoPago polizaTipoDePago, DetalleTipoPago polizaPago, 
-			double polizaImporteTotal, List<Adjunto> riesgoAutomotorListaAdjunto) {
+			String riesgoCombinadosFamiliaresDomicilio, Localidad riesgoCombinadosFamiliaresLocalidad,
+			Ocupacion riesgoCombinadosFamiliaresOcupacion, TipoVivienda riesgoCombinadosFamiliaresTipoVivienda,
+			TipoTitular riesgoCombinadosFamiliaresTipoTitular, Date polizaFechaEmision, Date polizaFechaVigencia,
+			Date polizaFechaVencimiento, TipoPago polizaTipoDePago, DetalleTipoPago polizaPago,
+			double polizaImporteTotal) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
 		setPolizasCompania(polizaCompania);
@@ -125,27 +109,16 @@ public class PolizaCombinadoFamiliar extends Poliza {
 		setPolizaTipoDePago(polizaTipoDePago);
 		setPolizaPago(polizaPago);
 		setPolizaImporteTotal(polizaImporteTotal);
-		setRiesgoAutomotorAdjunto(riesgoAutomotorListaAdjunto);
 		setPolizaEstado(Estado.previgente);
 		polizaEstado.actualizarEstado(this);
 	}
-	
-	public PolizaCombinadoFamiliar(
-			String polizaNumero,
-			Persona polizaCliente,
-			Compania polizaCompania,
-			String riesgoCombinadosFamiliaresDomicilio,
-			Localidad riesgoCombinadosFamiliaresLocalidad, 
-			Ocupacion riesgoCombinadosFamiliaresOcupacion,
-			TipoVivienda riesgoCombinadosFamiliaresTipoVivienda,
-			TipoTitular riesgoCombinadosFamiliaresTipoTitular,
-			Date polizaFechaEmision,Date polizaFechaVigencia,
-			Date polizaFechaVencimiento,
-			TipoPago polizaTipoDePago,
-			DetalleTipoPago polizaPago,
-			double polizaImporteTotal,
-			List<Adjunto> riesgoAutomotorListaAdjunto,
-			Poliza riesgoCombinadoFamiliar) {
+
+	public PolizaCombinadoFamiliar(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
+			String riesgoCombinadosFamiliaresDomicilio, Localidad riesgoCombinadosFamiliaresLocalidad,
+			Ocupacion riesgoCombinadosFamiliaresOcupacion, TipoVivienda riesgoCombinadosFamiliaresTipoVivienda,
+			TipoTitular riesgoCombinadosFamiliaresTipoTitular, Date polizaFechaEmision, Date polizaFechaVigencia,
+			Date polizaFechaVencimiento, TipoPago polizaTipoDePago, DetalleTipoPago polizaPago,
+			double polizaImporteTotal, List<Adjunto> riesgoAutomotorListaAdjunto, Poliza riesgoCombinadoFamiliar) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
 		setPolizasCompania(polizaCompania);
@@ -165,30 +138,28 @@ public class PolizaCombinadoFamiliar extends Poliza {
 		riesgoCombinadoFamiliar.setPolizaRenovacion(this);
 		polizaEstado.actualizarEstado(this);
 	}
-	
-	//adjunto
+
+	// adjunto
 	@Join
-	@Column(allowsNull="false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-	@PropertyLayout(named="Adjunto")
-	private List<Adjunto> riesgoAutomotorAdjunto; 
-	
+	@Column(allowsNull = "false")
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Adjunto")
+	private List<Adjunto> riesgoAutomotorAdjunto;
+
 	public List<Adjunto> getRiesgoAutomotorAdjunto() {
 		return riesgoAutomotorAdjunto;
 	}
 
 	public void setRiesgoAutomotorAdjunto(List<Adjunto> riesgoAutomotorAdjunto) {
 		this.riesgoAutomotorAdjunto = riesgoAutomotorAdjunto;
-	}	
-	
-	//Domicilio
-   @Property(editing = Editing.DISABLED)
-	@PropertyLayout(named="Domicilio")
-   @Column(allowsNull = "false")
-	private String riesgoCombinadosFamiliaresDomicilio; 
-	
+	}
+
+	// Domicilio
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Domicilio")
+	@Column(allowsNull = "false")
+	private String riesgoCombinadosFamiliaresDomicilio;
+
 	public String getRiesgoCombinadosFamiliaresDomicilio() {
 		return riesgoCombinadosFamiliaresDomicilio;
 	}
@@ -196,11 +167,11 @@ public class PolizaCombinadoFamiliar extends Poliza {
 	public void setRiesgoCombinadosFamiliaresDomicilio(String riesgoCombinadosFamiliaresDomicilio) {
 		this.riesgoCombinadosFamiliaresDomicilio = riesgoCombinadosFamiliaresDomicilio;
 	}
-	
-	//Localidad
+
+	// Localidad
 	@Property(editing = Editing.DISABLED)
 	@PropertyLayout(named = "Localidad")
-	@Column(allowsNull = "false", name="localidadId")
+	@Column(allowsNull = "false", name = "localidadId")
 	private Localidad riesgoCombinadosFamiliaresLocalidad;
 
 	public Localidad getRiesgoCombinadosFamiliaresLocalidad() {
@@ -211,12 +182,12 @@ public class PolizaCombinadoFamiliar extends Poliza {
 		this.riesgoCombinadosFamiliaresLocalidad = riesgoCombinadosFamiliaresLocalidad;
 	}
 
-	//Ocupación
-	@Column(name="ocupacionId")
-   @Property(editing = Editing.DISABLED)
-	@PropertyLayout(named="Ocupación")
-	private Ocupacion riesgoCombinadosFamiliaresOcupacion; 
-	
+	// Ocupación
+	@Column(name = "ocupacionId")
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Ocupación")
+	private Ocupacion riesgoCombinadosFamiliaresOcupacion;
+
 	public Ocupacion getRiesgoCombinadosFamiliaresOcupacion() {
 		return riesgoCombinadosFamiliaresOcupacion;
 	}
@@ -225,12 +196,12 @@ public class PolizaCombinadoFamiliar extends Poliza {
 		this.riesgoCombinadosFamiliaresOcupacion = riesgoCombinadosFamiliaresOcupacion;
 	}
 
-	//Tipo Vivienda
-	@Column(name="tipoViviendaId")
-   @Property(editing = Editing.DISABLED)
-	@PropertyLayout(named="Tipo de vivienda")
-	private TipoVivienda riesgoCombinadosFamiliaresTipoVivienda; 
-	
+	// Tipo Vivienda
+	@Column(name = "tipoViviendaId")
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Tipo de vivienda")
+	private TipoVivienda riesgoCombinadosFamiliaresTipoVivienda;
+
 	public TipoVivienda getRiesgoCombinadosFamiliaresTipoVivienda() {
 		return riesgoCombinadosFamiliaresTipoVivienda;
 	}
@@ -239,12 +210,11 @@ public class PolizaCombinadoFamiliar extends Poliza {
 		this.riesgoCombinadosFamiliaresTipoVivienda = riesgoCombinadosFamiliaresTipoVivienda;
 	}
 
-
-	//Tipo Titular
-	@Column(name="tipoTitularId")
+	// Tipo Titular
+	@Column(name = "tipoTitularId")
 	@Property(editing = Editing.DISABLED)
-	@PropertyLayout(named="Tipo de Titular")
-	private TipoTitular riesgoCombinadosFamiliaresTipoTitular; 
+	@PropertyLayout(named = "Tipo de Titular")
+	private TipoTitular riesgoCombinadosFamiliaresTipoTitular;
 
 	public TipoTitular getRiesgoCombinadosFamiliaresTipoTitular() {
 		return riesgoCombinadosFamiliaresTipoTitular;
@@ -254,51 +224,53 @@ public class PolizaCombinadoFamiliar extends Poliza {
 		this.riesgoCombinadosFamiliaresTipoTitular = riesgoCombinadosFamiliaresTipoTitular;
 	}
 
-	//region > delete (action)
-   @Action(
-           semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
-   )
-   
-   //Actualizar PolizaNumero
-	public PolizaCombinadoFamiliar actualizarPolizaNumero(@ParameterLayout(named="Numero") final String polizaNumero){
+	// region > delete (action)
+	@Action(semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE)
+
+	// Actualizar PolizaNumero
+	public PolizaCombinadoFamiliar actualizarPolizaNumero(
+			@ParameterLayout(named = "Numero") final String polizaNumero) {
 		setPolizaNumero(polizaNumero);
 		return this;
 	}
 
-	public String default0ActualizarPolizaNumero(){
+	public String default0ActualizarPolizaNumero() {
 		return getPolizaNumero();
 	}
-   
-	//Actualizar Poliza Cliente
-   public PolizaCombinadoFamiliar actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Persona polizaCliente) {
-       setPolizasCliente(polizaCliente);
-       return this;
-   }
-   
-   public List<Persona> choices0ActualizarPolizaCliente(){
-   	return personaRepository.listarActivos();
-   }
-     
-   public Persona default0ActualizarPolizaCliente() {
-   	return getPolizaCliente();
-   }
-   
-   //Actualizar polizaCompania
-   public PolizaCombinadoFamiliar actualizarPolizaCompania(@ParameterLayout(named="Compañia") final Compania polizaCompania) {
-	   setPolizasCompania(polizaCompania);
-       return this;
-   }
-   
-   public List<Compania> choices0ActualizarPolizaCompania(){
-   	return companiaRepository.listarActivos();
-   }
-     
-   public Compania default0ActualizarPolizaCompania() {
-   	return getPolizaCompania();
-   }    
-   
-   //Actualizar poliza Domicilio
-	public PolizaCombinadoFamiliar actualizarPolizaDomicilio(@ParameterLayout(named="Domicilio") final String riesgoCombinadosFamiliaresDomicilio){
+
+	// Actualizar Poliza Cliente
+	public PolizaCombinadoFamiliar actualizarPolizaCliente(
+			@ParameterLayout(named = "Cliente") final Persona polizaCliente) {
+		setPolizasCliente(polizaCliente);
+		return this;
+	}
+
+	public List<Persona> choices0ActualizarPolizaCliente() {
+		return personaRepository.listarActivos();
+	}
+
+	public Persona default0ActualizarPolizaCliente() {
+		return getPolizaCliente();
+	}
+
+	// Actualizar polizaCompania
+	public PolizaCombinadoFamiliar actualizarPolizaCompania(
+			@ParameterLayout(named = "Compañia") final Compania polizaCompania) {
+		setPolizasCompania(polizaCompania);
+		return this;
+	}
+
+	public List<Compania> choices0ActualizarPolizaCompania() {
+		return companiaRepository.listarActivos();
+	}
+
+	public Compania default0ActualizarPolizaCompania() {
+		return getPolizaCompania();
+	}
+
+	// Actualizar poliza Domicilio
+	public PolizaCombinadoFamiliar actualizarPolizaDomicilio(
+			@ParameterLayout(named = "Domicilio") final String riesgoCombinadosFamiliaresDomicilio) {
 		setRiesgoCombinadosFamiliaresDomicilio(riesgoCombinadosFamiliaresDomicilio);
 		return this;
 	}
@@ -308,7 +280,8 @@ public class PolizaCombinadoFamiliar extends Poliza {
 	}
 
 	// Actualizar poliza Localidad
-	public PolizaCombinadoFamiliar actualizarPolizaLocalidad(@ParameterLayout(named = "Localidad") final Localidad riesgoCombinadosFamiliaresLocalidad) {
+	public PolizaCombinadoFamiliar actualizarPolizaLocalidad(
+			@ParameterLayout(named = "Localidad") final Localidad riesgoCombinadosFamiliaresLocalidad) {
 		setRiesgoCombinadosFamiliaresLocalidad(riesgoCombinadosFamiliaresLocalidad);
 		return this;
 	}
@@ -318,298 +291,292 @@ public class PolizaCombinadoFamiliar extends Poliza {
 	}
 
 	// Actualizar poliza Ocupacion
-	   public PolizaCombinadoFamiliar actualizarPolizaOcupacion(@ParameterLayout(named="Ocupación") final Ocupacion riesgoCombinadosFamiliaresOcupacion) {
-		   actualizarPolizaOcupacion(riesgoCombinadosFamiliaresOcupacion);
-	       return this;
-	   }
-	   
-	   public List<Ocupacion> choices0ActualizarPolizaOcupacion(){
-	   	return ocupacionesRepository.listarActivos();
-	   }
-	     
-	   public Ocupacion default0ActualizarPolizaOcupacion() {
-	   	return getRiesgoCombinadosFamiliaresOcupacion();
-	   }   
-	   
-	
-   //Actualizar poliza Tipo Vivienda
-   public PolizaCombinadoFamiliar actualizarPolizaTipoVivienda(@ParameterLayout(named="Tipo Vivienda") final TipoVivienda riesgoCombinadosFamiliaresTipoVivienda) {
-	   actualizarPolizaTipoVivienda(riesgoCombinadosFamiliaresTipoVivienda);
-       return this;
-   }
-   
-   public List<TipoVivienda> choices0ActualizarPolizaTipoVivienda(){
-   	return tiposViviendaRepository.listarActivos();
-   }
-     
-   public TipoVivienda default0ActualizarPolizaTipoVivienda() {
-   	return getRiesgoCombinadosFamiliaresTipoVivienda();
-   }   
-   
-   //Actualizar poliza Tipo Titular
-   public PolizaCombinadoFamiliar actualizarPolizaTipoTitular(@ParameterLayout(named="Tipo Titular") final TipoTitular riesgoCombinadosFamiliaresTipoTitular) {
-	   actualizarPolizaTipoTitular(riesgoCombinadosFamiliaresTipoTitular);
-       return this;
-   }
-   
-   public List<TipoTitular> choices0ActualizarPolizaTipoTitular(){
-   	return tipoTitularesRepository.listarActivos();
-   }
+	public PolizaCombinadoFamiliar actualizarPolizaOcupacion(
+			@ParameterLayout(named = "Ocupación") final Ocupacion riesgoCombinadosFamiliaresOcupacion) {
+		actualizarPolizaOcupacion(riesgoCombinadosFamiliaresOcupacion);
+		return this;
+	}
 
-   public TipoTitular default0ActualizarPolizaTipoTitular() {
-   	return getRiesgoCombinadosFamiliaresTipoTitular();
-   }  
+	public List<Ocupacion> choices0ActualizarPolizaOcupacion() {
+		return ocupacionesRepository.listarActivos();
+	}
 
-   //Actualizar polizaFechaEmision
-	public PolizaCombinadoFamiliar actualizarPolizaFechaEmision(@ParameterLayout(named="Fecha de Emision") final Date polizaFechaEmision){
+	public Ocupacion default0ActualizarPolizaOcupacion() {
+		return getRiesgoCombinadosFamiliaresOcupacion();
+	}
+
+	// Actualizar poliza Tipo Vivienda
+	public PolizaCombinadoFamiliar actualizarPolizaTipoVivienda(
+			@ParameterLayout(named = "Tipo Vivienda") final TipoVivienda riesgoCombinadosFamiliaresTipoVivienda) {
+		actualizarPolizaTipoVivienda(riesgoCombinadosFamiliaresTipoVivienda);
+		return this;
+	}
+
+	public List<TipoVivienda> choices0ActualizarPolizaTipoVivienda() {
+		return tiposViviendaRepository.listarActivos();
+	}
+
+	public TipoVivienda default0ActualizarPolizaTipoVivienda() {
+		return getRiesgoCombinadosFamiliaresTipoVivienda();
+	}
+
+	// Actualizar poliza Tipo Titular
+	public PolizaCombinadoFamiliar actualizarPolizaTipoTitular(
+			@ParameterLayout(named = "Tipo Titular") final TipoTitular riesgoCombinadosFamiliaresTipoTitular) {
+		actualizarPolizaTipoTitular(riesgoCombinadosFamiliaresTipoTitular);
+		return this;
+	}
+
+	public List<TipoTitular> choices0ActualizarPolizaTipoTitular() {
+		return tipoTitularesRepository.listarActivos();
+	}
+
+	public TipoTitular default0ActualizarPolizaTipoTitular() {
+		return getRiesgoCombinadosFamiliaresTipoTitular();
+	}
+
+	// Actualizar polizaFechaEmision
+	public PolizaCombinadoFamiliar actualizarPolizaFechaEmision(
+			@ParameterLayout(named = "Fecha de Emision") final Date polizaFechaEmision) {
 		setPolizaFechaEmision(polizaFechaEmision);
 		return this;
 	}
 
-	public Date default0ActualizarPolizaFechaEmision(){
+	public Date default0ActualizarPolizaFechaEmision() {
 		return getPolizaFechaEmision();
 	}
-	
-   //Actualizar polizaFechaVigencia
-	public PolizaCombinadoFamiliar actualizarPolizaFechaVigencia(@ParameterLayout(named="Fecha de Vigencia") final Date polizaFechaVigencia){
+
+	// Actualizar polizaFechaVigencia
+	public PolizaCombinadoFamiliar actualizarPolizaFechaVigencia(
+			@ParameterLayout(named = "Fecha de Vigencia") final Date polizaFechaVigencia) {
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		polizaEstado.actualizarEstado(this);
 		return this;
 	}
 
-	public Date default0ActualizarPolizaFechaVigencia(){
+	public Date default0ActualizarPolizaFechaVigencia() {
 		return getPolizaFechaVigencia();
 	}
-	
-	public String validateActualizarPolizaFechaVigencia(final Date polizaFechaVigencia) {
 
+	public String validateActualizarPolizaFechaVigencia(final Date polizaFechaVigencia) {
 		if (polizaFechaVigencia.after(this.getPolizaFechaVencimiento())) {
 			return "La fecha de vigencia es mayor a la de vencimiento";
 		}
 		return "";
 	}
-	
-   //polizaFechaVencimiento
-	public PolizaCombinadoFamiliar actualizarPolizaFechaVencimiento(@ParameterLayout(named="Fecha de Vencimiento") final Date polizaFechaVencimiento){
+
+	// polizaFechaVencimiento
+	public PolizaCombinadoFamiliar actualizarPolizaFechaVencimiento(
+			@ParameterLayout(named = "Fecha de Vencimiento") final Date polizaFechaVencimiento) {
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		polizaEstado.actualizarEstado(this);
 		return this;
 	}
 
-	public Date default0ActualizarPolizaFechaVencimiento(){
+	public Date default0ActualizarPolizaFechaVencimiento() {
 		return getPolizaFechaVencimiento();
 	}
-	
-	public String validateActualizarPolizaFechaVencimiento(final Date polizaFechaVencimiento){
-		if (this.getPolizaFechaVigencia().after(polizaFechaVencimiento)){
+
+	public String validateActualizarPolizaFechaVencimiento(final Date polizaFechaVencimiento) {
+		if (this.getPolizaFechaVigencia().after(polizaFechaVencimiento)) {
 			return "La fecha de vencimiento es menor a la de vigencia";
 		}
 		return "";
 	}
-	    
-    //polizaPago
-    public PolizaCombinadoFamiliar actualizarPolizaPago(
-    		@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
-			@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago) {
-        setPolizaTipoDePago(polizaTipoDePago);
-    	setPolizaPago(polizaPago);
-        return this;
-    }
-    
-    public List<DetalleTipoPago> choices1ActualizarPolizaPago(			
- 			final TipoPago polizaTipoDePago,
- 			final DetalleTipoPago polizaPago) {
- 		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
-    }
-    
-    public TipoPago default0ActualizarPolizaPago() {
-    	return getPolizaTipoDePago();
-    }
-      
-    public DetalleTipoPago default1ActualizarPolizaPago() {
-    	return getPolizaPago();
-    }
-   //polizaFechaBaja
-	public PolizaCombinadoFamiliar actualizarPolizaFechaBaja(@ParameterLayout(named="Fecha de Baja") final Date polizaFechaBaja){
+
+	// polizaPago
+	public PolizaCombinadoFamiliar actualizarPolizaPago(
+			@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
+			@Nullable @ParameterLayout(named = "Detalle del Pago") @Parameter(optionality = Optionality.OPTIONAL) final DetalleTipoPago polizaPago) {
+		setPolizaTipoDePago(polizaTipoDePago);
+		setPolizaPago(polizaPago);
+		return this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<DetalleTipoPago> choices1ActualizarPolizaPago(final TipoPago polizaTipoDePago,
+			final DetalleTipoPago polizaPago) {
+		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
+	}
+
+	public TipoPago default0ActualizarPolizaPago() {
+		return getPolizaTipoDePago();
+	}
+
+	public DetalleTipoPago default1ActualizarPolizaPago() {
+		return getPolizaPago();
+	}
+
+	// polizaFechaBaja
+	public PolizaCombinadoFamiliar actualizarPolizaFechaBaja(
+			@ParameterLayout(named = "Fecha de Baja") final Date polizaFechaBaja) {
 		setPolizaFechaBaja(polizaFechaBaja);
 		return this;
 	}
 
-	public Date default0ActualizarPolizaFechaBaja(){
+	public Date default0ActualizarPolizaFechaBaja() {
 		return getPolizaFechaBaja();
-	}    
-   
-   //polizaMotivoBaja
-	public PolizaCombinadoFamiliar actualizarPolizaMotivoBaja(@ParameterLayout(named="Motivo de la Baja") final String polizaMotivoBaja){
+	}
+
+	// polizaMotivoBaja
+	public PolizaCombinadoFamiliar actualizarPolizaMotivoBaja(
+			@ParameterLayout(named = "Motivo de la Baja") final String polizaMotivoBaja) {
 		setPolizaMotivoBaja(polizaMotivoBaja);
 		return this;
 	}
 
-	public String default0ActualizarPolizaMotivoBaja(){
+	public String default0ActualizarPolizaMotivoBaja() {
 		return getPolizaMotivoBaja();
-	}    
-   
-   //polizaImporteTotal
-	public PolizaCombinadoFamiliar actualizarPolizaImporteTotal(@ParameterLayout(named="Importe Total") final double polizaImporteTotal){
+	}
+
+	// polizaImporteTotal
+	public PolizaCombinadoFamiliar actualizarPolizaImporteTotal(
+			@ParameterLayout(named = "Importe Total") final double polizaImporteTotal) {
 		setPolizaImporteTotal(polizaImporteTotal);
 		return this;
 	}
 
-	public double default0ActualizarPolizaImporteTotal(){
+	public double default0ActualizarPolizaImporteTotal() {
 		return getPolizaImporteTotal();
-	}    
-	
-   //polizaRenovacion
-	@ActionLayout(named="Actualizar Renovacion")
-   public PolizaCombinadoFamiliar actualizarPolizaRenovacion(@ParameterLayout(named="Renovacion") final Poliza polizaRenovacion) {
-       setPolizaRenovacion(polizaRenovacion);
-       polizaEstado.actualizarEstado(this);
-       return this;
-   }
-   
-   public List<Poliza> choices0ActualizarPolizaRenovacion(){
-   	return polizasRepository.listar();
-   }
-     
-   public Poliza default0ActualizarPolizaRenovacion() {
-   	return getPolizaRenovacion();
-   }
-   
-   public PolizaCombinadoFamiliar borrarPolizaRenovacion() {
+	}
+
+	// polizaRenovacion
+	@ActionLayout(named = "Actualizar Renovacion")
+	public PolizaCombinadoFamiliar actualizarPolizaRenovacion(
+			@ParameterLayout(named = "Renovacion") final Poliza polizaRenovacion) {
+		setPolizaRenovacion(polizaRenovacion);
+		polizaEstado.actualizarEstado(this);
+		return this;
+	}
+
+	public List<Poliza> choices0ActualizarPolizaRenovacion() {
+		return polizasRepository.listar();
+	}
+
+	public Poliza default0ActualizarPolizaRenovacion() {
+		return getPolizaRenovacion();
+	}
+
+	public PolizaCombinadoFamiliar borrarPolizaRenovacion() {
 		setPolizaRenovacion(null);
 		polizaEstado.actualizarEstado(this);
-   	return this;
-   }
-   
-   //endregion
-
-   //acciones
-
-	@Action(invokeOn=InvokeOn.OBJECT_ONLY)
-	@ActionLayout(named="Emitir Renovacion")
-	public PolizaCombinadoFamiliar renovacion(
-			/*0*/	            @ParameterLayout(named="Número") final String polizaNumero,
-			/*1*/	            @ParameterLayout(named="Cliente") final Persona polizaCliente,
-			/*2*/	            @ParameterLayout(named="Compañia") final Compania polizaCompania,
-			/*3*/	    		@ParameterLayout(named="Domicilio") final String riesgoCombinadosFamiliaresDomicilio,
-			/*4*/				@ParameterLayout(named="Localidad") final Localidad riesgoCombinadoFamiliarLocalidad,
-			/*5*/	            @ParameterLayout(named="Ocupación") final Ocupacion riesgoCombinadosFamiliaresOcupacion,
-			/*6*/	            @ParameterLayout(named="Tipo de Vivienda") final TipoVivienda riesgoCombinadosFamiliaresTipoVivienda,
-			/*7*/	            @ParameterLayout(named="Tipo de Titular") final TipoTitular riesgoCombinadosFamiliaresTipoTitular,
-			/*8*/	            @ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
-			/*9*/				@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
-			/*10*/				@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
-								@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
-								@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago,
-			/*12*/				@ParameterLayout(named="Precio Total") final double polizaImporteTotal){
-    	List<Adjunto> riesgoAutomotorListaAdjunto = new ArrayList<>();
-    	riesgoAutomotorListaAdjunto = this.getRiesgoAutomotorAdjunto();
-    	Mail.enviarMailPoliza(polizaCliente);
-		return riesgoCombinadosFamiliaresRepository.renovacion(
-    		polizaNumero,
-       		polizaCliente,
-       		polizaCompania,
-       		riesgoCombinadosFamiliaresDomicilio,
-       		riesgoCombinadoFamiliarLocalidad,
-       		riesgoCombinadosFamiliaresOcupacion,
-       		riesgoCombinadosFamiliaresTipoVivienda,
-       		riesgoCombinadosFamiliaresTipoTitular,
-       		polizaFechaEmision,
-       		polizaFechaVigencia, 
-       		polizaFechaVencimiento,
-       		polizaTipoDePago,
-       		polizaPago,
-       		polizaImporteTotal,
-       		riesgoAutomotorListaAdjunto, this);
+		return this;
 	}
-	
-   public List<Persona> choices1Renovacion(){
-   	return personaRepository.listarActivos();
-   }
-   
-   public List<Compania> choices2Renovacion(){
-   	return companiaRepository.listarActivos();
-   }	   
-   
-   public List<Localidad> choices4Renovacion(){
-	   	return localidadesRepository.listarActivos();
-	   }	    
-   
-   public List<Ocupacion> choices5Renovacion(){
-   	return ocupacionesRepository.listarActivos();
-   }
-   public List<TipoVivienda> choices6Renovacion(){
-	   	return tiposViviendaRepository.listarActivos();
-   }
-	     
-   public List<TipoTitular> choices7Renovacion(){
-	   	return tipoTitularesRepository.listarActivos();
-	   }
-   
-   public List<DetalleTipoPago> choices12Renovacion(			
-			final String polizaNumero,
-			final Persona polizaCliente,
-			final Compania polizaCompania,
-			final String riesgoCombinadosFamiliaresDomicilio,
-			final Localidad riesgoCombinadoFamiliarLocalidad,
-			final Ocupacion riesgoCombinadosFamiliaresOcupacion,
+
+	// endregion
+
+	// acciones
+
+	@Action(invokeOn = InvokeOn.OBJECT_ONLY)
+	@ActionLayout(named = "Emitir Renovacion")
+	public PolizaCombinadoFamiliar renovacion(@ParameterLayout(named = "Número") final String polizaNumero,
+			@ParameterLayout(named = "Cliente") final Persona polizaCliente,
+			@ParameterLayout(named = "Compañia") final Compania polizaCompania,
+			@ParameterLayout(named = "Domicilio") final String riesgoCombinadosFamiliaresDomicilio,
+			@ParameterLayout(named = "Localidad") final Localidad riesgoCombinadoFamiliarLocalidad,
+			@ParameterLayout(named = "Ocupación") final Ocupacion riesgoCombinadosFamiliaresOcupacion,
+			@ParameterLayout(named = "Tipo de Vivienda") final TipoVivienda riesgoCombinadosFamiliaresTipoVivienda,
+			@ParameterLayout(named = "Tipo de Titular") final TipoTitular riesgoCombinadosFamiliaresTipoTitular,
+			@ParameterLayout(named = "Fecha Emision") final Date polizaFechaEmision,
+			@ParameterLayout(named = "Fecha Vigencia") final Date polizaFechaVigencia,
+			@ParameterLayout(named = "Fecha Vencimiento") final Date polizaFechaVencimiento,
+			@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
+			@Nullable @ParameterLayout(named = "Detalle del Pago") @Parameter(optionality = Optionality.OPTIONAL) final DetalleTipoPago polizaPago,
+			@ParameterLayout(named = "Precio Total") final double polizaImporteTotal) {
+		List<Adjunto> riesgoAutomotorListaAdjunto = new ArrayList<>();
+		riesgoAutomotorListaAdjunto = this.getRiesgoAutomotorAdjunto();
+		Mail.enviarMailPoliza(polizaCliente);
+		return riesgoCombinadosFamiliaresRepository.renovacion(polizaNumero, polizaCliente, polizaCompania,
+				riesgoCombinadosFamiliaresDomicilio, riesgoCombinadoFamiliarLocalidad,
+				riesgoCombinadosFamiliaresOcupacion, riesgoCombinadosFamiliaresTipoVivienda,
+				riesgoCombinadosFamiliaresTipoTitular, polizaFechaEmision, polizaFechaVigencia, polizaFechaVencimiento,
+				polizaTipoDePago, polizaPago, polizaImporteTotal, riesgoAutomotorListaAdjunto, this);
+	}
+
+	public List<Persona> choices1Renovacion() {
+		return personaRepository.listarActivos();
+	}
+
+	public List<Compania> choices2Renovacion() {
+		return companiaRepository.listarActivos();
+	}
+
+	public List<Localidad> choices4Renovacion() {
+		return localidadesRepository.listarActivos();
+	}
+
+	public List<Ocupacion> choices5Renovacion() {
+		return ocupacionesRepository.listarActivos();
+	}
+
+	public List<TipoVivienda> choices6Renovacion() {
+		return tiposViviendaRepository.listarActivos();
+	}
+
+	public List<TipoTitular> choices7Renovacion() {
+		return tipoTitularesRepository.listarActivos();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<DetalleTipoPago> choices12Renovacion(final String polizaNumero, final Persona polizaCliente,
+			final Compania polizaCompania, final String riesgoCombinadosFamiliaresDomicilio,
+			final Localidad riesgoCombinadoFamiliarLocalidad, final Ocupacion riesgoCombinadosFamiliaresOcupacion,
 			final TipoVivienda riesgoCombinadosFamiliaresTipoVivienda,
-			final TipoTitular riesgoCombinadosFamiliaresTipoTitular,
-			final Date polizaFechaEmision,
-			final Date polizaFechaVigencia,
-			final Date polizaFechaVencimiento,
-			final TipoPago polizaTipoDePago,
-			final DetalleTipoPago polizaPago,
-			final double polizaImporteTotal) {
+			final TipoTitular riesgoCombinadosFamiliaresTipoTitular, final Date polizaFechaEmision,
+			final Date polizaFechaVigencia, final Date polizaFechaVencimiento, final TipoPago polizaTipoDePago,
+			final DetalleTipoPago polizaPago, final double polizaImporteTotal) {
 		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
-   }
-   
-   public Persona default1Renovacion() {
-   	return getPolizaCliente();
-   }
-   public String default3Renovacion() {
-	   	return getRiesgoCombinadosFamiliaresDomicilio();
-	   }
-
-   public Compania default2Renovacion(){
-   	return getPolizaCompania();
-   }
-   
-   public Localidad default4Renovacion(){
-	   	return getRiesgoCombinadosFamiliaresLocalidad();
-	   }
-   
-   public Ocupacion default5Renovacion() {
-   	return getRiesgoCombinadosFamiliaresOcupacion();
-   }   
-   public TipoVivienda default6Renovacion() {
-   	return getRiesgoCombinadosFamiliaresTipoVivienda();
-   }   
-	   
-   public TipoTitular default7Renovacion() {
-   	return getRiesgoCombinadosFamiliaresTipoTitular();
-   }  
-
-   public TipoPago default11Renovacion(){
-	   	return getPolizaTipoDePago();
-	   }
-  
-  public DetalleTipoPago default12Renovacion(){
-  	return getPolizaPago();
-  }
-  
-	@ActionLayout(named="Crear y Agregar Adjunto")
-    public PolizaCombinadoFamiliar crearAdjunto(
-    	@ParameterLayout(named = "Descripcion") final String riesgoAutomotorAdjuntoDescripcion,
-		@ParameterLayout(named = "Imagen") final Blob riesgoAutomorAdjunto) {
-    		this.getRiesgoAutomotorAdjunto().add(adjuntoRepository.crear(riesgoAutomotorAdjuntoDescripcion, riesgoAutomorAdjunto));
-    		this.setRiesgoAutomotorAdjunto(this.getRiesgoAutomotorAdjunto());
-    		return this;
 	}
-	
-	@ActionLayout(named="Agregar adjunto")
+
+	public Persona default1Renovacion() {
+		return getPolizaCliente();
+	}
+
+	public String default3Renovacion() {
+		return getRiesgoCombinadosFamiliaresDomicilio();
+	}
+
+	public Compania default2Renovacion() {
+		return getPolizaCompania();
+	}
+
+	public Localidad default4Renovacion() {
+		return getRiesgoCombinadosFamiliaresLocalidad();
+	}
+
+	public Ocupacion default5Renovacion() {
+		return getRiesgoCombinadosFamiliaresOcupacion();
+	}
+
+	public TipoVivienda default6Renovacion() {
+		return getRiesgoCombinadosFamiliaresTipoVivienda();
+	}
+
+	public TipoTitular default7Renovacion() {
+		return getRiesgoCombinadosFamiliaresTipoTitular();
+	}
+
+	public TipoPago default11Renovacion() {
+		return getPolizaTipoDePago();
+	}
+
+	public DetalleTipoPago default12Renovacion() {
+		return getPolizaPago();
+	}
+
+	@ActionLayout(named = "Crear y Agregar Adjunto")
+	public PolizaCombinadoFamiliar crearAdjunto(
+			@ParameterLayout(named = "Descripcion") final String riesgoAutomotorAdjuntoDescripcion,
+			@ParameterLayout(named = "Imagen") final Blob riesgoAutomorAdjunto) {
+		this.getRiesgoAutomotorAdjunto()
+				.add(adjuntoRepository.crear(riesgoAutomotorAdjuntoDescripcion, riesgoAutomorAdjunto));
+		this.setRiesgoAutomotorAdjunto(this.getRiesgoAutomotorAdjunto());
+		return this;
+	}
+
+	@ActionLayout(named = "Agregar adjunto")
 	public PolizaCombinadoFamiliar agregarAdjunto(
-			@ParameterLayout(named="Adjunto") final Adjunto riesgoAutomotorAdjunto){
+			@ParameterLayout(named = "Adjunto") final Adjunto riesgoAutomotorAdjunto) {
 		if (this.getRiesgoAutomotorAdjunto().contains(riesgoAutomotorAdjunto)) {
 			messageService.warnUser("ERROR: La imagen ya está agregada en la lista");
 		} else {
@@ -618,110 +585,111 @@ public class PolizaCombinadoFamiliar extends Poliza {
 		}
 		return this;
 	}
-	
+
 	public List<Adjunto> choices0AgregarAdjunto() {
 		return adjuntoRepository.listarActivos();
 	}
-    
-    public PolizaCombinadoFamiliar quitarAdjunto(@ParameterLayout(named="Imagen") Adjunto adjunto) {
-    	Iterator<Adjunto> it = getRiesgoAutomotorAdjunto().iterator();
-    	while (it.hasNext()) {
-    		Adjunto lista = it.next();
-    		if (lista.equals(adjunto))
-    			it.remove();
-    	}
-    	return this;
-    }
-    
-    public List<Adjunto> choices0QuitarAdjunto(){
-    	return getRiesgoAutomotorAdjunto();
-    }
-   
-	public Blob imprimirPoliza() throws JRException, IOException{
-			
-			List<Object> objectsReport = new ArrayList<Object>();
-			
-			PolizaCombinadoFamiliarReporte polizaCombinadoFamiliarReporte = new PolizaCombinadoFamiliarReporte();
-			polizaCombinadoFamiliarReporte.setPolizaCliente(getPolizaCliente().toString());
-			polizaCombinadoFamiliarReporte.setPolizaNumero(getPolizaNumero());
-			polizaCombinadoFamiliarReporte.setPolizaCompania(getPolizaCompania().getCompaniaNombre());
-			polizaCombinadoFamiliarReporte.setPolizaFechaEmision(getPolizaFechaEmision());
-			polizaCombinadoFamiliarReporte.setPolizaFechaVigencia(getPolizaFechaVigencia());
-			polizaCombinadoFamiliarReporte.setPolizaFechaVencimiento(getPolizaFechaVencimiento());
-			polizaCombinadoFamiliarReporte.setRiesgoCombinadosFamiliaresDomicilio(getRiesgoCombinadosFamiliaresDomicilio());
-			polizaCombinadoFamiliarReporte.setRiesgoCombinadosFamiliaresLocalidad(getRiesgoCombinadosFamiliaresLocalidad().getLocalidadesNombre());
-			polizaCombinadoFamiliarReporte.setRiesgoCombinadosFamiliaresOcupacion(getRiesgoCombinadosFamiliaresOcupacion().getOcupacionNombre());
-			polizaCombinadoFamiliarReporte.setRiesgoCombinadosFamiliaresTipoTitular(getRiesgoCombinadosFamiliaresTipoTitular().getTipoTitularNombre());
-			polizaCombinadoFamiliarReporte.setRiesgoCombinadosFamiliaresTipoVivienda(getRiesgoCombinadosFamiliaresTipoVivienda().getTipoViviendaNombre());
-			polizaCombinadoFamiliarReporte.setPolizaImporteTotal(getPolizaImporteTotal());
-			polizaCombinadoFamiliarReporte.setPolizaEstado(getPolizaEstado().toString());
-			
-			objectsReport.add(polizaCombinadoFamiliarReporte);
-			String jrxml = "PolizaCombinadoFamiliar.jrxml";
-			String nombreArchivo = "PolizaCombinadoFamiliar_"+getPolizaCliente().toString().replaceAll("\\s","_")+"_"+getPolizaNumero();
-			
-			return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
-	  }	
-    
-   //region > toString, compareTo
-   @Override
-   public String toString() {
-       return ObjectContracts.toString(this, "polizaNumero");
-   }
 
-   //endregion
+	public PolizaCombinadoFamiliar quitarAdjunto(@ParameterLayout(named = "Imagen") Adjunto adjunto) {
+		Iterator<Adjunto> it = getRiesgoAutomotorAdjunto().iterator();
+		while (it.hasNext()) {
+			Adjunto lista = it.next();
+			if (lista.equals(adjunto))
+				it.remove();
+		}
+		return this;
+	}
 
-   //region > injected dependencies
+	public List<Adjunto> choices0QuitarAdjunto() {
+		return getRiesgoAutomotorAdjunto();
+	}
 
-   @Inject
-   RepositoryService repositoryService;
+	public Blob imprimirPoliza() throws JRException, IOException {
 
-   @Inject
-   TitleService titleService;
+		List<Object> objectsReport = new ArrayList<Object>();
 
-   @Inject
-   MessageService messageService;
-   
-   @Inject
-   PersonaRepository personaRepository;
+		PolizaCombinadoFamiliarReporte polizaCombinadoFamiliarReporte = new PolizaCombinadoFamiliarReporte();
+		polizaCombinadoFamiliarReporte.setPolizaCliente(getPolizaCliente().toString());
+		polizaCombinadoFamiliarReporte.setPolizaNumero(getPolizaNumero());
+		polizaCombinadoFamiliarReporte.setPolizaCompania(getPolizaCompania().getCompaniaNombre());
+		polizaCombinadoFamiliarReporte.setPolizaFechaEmision(getPolizaFechaEmision());
+		polizaCombinadoFamiliarReporte.setPolizaFechaVigencia(getPolizaFechaVigencia());
+		polizaCombinadoFamiliarReporte.setPolizaFechaVencimiento(getPolizaFechaVencimiento());
+		polizaCombinadoFamiliarReporte.setRiesgoCombinadosFamiliaresDomicilio(getRiesgoCombinadosFamiliaresDomicilio());
+		polizaCombinadoFamiliarReporte.setRiesgoCombinadosFamiliaresLocalidad(
+				getRiesgoCombinadosFamiliaresLocalidad().getLocalidadesNombre());
+		polizaCombinadoFamiliarReporte
+				.setRiesgoCombinadosFamiliaresOcupacion(getRiesgoCombinadosFamiliaresOcupacion().getOcupacionNombre());
+		polizaCombinadoFamiliarReporte.setRiesgoCombinadosFamiliaresTipoTitular(
+				getRiesgoCombinadosFamiliaresTipoTitular().getTipoTitularNombre());
+		polizaCombinadoFamiliarReporte.setRiesgoCombinadosFamiliaresTipoVivienda(
+				getRiesgoCombinadosFamiliaresTipoVivienda().getTipoViviendaNombre());
+		polizaCombinadoFamiliarReporte.setPolizaImporteTotal(getPolizaImporteTotal());
+		polizaCombinadoFamiliarReporte.setPolizaEstado(getPolizaEstado().toString());
 
-   @Inject
-   TipoViviendaRepository tiposViviendaRepository;
-   
-   @Inject
-   TipoTitularRepository tipoTitularesRepository;
+		objectsReport.add(polizaCombinadoFamiliarReporte);
+		String jrxml = "PolizaCombinadoFamiliar.jrxml";
+		String nombreArchivo = "PolizaCombinadoFamiliar_" + getPolizaCliente().toString().replaceAll("\\s", "_") + "_"
+				+ getPolizaNumero();
 
-   @Inject
-   OcupacionRepository ocupacionesRepository;
-   
-   @Inject
-   DetalleTipoPagoRepository detalleTipoPagosRepository;
-   
-   @Inject
-   DetalleTipoPagoMenu detalleTipoPagoMenu;
-   
-   @Inject
-   CompaniaRepository companiaRepository;
-   
-   @Inject
-   TipoDeCoberturaRepository tiposDeCoberturasRepository;
-   
-   @Inject
-   PolizaRepository polizasRepository;
+		return ReporteRepository.imprimirReporteIndividual(objectsReport, jrxml, nombreArchivo);
+	}
 
-   @Inject
-   PolizaCombinadoFamiliarRepository riesgoCombinadosFamiliaresRepository;
-   
-   @Inject
-   LocalidadRepository localidadesRepository;
-   
-   @Inject
-   AdjuntoRepository adjuntoRepository;
-   
-   @Inject
-   ReporteRepository reporteRepository;
-   
-   //endregion
+	// region > toString, compareTo
+	@Override
+	public String toString() {
+		return "Poliza Combinado Familiar Numero: " + getPolizaNumero();
+	}
 
-	
+	// endregion
+
+	// region > injected dependencies
+
+	@Inject
+	RepositoryService repositoryService;
+
+	@Inject
+	TitleService titleService;
+
+	@Inject
+	MessageService messageService;
+
+	@Inject
+	PersonaRepository personaRepository;
+
+	@Inject
+	TipoViviendaRepository tiposViviendaRepository;
+
+	@Inject
+	TipoTitularRepository tipoTitularesRepository;
+
+	@Inject
+	OcupacionRepository ocupacionesRepository;
+
+	@Inject
+	DetalleTipoPagoRepository detalleTipoPagosRepository;
+
+	@Inject
+	DetalleTipoPagoMenu detalleTipoPagoMenu;
+
+	@Inject
+	CompaniaRepository companiaRepository;
+
+	@Inject
+	TipoDeCoberturaRepository tiposDeCoberturasRepository;
+
+	@Inject
+	PolizaRepository polizasRepository;
+
+	@Inject
+	PolizaCombinadoFamiliarRepository riesgoCombinadosFamiliaresRepository;
+
+	@Inject
+	LocalidadRepository localidadesRepository;
+
+	@Inject
+	AdjuntoRepository adjuntoRepository;
+
+	// endregion
+
 }

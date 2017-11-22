@@ -34,15 +34,11 @@
 package com.pacinetes.dom.banco;
 
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
-
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
-import org.apache.isis.applib.annotation.BookmarkPolicy;
-import org.apache.isis.applib.annotation.CommandReification;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.InvokeOn;
@@ -52,75 +48,52 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
-import org.apache.isis.applib.services.eventbus.PropertyDomainEvent;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
-import org.apache.isis.applib.util.ObjectContracts;
 
-import com.pacinetes.dom.marca.Marca;
-
-@javax.jdo.annotations.PersistenceCapable(
-        identityType=IdentityType.DATASTORE,
-        schema = "simple"
-)
-@javax.jdo.annotations.DatastoreIdentity(
-        strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
-         column="bancoId")
-@javax.jdo.annotations.Queries({
-        @javax.jdo.annotations.Query(
-                name = "findByName", language = "JDOQL",
-                value = "SELECT "
-                        + "FROM com.pacinetes.dom.simple.banco "
-                        + "WHERE bancoNombre.toLowerCase().indexOf(:bancoNombre) >= 0 "),
-        @javax.jdo.annotations.Query(
-                name = "listarActivos", language = "JDOQL",
-                value = "SELECT "
-                        + "FROM com.pacinetes.dom.simple.banco "
-                        + "WHERE bancoActivo == true "),
-        @javax.jdo.annotations.Query(
-                name = "listarInactivos", language = "JDOQL",
-                value = "SELECT "
-                        + "FROM com.pacinetes.dom.simple.banco "
-                        + "WHERE bancoActivo == false ") 
-})
-@javax.jdo.annotations.Unique(name="banco_bancoNombre_UNQ", members = {"bancoNombre"})
-@DomainObject(
-        publishing = Publishing.ENABLED,
-        auditing = Auditing.ENABLED
-)
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE, schema = "simple")
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "bancoId")
+@javax.jdo.annotations.Queries({ @javax.jdo.annotations.Query(name = "findByName", language = "JDOQL", value = "SELECT "
+		+ "FROM com.pacinetes.dom.simple.banco " + "WHERE bancoNombre.toLowerCase().indexOf(:bancoNombre) >= 0 "),
+		@javax.jdo.annotations.Query(name = "listarActivos", language = "JDOQL", value = "SELECT "
+				+ "FROM com.pacinetes.dom.simple.banco " + "WHERE bancoActivo == true "),
+		@javax.jdo.annotations.Query(name = "listarInactivos", language = "JDOQL", value = "SELECT "
+				+ "FROM com.pacinetes.dom.simple.banco " + "WHERE bancoActivo == false ") })
+@javax.jdo.annotations.Unique(name = "banco_bancoNombre_UNQ", members = { "bancoNombre" })
+@DomainObject(publishing = Publishing.ENABLED, auditing = Auditing.ENABLED)
 public class Banco implements Comparable<Banco> {
 
-    //region > title
-    public TranslatableString title() {
-        return TranslatableString.tr("{name}", "name", getBancoNombre());
-    }
-    //endregion
+	// region > title
+	public TranslatableString title() {
+		return TranslatableString.tr("{name}", "name", getBancoNombre());
+	}
+	// endregion
 
-    public String cssClass(){
-    	return (getBancoActivo()==true)? "activo":"inactivo";
-    }
-    
-    //region > constructor
-    public Banco(final String bancoNombre) {
-    	setBancoNombre(bancoNombre);
-    	this.bancoActivo = true;	
-    }
-    //endregion
+	public String cssClass() {
+		return (getBancoActivo() == true) ? "activo" : "inactivo";
+	}
 
-    //region > name (read-only property)
-    public static final int NAME_LENGTH = 40;
+	// region > constructor
+	public Banco() {
+	}
+
+	public Banco(final String bancoNombre) {
+		setBancoNombre(bancoNombre);
+		this.bancoActivo = true;
+	}
+	// endregion
+
+	// region > name (read-only property)
+	public static final int NAME_LENGTH = 40;
 
 	@javax.jdo.annotations.Column(allowsNull = "false", length = NAME_LENGTH)
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Nombre")
-    private String bancoNombre;
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Nombre")
+	private String bancoNombre;
 
-    public String getBancoNombre() {
+	public String getBancoNombre() {
 		return bancoNombre;
 	}
 
@@ -129,10 +102,8 @@ public class Banco implements Comparable<Banco> {
 	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Activo")
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Activo")
 	private boolean bancoActivo;
 
 	public boolean getBancoActivo() {
@@ -142,90 +113,81 @@ public class Banco implements Comparable<Banco> {
 	public void setBancoActivo(boolean bancoActivo) {
 		this.bancoActivo = bancoActivo;
 	}
+	// endregion
 
-    //endregion
+	// region > delete (action)
+	@Action(semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE)
+	public void borrarBanco() {
+		final String title = titleService.titleOf(this);
+		messageService.informUser(String.format("'%s' deleted", title));
+		setBancoActivo(false);
+	}
 
-    //region > delete (action)
-    public static class DeleteDomainEvent extends ActionDomainEvent<Banco> {}
-    @Action(
-            domainEvent = DeleteDomainEvent.class,
-            semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
-    )
-    public void borrarBanco() {
-        final String title = titleService.titleOf(this);
-        messageService.informUser(String.format("'%s' deleted", title));
-        setBancoActivo(false);
-    }
-    
-	public Banco actualizarNombre(@ParameterLayout(named="Nombre") final String bancoNombre){
+	public Banco actualizarNombre(@ParameterLayout(named = "Nombre") final String bancoNombre) {
 		setBancoNombre(bancoNombre);
 		return this;
 	}
-	
-	public String default0ActualizarNombre(){
+
+	public String default0ActualizarNombre() {
 		return getBancoNombre();
 	}
-	
-	public Banco actualizarActivo(@ParameterLayout(named="Activo") final boolean bancoActivo){
+
+	public Banco actualizarActivo(@ParameterLayout(named = "Activo") final boolean bancoActivo) {
 		setBancoActivo(bancoActivo);
 		return this;
 	}
 
-	public boolean default0ActualizarActivo(){
+	public boolean default0ActualizarActivo() {
 		return getBancoActivo();
 	}
+	// endregion
 
+	// region > toString, compareTo
+	@Override
+	public String toString() {
+		return getBancoNombre();
+	}
 
-    //endregion
+	@Override
+	public int compareTo(final Banco banco) {
+		return this.bancoNombre.compareTo(banco.bancoNombre);
+	}
+	// endregion
 
-    //region > toString, compareTo
-    @Override
-    public String toString() {
-        return ObjectContracts.toString(this, "bancoNombre");
-    }
-    @Override
-    public int compareTo(final Banco other) {
-        return ObjectContracts.compare(this, other, "name");
-    }
+	// acciones
+	@Action(invokeOn = InvokeOn.OBJECT_ONLY)
+	@ActionLayout(named = "Listar Todos los Bancos")
+	@MemberOrder(sequence = "2")
+	public List<Banco> listar() {
+		return bancoRepository.listar();
+	}
 
-    //endregion
-    
-    //acciones
-    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
-    @ActionLayout(named="Listar Todos los Bancos")
-    @MemberOrder(sequence = "2")
-    public List<Banco> listar() {
-        return bancoRepository.listar();
-    }
-    
-    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
-    @ActionLayout(named="Listar Bancos Activos")
-    @MemberOrder(sequence = "3")
-    public List<Banco> listarActivos() {
-        return bancoRepository.listarActivos();
-    }
-    
-    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
-    @ActionLayout(named="Listar Bancos Inactivos")
-    @MemberOrder(sequence = "4")
-    public List<Banco> listarInactivos() {
-        return bancoRepository.listarInactivos();
-    }
+	@Action(invokeOn = InvokeOn.OBJECT_ONLY)
+	@ActionLayout(named = "Listar Bancos Activos")
+	@MemberOrder(sequence = "3")
+	public List<Banco> OBJECT_ONLY() {
+		return bancoRepository.listarActivos();
+	}
 
-    //region > injected dependencies
+	@Action(invokeOn = InvokeOn.OBJECT_ONLY)
+	@ActionLayout(named = "Listar Bancos Inactivos")
+	@MemberOrder(sequence = "4")
+	public List<Banco> listarInactivos() {
+		return bancoRepository.listarInactivos();
+	}
 
-    @javax.inject.Inject
-    RepositoryService repositoryService;
+	// region > injected dependencies
+	@javax.inject.Inject
+	RepositoryService repositoryService;
 
-    @javax.inject.Inject
-    TitleService titleService;
+	@javax.inject.Inject
+	TitleService titleService;
 
-    @javax.inject.Inject
-    MessageService messageService;
-    
-    @Inject
-    BancoRepository bancoRepository;
+	@javax.inject.Inject
+	MessageService messageService;
 
-    //endregion
+	@Inject
+	BancoRepository bancoRepository;
+	// endregion
 
 }

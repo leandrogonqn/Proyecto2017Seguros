@@ -19,13 +19,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
-import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.InvokeOn;
@@ -35,16 +33,12 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
-import org.apache.isis.applib.util.ObjectContracts;
-
 import com.pacinetes.dom.modelo.Modelo;
 import com.pacinetes.dom.modelo.ModeloRepository;
-import com.pacinetes.dom.tipovehiculo.TipoVehiculo;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -276,31 +270,31 @@ public class Vehiculo implements Comparable<Vehiculo> {
     //region > toString, compareTo
     @Override
     public String toString() {
-        return ObjectContracts.toString(this, "vehiculoDominio");
+        return getVehiculoDominio();
     }
     @Override
     public int compareTo(final Vehiculo other) {
-        return ObjectContracts.compare(this, other, "vehiculoDominio");
+        return this.vehiculoDominio.compareTo(other.vehiculoDominio);
     }
 
     //endregion
     
     //acciones
-  	@Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+  	@Action(invokeOn=InvokeOn.OBJECT_ONLY)
     @ActionLayout(named="Listar Vehiculos")
     @MemberOrder(sequence = "2")
     public List<Vehiculo> listar() {
         return vehiculosRepository.listar();
     }
     
-    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @Action(invokeOn=InvokeOn.OBJECT_ONLY)
     @ActionLayout(named="Listar Vehiculos Activos")
     @MemberOrder(sequence = "3")
     public List<Vehiculo> listarActivos() {
         return vehiculosRepository.listarActivos();
     }
     
-    @Action(invokeOn=InvokeOn.COLLECTION_ONLY)
+    @Action(invokeOn=InvokeOn.OBJECT_ONLY)
     @ActionLayout(named="Listar Vehiculos Inactivos")
     @MemberOrder(sequence = "4")
     public List<Vehiculo> listarInactivos() {

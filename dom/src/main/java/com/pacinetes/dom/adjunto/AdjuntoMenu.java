@@ -27,45 +27,33 @@ import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.value.Blob;
 
-
-@DomainService(
-        nature = NatureOfService.VIEW_MENU_ONLY,
-        repositoryFor = Adjunto.class
-)
-@DomainServiceLayout(
-        named = "Polizas Extras",
-        menuOrder = "40.30"
-)
+@DomainService(nature = NatureOfService.VIEW_MENU_ONLY, repositoryFor = Adjunto.class)
+@DomainServiceLayout(named = "Polizas Extras", menuOrder = "40.30")
 public class AdjuntoMenu {
 
-		
-		  @Action(semantics = SemanticsOf.SAFE)
-		    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar todos los Adjuntos")
-		    @MemberOrder(sequence = "2")
-		    public List<Adjunto> listar() {
-		        return adjuntosRepository.listar();
-		    }
+	@Action(semantics = SemanticsOf.SAFE)
+	@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named = "Listar todos los Adjuntos")
+	@MemberOrder(sequence = "2")
+	public List<Adjunto> listar() {
+		return adjuntosRepository.listar();
+	}
 
-		    
-		    @ActionLayout(named="Crear Adjunto")
-		    @MemberOrder(sequence = "1.2")
-		    public Adjunto crear(
-		    		@ParameterLayout(named="Descripcion") final String adjuntoDescripcion,
-		            @ParameterLayout(named="Imagen") final Blob adjuntoImagen){
-		        return adjuntosRepository.crear(adjuntoDescripcion, adjuntoImagen);
-		    }
+	@ActionLayout(named = "Crear Adjunto")
+	@MemberOrder(sequence = "1.2")
+	public Adjunto crear(@ParameterLayout(named = "Descripcion") final String adjuntoDescripcion,
+			@ParameterLayout(named = "Imagen") final Blob adjuntoImagen) {
+		return adjuntosRepository.crear(adjuntoDescripcion, adjuntoImagen);
+	}
 
-		    @Action(semantics = SemanticsOf.SAFE)
-		    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Buscar Adjunto por descripcion")
-		    @MemberOrder(sequence = "5")
-		    public List<Adjunto> buscarPorDescripcion(
-		            @ParameterLayout(named="Descripcion")
-		            final String adjuntoDescripcion){
-		        return adjuntosRepository.buscarPorDescripcion(adjuntoDescripcion);
+	@Action(semantics = SemanticsOf.SAFE)
+	@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named = "Buscar Adjunto por descripcion")
+	@MemberOrder(sequence = "5")
+	public List<Adjunto> buscarPorDescripcion(@ParameterLayout(named = "Descripcion") final String adjuntoDescripcion) {
+		return adjuntosRepository.buscarPorDescripcion(adjuntoDescripcion);
 
-		    }
+	}
 
-		    @javax.inject.Inject
-		    AdjuntoRepository adjuntosRepository;
+	@javax.inject.Inject
+	AdjuntoRepository adjuntosRepository;
 
 }

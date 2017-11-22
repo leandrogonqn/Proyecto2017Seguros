@@ -16,19 +16,8 @@
 package com.pacinetes.dom.reportes;
 
 import java.util.Date;
-import java.util.List;
-
-import javax.jdo.annotations.Column;
-import javax.jdo.annotations.Join;
-
-import org.apache.isis.applib.annotation.Editing;
-import org.apache.isis.applib.annotation.Property;
-import org.apache.isis.applib.annotation.PropertyLayout;
-
-import com.pacinetes.dom.compania.Compania;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
 import com.pacinetes.dom.detalletipopago.TipoPago;
-import com.pacinetes.dom.estado.Estado;
 
 public abstract class PolizaReporte{
 	

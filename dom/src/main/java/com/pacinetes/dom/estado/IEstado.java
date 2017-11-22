@@ -20,9 +20,9 @@ import java.util.Date;
 import com.pacinetes.dom.poliza.Poliza;
 
 public interface IEstado {
-	
+
 	public void actualizarEstado(Poliza poliza);
-	
+
 	public void anulacion(Poliza poliza, Date polizaFechaBaja, String polizaMotivoBaja);
 
 }

@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Discriminator;
@@ -29,7 +28,6 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.Join;
-
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
@@ -41,65 +39,38 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.Where;
-
-import com.pacinetes.dom.cliente.Cliente;
 import com.pacinetes.dom.compania.Compania;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
 import com.pacinetes.dom.detalletipopago.TipoPago;
 import com.pacinetes.dom.estado.Estado;
 import com.pacinetes.dom.persona.Persona;
-import com.pacinetes.dom.polizaautomotor.PolizaAutomotor;
-import com.pacinetes.dom.polizaautomotor.PolizaAutomotoresRepository;
 import com.pacinetes.dom.siniestro.Siniestro;
 import com.pacinetes.dom.siniestro.SiniestroRepository;
-import com.pacinetes.dom.tipodecobertura.TipoDeCobertura;
-import com.pacinetes.dom.vehiculo.Vehiculo;
 
-
-@javax.jdo.annotations.PersistenceCapable(
-        identityType=IdentityType.DATASTORE,
-        schema = "simple",
-        table = "Polizas"
-)
-@javax.jdo.annotations.DatastoreIdentity(
-        strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
-         column="polizaId")
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE, schema = "simple", table = "Polizas")
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "polizaId")
 @javax.jdo.annotations.Queries({
-        @javax.jdo.annotations.Query(
-                name = "buscarPorNumeroPoliza", language = "JDOQL",
-                value = "SELECT "
-                        + "FROM com.pacinetes.dom.simple.Polizas "
-                        + "WHERE polizaNumero.toLowerCase().indexOf(:polizaNumero) >= 0 "),
-        @javax.jdo.annotations.Query(
-                name = "listarPorEstado", language = "JDOQL",
-                value = "SELECT "
-                        + "FROM com.pacinetes.dom.simple.Polizas "
-                        + "WHERE polizaEstado == :polizaEstado"),
-        @javax.jdo.annotations.Query(
-                name = "buscarPorCliente", language = "JDOQL",
-                value = "SELECT "
-                        + "FROM com.pacinetes.dom.simple.Polizas "
-                        + "WHERE polizaCliente == :polizaCliente"),
-        @javax.jdo.annotations.Query(
-                name = "buscarPorCompania", language = "JDOQL",
-                value = "SELECT "
-                        + "FROM com.pacinetes.dom.simple.Polizas "
-                        + "WHERE polizaCompania == :polizaCompania")
-})
-@DomainObject(
-        publishing = Publishing.ENABLED,
-        auditing = Auditing.ENABLED
-)
-@Inheritance(strategy=InheritanceStrategy.NEW_TABLE)
-@Discriminator(strategy=DiscriminatorStrategy.VALUE_MAP, column="Polizas")
-public abstract class Poliza implements Comparable<Poliza>{
-    
+		@javax.jdo.annotations.Query(name = "buscarPorNumeroPoliza", language = "JDOQL", value = "SELECT "
+				+ "FROM com.pacinetes.dom.simple.Polizas "
+				+ "WHERE polizaNumero.toLowerCase().indexOf(:polizaNumero) >= 0 "),
+		@javax.jdo.annotations.Query(name = "listarPorEstado", language = "JDOQL", value = "SELECT "
+				+ "FROM com.pacinetes.dom.simple.Polizas " + "WHERE polizaEstado == :polizaEstado"),
+		@javax.jdo.annotations.Query(name = "buscarPorCliente", language = "JDOQL", value = "SELECT "
+				+ "FROM com.pacinetes.dom.simple.Polizas " + "WHERE polizaCliente == :polizaCliente"),
+		@javax.jdo.annotations.Query(name = "buscarPorCompania", language = "JDOQL", value = "SELECT "
+				+ "FROM com.pacinetes.dom.simple.Polizas " + "WHERE polizaCompania == :polizaCompania") })
+@DomainObject(publishing = Publishing.ENABLED, auditing = Auditing.ENABLED)
+@Inheritance(strategy = InheritanceStrategy.NEW_TABLE)
+@Discriminator(strategy = DiscriminatorStrategy.VALUE_MAP, column = "Polizas")
+public abstract class Poliza implements Comparable<Poliza> {
+
 	public static final int NAME_LENGTH = 200;
-	
-    public String cssClass(){
-    	
+
+	@SuppressWarnings("static-access")
+	public String cssClass() {
+
 		String a = null;
-		if (this.getPolizaEstado()==Estado.vigente) {
+		if (this.getPolizaEstado() == Estado.vigente) {
 			if (this.getPolizaRenovacion() == null) {
 				Calendar hoyMasTreintaDias = Calendar.getInstance();
 				hoyMasTreintaDias.add(hoyMasTreintaDias.DATE, 30);
@@ -120,36 +91,31 @@ public abstract class Poliza implements Comparable<Poliza>{
 			} else {
 				a = "vigenteConRenovacion";
 			}
+		} else {
+			a = getPolizaEstado().toString();
 		}
-		else {
-			a = getPolizaEstado().toString();  
-		}
-    	
+
 		return a;
-    }
-	
-	//Poliza Numero
+	}
+
+	// Poliza Numero
 	@Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Numero de Poliza")
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Numero de Poliza")
 	private String polizaNumero;
-	
-    public String getPolizaNumero() {
+
+	public String getPolizaNumero() {
 		return polizaNumero;
 	}
 
 	public void setPolizaNumero(String polizaNumero) {
 		this.polizaNumero = polizaNumero;
 	}
-	
-	//Clientes
-	@Column(allowsNull = "false", name="clienteId")
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Cliente")
+
+	// Clientes
+	@Column(allowsNull = "false", name = "clienteId")
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Cliente")
 	private Persona polizaCliente;
 
 	public Persona getPolizaCliente() {
@@ -159,13 +125,11 @@ public abstract class Poliza implements Comparable<Poliza>{
 	public void setPolizasCliente(Persona polizaCliente) {
 		this.polizaCliente = polizaCliente;
 	}
-	
-	//Companias
-	@Column(allowsNull = "false", name="companiaId")
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Compañia")
+
+	// Companias
+	@Column(allowsNull = "false", name = "companiaId")
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Compañia")
 	private Compania polizaCompania;
 
 	public Compania getPolizaCompania() {
@@ -176,14 +140,12 @@ public abstract class Poliza implements Comparable<Poliza>{
 		this.polizaCompania = polizaCompania;
 	}
 
-	//Fecha Emision
+	// Fecha Emision
 	@Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-    @PropertyLayout(named="Fecha de Emision")
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Fecha de Emision")
 	private Date polizaFechaEmision;
-	
+
 	public Date getPolizaFechaEmision() {
 		return polizaFechaEmision;
 	}
@@ -192,14 +154,12 @@ public abstract class Poliza implements Comparable<Poliza>{
 		this.polizaFechaEmision = polizaFechaEmision;
 	}
 
-	//Fecha Vigencia
+	// Fecha Vigencia
 	@Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-	@PropertyLayout(named="Fecha de Vigencia")
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Fecha de Vigencia")
 	private Date polizaFechaVigencia;
-	
+
 	public Date getPolizaFechaVigencia() {
 		return polizaFechaVigencia;
 	}
@@ -207,15 +167,13 @@ public abstract class Poliza implements Comparable<Poliza>{
 	public void setPolizaFechaVigencia(Date polizaFechaVigencia) {
 		this.polizaFechaVigencia = polizaFechaVigencia;
 	}
-	
-	//Fecha Vencimiento
+
+	// Fecha Vencimiento
 	@Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-	@PropertyLayout(named="Fecha de Vencimiento")
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Fecha de Vencimiento")
 	private Date polizaFechaVencimiento;
-	
+
 	public Date getPolizaFechaVencimiento() {
 		return polizaFechaVencimiento;
 	}
@@ -223,13 +181,11 @@ public abstract class Poliza implements Comparable<Poliza>{
 	public void setPolizaFechaVencimiento(Date polizaFechaVencimiento) {
 		this.polizaFechaVencimiento = polizaFechaVencimiento;
 	}
-	
-	//TipoPago
+
+	// TipoPago
 	@Column(allowsNull = "false")
-    @Property(
-            editing = Editing.DISABLED
-    )
-	@PropertyLayout(named="Tipo de Pago")
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Tipo de Pago")
 	private TipoPago polizaTipoDePago;
 
 	public TipoPago getPolizaTipoDePago() {
@@ -239,13 +195,11 @@ public abstract class Poliza implements Comparable<Poliza>{
 	public void setPolizaTipoDePago(TipoPago polizaTipoDePago) {
 		this.polizaTipoDePago = polizaTipoDePago;
 	}
-	
-	//Detalle de Pago
+
+	// Detalle de Pago
 	@Column(allowsNull = "true")
-    @Property(
-            editing = Editing.DISABLED
-    )
-	@PropertyLayout(named="Detalle Pago")
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Detalle Pago")
 	private DetalleTipoPago polizaPago;
 
 	public DetalleTipoPago getPolizaPago() {
@@ -255,15 +209,13 @@ public abstract class Poliza implements Comparable<Poliza>{
 	public void setPolizaPago(DetalleTipoPago polizaPago) {
 		this.polizaPago = polizaPago;
 	}
-	
-	//Fecha Baja
+
+	// Fecha Baja
 	@Column
-    @Property(
-            editing = Editing.DISABLED
-    )
-	@PropertyLayout(named="Fecha de Baja")
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Fecha de Baja")
 	private Date polizaFechaBaja;
-	
+
 	public Date getPolizaFechaBaja() {
 		return polizaFechaBaja;
 	}
@@ -272,14 +224,12 @@ public abstract class Poliza implements Comparable<Poliza>{
 		this.polizaFechaBaja = polizaFechaBaja;
 	}
 
-	//Motivo Baja
+	// Motivo Baja
 	@Column(length = NAME_LENGTH)
-    @Property(
-            editing = Editing.DISABLED
-    )
-	@PropertyLayout(named="Motivo de la Baja")
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Motivo de la Baja")
 	private String polizaMotivoBaja;
-	
+
 	public String getPolizaMotivoBaja() {
 		return polizaMotivoBaja;
 	}
@@ -288,14 +238,12 @@ public abstract class Poliza implements Comparable<Poliza>{
 		this.polizaMotivoBaja = polizaMotivoBaja;
 	}
 
-	//Importe
+	// Importe
 	@Column
-    @Property(
-            editing = Editing.DISABLED
-    )
-	@PropertyLayout(named="Importe Total")
-	private double polizaImporteTotal; 
-	
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Importe Total")
+	private double polizaImporteTotal;
+
 	public double getPolizaImporteTotal() {
 		return polizaImporteTotal;
 	}
@@ -303,161 +251,150 @@ public abstract class Poliza implements Comparable<Poliza>{
 	public void setPolizaImporteTotal(double polizaImporteTotal) {
 		this.polizaImporteTotal = polizaImporteTotal;
 	}
-	
-	//Renovacion
+
+	// Renovacion
 	@Column(allowsNull = "true")
-    @Property(
-            editing = Editing.DISABLED
-    )
-	@PropertyLayout(named="Renovacion")
-	protected Poliza polizaRenovacion; 
-	
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Renovacion")
+	protected Poliza polizaRenovacion;
+
 	public Poliza getPolizaRenovacion() {
 		return polizaRenovacion;
 	}
 
 	public void setPolizaRenovacion(Poliza polizaRenovacion) {
 		this.polizaRenovacion = polizaRenovacion;
-	}	
-	
-	//Siniestro
+	}
+
+	// Siniestro
 	@Column(allowsNull = "true")
-    @Property(
-            editing = Editing.DISABLED
-    )
-	@Join  
-	@PropertyLayout(named="Siniestros")
-	protected List<Siniestro> polizaSiniestro; 
-	
+	@Property(editing = Editing.DISABLED)
+	@Join
+	@PropertyLayout(named = "Siniestros")
+	protected List<Siniestro> polizaSiniestro;
+
 	public List<Siniestro> getPolizaSiniestro() {
 		return polizaSiniestro;
 	}
 
 	public void setPolizaSiniestro(List<Siniestro> polizaSiniestro) {
 		this.polizaSiniestro = polizaSiniestro;
-	}	
-	
-	//Estado
+	}
+
+	// Estado
 	@Column
-    @Property(
-            editing = Editing.DISABLED
-    )
-	@PropertyLayout(named="Estado")
-	protected Estado polizaEstado; 
-	
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Estado")
+	protected Estado polizaEstado;
+
 	public Estado getPolizaEstado() {
 		return polizaEstado;
 	}
 
 	public void setPolizaEstado(Estado polizaEstado) {
 		this.polizaEstado = polizaEstado;
-	}	
-	
-    //endregion
+	}
 
-	//acciones
+	// endregion
 
-	@ActionLayout(named="Actualizar Estado de las Poliza",hidden=Where.EVERYWHERE)
-	public Poliza actualizarPoliza(){
+	// acciones
+	@ActionLayout(named = "Actualizar Estado de las Poliza", hidden = Where.EVERYWHERE)
+	public Poliza actualizarPoliza() {
 		polizaEstado.actualizarEstado(this);
 		return this;
 	}
-	
-	@Action(
-			invokeOn=InvokeOn.OBJECT_ONLY
-			)
-	@ActionLayout(named="Anular Poliza")
-	public Poliza anulacion(
-			@ParameterLayout(named="Fecha de la Baja") final Date polizaFechaBaja,
-			@ParameterLayout(named="Motivo de la Baja") final String polizaMotivoBaja){
+
+	@Action(invokeOn = InvokeOn.OBJECT_ONLY)
+	@ActionLayout(named = "Anular Poliza")
+	public Poliza anulacion(@ParameterLayout(named = "Fecha de la Baja") final Date polizaFechaBaja,
+			@ParameterLayout(named = "Motivo de la Baja") final String polizaMotivoBaja) {
 		polizaEstado.anulacion(this, polizaFechaBaja, polizaMotivoBaja);
 		return this;
 	}
-	
-    public Date default0Anulacion() {
-    	Date hoy = new Date();
-    	return hoy;
-    }
-    
-    @Override
-    public int compareTo(Poliza o) {
-        if (polizaFechaVencimiento.before(o.polizaFechaVencimiento) ) {
-            return -1;
-        }
-        if (polizaFechaVencimiento.after(o.polizaFechaVencimiento)) {
-            return 1;
-        }	
-        return 0;
-    }
-    
-	@ActionLayout(named="Agregar Siniestro")
-    public Poliza agregarSiniestro(
-    	@ParameterLayout(named = "Descripcion") final String siniestroDescripcion,
-    	@ParameterLayout(named = "Fecha del Siniestro") final Date siniestroFecha) {
-    		this.getPolizaSiniestro().add(siniestroRepository.crear(siniestroDescripcion, this, siniestroFecha));
-    		this.setPolizaSiniestro(this.getPolizaSiniestro());
-    		return this;
-	}
-	
-    public Poliza quitarSiniestro(@ParameterLayout(named="Siniestro") Siniestro siniestro) {
-    	Iterator<Siniestro> it = getPolizaSiniestro().iterator();
-    	while (it.hasNext()) {
-    		Siniestro lista = it.next();
-    		if (lista.equals(siniestro))
-    			it.remove();
-    	}
-    	return this;
-    }
-    
-    public List<Siniestro> choices0QuitarSiniestro(){
-    	return getPolizaSiniestro();
-    }
 
-    @ActionLayout(hidden=Where.EVERYWHERE)
+	public Date default0Anulacion() {
+		Date hoy = new Date();
+		return hoy;
+	}
+
+	@Override
+	public int compareTo(Poliza o) {
+		if (polizaFechaVencimiento.before(o.polizaFechaVencimiento)) {
+			return -1;
+		}
+		if (polizaFechaVencimiento.after(o.polizaFechaVencimiento)) {
+			return 1;
+		}
+		return 0;
+	}
+
+	@ActionLayout(named = "Agregar Siniestro")
+	public Poliza agregarSiniestro(@ParameterLayout(named = "Descripcion") final String siniestroDescripcion,
+			@ParameterLayout(named = "Fecha del Siniestro") final Date siniestroFecha) {
+		this.getPolizaSiniestro().add(siniestroRepository.crear(siniestroDescripcion, this, siniestroFecha));
+		this.setPolizaSiniestro(this.getPolizaSiniestro());
+		return this;
+	}
+
+	public Poliza quitarSiniestro(@ParameterLayout(named = "Siniestro") Siniestro siniestro) {
+		Iterator<Siniestro> it = getPolizaSiniestro().iterator();
+		while (it.hasNext()) {
+			Siniestro lista = it.next();
+			if (lista.equals(siniestro))
+				it.remove();
+		}
+		return this;
+	}
+
+	public List<Siniestro> choices0QuitarSiniestro() {
+		return getPolizaSiniestro();
+	}
+
+	@ActionLayout(hidden = Where.EVERYWHERE)
 	public int cantidadDeSiniestrosPorCliente(Persona persona) {
 		// TODO Auto-generated method stub
-		
+
 		int cant = 0;
-		if (this.getPolizaCliente() == persona){
+		if (this.getPolizaCliente() == persona) {
 			cant = this.getPolizaSiniestro().size();
 		}
-		
+
 		return cant;
 	}
-	
-	@ActionLayout(hidden=Where.EVERYWHERE)
+
+	@ActionLayout(hidden = Where.EVERYWHERE)
 	public long contarCantidadDiasHastaVencimiento(Compania compania) {
 		// TODO Auto-generated method stub
 		long cant = 0;
-		Calendar a= Calendar.getInstance();
+		Calendar a = Calendar.getInstance();
 		Date hoy = a.getTime();
-		
-		if (this.getPolizaCompania()== compania){
+
+		if (this.getPolizaCompania() == compania) {
 			cant = getDifferenceDays(hoy, this.getPolizaFechaVencimiento());
 		}
 		return cant;
 	}
-	
-	@ActionLayout(hidden=Where.EVERYWHERE)
+
+	@ActionLayout(hidden = Where.EVERYWHERE)
 	public long contarCantidadDiasHastaVencimiento() {
 		long cant = 0;
-		Calendar a= Calendar.getInstance();
+		Calendar a = Calendar.getInstance();
 		Date hoy = a.getTime();
-		
+
 		cant = getDifferenceDays(hoy, this.getPolizaFechaVencimiento());
-		
+
 		return cant;
 	}
-	
-	@ActionLayout(hidden=Where.EVERYWHERE)
+
+	@ActionLayout(hidden = Where.EVERYWHERE)
 	private long getDifferenceDays(Date d1, Date d2) {
-	    long diff = d2.getTime() - d1.getTime();
-	    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+		long diff = d2.getTime() - d1.getTime();
+		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 	}
-    
-    @Inject 
+
+	@Inject
 	PolizaRepository polizasRepository;
-	
+
 	@Inject
 	SiniestroRepository siniestroRepository;
 }

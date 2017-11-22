@@ -25,44 +25,32 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
-@DomainService(
-        nature = NatureOfService.VIEW_MENU_ONLY,
-        repositoryFor = Ocupacion.class
-)
-@DomainServiceLayout(
-        named = "Polizas Extras",
-        menuOrder = "40.60"
-)
+@DomainService(nature = NatureOfService.VIEW_MENU_ONLY, repositoryFor = Ocupacion.class)
+@DomainServiceLayout(named = "Polizas Extras", menuOrder = "40.60")
 public class OcupacionMenu {
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Ocupaciones")
-    @MemberOrder(sequence = "2")
-    public List<Ocupacion> listar() {
-        return ocupacionesRepository.listar();
-    }
-    
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa="fa-search", named="Buscar Ocupacion")
-    @MemberOrder(sequence = "5")
-    public List<Ocupacion> buscarPorNombre(
-            @ParameterLayout(named="Nombre")
-            final String ocupacionNombre
-    ) {
-        return ocupacionesRepository.buscarPorNombre(ocupacionNombre);
-    }
-    
-    public static class CreateDomainEvent extends ActionDomainEvent<Ocupacion> {}
-    @Action(domainEvent = CreateDomainEvent.class)
-    @ActionLayout(named="Crear Ocupacion")
-    @MemberOrder(sequence = "1.2")
-    public Ocupacion crear(@ParameterLayout(named="Nombre")final String ocupacionNombre) {
-        return ocupacionesRepository.crear(ocupacionNombre);
-    }
+	@Action(semantics = SemanticsOf.SAFE)
+	@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named = "Listar Ocupaciones")
+	@MemberOrder(sequence = "2")
+	public List<Ocupacion> listar() {
+		return ocupacionesRepository.listar();
+	}
 
-    @javax.inject.Inject
-    OcupacionRepository ocupacionesRepository;
+	@Action(semantics = SemanticsOf.SAFE)
+	@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa = "fa-search", named = "Buscar Ocupacion")
+	@MemberOrder(sequence = "5")
+	public List<Ocupacion> buscarPorNombre(@ParameterLayout(named = "Nombre") final String ocupacionNombre) {
+		return ocupacionesRepository.buscarPorNombre(ocupacionNombre);
+	}
+
+	@ActionLayout(named = "Crear Ocupacion")
+	@MemberOrder(sequence = "1.2")
+	public Ocupacion crear(@ParameterLayout(named = "Nombre") final String ocupacionNombre) {
+		return ocupacionesRepository.crear(ocupacionNombre);
+	}
+
+	@javax.inject.Inject
+	OcupacionRepository ocupacionesRepository;
 
 }

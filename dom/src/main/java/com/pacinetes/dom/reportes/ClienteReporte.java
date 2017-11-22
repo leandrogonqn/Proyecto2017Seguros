@@ -17,8 +17,6 @@ package com.pacinetes.dom.reportes;
 
 import java.util.Date;
 
-import com.pacinetes.dom.localidad.Localidad;
-
 public class ClienteReporte {
 	
 	private String clienteNombre;

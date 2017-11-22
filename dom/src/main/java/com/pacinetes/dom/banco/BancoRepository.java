@@ -34,56 +34,41 @@
 package com.pacinetes.dom.banco;
 
 import java.util.List;
-
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
-import com.pacinetes.dom.modelo.Modelo;
-
-@DomainService(
-        nature = NatureOfService.DOMAIN,
-        repositoryFor = Banco.class
-)
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = Banco.class)
 public class BancoRepository {
 
-    public List<Banco> listar() {
-        return repositoryService.allInstances(Banco.class);
-    }
+	public List<Banco> listar() {
+		return repositoryService.allInstances(Banco.class);
+	}
 
-    public List<Banco> buscarPorNombre(final String bancoNombre) {
-        return repositoryService.allMatches(
-                new QueryDefault<>(
-                        Banco.class,
-                        "findByName",
-                        "bancoNombre", bancoNombre.toLowerCase()));
-    }
+	public List<Banco> buscarPorNombre(final String bancoNombre) {
+		return repositoryService
+				.allMatches(new QueryDefault<>(Banco.class, "findByName", "bancoNombre", bancoNombre.toLowerCase()));
+	}
 
-    public List<Banco> listarActivos(){
-      	 return repositoryService.allMatches(
-                   new QueryDefault<>(
-                		   Banco.class,
-                           "listarActivos"));
-      }
-       
-       public List<Banco> listarInactivos(){
-         	 return repositoryService.allMatches(
-                      new QueryDefault<>(
-                    		  Banco.class,
-                              "listarInactivos"));
-         }
-    
-    public Banco crear(final String bancoNombre) {
-        final Banco object = new Banco(bancoNombre);
-        serviceRegistry.injectServicesInto(object);
-        repositoryService.persist(object);
-        return object;
-    }
+	public List<Banco> listarActivos() {
+		return repositoryService.allMatches(new QueryDefault<>(Banco.class, "listarActivos"));
+	}
 
-    @javax.inject.Inject
-    RepositoryService repositoryService;
-    @javax.inject.Inject
-    ServiceRegistry2 serviceRegistry;
+	public List<Banco> listarInactivos() {
+		return repositoryService.allMatches(new QueryDefault<>(Banco.class, "listarInactivos"));
+	}
+
+	public Banco crear(final String bancoNombre) {
+		final Banco object = new Banco(bancoNombre);
+		serviceRegistry.injectServicesInto(object);
+		repositoryService.persist(object);
+		return object;
+	}
+
+	@javax.inject.Inject
+	RepositoryService repositoryService;
+	@javax.inject.Inject
+	ServiceRegistry2 serviceRegistry;
 }

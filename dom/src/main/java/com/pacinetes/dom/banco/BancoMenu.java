@@ -34,64 +34,41 @@
 package com.pacinetes.dom.banco;
 
 import java.util.List;
-
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
-
-@DomainService(
-        nature = NatureOfService.VIEW_MENU_ONLY,
-        repositoryFor = Banco.class
-)
-@DomainServiceLayout(
-        named = "Tipo de pago",
-        menuOrder = "60.4"
-)
+@DomainService(nature = NatureOfService.VIEW_MENU_ONLY, repositoryFor = Banco.class)
+@DomainServiceLayout(named = "Tipo de pago", menuOrder = "60.4")
 public class BancoMenu {
 
+	@Action(semantics = SemanticsOf.SAFE)
+	@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named = "Listar Todos los Bancos")
+	@MemberOrder(sequence = "2")
+	public List<Banco> listar() {
+		return bancoRepository.listar();
+	}
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT,
-    		named="Listar Todos los Bancos")
-    @MemberOrder(sequence = "2")
-    public List<Banco> listar() {
-        return bancoRepository.listar();
-    }
-    
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT,
-    	cssClassFa="fa-search",
-    	named="Buscar Banco Por Nombre")
-    @MemberOrder(sequence = "5")
-    public List<Banco> buscarPorNombre(
-            @ParameterLayout(named="Nombre")
-            final String bancoNombre
-    ) {
-        return bancoRepository.buscarPorNombre(bancoNombre);
-    }
+	@Action(semantics = SemanticsOf.SAFE)
+	@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, cssClassFa = "fa-search", named = "Buscar Banco Por Nombre")
+	@MemberOrder(sequence = "5")
+	public List<Banco> buscarPorNombre(@ParameterLayout(named = "Nombre") final String bancoNombre) {
+		return bancoRepository.buscarPorNombre(bancoNombre);
+	}
 
-    public static class CreateDomainEvent extends ActionDomainEvent<BancoMenu> {}
-    @Action(domainEvent = CreateDomainEvent.class)
-    @ActionLayout(named="Crear Banco")
-    @MemberOrder(sequence = "1.2")
-    public Banco crear(
-            @ParameterLayout(named="Nombre")
-            final String bancoNombre) {
-        return bancoRepository.crear(bancoNombre);
-    }
+	@ActionLayout(named = "Crear Banco")
+	@MemberOrder(sequence = "1.2")
+	public Banco crear(@ParameterLayout(named = "Nombre") final String bancoNombre) {
+		return bancoRepository.crear(bancoNombre);
+	}
 
-
-    @javax.inject.Inject
-    BancoRepository bancoRepository;
+	@javax.inject.Inject
+	BancoRepository bancoRepository;
 
 }

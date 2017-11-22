@@ -88,7 +88,7 @@ public class ReporteMenu {
 			String jrxml = "Cliente.jrxml";
 			String nombreArchivo = "Cliente_"+clienteSeleccionado.getClienteApellido()+"_"+clienteSeleccionado.getClienteNombre()+"_"+clienteSeleccionado.getPersonaCuitCuil();
 			
-			return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
+			return ReporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
     }
     
     @Action(semantics = SemanticsOf.SAFE)
@@ -112,7 +112,7 @@ public class ReporteMenu {
 			String jrxml = "Empresa.jrxml";
 			String nombreArchivo = "Empresa_"+empresaSeleccionada.getEmpresaRazonSocial()+"_"+empresaSeleccionada.getPersonaCuitCuil();
 			
-			return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
+			return ReporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
     }
 	
     @Action(semantics = SemanticsOf.SAFE)
@@ -145,7 +145,7 @@ public class ReporteMenu {
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, datasource);
 		
-		return reporteRepository.imprimirReporteLista(jasperPrint, jrxml, nombreArchivo);
+		return ReporteRepository.imprimirReporteLista(jasperPrint, jrxml, nombreArchivo);
 		
 	}
     
@@ -177,7 +177,7 @@ public class ReporteMenu {
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, datasource);
 		
-		return reporteRepository.imprimirReporteLista(jasperPrint, jrxml, nombreArchivo);
+		return ReporteRepository.imprimirReporteLista(jasperPrint, jrxml, nombreArchivo);
 		
 	}
     
@@ -207,7 +207,7 @@ public class ReporteMenu {
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, datasource);
 		
-		return reporteRepository.imprimirReporteLista(jasperPrint, jrxml, nombreArchivo);
+		return ReporteRepository.imprimirReporteLista(jasperPrint, jrxml, nombreArchivo);
     	
     }
     
@@ -245,7 +245,7 @@ public class ReporteMenu {
 		parametros.put("compania", companiaSeleccionada.getCompaniaNombre());
 		JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, datasource);
 		
-		return reporteRepository.imprimirReporteLista(jasperPrint, jrxml, nombreArchivo);
+		return ReporteRepository.imprimirReporteLista(jasperPrint, jrxml, nombreArchivo);
     }
 	
     
@@ -254,7 +254,7 @@ public class ReporteMenu {
 	}
 	
 	public List<Empresa> choices0ImprimirEmpresa(){
-		return empresaRepository.listar();
+		return empresaRepository.listarActivos();
 	}
 	
 	public List<Compania> choices0ImprimirPolizasPorCompania(){
@@ -269,9 +269,6 @@ public class ReporteMenu {
 	
 	@Inject
 	EmpresaRepository empresaRepository;
-	
-	@Inject
-	ReporteRepository reporteRepository;
 	
 	@Inject
 	CompaniaRepository companiaRepository;

@@ -16,29 +16,18 @@
 package com.pacinetes.dom.tipotitular;
 
 import java.util.List;
-
-import javax.jdo.annotations.Column;
-
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.Editing;
-import org.apache.isis.applib.annotation.InvokeOn;
 import org.apache.isis.applib.annotation.LabelPosition;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.Optionality;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
-
-import com.pacinetes.dom.ocupacion.Ocupacion;
-import com.pacinetes.dom.ocupacion.OcupacionRepository;
-import com.pacinetes.dom.ocupacion.OcupacionMenu.CreateDomainEvent;
 
 @DomainService(
         nature = NatureOfService.VIEW,
@@ -67,8 +56,6 @@ public class TipoTitularMenu {
         return TipoTitularesRepository.buscarPorNombre(ocupacionNombre);
     }
     
-    public static class CreateDomainEvent extends ActionDomainEvent<TipoTitular> {}
-    @Action(domainEvent = CreateDomainEvent.class)
     @MemberOrder(sequence = "1.2")
     @ActionLayout(named="Crear Tipo de Titular")
     public TipoTitular crear(@ParameterLayout(named="Nombre",labelPosition=LabelPosition.TOP)@Parameter(optionality=Optionality.OPTIONAL) final String tipoTitularNombre){

@@ -34,56 +34,41 @@
 package com.pacinetes.dom.tipotarjeta;
 
 import java.util.List;
-
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.query.QueryDefault;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 
-import com.pacinetes.dom.modelo.Modelo;
-
-@DomainService(
-        nature = NatureOfService.DOMAIN,
-        repositoryFor = TipoTarjeta.class
-)
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = TipoTarjeta.class)
 public class TipoTarjetaRepository {
 
-    public List<TipoTarjeta> listar() {
-        return repositoryService.allInstances(TipoTarjeta.class);
-    }
+	public List<TipoTarjeta> listar() {
+		return repositoryService.allInstances(TipoTarjeta.class);
+	}
 
-    public List<TipoTarjeta> buscarPorNombre(final String tipoTarjetaNombre) {
-        return repositoryService.allMatches(
-                new QueryDefault<>(
-                        TipoTarjeta.class,
-                        "findByName",
-                        "tipoTarjetaNombre", tipoTarjetaNombre.toLowerCase()));
-    }
+	public List<TipoTarjeta> buscarPorNombre(final String tipoTarjetaNombre) {
+		return repositoryService.allMatches(new QueryDefault<>(TipoTarjeta.class, "findByName", "tipoTarjetaNombre",
+				tipoTarjetaNombre.toLowerCase()));
+	}
 
-    public List<TipoTarjeta> listarActivos(){
-      	 return repositoryService.allMatches(
-                   new QueryDefault<>(
-                		   TipoTarjeta.class,
-                           "listarActivos"));
-      }
-       
-       public List<TipoTarjeta> listarInactivos(){
-         	 return repositoryService.allMatches(
-                      new QueryDefault<>(
-                    		  TipoTarjeta.class,
-                              "listarInactivos"));
-         }
-    
-    public TipoTarjeta crear(final String tipoTarjetaNombre) {
-        final TipoTarjeta object = new TipoTarjeta(tipoTarjetaNombre);
-        serviceRegistry.injectServicesInto(object);
-        repositoryService.persist(object);
-        return object;
-    }
+	public List<TipoTarjeta> listarActivos() {
+		return repositoryService.allMatches(new QueryDefault<>(TipoTarjeta.class, "listarActivos"));
+	}
 
-    @javax.inject.Inject
-    RepositoryService repositoryService;
-    @javax.inject.Inject
-    ServiceRegistry2 serviceRegistry;
+	public List<TipoTarjeta> listarInactivos() {
+		return repositoryService.allMatches(new QueryDefault<>(TipoTarjeta.class, "listarInactivos"));
+	}
+
+	public TipoTarjeta crear(final String tipoTarjetaNombre) {
+		final TipoTarjeta object = new TipoTarjeta(tipoTarjetaNombre);
+		serviceRegistry.injectServicesInto(object);
+		repositoryService.persist(object);
+		return object;
+	}
+
+	@javax.inject.Inject
+	RepositoryService repositoryService;
+	@javax.inject.Inject
+	ServiceRegistry2 serviceRegistry;
 }

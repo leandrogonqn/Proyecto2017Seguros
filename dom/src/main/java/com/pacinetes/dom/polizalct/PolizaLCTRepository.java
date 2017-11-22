@@ -21,57 +21,45 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
-
-import com.pacinetes.dom.cliente.Cliente;
 import com.pacinetes.dom.compania.Compania;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
 import com.pacinetes.dom.detalletipopago.TipoPago;
-import com.pacinetes.dom.ocupacion.Ocupacion;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.poliza.Poliza;
-import com.pacinetes.dom.polizaautomotor.PolizaAutomotor;
-import com.pacinetes.dom.tipodecobertura.TipoDeCobertura;
-import com.pacinetes.dom.tipotitular.TipoTitular;
-import com.pacinetes.dom.tipovivienda.TipoVivienda;
-import com.pacinetes.dom.vehiculo.Vehiculo;
 
-@DomainService(
-        nature = NatureOfService.DOMAIN,
-        repositoryFor = PolizaLCT.class
-)
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = PolizaLCT.class)
 public class PolizaLCTRepository {
 
-    public List<PolizaLCT> listar() {
-        return repositoryService.allInstances(PolizaLCT.class);
-    }
+	public List<PolizaLCT> listar() {
+		return repositoryService.allInstances(PolizaLCT.class);
+	}
 
 	public PolizaLCT crear(final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
 			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
-			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoLCTMonto) {
+			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal,
+			final float riesgoLCTMonto) {
 		final PolizaLCT object = new PolizaLCT(polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
-				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, riesgoLCTMonto);
-        serviceRegistry.injectServicesInto(object);
-        repositoryService.persist(object);
-        return object;
-    }
-    
-    public PolizaLCT renovacion(
-    		final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
-			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
-			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoLCTMonto,
-    		Poliza riesgoLCT) {
-        final PolizaLCT object = new PolizaLCT(
-        		polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
-				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, 
-				riesgoLCT, riesgoLCTMonto);
-        serviceRegistry.injectServicesInto(object);
-        repositoryService.persist(object);
-        return object;
-    }
-    
-    @javax.inject.Inject
-    RepositoryService repositoryService;
-    @javax.inject.Inject
-    ServiceRegistry2 serviceRegistry;
-}
+				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal,
+				riesgoLCTMonto);
+		serviceRegistry.injectServicesInto(object);
+		repositoryService.persist(object);
+		return object;
+	}
 
+	public PolizaLCT renovacion(final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
+			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
+			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal,
+			final float riesgoLCTMonto, Poliza riesgoLCT) {
+		final PolizaLCT object = new PolizaLCT(polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
+				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal,
+				riesgoLCT, riesgoLCTMonto);
+		serviceRegistry.injectServicesInto(object);
+		repositoryService.persist(object);
+		return object;
+	}
+
+	@javax.inject.Inject
+	RepositoryService repositoryService;
+	@javax.inject.Inject
+	ServiceRegistry2 serviceRegistry;
+}

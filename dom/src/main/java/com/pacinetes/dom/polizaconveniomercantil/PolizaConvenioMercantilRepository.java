@@ -21,50 +21,45 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
-
-import com.pacinetes.dom.cliente.Cliente;
 import com.pacinetes.dom.compania.Compania;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
 import com.pacinetes.dom.detalletipopago.TipoPago;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.poliza.Poliza;
 
-@DomainService(
-        nature = NatureOfService.DOMAIN,
-        repositoryFor = PolizaConvenioMercantil.class
-)
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = PolizaConvenioMercantil.class)
 public class PolizaConvenioMercantilRepository {
-	
-	   public List<PolizaConvenioMercantil> listar() {
-	        return repositoryService.allInstances(PolizaConvenioMercantil.class);
-	    }
 
-		public PolizaConvenioMercantil crear(final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
-				final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
-				final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoConvenioMercantilMonto) {
-			final PolizaConvenioMercantil object = new PolizaConvenioMercantil(polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
-					polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, riesgoConvenioMercantilMonto);
-	        serviceRegistry.injectServicesInto(object);
-	        repositoryService.persist(object);
-	        return object;
-	    }
-	    
-	    public PolizaConvenioMercantil renovacion(
-	    		final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
-				final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
-				final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoConvenioMercantilMonto,
-	    		Poliza riesgoConvenioMercantil) {
-	        final PolizaConvenioMercantil object = new PolizaConvenioMercantil(
-	        		polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
-					polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, 
-					riesgoConvenioMercantil, riesgoConvenioMercantilMonto);
-	        serviceRegistry.injectServicesInto(object);
-	        repositoryService.persist(object);
-	        return object;
-	    }
-	    
-	    @javax.inject.Inject
-	    RepositoryService repositoryService;
-	    @javax.inject.Inject
-	    ServiceRegistry2 serviceRegistry;
+	public List<PolizaConvenioMercantil> listar() {
+		return repositoryService.allInstances(PolizaConvenioMercantil.class);
+	}
+
+	public PolizaConvenioMercantil crear(final String polizaNumero, final Persona polizaCliente,
+			final Compania polizaCompania, final Date polizaFechaEmision, final Date polizaFechaVigencia,
+			final Date polizaFechaVencimiento, final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago,
+			final double polizaImporteTotal, final float riesgoConvenioMercantilMonto) {
+		final PolizaConvenioMercantil object = new PolizaConvenioMercantil(polizaNumero, polizaCliente, polizaCompania,
+				polizaFechaEmision, polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago,
+				polizaImporteTotal, riesgoConvenioMercantilMonto);
+		serviceRegistry.injectServicesInto(object);
+		repositoryService.persist(object);
+		return object;
+	}
+
+	public PolizaConvenioMercantil renovacion(final String polizaNumero, final Persona polizaCliente,
+			final Compania polizaCompania, final Date polizaFechaEmision, final Date polizaFechaVigencia,
+			final Date polizaFechaVencimiento, final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago,
+			final double polizaImporteTotal, final float riesgoConvenioMercantilMonto, Poliza riesgoConvenioMercantil) {
+		final PolizaConvenioMercantil object = new PolizaConvenioMercantil(polizaNumero, polizaCliente, polizaCompania,
+				polizaFechaEmision, polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago,
+				polizaImporteTotal, riesgoConvenioMercantil, riesgoConvenioMercantilMonto);
+		serviceRegistry.injectServicesInto(object);
+		repositoryService.persist(object);
+		return object;
+	}
+
+	@javax.inject.Inject
+	RepositoryService repositoryService;
+	@javax.inject.Inject
+	ServiceRegistry2 serviceRegistry;
 }

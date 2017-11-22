@@ -41,10 +41,7 @@ import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import com.pacinetes.dom.localidad.Localidad;
 
-@DomainService(
-        nature = NatureOfService.DOMAIN,
-        repositoryFor = Empresa.class
-)
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = Empresa.class)
 public class EmpresaRepository {
 
 	public List<Empresa> listar() {
@@ -59,24 +56,22 @@ public class EmpresaRepository {
 		return repositoryService.allMatches(new QueryDefault<>(Empresa.class, "listarInactivos"));
 	}
 
-    public List<Empresa> buscarPorRazonSocial(final String empresaRazonSocial) {
-        return repositoryService.allMatches(
-                new QueryDefault<>(
-                        Empresa.class,
-                        "buscarPorRazonSocial",
-                        "empresaRazonSocial", empresaRazonSocial.toLowerCase()));
-    }
-    
+	public List<Empresa> buscarPorRazonSocial(final String empresaRazonSocial) {
+		return repositoryService.allMatches(new QueryDefault<>(Empresa.class, "buscarPorRazonSocial",
+				"empresaRazonSocial", empresaRazonSocial.toLowerCase()));
+	}
 
-    public Empresa crear(final String empresaRazonSocial, String personaCuitCuil, Localidad personaLocalidad, final String personaDireccion, final String personaTelefono, final String personaMail) {
-        final Empresa object = new Empresa(empresaRazonSocial, personaCuitCuil, personaLocalidad, personaDireccion, personaTelefono, personaMail);
-        serviceRegistry.injectServicesInto(object);
-        repositoryService.persist(object);
-        return object;
-    }
+	public Empresa crear(final String empresaRazonSocial, String personaCuitCuil, Localidad personaLocalidad,
+			final String personaDireccion, final String personaTelefono, final String personaMail) {
+		final Empresa object = new Empresa(empresaRazonSocial, personaCuitCuil, personaLocalidad, personaDireccion,
+				personaTelefono, personaMail);
+		serviceRegistry.injectServicesInto(object);
+		repositoryService.persist(object);
+		return object;
+	}
 
-    @javax.inject.Inject
-    RepositoryService repositoryService;
-    @javax.inject.Inject
-    ServiceRegistry2 serviceRegistry;
+	@javax.inject.Inject
+	RepositoryService repositoryService;
+	@javax.inject.Inject
+	ServiceRegistry2 serviceRegistry;
 }

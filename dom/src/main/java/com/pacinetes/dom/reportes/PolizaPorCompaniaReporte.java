@@ -3,9 +3,6 @@ package com.pacinetes.dom.reportes;
 
 import java.util.Date;
 
-import com.pacinetes.dom.compania.Compania;
-import com.pacinetes.dom.persona.Persona;
-
 public class PolizaPorCompaniaReporte {
 private String polizaNumero;
 	

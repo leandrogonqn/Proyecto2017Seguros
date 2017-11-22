@@ -17,54 +17,43 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
-import com.pacinetes.dom.compania.Compania;
-import com.pacinetes.dom.estado.Estado;
 import com.pacinetes.dom.poliza.Poliza;
 import com.pacinetes.dom.poliza.PolizaRepository;
 
-@DomainService(
-        nature = NatureOfService.VIEW_MENU_ONLY
-)
-@DomainServiceLayout(
-		named = "Polizas Listar",
-		menuOrder = "28.50"
-)
+@DomainService(nature = NatureOfService.VIEW_MENU_ONLY)
+@DomainServiceLayout(named = "Polizas Listar", menuOrder = "28.50")
 public class VencimientoPolizasGeneral {
-	
-	public VencimientoPolizasGeneral() {}
-	
-	@Action(
-            semantics = SemanticsOf.SAFE,
-            restrictTo = RestrictTo.PROTOTYPING
-    )
-	@ActionLayout(
-            cssClassFa = "fa-calendar",
-            named = "Vencimiento de polizas"            
-    )
-	public List<VencimientosPolizaCompaniaViewModel> vencimiento(){
-		
-		final List<Poliza> polizas= polizaRepository.listarPolizasPorVencimiento();
-		
-		List<VencimientosPolizaCompaniaViewModel> listaPolizas = Lists.newArrayList(Iterables.transform(polizas, byPosiciones()));
-		
+
+	public VencimientoPolizasGeneral() {
+	}
+
+	@Action(semantics = SemanticsOf.SAFE, restrictTo = RestrictTo.PROTOTYPING)
+	@ActionLayout(cssClassFa = "fa-calendar", named = "Vencimiento de polizas")
+	public List<VencimientosPolizaCompaniaViewModel> vencimiento() {
+
+		final List<Poliza> polizas = polizaRepository.listarPolizasPorVencimiento();
+
+		List<VencimientosPolizaCompaniaViewModel> listaPolizas = Lists
+				.newArrayList(Iterables.transform(polizas, ordenar()));
+
 		Collections.sort(listaPolizas);
-		
+
 		return listaPolizas;
 	}
-	
-	private Function<Poliza, VencimientosPolizaCompaniaViewModel> byPosiciones() {
-		
-		return new Function<Poliza, VencimientosPolizaCompaniaViewModel>(){
-			
+
+	private Function<Poliza, VencimientosPolizaCompaniaViewModel> ordenar() {
+
+		return new Function<Poliza, VencimientosPolizaCompaniaViewModel>() {
+
 			@Override
-	        public VencimientosPolizaCompaniaViewModel apply(final Poliza p) {
-				
+			public VencimientosPolizaCompaniaViewModel apply(final Poliza p) {
+
 				return new VencimientosPolizaCompaniaViewModel(p);
-	        }
-	     };
-	 }	
-	
+			}
+		};
+	}
+
 	@Inject
 	PolizaRepository polizaRepository;
-	
+
 }

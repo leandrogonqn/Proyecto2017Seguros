@@ -34,62 +34,41 @@
 package com.pacinetes.dom.tipovehiculo;
 
 import java.util.List;
-
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.Editing;
-import org.apache.isis.applib.annotation.InvokeOn;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
 
-
-@DomainService(
-        nature = NatureOfService.VIEW_MENU_ONLY,
-        repositoryFor = TipoVehiculo.class
-)
-@DomainServiceLayout(
-        named = "Vehiculos",
-        menuOrder = "50.4"
-)
+@DomainService(nature = NatureOfService.VIEW_MENU_ONLY, repositoryFor = TipoVehiculo.class)
+@DomainServiceLayout(named = "Vehiculos", menuOrder = "50.4")
 public class TipoVehiculoMenu {
 
+	@Action(semantics = SemanticsOf.SAFE)
+	@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named = "Listar Tipos de Vehiculos")
+	@MemberOrder(sequence = "2")
+	public List<TipoVehiculo> listar() {
+		return tipoVehiculoRepository.listar();
+	}
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Tipos de Vehiculos")
-    @MemberOrder(sequence = "2")
-    public List<TipoVehiculo> listar() {
-        return tipoVehiculoRepository.listar();
-    }
+	@Action(semantics = SemanticsOf.SAFE)
+	@ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named = "Buscar Tipo de Vehiculo")
+	@MemberOrder(sequence = "5")
+	public List<TipoVehiculo> buscarPorNombre(@ParameterLayout(named = "Nombre") final String tipoVehiculoNombre) {
+		return tipoVehiculoRepository.buscarPorNombre(tipoVehiculoNombre);
+	}
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Buscar Tipo de Vehiculo")
-    @MemberOrder(sequence = "5")
-    public List<TipoVehiculo> buscarPorNombre(
-            @ParameterLayout(named="Nombre")
-            final String tipoVehiculoNombre
-    ) {
-        return tipoVehiculoRepository.buscarPorNombre(tipoVehiculoNombre);
-    }
-    
-    public static class CreateDomainEvent extends ActionDomainEvent<TipoVehiculoMenu> {}
-    @Action(domainEvent = CreateDomainEvent.class)
-    @MemberOrder(sequence = "1.2")
-    @ActionLayout(named="Crear Tipo de Vehiculo")
-    public TipoVehiculo crear(
-            @ParameterLayout(named="Nombre")
-            final String tipoVehiculoNombre) {
-        return tipoVehiculoRepository.crear(tipoVehiculoNombre);
-    }
+	@MemberOrder(sequence = "1.2")
+	@ActionLayout(named = "Crear Tipo de Vehiculo")
+	public TipoVehiculo crear(@ParameterLayout(named = "Nombre") final String tipoVehiculoNombre) {
+		return tipoVehiculoRepository.crear(tipoVehiculoNombre);
+	}
 
-
-    @javax.inject.Inject
-    TipoVehiculoRepository tipoVehiculoRepository;
+	@javax.inject.Inject
+	TipoVehiculoRepository tipoVehiculoRepository;
 
 }

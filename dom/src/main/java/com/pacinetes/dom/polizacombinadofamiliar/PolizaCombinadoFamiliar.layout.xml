@@ -50,11 +50,9 @@
                                 <c:property id="riesgoCombinadosFamiliaresTipoVivienda" namedEscaped="true">
                                 <c:action id="actualizarPolizaTipoVivienda" position="RIGHT"/>
                                 </c:property>
-                                
                                 <c:property id="riesgoCombinadosFamiliaresTipoTitular" namedEscaped="true">
                                 <c:action id="actualizarPolizaTipoTitular" position="RIGHT"/>
                                 </c:property>
-                                
                                 <c:property id="polizaFechaEmision" namedEscaped="true">
                                 <c:action id="actualizarPolizaFechaEmision" position="RIGHT"/>
                                 </c:property>
@@ -73,8 +71,10 @@
                                 <c:property id="polizaMotivoBaja" namedEscaped="true">
                                 <c:action id="actualizarPolizaMotivoBaja" position="RIGHT"/>
                                 </c:property> 		
-                                <c:property id="polizaPago" namedEscaped="true">
+                                <c:property id="polizaTipoDePago" namedEscaped="true">
                                 <c:action id="actualizarPolizaPago" position="RIGHT"/>
+                                </c:property>                                
+                                <c:property id="polizaPago" namedEscaped="true">
                                 </c:property>
                                 <c:property id="polizaAlertaVencimientoPago" namedEscaped="true">
                                 <c:action id="actualizarPolizaAlertaVencimientoPago" position="RIGHT"/>

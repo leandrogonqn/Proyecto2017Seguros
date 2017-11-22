@@ -16,9 +16,5 @@
 package com.pacinetes.dom.cliente;
 
 public enum TipoDocumento {
-	DNI,
-	LE,
-	LC,
-	Pasaporte;
-	
+	DNI, Libreta_Enrolamiento, Libreta_Civica, Pasaporte;
 }

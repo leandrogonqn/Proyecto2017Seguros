@@ -1,9 +1,7 @@
 package com.pacinetes.dom.mail;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Properties;
-
 import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
 import javax.mail.Authenticator;
@@ -24,147 +22,132 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.services.i18n.TranslatableString;
-
+import org.apache.isis.applib.services.message.MessageService;
 import com.pacinetes.dom.cliente.Cliente;
 import com.pacinetes.dom.persona.Persona;
 
-@javax.jdo.annotations.PersistenceCapable(
-        identityType=IdentityType.DATASTORE,
-        schema = "simple",
-        table = "Mail"
-)
-@javax.jdo.annotations.DatastoreIdentity(
-        strategy=javax.jdo.annotations.IdGeneratorStrategy.IDENTITY,
-         column="mailId")
-@DomainObject(
-        publishing = Publishing.ENABLED,
-        auditing = Auditing.ENABLED
-)
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE, schema = "simple", table = "Mail")
+@javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "mailId")
+@DomainObject(publishing = Publishing.ENABLED, auditing = Auditing.ENABLED)
 public class Mail {
-	
-    public TranslatableString title() {
-        return TranslatableString.tr("{name}", "name", getMail());
-    }
-    
-    public Mail() {}
-    
-    public Mail(boolean mailAuth, boolean starttlsEnable, String smtphost, int smtpPort, String nombre, String mail, String contraseña) {
-    	setMailAuth(mailAuth);
-    	setStarttlsEnable(starttlsEnable);
-    	setSmtphost(smtphost);
-    	setSmtpPort(smtpPort);
-    	setNombre(nombre);
-    	setMail(mail);
-    	setContraseña(contraseña);
-    }
-	
+
+	public TranslatableString title() {
+		return TranslatableString.tr("{name}", "name", getMail());
+	}
+
+	public Mail() {
+	}
+
+	public Mail(boolean mailAuth, boolean starttlsEnable, String smtphost, int smtpPort, String nombre, String mail,
+			String contraseña) {
+		setMailAuth(mailAuth);
+		setStarttlsEnable(starttlsEnable);
+		setSmtphost(smtphost);
+		setSmtpPort(smtpPort);
+		setNombre(nombre);
+		setMail(mail);
+		setContraseña(contraseña);
+	}
+
 	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.ENABLED
-    )
-    @PropertyLayout(named="Auth", describedAs="Dejar true para usar autenticación mediante usuario y clave")
+	@Property(editing = Editing.ENABLED)
+	@PropertyLayout(named = "Auth", describedAs = "Dejar true para usar autenticación mediante usuario y clave")
 	private boolean mailAuth;
 
-    public boolean getMailAuth() {
+	public boolean getMailAuth() {
 		return mailAuth;
 	}
+
 	public void setMailAuth(boolean mailAuth) {
 		this.mailAuth = mailAuth;
-	}	
-	
+	}
+
 	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.ENABLED
-    )
-    @PropertyLayout(named="Starttls Enable", describedAs="Dejar true para conectar de manera segura al servidor SMTP")
+	@Property(editing = Editing.ENABLED)
+	@PropertyLayout(named = "Starttls Enable", describedAs = "Dejar true para conectar de manera segura al servidor SMTP")
 	private boolean starttlsEnable;
 
-    public boolean getStarttlsEnable() {
+	public boolean getStarttlsEnable() {
 		return starttlsEnable;
 	}
+
 	public void setStarttlsEnable(boolean starttlsEnable) {
 		this.starttlsEnable = starttlsEnable;
-	}	
+	}
 
 	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.ENABLED
-    )
-    @PropertyLayout(named="Smtp Host", describedAs="Servidor SMTP que vas a usar")
+	@Property(editing = Editing.ENABLED)
+	@PropertyLayout(named = "Smtp Host", describedAs = "Servidor SMTP que vas a usar")
 	private String smtphost;
 
-    public String getSmtphost() {
+	public String getSmtphost() {
 		return smtphost;
 	}
+
 	public void setSmtphost(String smtphost) {
 		this.smtphost = smtphost;
-	}	
-	
+	}
+
 	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.ENABLED
-    )
-    @PropertyLayout(named="Smtp Port", describedAs="Puerto SMTP que vas a usar")
+	@Property(editing = Editing.ENABLED)
+	@PropertyLayout(named = "Smtp Port", describedAs = "Puerto SMTP que vas a usar")
 	private int smtpPort;
 
-    public int getSmtpPort() {
+	public int getSmtpPort() {
 		return smtpPort;
 	}
+
 	public void setSmtpPort(int smtpPort) {
 		this.smtpPort = smtpPort;
-	}	
-	
+	}
+
 	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.ENABLED
-    )
-    @PropertyLayout(named="Nombre del remitente", describedAs="Ingrese el nombre del remitente")
+	@Property(editing = Editing.ENABLED)
+	@PropertyLayout(named = "Nombre del remitente", describedAs = "Ingrese el nombre del remitente")
 	private String nombre;
 
-    public String getNombre() {
+	public String getNombre() {
 		return nombre;
 	}
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}	
-	
+	}
+
 	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.ENABLED
-    )
-    @PropertyLayout(named="Mail", describedAs="Ingrese su direccion de mail")
+	@Property(editing = Editing.ENABLED)
+	@PropertyLayout(named = "Mail", describedAs = "Ingrese su direccion de mail")
 	private String mail;
 
-    public String getMail() {
+	public String getMail() {
 		return mail;
 	}
+
 	public void setMail(String mail) {
 		this.mail = mail;
-	}	
-	
+	}
+
 	@javax.jdo.annotations.Column(allowsNull = "false")
-    @Property(
-            editing = Editing.ENABLED
-    )
-    @PropertyLayout(named="Contraseña", describedAs="Ingrese la contraseña de su mail")
+	@Property(editing = Editing.ENABLED)
+	@PropertyLayout(named = "Contraseña", describedAs = "Ingrese la contraseña de su mail")
 	private String contraseña;
 
-    public String getContraseña() {
+	public String getContraseña() {
 		return contraseña;
 	}
+
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;
-	}	
-	
-	//acciones
-	
-	private static Mail obtenerMailEmisor(){
+	}
+
+	// acciones
+	private static Mail obtenerMailEmisor() {
 		List<Mail> lista = mailRepository.listar();
 		Mail mail = lista.get(0);
 		return mail;
 	}
-	
-	private static Properties conectarse(Mail mail){
+
+	private static Properties conectarse(Mail mail) {
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", mail.getMailAuth());
 		props.put("mail.smtp.starttls.enable", mail.getStarttlsEnable());
@@ -172,16 +155,16 @@ public class Mail {
 		props.put("mail.smtp.port", mail.getSmtpPort());
 		return props;
 	}
-	
-	private static Session autentificar(Mail mail, Properties props){
+
+	private static Session autentificar(Mail mail, Properties props) {
 		Session session = Session.getInstance(props, new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(mail.getMail(), mail.getContraseña());
 			}
 		});
 		return session;
-	 }	
-	
+	}
+
 	public static void enviarMailPoliza(Persona cliente) {
 		if (cliente.getPersonaMail() != null) {
 			Mail mail = obtenerMailEmisor();
@@ -206,9 +189,8 @@ public class Mail {
 				MimeMessage message = new MimeMessage(session);
 
 				// Se rellena el From
-				InternetAddress emisor = new InternetAddress(mail.getNombre()+" <"+mail.getMail()+">");
+				InternetAddress emisor = new InternetAddress(mail.getNombre() + " <" + mail.getMail() + ">");
 				message.setFrom(emisor);
-				
 
 				// Se rellenan los destinatarios
 				InternetAddress receptor = new InternetAddress();
@@ -224,12 +206,12 @@ public class Mail {
 				Transport.send(message);
 
 			} catch (MessagingException e) {
-				throw new RuntimeException(e);
+				messageService.informUser("Poliza creada, falló envío de mail");
 			}
 		}
 	}
-	
-	public static void enviarMail(Persona cliente, String asunto, String mensaje){
+
+	public static void enviarMail(Persona cliente, String asunto, String mensaje) {
 		if (cliente.getPersonaMail() != null) {
 			Mail mail = obtenerMailEmisor();
 			Properties props = conectarse(mail);
@@ -247,9 +229,9 @@ public class Mail {
 				MimeMessage message = new MimeMessage(session);
 
 				// Se rellena el From
-				InternetAddress emisor = new InternetAddress(mail.getNombre()+" <"+mail.getMail()+">");
+				InternetAddress emisor = new InternetAddress(mail.getNombre() + " <" + mail.getMail() + ">");
 				message.setFrom(emisor);
-				
+
 				// Se rellenan los destinatarios
 				InternetAddress receptor = new InternetAddress();
 				receptor.setAddress(cliente.getPersonaMail());
@@ -264,24 +246,24 @@ public class Mail {
 				Transport.send(message);
 
 			} catch (MessagingException e) {
-				throw new RuntimeException(e);
+				messageService.informUser("Poliza creada, falló envío de mail");
 			}
-			
+
 		}
 	}
-	
-	public static void enviarMailCumpleaños(Cliente cliente){
+
+	public static void enviarMailCumpleaños(Cliente cliente) {
 		if (cliente.getPersonaMail() != null) {
 			Mail mail = obtenerMailEmisor();
 			Properties props = conectarse(mail);
 			Session session = autentificar(mail, props);
 
-			String asunto = "Feliz Cumpleaños "+cliente.getClienteNombre()+"!!!";
+			String asunto = "Feliz Cumpleaños " + cliente.getClienteNombre() + "!!!";
 
 			String mensaje = "Queremos saludarlo en el mes de su cumpleaños, "
-					+ "espero que tenga una gran celebración y un día maravilloso.\r\n\r\nFeliz cumpleaños "+cliente.getClienteNombre()
-					+ ".\r\nDe parte del equipo de Pacinetes S.R.L.";
-			
+					+ "espero que tenga una gran celebración y un día maravilloso.\r\n\r\nFeliz cumpleaños "
+					+ cliente.getClienteNombre() + ".\r\nDe parte del equipo de Pacinetes S.R.L.";
+
 			try {
 				BodyPart texto = new MimeBodyPart();
 
@@ -294,9 +276,9 @@ public class Mail {
 				MimeMessage message = new MimeMessage(session);
 
 				// Se rellena el From
-				InternetAddress emisor = new InternetAddress(mail.getNombre()+" <"+mail.getMail()+">");
+				InternetAddress emisor = new InternetAddress(mail.getNombre() + " <" + mail.getMail() + ">");
 				message.setFrom(emisor);
-				
+
 				// Se rellenan los destinatarios
 				InternetAddress receptor = new InternetAddress();
 				receptor.setAddress(cliente.getPersonaMail());
@@ -311,14 +293,15 @@ public class Mail {
 				Transport.send(message);
 
 			} catch (MessagingException e) {
-				throw new RuntimeException(e);
+				messageService.informUser("Poliza creada, falló envío de mail");
 			}
-			
+
 		}
 	}
-	
+
 	@Inject
-	static
-	MailRepository mailRepository;
+	static MailRepository mailRepository;
+	@Inject
+	static MessageService messageService;
 
 }

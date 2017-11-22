@@ -35,7 +35,6 @@ package com.pacinetes.dom.cliente;
 
 import java.util.Date;
 import java.util.List;
-
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.query.QueryDefault;
@@ -43,11 +42,7 @@ import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import com.pacinetes.dom.localidad.Localidad;
 
-
-@DomainService(
-        nature = NatureOfService.DOMAIN,
-        repositoryFor = Cliente.class
-)
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = Cliente.class)
 public class ClienteRepository {
 
 	public List<Cliente> listar() {
@@ -62,31 +57,30 @@ public class ClienteRepository {
 		return repositoryService.allMatches(new QueryDefault<>(Cliente.class, "listarInactivos"));
 	}
 
-    public List<Cliente> buscarPorNombre(final String clienteNombre) {
-        return repositoryService.allMatches(
-                new QueryDefault<>(
-                        Cliente.class,
-                        "buscarPorNombre",
-                        "clienteNombre", clienteNombre.toLowerCase()));
-    }
-    
-    public List<Cliente> buscarPorDNI(final int clienteDni) {
-        return repositoryService.allMatches(
-                new QueryDefault<>(
-                        Cliente.class,
-                        "buscarPorDNI",
-                        "clienteDni", clienteDni));
-    }
+	public List<Cliente> buscarPorNombre(final String clienteNombre) {
+		return repositoryService.allMatches(
+				new QueryDefault<>(Cliente.class, "buscarPorNombre", "clienteNombre", clienteNombre.toLowerCase()));
+	}
 
-    public Cliente crear(final String clienteNombre, final String clienteApellido, Sexo clienteSexo, TipoDocumento clienteTipoDocumento, Localidad personaLocalidad, final int clienteDni, final String personaDireccion, final String personaTelefono, final String personaMail, final Date clienteFechaNacimiento, final boolean clienteNotificacionCumpleanios) {
-        final Cliente object = new Cliente(clienteNombre, clienteApellido, clienteSexo,clienteTipoDocumento, personaLocalidad, clienteDni, personaDireccion, personaTelefono, personaMail, clienteFechaNacimiento, clienteNotificacionCumpleanios);
-        serviceRegistry.injectServicesInto(object);
-        repositoryService.persist(object);
-        return object;
-    }
+	public List<Cliente> buscarPorDNI(final int clienteDni) {
+		return repositoryService
+				.allMatches(new QueryDefault<>(Cliente.class, "buscarPorDNI", "clienteDni", clienteDni));
+	}
 
-    @javax.inject.Inject
-    RepositoryService repositoryService;
-    @javax.inject.Inject
-    ServiceRegistry2 serviceRegistry;
+	public Cliente crear(final String clienteNombre, final String clienteApellido, Sexo clienteSexo,
+			TipoDocumento clienteTipoDocumento, Localidad personaLocalidad, final int clienteDni,
+			final String personaDireccion, final String personaTelefono, final String personaMail,
+			final Date clienteFechaNacimiento, final boolean clienteNotificacionCumpleanios) {
+		final Cliente object = new Cliente(clienteNombre, clienteApellido, clienteSexo, clienteTipoDocumento,
+				personaLocalidad, clienteDni, personaDireccion, personaTelefono, personaMail, clienteFechaNacimiento,
+				clienteNotificacionCumpleanios);
+		serviceRegistry.injectServicesInto(object);
+		repositoryService.persist(object);
+		return object;
+	}
+
+	@javax.inject.Inject
+	RepositoryService repositoryService;
+	@javax.inject.Inject
+	ServiceRegistry2 serviceRegistry;
 }

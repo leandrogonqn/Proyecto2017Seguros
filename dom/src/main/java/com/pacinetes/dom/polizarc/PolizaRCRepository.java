@@ -21,51 +21,45 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.services.registry.ServiceRegistry2;
 import org.apache.isis.applib.services.repository.RepositoryService;
-
-import com.pacinetes.dom.cliente.Cliente;
 import com.pacinetes.dom.compania.Compania;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
 import com.pacinetes.dom.detalletipopago.TipoPago;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.poliza.Poliza;
 
-
-@DomainService(
-        nature = NatureOfService.DOMAIN,
-        repositoryFor = PolizaRC.class
-)
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = PolizaRC.class)
 public class PolizaRCRepository {
 
-    public List<PolizaRC> listar() {
-        return repositoryService.allInstances(PolizaRC.class);
-    }
+	public List<PolizaRC> listar() {
+		return repositoryService.allInstances(PolizaRC.class);
+	}
 
 	public PolizaRC crear(final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
 			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
-			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoRCMonto) {
+			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal,
+			final float riesgoRCMonto) {
 		final PolizaRC object = new PolizaRC(polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
-				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, riesgoRCMonto);
-        serviceRegistry.injectServicesInto(object);
-        repositoryService.persist(object);
-        return object;
-    }
-    
-    public PolizaRC renovacion(
-    		final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
+				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal,
+				riesgoRCMonto);
+		serviceRegistry.injectServicesInto(object);
+		repositoryService.persist(object);
+		return object;
+	}
+
+	public PolizaRC renovacion(final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
 			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
-			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal, final float riesgoRCMonto,
-    		Poliza riesgoRC) {
-        final PolizaRC object = new PolizaRC(
-        		polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
-				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, 
-				riesgoRC, riesgoRCMonto);
-        serviceRegistry.injectServicesInto(object);
-        repositoryService.persist(object);
-        return object;
-    }
-    
-    @javax.inject.Inject
-    RepositoryService repositoryService;
-    @javax.inject.Inject
-    ServiceRegistry2 serviceRegistry;
+			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal,
+			final float riesgoRCMonto, Poliza riesgoRC) {
+		final PolizaRC object = new PolizaRC(polizaNumero, polizaCliente, polizaCompania, polizaFechaEmision,
+				polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago, polizaImporteTotal, riesgoRC,
+				riesgoRCMonto);
+		serviceRegistry.injectServicesInto(object);
+		repositoryService.persist(object);
+		return object;
+	}
+
+	@javax.inject.Inject
+	RepositoryService repositoryService;
+	@javax.inject.Inject
+	ServiceRegistry2 serviceRegistry;
 }

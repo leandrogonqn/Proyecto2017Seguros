@@ -34,15 +34,12 @@
 package com.pacinetes.dom.tipotarjeta;
 
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.jdo.annotations.IdentityType;
-
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
 import org.apache.isis.applib.annotation.BookmarkPolicy;
-import org.apache.isis.applib.annotation.CommandReification;
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.InvokeOn;
@@ -52,15 +49,10 @@ import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Publishing;
 import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
-import org.apache.isis.applib.services.eventbus.PropertyDomainEvent;
 import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
-import org.apache.isis.applib.util.ObjectContracts;
-
-import com.pacinetes.dom.marca.Marca;
 
 @javax.jdo.annotations.PersistenceCapable(
         identityType=IdentityType.DATASTORE,
@@ -173,25 +165,24 @@ public class TipoTarjeta implements Comparable<TipoTarjeta> {
 		return getTipoTarjetaActivo();
 	}
 
-
     //endregion
 	
     //accion
-    @Action(semantics = SemanticsOf.SAFE, invokeOn=InvokeOn.COLLECTION_ONLY)
+    @Action(semantics = SemanticsOf.SAFE, invokeOn=InvokeOn.OBJECT_ONLY)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Todos los Tipos Tarjetas")
     @MemberOrder(sequence = "2")
     public List<TipoTarjeta> listar() {
         return tiposTarjetasRepository.listar();
     }
     
-    @Action(semantics = SemanticsOf.SAFE, invokeOn=InvokeOn.COLLECTION_ONLY)
+    @Action(semantics = SemanticsOf.SAFE, invokeOn=InvokeOn.OBJECT_ONLY)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Tipos de Tarjetas Activos")
     @MemberOrder(sequence = "3")
     public List<TipoTarjeta> listarActivos() {
         return tiposTarjetasRepository.listarActivos();
     }
     
-    @Action(semantics = SemanticsOf.SAFE, invokeOn=InvokeOn.COLLECTION_ONLY)
+    @Action(semantics = SemanticsOf.SAFE, invokeOn=InvokeOn.OBJECT_ONLY)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, named="Listar Tipos de Tarjetas Inactivos")
     @MemberOrder(sequence = "4")
     public List<TipoTarjeta> listarInactivos() {
@@ -201,11 +192,11 @@ public class TipoTarjeta implements Comparable<TipoTarjeta> {
     //region > toString, compareTo
     @Override
     public String toString() {
-        return ObjectContracts.toString(this, "tipoTarjetaNombre");
+        return getTipoTarjetaNombre();
     }
     @Override
     public int compareTo(final TipoTarjeta other) {
-        return ObjectContracts.compare(this, other, "name");
+        return this.tipoTarjetaNombre.compareTo(other.tipoTarjetaNombre);
     }
 
     //endregion

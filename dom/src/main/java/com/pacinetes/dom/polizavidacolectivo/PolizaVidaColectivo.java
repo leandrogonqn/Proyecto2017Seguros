@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.jdo.annotations.Column;
@@ -45,9 +44,7 @@ import org.apache.isis.applib.services.i18n.TranslatableString;
 import org.apache.isis.applib.services.message.MessageService;
 import org.apache.isis.applib.services.repository.RepositoryService;
 import org.apache.isis.applib.services.title.TitleService;
-import org.apache.isis.applib.util.ObjectContracts;
 import org.apache.isis.applib.value.Blob;
-
 import com.pacinetes.dom.compania.Compania;
 import com.pacinetes.dom.compania.CompaniaRepository;
 import com.pacinetes.dom.detalletipopago.DetalleTipoPago;
@@ -65,31 +62,22 @@ import com.pacinetes.dom.reportes.ReporteRepository;
 import com.pacinetes.dom.tipodecobertura.TipoDeCoberturaRepository;
 import net.sf.jasperreports.engine.JRException;
 
-@javax.jdo.annotations.PersistenceCapable(
-        identityType=IdentityType.DATASTORE,
-        schema = "simple",
-        table = "Polizas"
-)
-@DomainObject(
-        publishing = Publishing.ENABLED,
-        auditing = Auditing.ENABLED
-)
-@Inheritance(strategy=InheritanceStrategy.SUPERCLASS_TABLE)
-@Discriminator(value="RiesgoCombinadosRiesgosVidaColectivo")
+@javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE, schema = "simple", table = "Polizas")
+@DomainObject(publishing = Publishing.ENABLED, auditing = Auditing.ENABLED)
+@Inheritance(strategy = InheritanceStrategy.SUPERCLASS_TABLE)
+@Discriminator(value = "RiesgoCombinadosRiesgosVidaColectivo")
 public class PolizaVidaColectivo extends Poliza {
 
-	
-	 //region > title
-   public TranslatableString title() {
-       return TranslatableString.tr("{name}", "name","Poliza VidaColectivo N°: " + getPolizaNumero());
-   }
-   //endregion
+	// region > title
+	public TranslatableString title() {
+		return TranslatableString.tr("{name}", "name", "Poliza VidaColectivo N°: " + getPolizaNumero());
+	}
+	// endregion
 
 	// Constructor
 	public PolizaVidaColectivo(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
-			Date polizaFechaEmision, Date polizaFechaVigencia,
-			Date polizaFechaVencimiento, TipoPago polizaTipoDePago, DetalleTipoPago polizaPago,
-			double polizaImporteTotal, float riesgoVidaColectivoMonto) {
+			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento, TipoPago polizaTipoDePago,
+			DetalleTipoPago polizaPago, double polizaImporteTotal, float riesgoVidaColectivoMonto) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
 		setPolizasCompania(polizaCompania);
@@ -103,13 +91,10 @@ public class PolizaVidaColectivo extends Poliza {
 		setPolizaEstado(Estado.previgente);
 		polizaEstado.actualizarEstado(this);
 	}
-	
-	public PolizaVidaColectivo(
-			String polizaNumero, Persona polizaCliente, Compania polizaCompania,
-			Date polizaFechaEmision, Date polizaFechaVigencia,
-			Date polizaFechaVencimiento, TipoPago polizaTipoDePago, DetalleTipoPago polizaPago,
-			double polizaImporteTotal, 
-			Poliza riesgoVidaColectivo,
+
+	public PolizaVidaColectivo(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
+			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento, TipoPago polizaTipoDePago,
+			DetalleTipoPago polizaPago, double polizaImporteTotal, Poliza riesgoVidaColectivo,
 			float riesgoVidaColectivoMonto) {
 		setPolizaNumero(polizaNumero);
 		setPolizasCliente(polizaCliente);
@@ -125,13 +110,12 @@ public class PolizaVidaColectivo extends Poliza {
 		riesgoVidaColectivo.setPolizaRenovacion(this);
 		polizaEstado.actualizarEstado(this);
 	}
-	
-	//Monto
-   @Property(editing = Editing.DISABLED)
-	@PropertyLayout(named="Monto")
-   @Column(allowsNull = "false")
-	private float riesgoVidaColectivoMonto; 
-	
+
+	// Monto
+	@Property(editing = Editing.DISABLED)
+	@PropertyLayout(named = "Monto")
+	@Column(allowsNull = "false")
+	private float riesgoVidaColectivoMonto;
 
 	public float getRiesgoVidaColectivoMonto() {
 		return riesgoVidaColectivoMonto;
@@ -141,69 +125,70 @@ public class PolizaVidaColectivo extends Poliza {
 		this.riesgoVidaColectivoMonto = riesgoVidaColectivoMonto;
 	}
 
-//region > delete (action)
-   @Action(
-           semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE
-   )
-   
-   //Actualizar PolizaNumero
-	public PolizaVidaColectivo actualizarPolizaNumero(@ParameterLayout(named="Numero") final String polizaNumero){
+	// region > delete (action)
+	@Action(semantics = SemanticsOf.NON_IDEMPOTENT_ARE_YOU_SURE)
+
+	// Actualizar PolizaNumero
+	public PolizaVidaColectivo actualizarPolizaNumero(@ParameterLayout(named = "Numero") final String polizaNumero) {
 		setPolizaNumero(polizaNumero);
 		return this;
 	}
 
-	public String default0ActualizarPolizaNumero(){
+	public String default0ActualizarPolizaNumero() {
 		return getPolizaNumero();
 	}
-   
-	//Actualizar Poliza Cliente
-   public PolizaVidaColectivo actualizarPolizaCliente(@ParameterLayout(named="Cliente") final Persona polizaCliente) {
-       setPolizasCliente(polizaCliente);
-       return this;
-   }
-   
-   public List<Persona> choices0ActualizarPolizaCliente(){
-   	return personaRepository.listarActivos();
-   }
-     
-   public Persona default0ActualizarPolizaCliente() {
-   	return getPolizaCliente();
-   }
-   
-   //Actualizar polizaCompania
-   public PolizaVidaColectivo actualizarPolizaCompania(@ParameterLayout(named="Compañia") final Compania polizaCompania) {
-	   setPolizasCompania(polizaCompania);
-       return this;
-   }
-   
-   public List<Compania> choices0ActualizarPolizaCompania(){
-   	return companiaRepository.listarActivos();
-   }
-     
-   public Compania default0ActualizarPolizaCompania() {
-   	return getPolizaCompania();
-   }    
-   
 
-   //Actualizar polizaFechaEmision
-	public PolizaVidaColectivo actualizarPolizaFechaEmision(@ParameterLayout(named="Fecha de Emision") final Date polizaFechaEmision){
+	// Actualizar Poliza Cliente
+	public PolizaVidaColectivo actualizarPolizaCliente(
+			@ParameterLayout(named = "Cliente") final Persona polizaCliente) {
+		setPolizasCliente(polizaCliente);
+		return this;
+	}
+
+	public List<Persona> choices0ActualizarPolizaCliente() {
+		return personaRepository.listarActivos();
+	}
+
+	public Persona default0ActualizarPolizaCliente() {
+		return getPolizaCliente();
+	}
+
+	// Actualizar polizaCompania
+	public PolizaVidaColectivo actualizarPolizaCompania(
+			@ParameterLayout(named = "Compañia") final Compania polizaCompania) {
+		setPolizasCompania(polizaCompania);
+		return this;
+	}
+
+	public List<Compania> choices0ActualizarPolizaCompania() {
+		return companiaRepository.listarActivos();
+	}
+
+	public Compania default0ActualizarPolizaCompania() {
+		return getPolizaCompania();
+	}
+
+	// Actualizar polizaFechaEmision
+	public PolizaVidaColectivo actualizarPolizaFechaEmision(
+			@ParameterLayout(named = "Fecha de Emision") final Date polizaFechaEmision) {
 		setPolizaFechaEmision(polizaFechaEmision);
 		return this;
 	}
 
-	public Date default0ActualizarPolizaFechaEmision(){
+	public Date default0ActualizarPolizaFechaEmision() {
 		return getPolizaFechaEmision();
 	}
-	
-   //Actualizar polizaFechaVigencia
-	public PolizaVidaColectivo actualizarPolizaFechaVigencia(@ParameterLayout(named="Fecha de Vigencia") final Date polizaFechaVigencia){
+
+	// Actualizar polizaFechaVigencia
+	public PolizaVidaColectivo actualizarPolizaFechaVigencia(
+			@ParameterLayout(named = "Fecha de Vigencia") final Date polizaFechaVigencia) {
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		polizaEstado.actualizarEstado(this);
 		JOptionPane.showMessageDialog(null, getPolizaEstado().toString());
 		return this;
 	}
 
-	public Date default0ActualizarPolizaFechaVigencia(){
+	public Date default0ActualizarPolizaFechaVigencia() {
 		return getPolizaFechaVigencia();
 	}
 
@@ -214,183 +199,174 @@ public class PolizaVidaColectivo extends Poliza {
 		}
 		return "";
 	}
-	
-	//Actualizar riesgoVidaColectivoMonto
-	public PolizaVidaColectivo actualizarRiesgoVidaColectivoMonto(@ParameterLayout (named="Monto VidaColectivo") final float riesgoVidaColectivoMonto){
+
+	// Actualizar riesgoVidaColectivoMonto
+	public PolizaVidaColectivo actualizarRiesgoVidaColectivoMonto(
+			@ParameterLayout(named = "Monto VidaColectivo") final float riesgoVidaColectivoMonto) {
 		setRiesgoVidaColectivoMonto(riesgoVidaColectivoMonto);
-		return(this);
+		return (this);
 	}
-	
-	public float default0ActualizarRiesgoVidaColectivoMonto(){
+
+	public float default0ActualizarRiesgoVidaColectivoMonto() {
 		return getRiesgoVidaColectivoMonto();
 	}
-	
-   //polizaFechaVencimiento
-	public PolizaVidaColectivo actualizarPolizaFechaVencimiento(@ParameterLayout(named="Fecha de Vencimiento") final Date polizaFechaVencimiento){
+
+	// polizaFechaVencimiento
+	public PolizaVidaColectivo actualizarPolizaFechaVencimiento(
+			@ParameterLayout(named = "Fecha de Vencimiento") final Date polizaFechaVencimiento) {
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		polizaEstado.actualizarEstado(this);
 		return this;
 	}
 
-	public Date default0ActualizarPolizaFechaVencimiento(){
+	public Date default0ActualizarPolizaFechaVencimiento() {
 		return getPolizaFechaVencimiento();
 	}
-	
-	public String validateActualizarPolizaFechaVencimiento(final Date polizaFechaVencimiento){
-		if (this.getPolizaFechaVigencia().after(polizaFechaVencimiento)){
+
+	public String validateActualizarPolizaFechaVencimiento(final Date polizaFechaVencimiento) {
+		if (this.getPolizaFechaVigencia().after(polizaFechaVencimiento)) {
 			return "La fecha de vencimiento es menor a la de vigencia";
 		}
 		return "";
 	}
-	
-    //polizaPago
-    public PolizaVidaColectivo actualizarPolizaPago(
-    		@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
-			@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago) {
-        setPolizaTipoDePago(polizaTipoDePago);
-    	setPolizaPago(polizaPago);
-        return this;
-    }
-    
-    public List<DetalleTipoPago> choices1ActualizarPolizaPago(			
- 			final TipoPago polizaTipoDePago,
- 			final DetalleTipoPago polizaPago) {
- 		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
-    }
-    
-    public TipoPago default0ActualizarPolizaPago() {
-    	return getPolizaTipoDePago();
-    }
-      
-    public DetalleTipoPago default1ActualizarPolizaPago() {
-    	return getPolizaPago();
-    }
-   
-   //polizaFechaBaja
-	public PolizaVidaColectivo actualizarPolizaFechaBaja(@ParameterLayout(named="Fecha de Baja") final Date polizaFechaBaja){
+
+	// polizaPago
+	public PolizaVidaColectivo actualizarPolizaPago(
+			@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
+			@Nullable @ParameterLayout(named = "Detalle del Pago") @Parameter(optionality = Optionality.OPTIONAL) final DetalleTipoPago polizaPago) {
+		setPolizaTipoDePago(polizaTipoDePago);
+		setPolizaPago(polizaPago);
+		return this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<DetalleTipoPago> choices1ActualizarPolizaPago(final TipoPago polizaTipoDePago,
+			final DetalleTipoPago polizaPago) {
+		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
+	}
+
+	public TipoPago default0ActualizarPolizaPago() {
+		return getPolizaTipoDePago();
+	}
+
+	public DetalleTipoPago default1ActualizarPolizaPago() {
+		return getPolizaPago();
+	}
+
+	// polizaFechaBaja
+	public PolizaVidaColectivo actualizarPolizaFechaBaja(
+			@ParameterLayout(named = "Fecha de Baja") final Date polizaFechaBaja) {
 		setPolizaFechaBaja(polizaFechaBaja);
 		return this;
 	}
 
-	public Date default0ActualizarPolizaFechaBaja(){
+	public Date default0ActualizarPolizaFechaBaja() {
 		return getPolizaFechaBaja();
-	}    
-   
-   //polizaMotivoBaja
-	public PolizaVidaColectivo actualizarPolizaMotivoBaja(@ParameterLayout(named="Motivo de la Baja") final String polizaMotivoBaja){
+	}
+
+	// polizaMotivoBaja
+	public PolizaVidaColectivo actualizarPolizaMotivoBaja(
+			@ParameterLayout(named = "Motivo de la Baja") final String polizaMotivoBaja) {
 		setPolizaMotivoBaja(polizaMotivoBaja);
 		return this;
 	}
 
-	public String default0ActualizarPolizaMotivoBaja(){
+	public String default0ActualizarPolizaMotivoBaja() {
 		return getPolizaMotivoBaja();
-	}    
-   
-   //polizaImporteTotal
-	public PolizaVidaColectivo actualizarPolizaImporteTotal(@ParameterLayout(named="Importe Total") final double polizaImporteTotal){
+	}
+
+	// polizaImporteTotal
+	public PolizaVidaColectivo actualizarPolizaImporteTotal(
+			@ParameterLayout(named = "Importe Total") final double polizaImporteTotal) {
 		setPolizaImporteTotal(polizaImporteTotal);
 		return this;
 	}
 
-	public double default0ActualizarPolizaImporteTotal(){
+	public double default0ActualizarPolizaImporteTotal() {
 		return getPolizaImporteTotal();
-	}    
-	
-   //polizaRenovacion
-	@ActionLayout(named="Actualizar Renovacion")
-   public PolizaVidaColectivo actualizarPolizaRenovacion(@ParameterLayout(named="Renovacion") final Poliza polizaRenovacion) {
-       setPolizaRenovacion(polizaRenovacion);
-       polizaEstado.actualizarEstado(this);
-       return this;
-   }
-   
-   public List<Poliza> choices0ActualizarPolizaRenovacion(){
-   	return polizasRepository.listar();
-   }
-     
-   public Poliza default0ActualizarPolizaRenovacion() {
-   	return getPolizaRenovacion();
-   }
-   
-   public PolizaVidaColectivo borrarPolizaRenovacion() {
+	}
+
+	// polizaRenovacion
+	@ActionLayout(named = "Actualizar Renovacion")
+	public PolizaVidaColectivo actualizarPolizaRenovacion(
+			@ParameterLayout(named = "Renovacion") final Poliza polizaRenovacion) {
+		setPolizaRenovacion(polizaRenovacion);
+		polizaEstado.actualizarEstado(this);
+		return this;
+	}
+
+	public List<Poliza> choices0ActualizarPolizaRenovacion() {
+		return polizasRepository.listar();
+	}
+
+	public Poliza default0ActualizarPolizaRenovacion() {
+		return getPolizaRenovacion();
+	}
+
+	public PolizaVidaColectivo borrarPolizaRenovacion() {
 		setPolizaRenovacion(null);
 		polizaEstado.actualizarEstado(this);
-   	return this;
-   }
-   
-   //endregion
-
-   //acciones
-
-	@Action(invokeOn=InvokeOn.OBJECT_ONLY)
-	@ActionLayout(named="Emitir Renovacion")
-	public PolizaVidaColectivo renovacion(
-			@ParameterLayout(named="Número") final String polizaNumero,
-			@ParameterLayout(named="Cliente") final Persona polizaCliente,
-			@ParameterLayout(named="Compañia") final Compania polizaCompania,
-			@ParameterLayout(named="Fecha Emision") final Date polizaFechaEmision,
-			@ParameterLayout(named="Fecha Vigencia") final Date polizaFechaVigencia,
-			@ParameterLayout(named="Fecha Vencimiento") final Date polizaFechaVencimiento,
-			@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
-			@Nullable @ParameterLayout(named = "Detalle del Pago")@Parameter(optionality =Optionality.OPTIONAL) final DetalleTipoPago polizaPago,
-			@ParameterLayout(named="Precio Total") final double polizaImporteTotal,
-			@ParameterLayout(named="Monto") final float riesgoVidaColectivoMonto){
-		Mail.enviarMailPoliza(polizaCliente);
-       return riesgosVidaColectivoRepository.renovacion(
-    		polizaNumero,
-       		polizaCliente,
-       		polizaCompania,
-       		polizaFechaEmision,
-       		polizaFechaVigencia, 
-       		polizaFechaVencimiento,
-       		polizaTipoDePago,
-       		polizaPago,
-       		polizaImporteTotal,
-       		riesgoVidaColectivoMonto,this);
+		return this;
 	}
-	
-   public List<Persona> choices1Renovacion(){
-   	return personaRepository.listarActivos();
-   }
-   
-   public List<Compania> choices2Renovacion(){
-   	return companiaRepository.listarActivos();
-   }	    
-   
-   public List<DetalleTipoPago> choices7Renovacion(			
-			final String polizaNumero,
-			final Persona polizaCliente,
-			final Compania polizaCompania,
-			final Date polizaFechaEmision,
-			final Date polizaFechaVigencia,
-			final Date polizaFechaVencimiento,
-			final TipoPago polizaTipoDePago,
-			final DetalleTipoPago polizaPago,
-			final double polizaImporteTotal,
-			final float riesgoVidaColectivoMonto) {
-		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
-   }
-   
-   public Persona default1Renovacion() {
-   	return getPolizaCliente();
-   }
 
-   public Compania default2Renovacion(){
-   	return getPolizaCompania();
-   }
-   
-   public TipoPago default6Renovacion(){
-	   	return getPolizaTipoDePago();
-	   }
-  
-  public DetalleTipoPago default7Renovacion(){
-  	return getPolizaPago();
-  }
-  
-  public Blob imprimirPoliza() throws JRException, IOException{
-		
+	// endregion
+
+	// acciones
+
+	@Action(invokeOn = InvokeOn.OBJECT_ONLY)
+	@ActionLayout(named = "Emitir Renovacion")
+	public PolizaVidaColectivo renovacion(@ParameterLayout(named = "Número") final String polizaNumero,
+			@ParameterLayout(named = "Cliente") final Persona polizaCliente,
+			@ParameterLayout(named = "Compañia") final Compania polizaCompania,
+			@ParameterLayout(named = "Fecha Emision") final Date polizaFechaEmision,
+			@ParameterLayout(named = "Fecha Vigencia") final Date polizaFechaVigencia,
+			@ParameterLayout(named = "Fecha Vencimiento") final Date polizaFechaVencimiento,
+			@ParameterLayout(named = "Tipo de Pago") final TipoPago polizaTipoDePago,
+			@Nullable @ParameterLayout(named = "Detalle del Pago") @Parameter(optionality = Optionality.OPTIONAL) final DetalleTipoPago polizaPago,
+			@ParameterLayout(named = "Precio Total") final double polizaImporteTotal,
+			@ParameterLayout(named = "Monto") final float riesgoVidaColectivoMonto) {
+		Mail.enviarMailPoliza(polizaCliente);
+		return riesgosVidaColectivoRepository.renovacion(polizaNumero, polizaCliente, polizaCompania,
+				polizaFechaEmision, polizaFechaVigencia, polizaFechaVencimiento, polizaTipoDePago, polizaPago,
+				polizaImporteTotal, riesgoVidaColectivoMonto, this);
+	}
+
+	public List<Persona> choices1Renovacion() {
+		return personaRepository.listarActivos();
+	}
+
+	public List<Compania> choices2Renovacion() {
+		return companiaRepository.listarActivos();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<DetalleTipoPago> choices7Renovacion(final String polizaNumero, final Persona polizaCliente,
+			final Compania polizaCompania, final Date polizaFechaEmision, final Date polizaFechaVigencia,
+			final Date polizaFechaVencimiento, final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago,
+			final double polizaImporteTotal, final float riesgoVidaColectivoMonto) {
+		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
+	}
+
+	public Persona default1Renovacion() {
+		return getPolizaCliente();
+	}
+
+	public Compania default2Renovacion() {
+		return getPolizaCompania();
+	}
+
+	public TipoPago default6Renovacion() {
+		return getPolizaTipoDePago();
+	}
+
+	public DetalleTipoPago default7Renovacion() {
+		return getPolizaPago();
+	}
+
+	public Blob imprimirPoliza() throws JRException, IOException {
+
 		List<Object> objectsReport = new ArrayList<Object>();
-		
+
 		PolizaVidaColectivoReporte polizaVidaColectivoReporte = new PolizaVidaColectivoReporte();
 		polizaVidaColectivoReporte.setPolizaCliente(getPolizaCliente().toString());
 		polizaVidaColectivoReporte.setPolizaNumero(getPolizaNumero());
@@ -401,58 +377,55 @@ public class PolizaVidaColectivo extends Poliza {
 		polizaVidaColectivoReporte.setRiesgoVidaColectivoMonto(getRiesgoVidaColectivoMonto());
 		polizaVidaColectivoReporte.setPolizaImporteTotal(getPolizaImporteTotal());
 		polizaVidaColectivoReporte.setPolizaEstado(getPolizaEstado().toString());
-		
+
 		objectsReport.add(polizaVidaColectivoReporte);
 		String jrxml = "PolizaVidaColectivo.jrxml";
-		String nombreArchivo = "PolizaVidaColectivo_"+getPolizaCliente().toString().replaceAll("\\s","_")+"_"+getPolizaNumero();
-		
-		return reporteRepository.imprimirReporteIndividual(objectsReport,jrxml, nombreArchivo);
-  }	
-   
-   //region > toString, compareTo
-   @Override
-   public String toString() {
-       return ObjectContracts.toString(this, "polizaNumero");
-   }
+		String nombreArchivo = "PolizaVidaColectivo_" + getPolizaCliente().toString().replaceAll("\\s", "_") + "_"
+				+ getPolizaNumero();
 
-   //endregion
+		return ReporteRepository.imprimirReporteIndividual(objectsReport, jrxml, nombreArchivo);
+	}
 
-   //region > injected dependencies
+	// region > toString, compareTo
+	@Override
+	public String toString() {
+		return "Poliza Vida Colectivo Numero: " + getPolizaNumero();
+	}
 
-   @Inject
-   RepositoryService repositoryService;
+	// endregion
 
-   @Inject
-   TitleService titleService;
+	// region > injected dependencies
 
-   @Inject
-   MessageService messageService;
-   
-   @Inject
-   PersonaRepository personaRepository;
+	@Inject
+	RepositoryService repositoryService;
 
-   @Inject
-   DetalleTipoPagoRepository detalleTipoPagosRepository;
-   
-   @Inject
-   DetalleTipoPagoMenu detalleTipoPagoMenu;
-   
-   @Inject
-   CompaniaRepository companiaRepository;
-   
-   @Inject
-   TipoDeCoberturaRepository tiposDeCoberturasRepository;
-   
-   @Inject
-   PolizaRepository polizasRepository;
+	@Inject
+	TitleService titleService;
 
-   @Inject
-   PolizaVidaColectivoRepository riesgosVidaColectivoRepository;
-   
-   @Inject
-   ReporteRepository reporteRepository;
-   
-   //endregion
+	@Inject
+	MessageService messageService;
 
-	
+	@Inject
+	PersonaRepository personaRepository;
+
+	@Inject
+	DetalleTipoPagoRepository detalleTipoPagosRepository;
+
+	@Inject
+	DetalleTipoPagoMenu detalleTipoPagoMenu;
+
+	@Inject
+	CompaniaRepository companiaRepository;
+
+	@Inject
+	TipoDeCoberturaRepository tiposDeCoberturasRepository;
+
+	@Inject
+	PolizaRepository polizasRepository;
+
+	@Inject
+	PolizaVidaColectivoRepository riesgosVidaColectivoRepository;
+
+	// endregion
+
 }
