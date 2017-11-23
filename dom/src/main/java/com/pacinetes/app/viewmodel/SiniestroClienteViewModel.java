@@ -15,7 +15,8 @@ import com.pacinetes.dom.poliza.Poliza;
 public class SiniestroClienteViewModel implements Comparable<SiniestroClienteViewModel> {
 
 	public TranslatableString title() {
-		return TranslatableString.tr("La poliza {poliza}", "poliza", getPoliza() + " tiene " + getSiniestros());
+		return TranslatableString.tr("Cliente: {persona}", "persona", getPersona() + ". "
+				+ "Poliza : " + getPoliza() + ". Siniestros: " + getSiniestros());
 	}
 
 	public SiniestroClienteViewModel() {

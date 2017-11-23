@@ -6,6 +6,8 @@ import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Nature;
 import org.apache.isis.applib.annotation.PropertyLayout;
+import org.apache.isis.applib.services.i18n.TranslatableString;
+
 import com.pacinetes.dom.cliente.Cliente;
 
 @DomainObjectLayout(named = "Lista de clientes que estan por cumplir años", bookmarking = BookmarkPolicy.AS_ROOT)
@@ -17,6 +19,11 @@ public class ClientesCumpleañosViewModel implements Comparable<ClientesCumplea�
 
 	public ClientesCumpleañosViewModel(Cliente cliente) {
 		this.cliente = cliente;
+	}
+	
+	public TranslatableString title() {
+		return TranslatableString.tr("Cliente: {clienteNombre}", "clienteNombre",
+				getCliente() + ". Días restantes: " + getDiasRestantes());
 	}
 
 	public String cssClass() {

@@ -7,6 +7,8 @@ import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.Nature;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Title;
+import org.apache.isis.applib.services.i18n.TranslatableString;
+
 import com.pacinetes.dom.compania.Compania;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.poliza.Poliza;
@@ -26,6 +28,11 @@ public class VencimientosPolizaCompaniaViewModel implements Comparable<Vencimien
 	public VencimientosPolizaCompaniaViewModel(Poliza poliza) {
 		this.poliza = poliza;
 		this.compania = poliza.getPolizaCompania();
+	}
+	
+	public TranslatableString title() {
+		return TranslatableString.tr("Cliente: {persona}", "persona", getCliente() + ". "
+				+ "Poliza : " + getPoliza() + ". Días para el vencimiento: " + getDiasRestantes());
 	}
 
 	public String cssClass() {

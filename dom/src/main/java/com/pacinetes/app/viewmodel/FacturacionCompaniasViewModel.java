@@ -6,6 +6,8 @@ import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Nature;
 import org.apache.isis.applib.annotation.PropertyLayout;
+import org.apache.isis.applib.services.i18n.TranslatableString;
+
 import com.pacinetes.dom.compania.Compania;
 
 @DomainObjectLayout(named = "Reporte de facturacion", bookmarking = BookmarkPolicy.AS_ROOT)
@@ -19,8 +21,9 @@ public class FacturacionCompaniasViewModel implements Comparable<FacturacionComp
 		this.compania = compania;
 	}
 
-	public String title() {
-		return "Reporte de facturacion";
+	public TranslatableString title() {
+		return TranslatableString.tr("Compañia: {compania}", "compania", getCompania() + ". "
+				+ "Prima Total: " + getPrimaTotal() + ".");
 	}
 
 	@PropertyLayout(named = "Compania")
