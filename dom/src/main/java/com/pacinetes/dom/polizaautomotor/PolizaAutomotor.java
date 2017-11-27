@@ -89,6 +89,7 @@ public class PolizaAutomotor extends Poliza {
 	// endregion
 
 	// Constructor
+	@SuppressWarnings("deprecation")
 	public PolizaAutomotor(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
 			List<Vehiculo> riesgoAutomotorListaVehiculos, TipoDeCobertura riesgoAutomotorTiposDeCoberturas,
 			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento, TipoPago polizaTipoDePago,
@@ -99,7 +100,10 @@ public class PolizaAutomotor extends Poliza {
 		setRiesgoAutomotorListaVehiculos(riesgoAutomotorListaVehiculos);
 		setRiesgoAutomotorTipoDeCobertura(riesgoAutomotorTiposDeCoberturas);
 		setPolizaFechaEmision(polizaFechaEmision);
+		polizaFechaVigencia.setHours(12);
+		polizaFechaVigencia.setSeconds(1);
 		setPolizaFechaVigencia(polizaFechaVigencia);
+		polizaFechaVencimiento.setHours(12);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		setPolizaPago(polizaPago);
 		setPolizaTipoDePago(polizaTipoDePago);
@@ -108,6 +112,7 @@ public class PolizaAutomotor extends Poliza {
 		polizaEstado.actualizarEstado(this);
 	}
 
+	@SuppressWarnings("deprecation")
 	public PolizaAutomotor(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
 			List<Vehiculo> riesgoAutomotorListaVehiculos, TipoDeCobertura riesgoAutomotorTiposDeCoberturas,
 			Date polizaFechaEmision, Date polizaFechaVigencia, Date polizaFechaVencimiento, TipoPago polizaTipoDePago,
@@ -119,7 +124,10 @@ public class PolizaAutomotor extends Poliza {
 		setRiesgoAutomotorListaVehiculos(riesgoAutomotorListaVehiculos);
 		setRiesgoAutomotorTipoDeCobertura(riesgoAutomotorTiposDeCoberturas);
 		setPolizaFechaEmision(polizaFechaEmision);
+		polizaFechaVigencia.setHours(12);
+		polizaFechaVigencia.setSeconds(1);
 		setPolizaFechaVigencia(polizaFechaVigencia);
+		polizaFechaVencimiento.setHours(12);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		setPolizaTipoDePago(polizaTipoDePago);
 		setPolizaPago(polizaPago);
@@ -248,8 +256,11 @@ public class PolizaAutomotor extends Poliza {
 	}
 
 	// Actualizar polizaFechaVigencia
+	@SuppressWarnings("deprecation")
 	public PolizaAutomotor actualizarPolizaFechaVigencia(
 			@ParameterLayout(named = "Fecha de Vigencia") final Date polizaFechaVigencia) {
+		polizaFechaVigencia.setHours(12);
+		polizaFechaVigencia.setSeconds(1);
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		polizaEstado.actualizarEstado(this);
 		return this;
@@ -259,8 +270,10 @@ public class PolizaAutomotor extends Poliza {
 		return getPolizaFechaVigencia();
 	}
 
+	@SuppressWarnings("deprecation")
 	public String validateActualizarPolizaFechaVigencia(final Date polizaFechaVigencia) {
-
+		polizaFechaVigencia.setHours(12);
+		polizaFechaVigencia.setSeconds(1);
 		for (Vehiculo vehiculo : this.getRiesgoAutomotorListaVehiculos()) {
 			if (validarModificarFechaVigencia(vehiculo, polizaFechaVigencia, this) == false) {
 				return "ERROR: vehiculo existente en otra poliza vigente";
@@ -273,8 +286,10 @@ public class PolizaAutomotor extends Poliza {
 	}
 
 	// polizaFechaVencimiento
+	@SuppressWarnings("deprecation")
 	public PolizaAutomotor actualizarPolizaFechaVencimiento(
 			@ParameterLayout(named = "Fecha de Vencimiento") final Date polizaFechaVencimiento) {
+		polizaFechaVencimiento.setHours(12);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		polizaEstado.actualizarEstado(this);
 		return this;
@@ -284,7 +299,9 @@ public class PolizaAutomotor extends Poliza {
 		return getPolizaFechaVencimiento();
 	}
 
+	@SuppressWarnings("deprecation")
 	public String validateActualizarPolizaFechaVencimiento(final Date polizaFechaVencimiento) {
+		polizaFechaVencimiento.setHours(12);
 		for (Vehiculo vehiculo : this.getRiesgoAutomotorListaVehiculos()) {
 			if (validarModificarFechaVencimiento(vehiculo, polizaFechaVencimiento, this) == false) {
 				return "ERROR: vehiculo existente en otra poliza vigente";
@@ -401,10 +418,14 @@ public class PolizaAutomotor extends Poliza {
 				riesgoAutomotorListaAdjunto, this);
 	}
 
+	@SuppressWarnings("deprecation")
 	public String validateRenovacion(final String polizaNumero, final Persona polizaCliente,
 			final Compania polizaCompania, final TipoDeCobertura riesgoAutomotorTiposDeCoberturas,
 			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
 			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal) {
+		polizaFechaVigencia.setHours(12);
+		polizaFechaVigencia.setSeconds(1);
+		polizaFechaVencimiento.setHours(12);
 		if (polizaFechaVigencia.after(polizaFechaVencimiento)) {
 			return "La fecha de vigencia es mayor a la de vencimiento";
 		}

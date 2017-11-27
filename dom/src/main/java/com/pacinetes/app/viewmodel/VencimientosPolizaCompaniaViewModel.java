@@ -23,7 +23,7 @@ import org.apache.isis.applib.annotation.Nature;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.services.i18n.TranslatableString;
-
+import com.ibm.icu.text.SimpleDateFormat;
 import com.pacinetes.dom.compania.Compania;
 import com.pacinetes.dom.persona.Persona;
 import com.pacinetes.dom.poliza.Poliza;
@@ -46,8 +46,10 @@ public class VencimientosPolizaCompaniaViewModel implements Comparable<Vencimien
 	}
 	
 	public TranslatableString title() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		return TranslatableString.tr("Cliente: {persona}", "persona", getCliente() + ". "
-				+ "Poliza : " + getPoliza() + ". Días para el vencimiento: " + getDiasRestantes());
+				+ "Poliza : " + getPoliza() + ". Fecha de Vencimiento: " + sdf.format(getFechaVencimiento())
+						+ ". Días restantes para el vencimiento: " + getDiasRestantes());
 	}
 
 	public String cssClass() {

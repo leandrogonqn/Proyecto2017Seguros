@@ -97,10 +97,14 @@ public class PolizaAutomotorMenu {
 		return detalleTipoPagoMenu.buscarPorTipoDePagoCombo(polizaTipoDePago);
 	}
 
+	@SuppressWarnings("deprecation")
 	public String validateCrear(final String polizaNumero, final Persona polizaCliente, final Compania polizaCompania,
 			final Vehiculo riesgoAutomotorVehiculo, final TipoDeCobertura riesgoAutomotorTiposDeCoberturas,
 			final Date polizaFechaEmision, final Date polizaFechaVigencia, final Date polizaFechaVencimiento,
 			final TipoPago polizaTipoDePago, final DetalleTipoPago polizaPago, final double polizaImporteTotal) {
+		polizaFechaVigencia.setHours(12);
+		polizaFechaVigencia.setSeconds(1);
+		polizaFechaVencimiento.setHours(12);
 		if (polizaFechaVigencia.after(polizaFechaVencimiento)) {
 			return "La fecha de vigencia es mayor a la de vencimiento";
 		}

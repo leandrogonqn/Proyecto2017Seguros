@@ -26,7 +26,6 @@ import javax.jdo.annotations.Discriminator;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
-import javax.swing.JOptionPane;
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Auditing;
@@ -75,6 +74,7 @@ public class PolizaIncendio extends Poliza {
 	// endregion
 
 	// Constructor
+	@SuppressWarnings("deprecation")
 	public PolizaIncendio(String polizaNumero, Persona polizaCliente, Compania polizaCompania, Date polizaFechaEmision,
 			Date polizaFechaVigencia, Date polizaFechaVencimiento, TipoPago polizaTipoDePago,
 			DetalleTipoPago polizaPago, double polizaImporteTotal, float riesgoIncendioMonto) {
@@ -82,7 +82,10 @@ public class PolizaIncendio extends Poliza {
 		setPolizasCliente(polizaCliente);
 		setPolizasCompania(polizaCompania);
 		setPolizaFechaEmision(polizaFechaEmision);
+		polizaFechaVigencia.setHours(12);
+		polizaFechaVigencia.setSeconds(1);
 		setPolizaFechaVigencia(polizaFechaVigencia);
+		polizaFechaVencimiento.setHours(12);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		setPolizaTipoDePago(polizaTipoDePago);
 		setPolizaPago(polizaPago);
@@ -92,6 +95,7 @@ public class PolizaIncendio extends Poliza {
 		polizaEstado.actualizarEstado(this);
 	}
 
+	@SuppressWarnings("deprecation")
 	public PolizaIncendio(String polizaNumero, Persona polizaCliente, Compania polizaCompania, Date polizaFechaEmision,
 			Date polizaFechaVigencia, Date polizaFechaVencimiento, TipoPago polizaTipoDePago,
 			DetalleTipoPago polizaPago, double polizaImporteTotal, Poliza riesgoIncendio, float riesgoIncendioMonto) {
@@ -99,7 +103,10 @@ public class PolizaIncendio extends Poliza {
 		setPolizasCliente(polizaCliente);
 		setPolizasCompania(polizaCompania);
 		setPolizaFechaEmision(polizaFechaEmision);
+		polizaFechaVigencia.setHours(12);
+		polizaFechaVigencia.setSeconds(1);
 		setPolizaFechaVigencia(polizaFechaVigencia);
+		polizaFechaVencimiento.setHours(12);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		setPolizaTipoDePago(polizaTipoDePago);
 		setPolizaPago(polizaPago);
@@ -177,11 +184,13 @@ public class PolizaIncendio extends Poliza {
 	}
 
 	// Actualizar polizaFechaVigencia
+	@SuppressWarnings("deprecation")
 	public PolizaIncendio actualizarPolizaFechaVigencia(
 			@ParameterLayout(named = "Fecha de Vigencia") final Date polizaFechaVigencia) {
+		polizaFechaVigencia.setHours(12);
+		polizaFechaVigencia.setSeconds(1);
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		polizaEstado.actualizarEstado(this);
-		JOptionPane.showMessageDialog(null, getPolizaEstado().toString());
 		return this;
 	}
 
@@ -190,7 +199,6 @@ public class PolizaIncendio extends Poliza {
 	}
 
 	public String validateActualizarPolizaFechaVigencia(final Date polizaFechaVigencia) {
-
 		if (polizaFechaVigencia.after(this.getPolizaFechaVencimiento())) {
 			return "La fecha de vigencia es mayor a la de vencimiento";
 		}
@@ -198,8 +206,10 @@ public class PolizaIncendio extends Poliza {
 	}
 
 	// polizaFechaVencimiento
+	@SuppressWarnings("deprecation")
 	public PolizaIncendio actualizarPolizaFechaVencimiento(
 			@ParameterLayout(named = "Fecha de Vencimiento") final Date polizaFechaVencimiento) {
+		polizaFechaVencimiento.setHours(12);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		polizaEstado.actualizarEstado(this);
 		return this;

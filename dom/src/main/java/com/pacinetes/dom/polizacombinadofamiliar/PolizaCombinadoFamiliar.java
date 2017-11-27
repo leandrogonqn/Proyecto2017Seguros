@@ -89,6 +89,7 @@ public class PolizaCombinadoFamiliar extends Poliza {
 	// endregion
 
 	// Constructor
+	@SuppressWarnings("deprecation")
 	public PolizaCombinadoFamiliar(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
 			String riesgoCombinadosFamiliaresDomicilio, Localidad riesgoCombinadosFamiliaresLocalidad,
 			Ocupacion riesgoCombinadosFamiliaresOcupacion, TipoVivienda riesgoCombinadosFamiliaresTipoVivienda,
@@ -104,7 +105,10 @@ public class PolizaCombinadoFamiliar extends Poliza {
 		setRiesgoCombinadosFamiliaresTipoVivienda(riesgoCombinadosFamiliaresTipoVivienda);
 		setRiesgoCombinadosFamiliaresTipoTitular(riesgoCombinadosFamiliaresTipoTitular);
 		setPolizaFechaEmision(polizaFechaEmision);
+		polizaFechaVigencia.setHours(12);
+		polizaFechaVigencia.setSeconds(1);
 		setPolizaFechaVigencia(polizaFechaVigencia);
+		polizaFechaVencimiento.setHours(12);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		setPolizaTipoDePago(polizaTipoDePago);
 		setPolizaPago(polizaPago);
@@ -113,6 +117,7 @@ public class PolizaCombinadoFamiliar extends Poliza {
 		polizaEstado.actualizarEstado(this);
 	}
 
+	@SuppressWarnings("deprecation")
 	public PolizaCombinadoFamiliar(String polizaNumero, Persona polizaCliente, Compania polizaCompania,
 			String riesgoCombinadosFamiliaresDomicilio, Localidad riesgoCombinadosFamiliaresLocalidad,
 			Ocupacion riesgoCombinadosFamiliaresOcupacion, TipoVivienda riesgoCombinadosFamiliaresTipoVivienda,
@@ -128,7 +133,10 @@ public class PolizaCombinadoFamiliar extends Poliza {
 		setRiesgoCombinadosFamiliaresTipoVivienda(riesgoCombinadosFamiliaresTipoVivienda);
 		setRiesgoCombinadosFamiliaresTipoTitular(riesgoCombinadosFamiliaresTipoTitular);
 		setPolizaFechaEmision(polizaFechaEmision);
+		polizaFechaVigencia.setHours(12);
+		polizaFechaVigencia.setSeconds(1);
 		setPolizaFechaVigencia(polizaFechaVigencia);
+		polizaFechaVencimiento.setHours(12);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		setPolizaTipoDePago(polizaTipoDePago);
 		setPolizaPago(polizaPago);
@@ -347,8 +355,11 @@ public class PolizaCombinadoFamiliar extends Poliza {
 	}
 
 	// Actualizar polizaFechaVigencia
+	@SuppressWarnings("deprecation")
 	public PolizaCombinadoFamiliar actualizarPolizaFechaVigencia(
 			@ParameterLayout(named = "Fecha de Vigencia") final Date polizaFechaVigencia) {
+		polizaFechaVigencia.setHours(12);
+		polizaFechaVigencia.setSeconds(1);
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		polizaEstado.actualizarEstado(this);
 		return this;
@@ -366,8 +377,10 @@ public class PolizaCombinadoFamiliar extends Poliza {
 	}
 
 	// polizaFechaVencimiento
+	@SuppressWarnings("deprecation")
 	public PolizaCombinadoFamiliar actualizarPolizaFechaVencimiento(
 			@ParameterLayout(named = "Fecha de Vencimiento") final Date polizaFechaVencimiento) {
+		polizaFechaVencimiento.setHours(12);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		polizaEstado.actualizarEstado(this);
 		return this;

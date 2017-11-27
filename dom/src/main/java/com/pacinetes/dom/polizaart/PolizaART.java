@@ -74,6 +74,7 @@ public class PolizaART extends Poliza {
 	// endregion
 
 	// Constructor
+	@SuppressWarnings("deprecation")
 	public PolizaART(String polizaNumero, Persona polizaCliente, Compania polizaCompania, Date polizaFechaEmision,
 			Date polizaFechaVigencia, Date polizaFechaVencimiento, TipoPago polizaTipoDePago,
 			DetalleTipoPago polizaPago, double polizaImporteTotal, float riesgoARTMonto) {
@@ -81,7 +82,10 @@ public class PolizaART extends Poliza {
 		setPolizasCliente(polizaCliente);
 		setPolizasCompania(polizaCompania);
 		setPolizaFechaEmision(polizaFechaEmision);
+		polizaFechaVigencia.setHours(12);
+		polizaFechaVigencia.setSeconds(1);
 		setPolizaFechaVigencia(polizaFechaVigencia);
+		polizaFechaVencimiento.setHours(12);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		setPolizaTipoDePago(polizaTipoDePago);
 		setPolizaPago(polizaPago);
@@ -91,6 +95,7 @@ public class PolizaART extends Poliza {
 		polizaEstado.actualizarEstado(this);
 	}
 
+	@SuppressWarnings("deprecation")
 	public PolizaART(String polizaNumero, Persona polizaCliente, Compania polizaCompania, Date polizaFechaEmision,
 			Date polizaFechaVigencia, Date polizaFechaVencimiento, TipoPago polizaTipoDePago,
 			DetalleTipoPago polizaPago, double polizaImporteTotal, Poliza riesgoART, float riesgoARTMonto) {
@@ -98,7 +103,10 @@ public class PolizaART extends Poliza {
 		setPolizasCliente(polizaCliente);
 		setPolizasCompania(polizaCompania);
 		setPolizaFechaEmision(polizaFechaEmision);
+		polizaFechaVigencia.setHours(12);
+		polizaFechaVigencia.setSeconds(1);
 		setPolizaFechaVigencia(polizaFechaVigencia);
+		polizaFechaVencimiento.setHours(12);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		setPolizaTipoDePago(polizaTipoDePago);
 		setPolizaPago(polizaPago);
@@ -176,8 +184,11 @@ public class PolizaART extends Poliza {
 	}
 
 	// Actualizar polizaFechaVigencia
+	@SuppressWarnings("deprecation")
 	public PolizaART actualizarPolizaFechaVigencia(
 			@ParameterLayout(named = "Fecha de Vigencia") final Date polizaFechaVigencia) {
+		polizaFechaVigencia.setHours(12);
+		polizaFechaVigencia.setSeconds(1);
 		setPolizaFechaVigencia(polizaFechaVigencia);
 		polizaEstado.actualizarEstado(this);
 		return this;
@@ -196,8 +207,10 @@ public class PolizaART extends Poliza {
 	}
 
 	// polizaFechaVencimiento
+	@SuppressWarnings("deprecation")
 	public PolizaART actualizarPolizaFechaVencimiento(
 			@ParameterLayout(named = "Fecha de Vencimiento") final Date polizaFechaVencimiento) {
+		polizaFechaVencimiento.setHours(12);
 		setPolizaFechaVencimiento(polizaFechaVencimiento);
 		polizaEstado.actualizarEstado(this);
 		return this;

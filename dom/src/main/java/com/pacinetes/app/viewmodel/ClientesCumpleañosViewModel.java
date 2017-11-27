@@ -22,7 +22,7 @@ import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Nature;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.services.i18n.TranslatableString;
-
+import com.ibm.icu.text.SimpleDateFormat;
 import com.pacinetes.dom.cliente.Cliente;
 
 @DomainObjectLayout(named = "Lista de clientes que estan por cumplir años", bookmarking = BookmarkPolicy.AS_ROOT)
@@ -35,10 +35,12 @@ public class ClientesCumpleañosViewModel implements Comparable<ClientesCumplea�
 	public ClientesCumpleañosViewModel(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
+    
 	public TranslatableString title() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		return TranslatableString.tr("Cliente: {clienteNombre}", "clienteNombre",
-				getCliente() + ". Días restantes: " + getDiasRestantes());
+				getCliente() + ". Fecha de Nacimiento: " + sdf.format(getFechaNacimiento())
+				+ ". Días restantes: " + getDiasRestantes());
 	}
 
 	public String cssClass() {
